@@ -1,0 +1,55 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Brand Primary Colors -->
+    <Color x:Key="AxonPrimaryColor">#D90429</Color>
+    <SolidColorBrush x:Key="AxonPrimaryBrush" Color="{StaticResource AxonPrimaryColor}" />
+
+    <Color x:Key="AxonPrimaryHoverColor">#EF233C</Color>
+    <SolidColorBrush x:Key="AxonPrimaryHoverBrush" Color="{StaticResource AxonPrimaryHoverColor}" />
+
+    <Color x:Key="AxonPrimaryActiveColor">#B90320</Color>
+    <SolidColorBrush x:Key="AxonPrimaryActiveBrush" Color="{StaticResource AxonPrimaryActiveColor}" />
+
+    <!-- Dark Theme Backgrounds & Surfaces -->
+    <Color x:Key="AxonBackgroundColor">#111111</Color>
+    <SolidColorBrush x:Key="AxonBackgroundBrush" Color="{StaticResource AxonBackgroundColor}" />
+
+    <Color x:Key="AxonSurfaceColor">#1A1A1A</Color>
+    <SolidColorBrush x:Key="AxonSurfaceBrush" Color="{StaticResource AxonSurfaceColor}" />
+
+    <Color x:Key="AxonSecondarySurfaceColor">#222222</Color>
+    <SolidColorBrush x:Key="AxonSecondarySurfaceBrush" Color="{StaticResource AxonSecondarySurfaceColor}" />
+
+    <Color x:Key="AxonElevatedSurfaceColor">#282828</Color>
+    <SolidColorBrush x:Key="AxonElevatedSurfaceBrush" Color="{StaticResource AxonElevatedSurfaceColor}" />
+
+    <!-- Borders & Dividers -->
+    <Color x:Key="AxonBorderColor">#2C2C2C</Color>
+    <SolidColorBrush x:Key="AxonBorderBrush" Color="{StaticResource AxonBorderColor}" />
+
+    <Color x:Key="AxonLightBorderColor">#383838</Color>
+    <SolidColorBrush x:Key="AxonLightBorderBrush" Color="{StaticResource AxonLightBorderColor}" />
+
+    <!-- Text & Typography Brushes -->
+    <Color x:Key="AxonTextColor">#FFFFFF</Color>
+    <SolidColorBrush x:Key="AxonTextBrush" Color="{StaticResource AxonTextColor}" />
+
+    <Color x:Key="AxonSecondaryTextColor">#B3B3B3</Color>
+    <SolidColorBrush x:Key="AxonSecondaryTextBrush" Color="{StaticResource AxonSecondaryTextColor}" />
+
+    <Color x:Key="AxonMutedTextColor">#737373</Color>
+    <SolidColorBrush x:Key="AxonMutedTextBrush" Color="{StaticResource AxonMutedTextColor}" />
+
+    <!-- Status & Accent Colors -->
+    <Color x:Key="AxonSuccessColor">#22C55E</Color>
+    <SolidColorBrush x:Key="AxonSuccessBrush" Color="{StaticResource AxonSuccessColor}" />
+
+    <Color x:Key="AxonWarningColor">#F59E0B</Color>
+    <SolidColorBrush x:Key="AxonWarningBrush" Color="{StaticResource AxonWarningColor}" />
+
+    <Color x:Key="AxonDangerColor">#EF4444</Color>
+    <SolidColorBrush x:Key="AxonDangerBrush" Color="{StaticResource AxonDangerColor}" />
+
+    <Color x:Key="AxonInfoColor">#3B82F6</Color>
+    <SolidColorBrush x:Key="AxonInfoBrush" Color="{StaticResource AxonInfoColor}" />
+</ResourceDictionary>

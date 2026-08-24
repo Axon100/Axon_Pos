@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html class="dark" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>إدارة المستخدمين والموظفين - Titan POS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#007d36",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed": "#002109",
+                        "surface-container-high": "#2a2a2a",
+                        "tertiary-fixed-dim": "#4ae176",
+                        "secondary-fixed": "#e2e2e2",
+                        "primary-fixed-dim": "#ffb3af",
+                        "secondary": "#c6c6c7",
+                        "inverse-primary": "#bf0022",
+                        "on-tertiary-fixed-variant": "#005321",
+                        "primary-fixed": "#ffdad7",
+                        "tertiary-fixed": "#6bff8f",
+                        "on-secondary": "#2f3131",
+                        "on-tertiary": "#003915",
+                        "on-primary-fixed": "#410005",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "outline": "#ae8885",
+                        "on-surface-variant": "#e7bcba",
+                        "on-primary-container": "#ffeae8",
+                        "primary-container": "#d90429",
+                        "outline-variant": "#5d3f3d",
+                        "on-error": "#690005",
+                        "surface-container-lowest": "#0e0e0e",
+                        "background": "#131313",
+                        "surface-variant": "#353534",
+                        "secondary-container": "#454747",
+                        "tertiary": "#4ae176",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-container-low": "#1c1b1b",
+                        "on-background": "#e5e2e1",
+                        "primary": "#ffb3af",
+                        "on-primary": "#68000e",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#131313",
+                        "on-secondary-fixed-variant": "#454747",
+                        "error-container": "#93000a",
+                        "surface-tint": "#ffb3af",
+                        "surface-bright": "#3a3939",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "on-surface": "#e5e2e1",
+                        "on-tertiary-container": "#b9ffbf",
+                        "inverse-on-surface": "#313030",
+                        "on-secondary-container": "#b4b5b5",
+                        "surface-container": "#201f1f",
+                        "surface-container-highest": "#353534",
+                        "on-primary-fixed-variant": "#930018",
+                        "surface-dim": "#131313",
+                        
+                        // Custom Brand Specifics explicitly added for clarity if missed in original config
+                        "titan-red": "#D90429",
+                        "titan-red-hover": "#EF233C",
+                        "titan-bg": "#111111",
+                        "titan-card": "#1A1A1A",
+                        "titan-hover": "#222222",
+                        "titan-border": "#2C2C2C",
+                        "titan-success": "#4ae176",
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "margin": "24px",
+                        "xl": "48px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "gutter": "16px",
+                        "xs": "4px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "label-md": ["JetBrains Mono"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "title-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }]
+                    },
+                    "boxShadow": {
+                        'titan-ambient': '0 20px 40px rgba(0,0,0,0.4)',
+                        'titan-glass': 'inset 0 1px 0 rgba(255,255,255,0.05)',
+                        'titan-focus': '0 0 0 2px rgba(217, 4, 41, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #111111;
+            color: #e5e2e1;
+        }
+        /* Custom scrollbar for data tables */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2C2C2C;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #454747;
+        }
+        
+        .glass-header {
+            background-color: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md bg-background antialiased selection:bg-titan-red selection:text-white flex overflow-hidden h-screen w-screen">
+<!-- SideNavBar -->
+<aside class="w-[240px] h-screen fixed right-0 top-0 bg-surface-container border-l border-outline-variant shadow-xl flex flex-col z-50 transition-all duration-300" id="sidebar">
+<div class="p-margin border-b border-outline-variant">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Titan POS</h1>
+<p class="font-label-md text-label-md text-secondary mt-1">المحطة المؤسسية 01</p>
+</div>
+<nav class="flex-1 py-margin overflow-y-auto">
+<ul class="space-y-sm">
+<!-- Dashboard -->
+<li>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface hover:bg-surface-container-high transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>لوحة القيادة</span>
+</a>
+</li>
+<!-- Sales -->
+<li>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface hover:bg-surface-container-high transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>المبيعات</span>
+</a>
+</li>
+<!-- Inventory -->
+<li>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface hover:bg-surface-container-high transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>المخزون</span>
+</a>
+</li>
+<!-- Reports -->
+<li>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface hover:bg-surface-container-high transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>التقارير</span>
+</a>
+</li>
+<!-- Customers -->
+<li>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface hover:bg-surface-container-high transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>العملاء</span>
+</a>
+</li>
+<!-- Settings (Active) -->
+<li>
+<a class="relative flex items-center gap-md px-4 py-3 text-on-surface bg-transparent before:content-[''] before:absolute before:right-0 before:w-[3px] before:h-6 before:bg-primary before:rounded-full hover:bg-surface-container-high transition-all active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined text-white" data-icon="settings">settings</span>
+<span class="text-white">الإعدادات</span>
+</a>
+</li>
+</ul>
+</nav>
+<div class="p-margin border-t border-outline-variant">
+<button class="w-full bg-[#D90429] hover:bg-[#EF233C] text-white font-body-lg text-body-lg py-3 rounded transition-colors flex items-center justify-center gap-sm active:scale-[0.98]">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+                بيع جديد
+            </button>
+<ul class="mt-4 space-y-sm">
+<li>
+<a class="flex items-center gap-md px-4 py-2 text-secondary hover:text-on-surface hover:bg-surface-container-high transition-all rounded" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="help">help</span>
+<span class="font-label-md text-label-md">الدعم</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-4 py-2 text-secondary hover:text-on-surface hover:bg-surface-container-high transition-all rounded" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">تسجيل الخروج</span>
+</a>
+</li>
+</ul>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 mr-[240px] flex flex-col h-screen relative bg-[#111111]">
+<!-- TopNavBar -->
+<header class="h-16 fixed top-0 left-0 right-[240px] bg-surface/80 backdrop-blur-md border-b border-white/5 shadow-sm flex items-center justify-between px-margin z-40">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">إدارة المستخدمين والموظفين</h2>
+</div>
+<div class="flex items-center gap-lg">
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]" data-icon="search">search</span>
+<input class="bg-[#1A1A1A] border border-[#2C2C2C] text-on-surface font-body-md text-body-md rounded pr-10 pl-4 py-2 w-64 focus:outline-none focus:border-[#D90429] focus:shadow-titan-focus transition-all placeholder-secondary" placeholder="البحث عن موظف..." type="text"/>
+</div>
+<div class="flex items-center gap-4 border-r border-[#2C2C2C] pr-4">
+<button class="text-secondary hover:text-on-surface hover:bg-white/5 p-2 rounded transition-all cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-secondary hover:text-on-surface hover:bg-white/5 p-2 rounded transition-all cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-[#2C2C2C] cursor-pointer">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a retail store manager in a dimly lit, high-end environment, wearing a sleek black uniform. Lighting is dramatic but soft. Deep shadows and high contrast, evoking a premium modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqmTQISjJbo0Sd0WU-Z9HuzrHgtE9xZwgmgbL1sdGR2T32cGNw4kC3m-KVoqoEBmEhZimlhDo0EMqV1Hd7t7wlb-kGrejFpujXKFNFMGYZ47J-ozH11nWMPJbWfIDzjjQhVRIs33zrTCeJk-YsqL2o-BSk1JVRVUXlwJ0OtKyJ4y5L2zdgr2oNlEFksWGJ7uxPENzKCWa_FdIhXtV_YKYEwp_EDeADogpqj174V8s0-8AkFdC8gNg5"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto pt-24 pb-margin px-margin mt-16">
+<!-- Settings Navigation Sub-menu (Contextual) -->
+<div class="mb-lg border-b border-[#2C2C2C]">
+<nav class="flex gap-lg">
+<button class="text-secondary hover:text-on-surface font-body-md text-body-md py-3 transition-colors">عام</button>
+<button class="text-primary font-bold font-body-md text-body-md py-3 border-b-2 border-primary relative -bottom-[1px]">الموظفين والأدوار</button>
+<button class="text-secondary hover:text-on-surface font-body-md text-body-md py-3 transition-colors">الأمان</button>
+<button class="text-secondary hover:text-on-surface font-body-md text-body-md py-3 transition-colors">وحدات الدفع</button>
+</nav>
+</div>
+<div class="grid grid-cols-12 gap-lg h-full">
+<!-- Main Users DataGrid Panel (Span 8) -->
+<div class="col-span-12 xl:col-span-8 bg-[#1A1A1A] border border-[#2C2C2C] rounded-lg shadow-titan-ambient overflow-hidden flex flex-col h-[calc(100vh-180px)]">
+<!-- Panel Header -->
+<div class="p-lg border-b border-[#2C2C2C] flex items-center justify-between bg-[#1A1A1A] sticky top-0 z-10 glass-header">
+<div>
+<h3 class="font-title-md text-title-md text-on-surface">دليل الموظفين</h3>
+<p class="font-label-md text-label-md text-secondary mt-1">إدارة الموظفين النشطين والوصول إلى النظام.</p>
+</div>
+<button class="bg-[#D90429] hover:bg-[#EF233C] text-white font-body-md text-body-md px-4 py-2 rounded transition-colors flex items-center gap-2 active:scale-[0.98]">
+<span class="material-symbols-outlined text-[18px]" data-icon="person_add">person_add</span>
+                            إضافة مستخدم جديد
+                        </button>
+</div>
+<!-- Filter Bar -->
+<div class="px-lg py-sm bg-[#111111] border-b border-[#2C2C2C] flex gap-4">
+<select class="bg-[#1A1A1A] border border-[#2C2C2C] text-on-surface font-label-md text-label-md rounded px-3 py-1.5 focus:outline-none focus:border-[#D90429] focus:shadow-titan-focus">
+<option value="all">جميع الأدوار</option>
+<option value="admin">مدير</option>
+<option value="manager">مشرف</option>
+<option value="cashier">كاشير</option>
+</select>
+<select class="bg-[#1A1A1A] border border-[#2C2C2C] text-on-surface font-label-md text-label-md rounded px-3 py-1.5 focus:outline-none focus:border-[#D90429] focus:shadow-titan-focus">
+<option value="active">النشط فقط</option>
+<option value="inactive">غير نشط</option>
+<option value="all">جميع الحالات</option>
+</select>
+</div>
+<!-- Table DataGrid -->
+<div class="flex-1 overflow-auto bg-[#111111]">
+<table class="w-full text-right border-collapse">
+<thead class="sticky top-0 bg-[#1A1A1A] z-10 border-b border-[#2C2C2C] shadow-sm">
+<tr>
+<th class="font-label-md text-label-md text-secondary uppercase px-lg py-sm font-medium">الموظف</th>
+<th class="font-label-md text-label-md text-secondary uppercase px-lg py-sm font-medium">المعرف / الرمز السري</th>
+<th class="font-label-md text-label-md text-secondary uppercase px-lg py-sm font-medium">الدور</th>
+<th class="font-label-md text-label-md text-secondary uppercase px-lg py-sm font-medium">الحالة</th>
+<th class="font-label-md text-label-md text-secondary uppercase px-lg py-sm font-medium text-left">الإجراءات</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#2C2C2C]">
+<!-- User Row 1 -->
+<tr class="hover:bg-[#1A1A1A] transition-colors group cursor-pointer">
+<td class="px-lg py-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-bold border border-[#2C2C2C]">SJ</div>
+<div>
+<div class="font-body-md text-body-md text-on-surface font-medium">سارة جينكينز</div>
+<div class="font-label-md text-label-md text-secondary">s.jenkins@titan.pos</div>
+</div>
+</div>
+</td>
+<td class="px-lg py-3 font-label-md text-label-md text-secondary">EMP-4092</td>
+<td class="px-lg py-3">
+<span class="font-label-md text-label-md px-2 py-1 rounded bg-[#2a2a2a] border border-[#454747] text-on-surface">مدير</span>
+</td>
+<td class="px-lg py-3">
+<span class="inline-flex items-center gap-1.5 font-label-md text-label-md px-2 py-1 rounded bg-tertiary/10 border border-tertiary/30 text-tertiary uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> نشط
+                                        </span>
+</td>
+<td class="px-lg py-3 text-left">
+<button class="text-secondary hover:text-white p-1 rounded hover:bg-[#222222] transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+<!-- User Row 2 -->
+<tr class="bg-[#1A1A1A]/30 hover:bg-[#1A1A1A] transition-colors group cursor-pointer relative before:content-[''] before:absolute before:right-0 before:top-0 before:bottom-0 before:w-1 before:bg-[#D90429]">
+<td class="px-lg py-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-bold border border-[#2C2C2C]">MK</div>
+<div>
+<div class="font-body-md text-body-md text-on-surface font-medium">ماركوس كيم</div>
+<div class="font-label-md text-label-md text-secondary">m.kim@titan.pos</div>
+</div>
+</div>
+</td>
+<td class="px-lg py-3 font-label-md text-label-md text-secondary">EMP-5118</td>
+<td class="px-lg py-3">
+<span class="font-label-md text-label-md px-2 py-1 rounded bg-[#2a2a2a] border border-[#454747] text-on-surface">مشرف</span>
+</td>
+<td class="px-lg py-3">
+<span class="inline-flex items-center gap-1.5 font-label-md text-label-md px-2 py-1 rounded bg-tertiary/10 border border-tertiary/30 text-tertiary uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> نشط
+                                        </span>
+</td>
+<td class="px-lg py-3 text-left">
+<button class="text-secondary hover:text-white p-1 rounded hover:bg-[#222222] transition-colors opacity-100">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+<!-- User Row 3 -->
+<tr class="hover:bg-[#1A1A1A] transition-colors group cursor-pointer">
+<td class="px-lg py-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-bold border border-[#2C2C2C]">ED</div>
+<div>
+<div class="font-body-md text-body-md text-on-surface font-medium opacity-50">إيلينا ديفيس</div>
+<div class="font-label-md text-label-md text-secondary opacity-50">e.davis@titan.pos</div>
+</div>
+</div>
+</td>
+<td class="px-lg py-3 font-label-md text-label-md text-secondary opacity-50">EMP-6221</td>
+<td class="px-lg py-3 opacity-50">
+<span class="font-label-md text-label-md px-2 py-1 rounded bg-[#2a2a2a] border border-[#454747] text-on-surface">كاشير</span>
+</td>
+<td class="px-lg py-3">
+<span class="inline-flex items-center gap-1.5 font-label-md text-label-md px-2 py-1 rounded bg-secondary/10 border border-secondary/30 text-secondary uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> غير نشط
+                                        </span>
+</td>
+<td class="px-lg py-3 text-left">
+<button class="text-secondary hover:text-white p-1 rounded hover:bg-[#222222] transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right Side Panel: User Details / Permissions Matrix (Span 4) -->
+<div class="col-span-12 xl:col-span-4 bg-[#1A1A1A] border border-[#2C2C2C] rounded-lg shadow-titan-ambient flex flex-col h-[calc(100vh-180px)]">
+<div class="p-lg border-b border-[#2C2C2C] bg-[#1A1A1A] rounded-t-lg">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-bold border border-[#2C2C2C] text-title-md">MK</div>
+<div>
+<h4 class="font-title-md text-title-md text-on-surface">ماركوس كيم</h4>
+<p class="font-label-md text-label-md text-primary mt-1">مشرف</p>
+</div>
+</div>
+<button class="text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-lg space-y-xl bg-[#111111]">
+<!-- Quick Stats / Info -->
+<div class="grid grid-cols-2 gap-md">
+<div class="bg-[#1A1A1A] p-4 rounded border border-[#2C2C2C]">
+<p class="font-label-md text-label-md text-secondary uppercase mb-1">الرمز السري للجهاز</p>
+<div class="flex items-center justify-between">
+<p class="font-label-md text-label-md text-on-surface tracking-[0.2em]">••••</p>
+<button class="text-primary hover:text-[#EF233C] text-[12px] font-label-md">إعادة تعيين</button>
+</div>
+</div>
+<div class="bg-[#1A1A1A] p-4 rounded border border-[#2C2C2C]">
+<p class="font-label-md text-label-md text-secondary uppercase mb-1">آخر تسجيل دخول</p>
+<p class="font-label-md text-label-md text-on-surface">اليوم، 08:42 صباحاً</p>
+</div>
+</div>
+<!-- Permissions Matrix -->
+<div>
+<h5 class="font-title-md text-title-md text-on-surface mb-md">صلاحيات الدور</h5>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-3 rounded bg-[#1A1A1A] border border-[#2C2C2C] hover:bg-[#222222] transition-colors">
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">معالجة المعاملات</p>
+<p class="font-label-md text-label-md text-secondary mt-0.5">تسجيل المبيعات ومعالجة المرتجعات.</p>
+</div>
+<div class="w-10 h-5 bg-[#D90429] rounded-full relative cursor-pointer">
+<div class="w-4 h-4 bg-white rounded-full absolute top-0.5 left-0.5 shadow-sm"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded bg-[#1A1A1A] border border-[#2C2C2C] hover:bg-[#222222] transition-colors">
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">إدارة المخزون</p>
+<p class="font-label-md text-label-md text-secondary mt-0.5">تعديل مستويات المخزون واستلام الطلبات.</p>
+</div>
+<div class="w-10 h-5 bg-[#D90429] rounded-full relative cursor-pointer">
+<div class="w-4 h-4 bg-white rounded-full absolute top-0.5 left-0.5 shadow-sm"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded bg-[#1A1A1A] border border-[#2C2C2C] hover:bg-[#222222] transition-colors">
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium opacity-60">إعدادات النظام</p>
+<p class="font-label-md text-label-md text-secondary mt-0.5 opacity-60">الوصول إلى إعدادات النظام الأساسية.</p>
+</div>
+<div class="w-10 h-5 bg-[#353534] rounded-full relative cursor-not-allowed">
+<div class="w-4 h-4 bg-secondary rounded-full absolute top-0.5 right-0.5 shadow-sm"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded bg-[#1A1A1A] border border-[#2C2C2C] hover:bg-[#222222] transition-colors">
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">تجاوز الخصومات</p>
+<p class="font-label-md text-label-md text-secondary mt-0.5">تطبيق خصومات مخصصة عند الدفع.</p>
+</div>
+<div class="w-10 h-5 bg-[#D90429] rounded-full relative cursor-pointer">
+<div class="w-4 h-4 bg-white rounded-full absolute top-0.5 left-0.5 shadow-sm"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Details Footer -->
+<div class="p-lg border-t border-[#2C2C2C] bg-[#1A1A1A] rounded-b-lg flex gap-4">
+<button class="flex-1 bg-transparent border border-[#2C2C2C] hover:bg-[#222222] text-on-surface font-body-md text-body-md py-2.5 rounded transition-colors">إلغاء</button>
+<button class="flex-1 bg-[#D90429] hover:bg-[#EF233C] text-white font-body-md text-body-md py-2.5 rounded transition-colors">حفظ التغييرات</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

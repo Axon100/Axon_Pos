@@ -1,0 +1,153 @@
+<Window x:Class="Axon.UI.Views.AddStockWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="استلام / توريد بضاعة" Height="480" Width="450"
+        Icon="/Assets/app.ico"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        FontFamily="Segoe UI"
+        FlowDirection="RightToLeft">
+
+    <Window.Resources>
+        <Style x:Key="InputField" TargetType="TextBox">
+            <Setter Property="Background" Value="#111111"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#2C2C2C"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="CaretBrush" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#d90429"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#b4b5b5"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+        </Style>
+    </Window.Resources>
+
+    <!-- Solid High-End Axon 3D Dark Card -->
+    <Border CornerRadius="16" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" Margin="12">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="25" Direction="-90" RenderingBias="Quality" ShadowDepth="4" Opacity="0.85" Color="Black"/>
+        </Border.Effect>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/> <!-- Header -->
+                <RowDefinition Height="*"/>    <!-- Content -->
+                <RowDefinition Height="Auto"/> <!-- Footer Actions -->
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Border Grid.Row="0" Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="0,0,0,1" CornerRadius="15,15,0,0" Padding="20,16">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="PackageVariantClosedPlus" Width="22" Height="22" Foreground="#d90429" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBlock Text="توريد / استلام مخزون جديد" FontSize="16" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Button HorizontalAlignment="Left" Style="{StaticResource MaterialDesignIconButton}" Width="28" Height="28" Padding="0" Click="Close_Click" Foreground="#8E8E93">
+                        <materialDesign:PackIcon Kind="Close" Width="18" Height="18"/>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- Content Form -->
+            <Border Grid.Row="1" Padding="22,16">
+                <StackPanel>
+                    <!-- 1. القسم (Category) -->
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="القسم (التصنيف) *"/>
+                    <ComboBox Name="CmbCategory"
+                              Background="#111111" Foreground="White"
+                              BorderBrush="#2C2C2C" BorderThickness="1"
+                              Padding="10,8" Margin="0,0,0,14"
+                              SelectionChanged="CmbCategory_SelectionChanged"
+                              DisplayMemberPath="Name"
+                              SelectedValuePath="Id"/>
+
+                    <!-- 2. الصنف / المنتج -->
+                    <Grid Margin="0,0,0,6">
+                        <TextBlock Style="{StaticResource FieldLabel}" Text="اسم الصنف (المنتج) *"/>
+                        <TextBlock Name="TxtCurrentStock" Text="" FontSize="11" Foreground="#4ae176" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Grid>
+                    
+                    <ComboBox Name="CmbProducts"
+                              IsEditable="True"
+                              Background="#111111" Foreground="White"
+                              BorderBrush="#2C2C2C" BorderThickness="1"
+                              Padding="10,8" Margin="0,0,0,14"
+                              SelectionChanged="CmbProducts_SelectionChanged"
+                              materialDesign:HintAssist.Hint="اختر المنتج أو اكتب اسمه...">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{Binding Name}" Foreground="White" FontWeight="SemiBold" FontSize="12"/>
+                                        <TextBlock Text="{Binding Sku}" Foreground="#8E8E93" FontSize="10"/>
+                                    </StackPanel>
+                                    <Border Grid.Column="1" Background="#222222" CornerRadius="4" Padding="6,2" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding CurrentStock, StringFormat='المتوفر: {0}'}" Foreground="#ffb3af" FontSize="10" FontWeight="Bold"/>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <!-- 3. الكمية المضافة -->
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="الكمية المضافة للمخزون (قطع) *"/>
+                    <TextBox Name="TxtQuantity" Style="{StaticResource InputField}" Margin="0,0,0,8" PreviewTextInput="NumberValidationTextBox" materialDesign:HintAssist.Hint="أدخل عدد القطع الموردة (مثال: 50)"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Actions Footer -->
+            <Border Grid.Row="2" Background="#141414" BorderBrush="#2C2C2C" BorderThickness="0,1,0,0" CornerRadius="0,0,15,15" Padding="20,14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Content="توريد البضاعة" Click="Save_Click" Background="#d90429" Foreground="White" BorderThickness="0" Height="40" FontWeight="Bold" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button Grid.Column="2" Content="إلغاء" Click="Close_Click" Background="#1F1F1F" Foreground="#b4b5b5" BorderBrush="#2C2C2C" BorderThickness="1" Height="40" FontWeight="Bold" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

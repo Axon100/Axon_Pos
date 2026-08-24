@@ -1,0 +1,203 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Layout Settings -->
+    <FlowDirection x:Key="AppFlowDirection">RightToLeft</FlowDirection>
+    <sys:Double x:Key="DirectionalIconScale">-1</sys:Double>
+    <HorizontalAlignment x:Key="AppStartAlignment">Right</HorizontalAlignment>
+    <HorizontalAlignment x:Key="AppEndAlignment">Left</HorizontalAlignment>
+    <FontFamily x:Key="AppFont">Cairo, Segoe UI, Tahoma, Arial</FontFamily>
+
+    <!-- General -->
+    <sys:String x:Key="Login">تسجيل الدخول</sys:String>
+    <sys:String x:Key="Dashboard">لوحة التحكم</sys:String>
+    <sys:String x:Key="Products">المنتجات</sys:String>
+    <sys:String x:Key="Categories">الأقسام</sys:String>
+    <sys:String x:Key="Inventory">المخزون</sys:String>
+    <sys:String x:Key="Sales">المبيعات</sys:String>
+    <sys:String x:Key="Invoices">الفواتير</sys:String>
+    <sys:String x:Key="Expenses">المصروفات</sys:String>
+    <sys:String x:Key="Reports">التقارير</sys:String>
+    <sys:String x:Key="Users">المستخدمون</sys:String>
+    <sys:String x:Key="Settings">الإعدادات</sys:String>
+    
+    <sys:String x:Key="Barcode">الباركود</sys:String>
+    <sys:String x:Key="QRCode">رمز QR</sys:String>
+    
+    <sys:String x:Key="Search">بحث</sys:String>
+    <sys:String x:Key="Save">حفظ</sys:String>
+    <sys:String x:Key="Cancel">إلغاء</sys:String>
+    <sys:String x:Key="Delete">حذف</sys:String>
+    <sys:String x:Key="Edit">تعديل</sys:String>
+    <sys:String x:Key="Add">إضافة</sys:String>
+    <sys:String x:Key="Print">طباعة</sys:String>
+    <sys:String x:Key="Export">تصدير</sys:String>
+    <sys:String x:Key="Refresh">تحديث</sys:String>
+    
+    <sys:String x:Key="LowStock">أصناف منخفضة المخزون</sys:String>
+    <sys:String x:Key="Profit">الأرباح</sys:String>
+    <sys:String x:Key="Loss">الخسائر</sys:String>
+    
+    <sys:String x:Key="Cashier">الكاشير</sys:String>
+    <sys:String x:Key="Admin">المدير</sys:String>
+    
+    <sys:String x:Key="Quantity">الكمية</sys:String>
+    <sys:String x:Key="Price">السعر</sys:String>
+    <sys:String x:Key="Total">الإجمالي</sys:String>
+    <sys:String x:Key="Discount">الخصم</sys:String>
+    <sys:String x:Key="Tax">الضريبة</sys:String>
+    <sys:String x:Key="Payment">الدفع</sys:String>
+    
+    <sys:String x:Key="Customer">العميل</sys:String>
+    <sys:String x:Key="Supplier">المورد</sys:String>
+    
+    <sys:String x:Key="Date">التاريخ</sys:String>
+    <sys:String x:Key="Time">الوقت</sys:String>
+    <sys:String x:Key="Status">الحالة</sys:String>
+    <sys:String x:Key="Active">نشط</sys:String>
+    <sys:String x:Key="Inactive">غير نشط</sys:String>
+    
+    <sys:String x:Key="Success">تم بنجاح</sys:String>
+    <sys:String x:Key="Error">خطأ</sys:String>
+    <sys:String x:Key="Warning">تحذير</sys:String>
+    
+    <!-- MainWindow specific -->
+    <sys:String x:Key="PosTerminal">نقطة البيع</sys:String>
+    <sys:String x:Key="Logout">تسجيل الخروج</sys:String>
+    <sys:String x:Key="SearchPlaceholder">ابحث عن الطلبات، العملاء، أو المنتجات...</sys:String>
+
+    <!-- LoginView specific -->
+    <sys:String x:Key="SignInToContinue">سجل الدخول للمتابعة</sys:String>
+    <sys:String x:Key="UserID">رقم المستخدم</sys:String>
+    <sys:String x:Key="Password">كلمة المرور</sys:String>
+    <sys:String x:Key="KeepMeSignedIn">تذكرني</sys:String>
+    <sys:String x:Key="SignIn">تسجيل الدخول</sys:String>
+    
+    <!-- DashboardView specific -->
+    <sys:String x:Key="TotalProfit">إجمالي الأرباح</sys:String>
+    <sys:String x:Key="TotalExpenses">إجمالي المصروفات</sys:String>
+    <sys:String x:Key="TotalProducts">إجمالي المنتجات</sys:String>
+    <sys:String x:Key="LowStockAlerts">تنبيهات نقص المخزون</sys:String>
+    <sys:String x:Key="VsLastMonth">مقارنة بالشهر الماضي</sys:String>
+    <sys:String x:Key="NewThisWeek">جديد هذا الأسبوع</sys:String>
+    <sys:String x:Key="NeedsImmediateAction">يحتاج إجراء فوري</sys:String>
+    <sys:String x:Key="SalesOverview">نظرة عامة على المبيعات</sys:String>
+    <sys:String x:Key="RevenueDistribution">توزيع الإيرادات</sys:String>
+    <sys:String x:Key="RecentSales">أحدث المبيعات</sys:String>
+    <sys:String x:Key="ViewAll">عرض الكل</sys:String>
+    <sys:String x:Key="ColTxID">رقم العملية</sys:String>
+    <sys:String x:Key="ColCustomer">العميل</sys:String>
+    <sys:String x:Key="ColAmount">القيمة</sys:String>
+    <sys:String x:Key="ColStatus">الحالة</sys:String>
+    <sys:String x:Key="ColTime">الوقت</sys:String>
+    <sys:String x:Key="InventoryAlertsHeader">تنبيهات المخزون</sys:String>
+    <sys:String x:Key="Restock">إعادة التخزين</sys:String>
+    <sys:String x:Key="AreaChartPlaceholder">[ مكان المخطط البياني ]</sys:String>
+    <sys:String x:Key="BarChartPlaceholder">[ مكان المخطط الشريطي ]</sys:String>
+    
+    <!-- PosTerminalView specific -->
+    <sys:String x:Key="OutOfStock">نفذت الكمية</sys:String>
+    <sys:String x:Key="InStockFormat">المتوفر: {0}</sys:String>
+    <sys:String x:Key="WalkInCustomer">عميل نقدي</sys:String>
+    <sys:String x:Key="AssignProfile">تحديد ملف</sys:String>
+    <sys:String x:Key="HeaderItem">الصنف</sys:String>
+    <sys:String x:Key="HeaderQty">الكمية</sys:String>
+    <sys:String x:Key="HeaderPrice">السعر</sys:String>
+    <sys:String x:Key="BtnDiscount">خصم</sys:String>
+    <sys:String x:Key="BtnNote">ملاحظة</sys:String>
+    <sys:String x:Key="Subtotal">الإجمالي الفرعي</sys:String>
+    <sys:String x:Key="TaxLabel">الضريبة</sys:String>
+    <sys:String x:Key="PayNow">الدفع الآن</sys:String>
+    
+    <!-- ProductManagementView specific -->
+    <sys:String x:Key="ProductsDesc">إدارة المنتجات، مستويات المخزون، والتسعير للمؤسسة.</sys:String>
+    <sys:String x:Key="AddProduct">إضافة منتج</sys:String>
+    <sys:String x:Key="CategoriesFilter">الأقسام</sys:String>
+    <sys:String x:Key="StockStatusFilter">حالة المخزون</sys:String>
+    <sys:String x:Key="FilterAllItems">جميع الأصناف</sys:String>
+    <sys:String x:Key="FilterInStock">متوفر</sys:String>
+    <sys:String x:Key="FilterLowStock">مخزون منخفض</sys:String>
+    <sys:String x:Key="FilterOutOfStock">نفذت الكمية</sys:String>
+    <sys:String x:Key="PriceRangeFilter">نطاق السعر</sys:String>
+    <sys:String x:Key="ShowingProductsCount">عرض 245 من أصل 1,024 منتج</sys:String>
+    <sys:String x:Key="HeaderImage">الصورة</sys:String>
+    <sys:String x:Key="HeaderProductName">اسم المنتج</sys:String>
+    <sys:String x:Key="HeaderSku">رمز الصنف</sys:String>
+    <sys:String x:Key="HeaderCategory">القسم</sys:String>
+    <sys:String x:Key="HeaderStockLevel">مستوى المخزون</sys:String>
+    <sys:String x:Key="HeaderActions">إجراءات</sys:String>
+    <sys:String x:Key="RowsPerPage">الصفوف لكل صفحة:</sys:String>
+    <sys:String x:Key="PaginationCount">1-5 من 245</sys:String>
+    
+    <!-- InventoryControlView specific -->
+    <sys:String x:Key="InventoryDesc">إدارة مواقع المستودعات ومراقبة مستويات المخزون.</sys:String>
+    <sys:String x:Key="BtnFilter">تصفية</sys:String>
+    <sys:String x:Key="BtnReceiveStock">استلام مخزون</sys:String>
+    <sys:String x:Key="KpiTotalItems">إجمالي الأصناف</sys:String>
+    <sys:String x:Key="KpiLowStockAlerts">تنبيهات نقص المخزون</sys:String>
+    <sys:String x:Key="KpiRequiresAttention">تتطلب اهتمام</sys:String>
+    <sys:String x:Key="KpiPendingRestock">بانتظار إعادة التخزين</sys:String>
+    <sys:String x:Key="KpiIncoming48h">قادمة خلال 48 ساعة</sys:String>
+    <sys:String x:Key="KpiWarehouseCapacity">سعة المستودع</sys:String>
+    <sys:String x:Key="InventoryList">قائمة الجرد</sys:String>
+    <sys:String x:Key="HintSearchSku">البحث برمز الصنف أو الاسم...</sys:String>
+    <sys:String x:Key="HeaderCurrent">الحالي</sys:String>
+    <sys:String x:Key="HeaderRequired">المطلوب</sys:String>
+    <sys:String x:Key="HeaderLocation">الموقع</sys:String>
+    <sys:String x:Key="HeaderStatus">الحالة</sys:String>
+    
+    <!-- ReportsView specific -->
+    <sys:String x:Key="ReportsDesc">نظرة شاملة على أداء الأعمال.</sys:String>
+    <sys:String x:Key="Last30Days">آخر 30 يوم</sys:String>
+    <sys:String x:Key="ExportCSV">CSV</sys:String>
+    <sys:String x:Key="ExportPDF">PDF</sys:String>
+    <sys:String x:Key="TotalRevenueLabel">إجمالي الإيرادات</sys:String>
+    <sys:String x:Key="VsPrevious30Days">مقارنة بـ 30 يوم السابقة</sys:String>
+    <sys:String x:Key="AverageOrderValueLabel">متوسط قيمة الطلب</sys:String>
+    <sys:String x:Key="NetProfitLabel">صافي الربح</sys:String>
+    <sys:String x:Key="SalesTrendsLabel">اتجاهات المبيعات</sys:String>
+    <sys:String x:Key="DailyLabel">يومي</sys:String>
+    <sys:String x:Key="WeeklyLabel">أسبوعي</sys:String>
+    <sys:String x:Key="ChartPlaceholderLabel">مكان المخطط البياني</sys:String>
+    <sys:String x:Key="CategoryPerformanceLabel">أداء الأقسام</sys:String>
+    <sys:String x:Key="TopSellingItemsLabel">الأصناف الأكثر مبيعاً</sys:String>
+    <sys:String x:Key="ViewAllLabel">عرض الكل</sys:String>
+    <sys:String x:Key="HeaderItemName">اسم الصنف</sys:String>
+    <sys:String x:Key="HeaderSold">الكمية المباعة</sys:String>
+    <sys:String x:Key="HeaderRevenue">الإيرادات</sys:String>
+    <sys:String x:Key="RegionalPerformanceLabel">الأداء الإقليمي</sys:String>
+    
+    <!-- SettingsView specific -->
+    <sys:String x:Key="SettingsDesc">إدارة التكوينات العامة، والتكاملات، وملفات تعريف المتجر.</sys:String>
+    <sys:String x:Key="StoreProfileTab">ملف المتجر</sys:String>
+    <sys:String x:Key="PaymentGatewaysTab">بوابات الدفع</sys:String>
+    <sys:String x:Key="TaxRulesTab">قواعد الضرائب</sys:String>
+    <sys:String x:Key="IntegrationSettingsTab">إعدادات التكامل</sys:String>
+    <sys:String x:Key="GeneralInformationLabel">معلومات عامة</sys:String>
+    <sys:String x:Key="LegalStoreNameLabel">الاسم القانوني للمتجر</sys:String>
+    <sys:String x:Key="DisplayNameLabel">الاسم المعروض</sys:String>
+    <sys:String x:Key="RegistrationNumberLabel">رقم التسجيل</sys:String>
+    <sys:String x:Key="LocationContactLabel">الموقع وجهات الاتصال</sys:String>
+    <sys:String x:Key="PrimaryAddressLabel">العنوان الرئيسي</sys:String>
+    <sys:String x:Key="CityLabel">المدينة</sys:String>
+    <sys:String x:Key="StateProvLabel">المنطقة/المقاطعة</sys:String>
+    <sys:String x:Key="PostalLabel">الرمز البريدي</sys:String>
+    <sys:String x:Key="SupportEmailLabel">البريد الإلكتروني للدعم</sys:String>
+    <sys:String x:Key="SupportPhoneLabel">هاتف الدعم</sys:String>
+    <sys:String x:Key="LocalizationLabel">المحلية والتوطين</sys:String>
+    <sys:String x:Key="BaseCurrencyLabel">العملة الأساسية</sys:String>
+    <sys:String x:Key="CurrencyUSD">دولار أمريكي (USD)</sys:String>
+    <sys:String x:Key="CurrencyEUR">يورو (EUR)</sys:String>
+    <sys:String x:Key="CurrencyGBP">جنيه استرليني (GBP)</sys:String>
+    <sys:String x:Key="TimezoneLabel">المنطقة الزمنية</sys:String>
+    <sys:String x:Key="TimezoneCentral">(GMT-06:00) التوقيت المركزي (الولايات المتحدة وكندا)</sys:String>
+    <sys:String x:Key="TimezoneEastern">(GMT-05:00) التوقيت الشرقي</sys:String>
+    <sys:String x:Key="TimezonePacific">(GMT-08:00) توقيت المحيط الهادئ</sys:String>
+    <sys:String x:Key="StoreStatusLabel">حالة المتجر</sys:String>
+    <sys:String x:Key="AcceptingOrdersLabel">قبول الطلبات</sys:String>
+    <sys:String x:Key="StoreStatusDesc">التبديل لإيقاف جميع الطلبات الواردة والتكاملات عبر الإنترنت مؤقتاً مع الحفاظ على وظائف نقاط البيع المحلية.</sys:String>
+    <sys:String x:Key="DiscardChangesLabel">تجاهل التغييرات</sys:String>
+    <sys:String x:Key="SaveChangesLabel">حفظ التغييرات</sys:String>
+    
+</ResourceDictionary>

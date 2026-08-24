@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Category Management - Titan POS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-container": "#007d36",
+                      "error": "#ffb4ab",
+                      "on-tertiary-fixed": "#002109",
+                      "surface-container-high": "#2a2a2a",
+                      "tertiary-fixed-dim": "#4ae176",
+                      "secondary-fixed": "#e2e2e2",
+                      "primary-fixed-dim": "#ffb3af",
+                      "secondary": "#c6c6c7",
+                      "inverse-primary": "#bf0022",
+                      "on-tertiary-fixed-variant": "#005321",
+                      "primary-fixed": "#ffdad7",
+                      "tertiary-fixed": "#6bff8f",
+                      "on-secondary": "#2f3131",
+                      "on-tertiary": "#003915",
+                      "on-primary-fixed": "#410005",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "outline": "#ae8885",
+                      "on-surface-variant": "#e7bcba",
+                      "on-primary-container": "#ffeae8",
+                      "primary-container": "#d90429",
+                      "outline-variant": "#5d3f3d",
+                      "on-error": "#690005",
+                      "surface-container-lowest": "#0e0e0e",
+                      "background": "#111111",
+                      "surface-variant": "#353534",
+                      "secondary-container": "#454747",
+                      "tertiary": "#4ae176",
+                      "inverse-surface": "#e5e2e1",
+                      "surface-container-low": "#1c1b1b",
+                      "on-background": "#e5e2e1",
+                      "primary": "#d90429",
+                      "on-primary": "#ffffff",
+                      "on-error-container": "#ffdad6",
+                      "surface": "#1A1A1A",
+                      "on-secondary-fixed-variant": "#454747",
+                      "error-container": "#93000a",
+                      "surface-tint": "#ffb3af",
+                      "surface-bright": "#3a3939",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "on-surface": "#ffffff",
+                      "on-tertiary-container": "#b9ffbf",
+                      "inverse-on-surface": "#313030",
+                      "on-secondary-container": "#b4b5b5",
+                      "surface-container": "#222222",
+                      "surface-container-highest": "#353534",
+                      "on-primary-fixed-variant": "#930018",
+                      "surface-dim": "#131313"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "lg": "24px",
+                      "margin": "24px",
+                      "xl": "48px",
+                      "sm": "8px",
+                      "md": "16px",
+                      "gutter": "16px",
+                      "xs": "4px",
+                      "base": "4px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-lg-mobile": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "label-md": [
+                              "JetBrains Mono"
+                      ],
+                      "display-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "title-md": [
+                              "Hanken Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "title-md": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body { background-color: #111111; color: #ffffff; }
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .data-grid-header {
+            background-color: #1A1A1A;
+            border-bottom: 1px solid #2C2C2C;
+        }
+        .data-grid-row {
+            background-color: #111111;
+            transition: background-color 0.2s;
+        }
+        .data-grid-row:hover {
+            background-color: #1A1A1A;
+        }
+        .btn-primary {
+            background-color: #D90429;
+            color: #ffffff;
+            transition: background-color 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #EF233C;
+        }
+        .btn-secondary {
+            border: 1px solid #2C2C2C;
+            background-color: transparent;
+            transition: background-color 0.2s;
+        }
+        .btn-secondary:hover {
+            background-color: #222222;
+        }
+        .input-field {
+            background-color: #1A1A1A;
+            border: 1px solid #2C2C2C;
+            transition: all 0.2s;
+        }
+        .input-field:focus {
+            border-color: #D90429;
+            box-shadow: 0 0 0 2px rgba(217, 4, 41, 0.2);
+            outline: none;
+        }
+        .card {
+            background-color: #1A1A1A;
+            border: 1px solid #2C2C2C;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .status-chip {
+            background-color: rgba(74, 225, 118, 0.1);
+            border: 1px solid rgba(74, 225, 118, 0.3);
+            color: #4ae176;
+        }
+        .status-chip.inactive {
+            background-color: rgba(198, 198, 199, 0.1);
+            border: 1px solid rgba(198, 198, 199, 0.3);
+            color: #c6c6c7;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-x-hidden min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="w-[240px] h-screen fixed left-0 top-0 bg-surface-container dark:bg-surface-container border-r border-outline-variant dark:border-outline-variant shadow-xl hidden md:flex flex-col py-margin z-50">
+<div class="px-4 mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary">Titan POS</h1>
+<p class="text-secondary text-sm">Enterprise Terminal 01</p>
+</div>
+<div class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-all active:scale-[0.98] transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-all active:scale-[0.98] transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+                Sales
+            </a>
+<a class="relative flex items-center gap-md px-4 py-3 text-on-surface bg-transparent before:content-[''] before:absolute before:left-0 before:w-[3px] before:h-6 before:bg-primary before:rounded-full hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-all active:scale-[0.98] transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+                Inventory
+            </a>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-all active:scale-[0.98] transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                Reports
+            </a>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-all active:scale-[0.98] transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+                Customers
+            </a>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-all active:scale-[0.98] transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+</div>
+<div class="px-4 mt-auto flex flex-col gap-2">
+<button class="btn-primary w-full py-2 rounded-lg font-bold flex items-center justify-center gap-2 mb-4">
+<span class="material-symbols-outlined">add</span>
+                New Sale
+            </button>
+<a class="flex items-center gap-md px-4 py-2 text-secondary hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                Support
+            </a>
+<a class="flex items-center gap-md px-4 py-2 text-secondary hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                Log Out
+            </a>
+<div class="mt-4 flex items-center gap-3 px-4 pt-4 border-t border-outline-variant">
+<img alt="Store Manager Profile" class="w-8 h-8 rounded-full object-cover" data-alt="A small, circular avatar portrait of a modern store manager. The style is hyper-realistic with high-contrast, moody lighting suitable for a dark-mode enterprise application. The background is a stark black. 8k resolution, photorealistic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLbuBxnPInOuYsTwNhliM8_zbsHS33Fh4KmZkP_XIKuuWRR1u44vZ8zvlIMpWdfBkTaFdPHYg5X0UhoLsb9oL7LaTxbaL07BrRfEkozsuL0vrHPlvDV9XKTDmRM1keoEC7ExxzfT5JwmfY9t9hBSYkbae2F4VhSEXIDA2c16bq_fodcI1ZRZyaxap7_BQCXU6dRYs9A7miZhr_gi06n-YMXXqUxrV7XE107m6_umQVfCYE4G1z8pHT"/>
+<span class="text-sm font-semibold text-on-surface">Admin User</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-[240px] pt-16 flex flex-col h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 left-0 md:left-[240px] h-16 bg-surface/80 dark:bg-surface/80 backdrop-blur-md border-b border-white/5 shadow-sm flex items-center justify-between px-margin w-full z-40 transition-all">
+<div class="flex items-center gap-4 w-1/3">
+<div class="relative w-full max-w-md hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary">search</span>
+<input class="input-field w-full pl-10 pr-4 py-2 rounded-lg text-sm text-on-surface" placeholder="Search categories..." type="text"/>
+</div>
+<button class="md:hidden text-on-surface">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-headline-md text-headline-md font-bold text-on-surface md:hidden">Titan POS</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-secondary hover:text-on-surface transition-colors cursor-pointer active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-secondary hover:text-on-surface transition-colors cursor-pointer active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+</button>
+<button class="text-secondary hover:text-on-surface transition-colors cursor-pointer active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<img alt="User Profile" class="w-8 h-8 rounded-full object-cover ml-2 cursor-pointer border border-outline-variant" data-alt="A small, circular avatar portrait of a modern store manager. The style is hyper-realistic with high-contrast, moody lighting suitable for a dark-mode enterprise application. The background is a stark black. 8k resolution, photorealistic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz9Ka0X21UszQ3_pskVxEh3dwa-g1A8LOTra1aITFm9dUykJ5bR6hnHjxbkY1eJdsWtv36_LoThd6CaKKLGBSVTS2XtZ1vHOkPTkeawNc6V4Y8sMygDvy7xpXSB68H5SUA7TAdM5t6K6LeXw80Quk-4_R5kngJHL6XPNplGq78D0q2jylzcEEkdSyiXPi0rD5oQGS94543m-iCKS1X8ddaWR5_G_HpKsRR4Pwb3CnQx8poZGx4U87k"/>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 overflow-y-auto p-margin md:p-lg pt-6">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+<div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">Categories</h2>
+<p class="text-secondary mt-1">Manage and organize your product taxonomy.</p>
+</div>
+<div class="flex gap-3">
+<button class="btn-secondary px-4 py-2 rounded-lg flex items-center gap-2 font-semibold">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                        Filter
+                    </button>
+<button class="btn-primary px-4 py-2 rounded-lg flex items-center gap-2 font-semibold">
+<span class="material-symbols-outlined text-sm">add</span>
+                        Create Category
+                    </button>
+</div>
+</div>
+<!-- Bento Grid / Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Card 1 -->
+<div class="card rounded-xl p-lg flex flex-col group relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface text-2xl">checkroom</span>
+</div>
+<button class="text-secondary hover:text-on-surface">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<h3 class="font-title-md text-title-md font-semibold text-on-surface mb-1">Apparel</h3>
+<p class="text-secondary text-sm mb-4">Clothing, shoes, and accessories.</p>
+<div class="mt-auto pt-4 border-t border-outline-variant flex justify-between items-center">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-secondary">PRODUCTS</span>
+<span class="font-label-md text-label-md text-on-surface text-lg">1,240</span>
+</div>
+<span class="status-chip px-2 py-1 rounded font-label-md text-label-md uppercase">Active</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="card rounded-xl p-lg flex flex-col group relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface text-2xl">devices</span>
+</div>
+<button class="text-secondary hover:text-on-surface">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<h3 class="font-title-md text-title-md font-semibold text-on-surface mb-1">Electronics</h3>
+<p class="text-secondary text-sm mb-4">Gadgets, components, and media.</p>
+<div class="mt-auto pt-4 border-t border-outline-variant flex justify-between items-center">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-secondary">PRODUCTS</span>
+<span class="font-label-md text-label-md text-on-surface text-lg">853</span>
+</div>
+<span class="status-chip px-2 py-1 rounded font-label-md text-label-md uppercase">Active</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="card rounded-xl p-lg flex flex-col group relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface text-2xl">chair</span>
+</div>
+<button class="text-secondary hover:text-on-surface">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<h3 class="font-title-md text-title-md font-semibold text-on-surface mb-1">Home &amp; Living</h3>
+<p class="text-secondary text-sm mb-4">Furniture, decor, and essentials.</p>
+<div class="mt-auto pt-4 border-t border-outline-variant flex justify-between items-center">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-secondary">PRODUCTS</span>
+<span class="font-label-md text-label-md text-on-surface text-lg">412</span>
+</div>
+<span class="status-chip px-2 py-1 rounded font-label-md text-label-md uppercase">Active</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="card rounded-xl p-lg flex flex-col group relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface text-2xl">fitness_center</span>
+</div>
+<button class="text-secondary hover:text-on-surface">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<h3 class="font-title-md text-title-md font-semibold text-on-surface mb-1">Sports</h3>
+<p class="text-secondary text-sm mb-4">Equipment and athletic wear.</p>
+<div class="mt-auto pt-4 border-t border-outline-variant flex justify-between items-center">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-secondary">PRODUCTS</span>
+<span class="font-label-md text-label-md text-on-surface text-lg">108</span>
+</div>
+<span class="status-chip inactive px-2 py-1 rounded font-label-md text-label-md uppercase">Draft</span>
+</div>
+</div>
+<!-- Card 5 (Add new category skeleton) -->
+<div class="card rounded-xl p-lg flex flex-col items-center justify-center text-center border-dashed border-2 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary text-3xl group-hover:text-primary transition-colors">add</span>
+</div>
+<h3 class="font-title-md text-title-md font-semibold text-on-surface mb-1">Create Category</h3>
+<p class="text-secondary text-sm">Set up a new product grouping.</p>
+</div>
+</div>
+</div>
+</main>
+</body></html>

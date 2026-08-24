@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+
+<html class="dark" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Titan POS - طباعة الباركود ورمز الاستجابة السريعة</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-container": "#007d36",
+                      "error": "#ffb4ab",
+                      "on-tertiary-fixed": "#002109",
+                      "surface-container-high": "#2a2a2a",
+                      "tertiary-fixed-dim": "#4ae176",
+                      "secondary-fixed": "#e2e2e2",
+                      "primary-fixed-dim": "#ffb3af",
+                      "secondary": "#c6c6c7",
+                      "inverse-primary": "#bf0022",
+                      "on-tertiary-fixed-variant": "#005321",
+                      "primary-fixed": "#ffdad7",
+                      "tertiary-fixed": "#6bff8f",
+                      "on-secondary": "#2f3131",
+                      "on-tertiary": "#003915",
+                      "on-primary-fixed": "#410005",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "outline": "#ae8885",
+                      "on-surface-variant": "#e7bcba",
+                      "on-primary-container": "#ffeae8",
+                      "primary-container": "#d90429",
+                      "outline-variant": "#5d3f3d",
+                      "on-error": "#690005",
+                      "surface-container-lowest": "#0e0e0e",
+                      "background": "#131313",
+                      "surface-variant": "#353534",
+                      "secondary-container": "#454747",
+                      "tertiary": "#4ae176",
+                      "inverse-surface": "#e5e2e1",
+                      "surface-container-low": "#1c1b1b",
+                      "on-background": "#e5e2e1",
+                      "primary": "#ffb3af",
+                      "on-primary": "#68000e",
+                      "on-error-container": "#ffdad6",
+                      "surface": "#131313",
+                      "on-secondary-fixed-variant": "#454747",
+                      "error-container": "#93000a",
+                      "surface-tint": "#ffb3af",
+                      "surface-bright": "#3a3939",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "on-surface": "#e5e2e1",
+                      "on-tertiary-container": "#b9ffbf",
+                      "inverse-on-surface": "#313030",
+                      "on-secondary-container": "#b4b5b5",
+                      "surface-container": "#201f1f",
+                      "surface-container-highest": "#353534",
+                      "on-primary-fixed-variant": "#930018",
+                      "surface-dim": "#131313"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "lg": "24px",
+                      "margin": "24px",
+                      "xl": "48px",
+                      "sm": "8px",
+                      "md": "16px",
+                      "gutter": "16px",
+                      "xs": "4px",
+                      "base": "4px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Hanken Grotesk", "sans-serif"
+                      ],
+                      "headline-lg-mobile": [
+                              "Hanken Grotesk", "sans-serif"
+                      ],
+                      "headline-lg": [
+                              "Hanken Grotesk", "sans-serif"
+                      ],
+                      "headline-md": [
+                              "Hanken Grotesk", "sans-serif"
+                      ],
+                      "body-lg": [
+                              "Hanken Grotesk", "sans-serif"
+                      ],
+                      "label-md": [
+                              "JetBrains Mono", "sans-serif"
+                      ],
+                      "display-lg": [
+                              "Hanken Grotesk", "sans-serif"
+                      ],
+                      "title-md": [
+                              "Hanken Grotesk", "sans-serif"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "title-md": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: #111111;
+            color: #e5e2e1;
+        }
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .pos-input:focus {
+            outline: none;
+            border-color: #d90429;
+            box-shadow: 0 0 0 2px rgba(217, 4, 41, 0.2);
+        }
+        .ambient-shadow {
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md bg-background text-on-surface antialiased overflow-hidden flex h-screen">
+<!-- SideNavBar -->
+<nav class="hidden md:flex w-[240px] h-screen fixed right-0 top-0 border-l border-outline-variant dark:border-outline-variant shadow-xl bg-surface-container dark:bg-surface-container flex-col py-margin z-50">
+<div class="px-margin mb-xl">
+<div class="flex items-center gap-md">
+<img alt="Store Manager Profile" class="w-8 h-8 rounded" data-alt="A small, stylized logo icon for an enterprise point of sale system, featuring a sleek, modern geometric shape in a dark mode aesthetic with red accents, high contrast, clean vectors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs_W0EpRLkovF6Fk12C5wfMSDgXBc8elpMDNq3fiyKERSYaqAECsAl2k5FdnJc_vgZ8zMzfm1dn8CYr6N_qLlHQvD30pLnNBt7_LkI9gDnstYBzpcCki8URMUfSXo896QHwRpLe0g8Q74gDsRcZDSIXv8RIflFL5-UpLu1ql2RgsV3rvNrgjQ2z4_BCcYWq09mDFm_UNAoN2lqCCzSmjv0RtyNya4JKCvJb6LjIxUEaSWribVVcLAt"/>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary">تيتان نقاط البيع</h1>
+<p class="font-label-md text-label-md text-secondary">المحطة المؤسسية 01</p>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto flex flex-col gap-sm px-sm">
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high rounded active:scale-[0.98] duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                لوحة القيادة
+            </a>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high rounded active:scale-[0.98] duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+                المبيعات
+            </a>
+<a class="relative flex items-center gap-md px-4 py-3 text-on-surface bg-transparent before:content-[''] before:absolute before:right-0 before:w-[3px] before:h-6 before:bg-primary before:rounded-full hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-all active:scale-[0.98] duration-200 rounded" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2" data-weight="fill" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+                المخزون
+            </a>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high rounded active:scale-[0.98] duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                التقارير
+            </a>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high rounded active:scale-[0.98] duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+                العملاء
+            </a>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high rounded active:scale-[0.98] duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                الإعدادات
+            </a>
+</div>
+<div class="px-margin mt-auto mb-lg">
+<button class="w-full bg-primary-container hover:bg-[#EF233C] text-white font-body-lg text-body-lg py-3 rounded transition-colors flex items-center justify-center gap-2 active:scale-[0.98] duration-200">
+<span class="material-symbols-outlined">add</span>
+                بيع جديد
+            </button>
+</div>
+<div class="flex flex-col gap-sm px-sm border-t border-outline-variant pt-4 mx-sm">
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high rounded active:scale-[0.98] duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                الدعم
+            </a>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high rounded active:scale-[0.98] duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                تسجيل الخروج
+            </a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 mr-[240px] flex flex-col h-screen overflow-hidden bg-background">
+<!-- TopNavBar -->
+<header class="bg-surface/80 dark:bg-surface/80 backdrop-blur-md h-16 border-b border-white/5 shadow-sm flex items-center justify-between px-margin w-full z-40 shrink-0">
+<div class="flex items-center gap-lg w-1/3">
+<!-- Left search intentionally omitted as per TopNavBar generic layout, though search_bar: on_left is set in JSON, we'll put it contextually in the page -->
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-secondary">search</span>
+<input class="w-full bg-[#1A1A1A] border border-[#2C2C2C] rounded text-on-surface py-2 pr-10 pl-4 pos-input font-body-md text-body-md transition-all" placeholder="البحث عن المنتجات، رموز التخزين..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="text-secondary hover:text-on-surface hover:bg-white/5 p-2 rounded transition-all cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-secondary hover:text-on-surface hover:bg-white/5 p-2 rounded transition-all cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+</button>
+<button class="text-secondary hover:text-on-surface hover:bg-white/5 p-2 rounded transition-all cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="w-px h-8 bg-outline-variant mx-2"></div>
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A professional headshot of a retail store manager, wearing dark sleek attire, set against a dark modern background with subtle red lighting accents, high resolution, corporate style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbkJim7SzP1sk8alRtJ0UAE118QfqVYw0TIAEAX1BDx4lQBYd-yIto6Z743X_pKhfu6gCxrFMVL-2U3TOX-NJu08lbnte0x9SfBp_Iz-y8GQQfzBo1ezNQKtq0AGT8F1sDP_yb_yCb4KthNReMp8AJqlp_P10n8RguavhLpezaAKCjLYALVIlTa37FfhpwVFRTZsbRxxJMWaoEAOhib36aIEuEbQ-G62i299wiPGGAgazwUkkeI82E"/>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 overflow-y-auto p-margin flex gap-margin">
+<!-- Left Column: Configuration -->
+<div class="w-1/3 flex flex-col gap-margin">
+<div class="bg-[#1A1A1A] border border-[#2C2C2C] rounded-lg p-lg ambient-shadow flex-1">
+<div class="flex items-center justify-between mb-lg border-b border-[#2C2C2C] pb-sm">
+<h2 class="font-title-md text-title-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">qr_code_scanner</span>
+                            تكوين الملصق
+                        </h2>
+</div>
+<div class="space-y-lg">
+<!-- Product Selection -->
+<div>
+<label class="block font-label-md text-label-md text-secondary mb-2 uppercase tracking-wider">المنتج المستهدف</label>
+<div class="relative">
+<select class="w-full bg-[#111111] border border-[#2C2C2C] rounded text-on-surface py-2 px-3 appearance-none pos-input">
+<option>ساعة تيتانيوم TRX-9000</option>
+<option>هاتف ذكي كوانتوم إيدج</option>
+<option>خوذة ألياف الكربون ايرو</option>
+<option>لوحة مفاتيح ميكانيكية نوفا</option>
+</select>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary pointer-events-none">expand_more</span>
+</div>
+<div class="mt-2 flex gap-2">
+<span class="bg-surface-container-high border border-outline-variant rounded px-2 py-1 font-label-md text-label-md text-secondary">رمز SKU: WAT-TRX-9K</span>
+<span class="bg-surface-container-high border border-outline-variant rounded px-2 py-1 font-label-md text-label-md text-secondary">$899.00</span>
+</div>
+</div>
+<!-- Type Selection -->
+<div>
+<label class="block font-label-md text-label-md text-secondary mb-2 uppercase tracking-wider">نوع التنسيق</label>
+<div class="grid grid-cols-2 gap-md">
+<button class="bg-[#111111] border border-primary text-primary rounded py-3 flex flex-col items-center justify-center gap-2 transition-all shadow-[0_0_0_1px_rgba(217,4,41,0.5)]">
+<span class="material-symbols-outlined">barcode</span>
+<span class="font-label-md text-label-md">باركود 1D</span>
+</button>
+<button class="bg-[#111111] border border-[#2C2C2C] text-secondary hover:bg-[#222222] rounded py-3 flex flex-col items-center justify-center gap-2 transition-all">
+<span class="material-symbols-outlined">qr_code_2</span>
+<span class="font-label-md text-label-md">رمز QR 2D</span>
+</button>
+</div>
+</div>
+<!-- Layout & Size -->
+<div class="grid grid-cols-2 gap-md">
+<div>
+<label class="block font-label-md text-label-md text-secondary mb-2 uppercase tracking-wider">حجم الملصق</label>
+<select class="w-full bg-[#111111] border border-[#2C2C2C] rounded text-on-surface py-2 px-3 appearance-none pos-input">
+<option>Avery 5160 (1" x 2-5/8")</option>
+<option>Dymo 30252 (1-1/8" x 3-1/2")</option>
+<option>لفة مخصصة (2" x 1")</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-secondary mb-2 uppercase tracking-wider">الكمية</label>
+<input class="w-full bg-[#111111] border border-[#2C2C2C] rounded text-on-surface py-2 px-3 pos-input font-label-md text-label-md" type="number" value="30"/>
+</div>
+</div>
+<!-- Data Inclusion -->
+<div>
+<label class="block font-label-md text-label-md text-secondary mb-2 uppercase tracking-wider">تضمين البيانات</label>
+<div class="space-y-2 bg-[#111111] p-sm rounded border border-[#2C2C2C]">
+<label class="flex items-center gap-3 cursor-pointer p-1 hover:bg-[#1A1A1A] rounded">
+<input checked="" class="form-checkbox bg-transparent border-[#2C2C2C] text-primary rounded rounded-sm focus:ring-primary focus:ring-offset-0 focus:ring-offset-transparent" type="checkbox"/>
+<span class="text-body-md text-on-surface">اسم المنتج</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer p-1 hover:bg-[#1A1A1A] rounded">
+<input checked="" class="form-checkbox bg-transparent border-[#2C2C2C] text-primary rounded rounded-sm focus:ring-primary focus:ring-offset-0 focus:ring-offset-transparent" type="checkbox"/>
+<span class="text-body-md text-on-surface">رقم SKU</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer p-1 hover:bg-[#1A1A1A] rounded">
+<input checked="" class="form-checkbox bg-transparent border-[#2C2C2C] text-primary rounded rounded-sm focus:ring-primary focus:ring-offset-0 focus:ring-offset-transparent" type="checkbox"/>
+<span class="text-body-md text-on-surface">سعر التجزئة</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer p-1 hover:bg-[#1A1A1A] rounded">
+<input class="form-checkbox bg-transparent border-[#2C2C2C] text-primary rounded rounded-sm focus:ring-primary focus:ring-offset-0 focus:ring-offset-transparent" type="checkbox"/>
+<span class="text-body-md text-on-surface">رقم المتجر</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Print Actions -->
+<div class="bg-[#1A1A1A] border border-[#2C2C2C] rounded-lg p-md flex flex-col gap-sm">
+<button class="w-full bg-primary-container hover:bg-[#EF233C] text-white font-title-md text-title-md py-3 rounded transition-colors flex items-center justify-center gap-2 active:scale-[0.98] duration-200">
+<span class="material-symbols-outlined">print</span>
+                        طباعة الملصقات
+                    </button>
+<button class="w-full border border-[#2C2C2C] text-on-surface hover:bg-[#222222] font-body-lg text-body-lg py-3 rounded transition-colors flex items-center justify-center gap-2 active:scale-[0.98] duration-200">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+                        تصدير PDF
+                    </button>
+</div>
+</div>
+<!-- Right Column: Preview Area -->
+<div class="w-2/3 bg-[#111111] border border-[#2C2C2C] rounded-lg overflow-hidden flex flex-col relative">
+<!-- Preview Header -->
+<div class="bg-[#1A1A1A] border-b border-[#2C2C2C] p-md flex items-center justify-between glass-panel z-10 absolute top-0 w-full">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">visibility</span>
+<h3 class="font-title-md text-title-md text-on-surface">معاينة الطباعة</h3>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider">ورقة 1 من 1</span>
+<div class="flex bg-[#111111] border border-[#2C2C2C] rounded overflow-hidden">
+<button class="p-1 hover:bg-[#222222] text-secondary border-l border-[#2C2C2C] transition-colors"><span class="material-symbols-outlined text-sm">zoom_out</span></button>
+<span class="px-3 py-1 font-label-md text-label-md flex items-center justify-center min-w-[60px]">100%</span>
+<button class="p-1 hover:bg-[#222222] text-secondary border-r border-[#2C2C2C] transition-colors"><span class="material-symbols-outlined text-sm">zoom_in</span></button>
+</div>
+</div>
+</div>
+<!-- Print Sheet Canvas -->
+<div class="flex-1 overflow-auto p-xl bg-[#0a0a0a] flex justify-center items-start pt-[100px]">
+<!-- Sheet representation (White background as it's for physical print) -->
+<div class="bg-white w-[816px] min-h-[1056px] shadow-[0_0_20px_rgba(0,0,0,0.8)] border border-[#333] grid grid-cols-3 gap-x-2 gap-y-0 p-[48px] content-start">
+<!-- Repeat Label (Simulating 30 on a sheet) -->
+<script>
+                            // Simulating generating labels for the preview
+                            for(let i=0; i<30; i++) {
+                                document.write(`
+                                    <div class="h-[100px] border border-dashed border-gray-300 flex flex-col items-center justify-center p-2 box-border relative overflow-hidden">
+                                        <div class="text-black font-body-md text-[10px] font-bold leading-tight mb-1 truncate w-full text-center" dir="rtl">ساعة تيتانيوم TRX-9000</div>
+                                        <div class="h-[40px] w-[140px] flex items-center justify-center overflow-hidden mb-1">
+                                            <!-- SVG Placeholder for Barcode -->
+                                            <svg width="140" height="40" viewBox="0 0 140 40" xmlns="http://www.w3.org/2000/svg">
+                                                <rect width="140" height="40" fill="white"/>
+                                                <rect x="10" y="5" width="2" height="30" fill="black"/>
+                                                <rect x="14" y="5" width="4" height="30" fill="black"/>
+                                                <rect x="20" y="5" width="1" height="30" fill="black"/>
+                                                <rect x="24" y="5" width="3" height="30" fill="black"/>
+                                                <rect x="30" y="5" width="5" height="30" fill="black"/>
+                                                <rect x="38" y="5" width="1" height="30" fill="black"/>
+                                                <rect x="42" y="5" width="2" height="30" fill="black"/>
+                                                <rect x="46" y="5" width="4" height="30" fill="black"/>
+                                                <rect x="52" y="5" width="2" height="30" fill="black"/>
+                                                <rect x="58" y="5" width="1" height="30" fill="black"/>
+                                                <rect x="62" y="5" width="3" height="30" fill="black"/>
+                                                <rect x="68" y="5" width="4" height="30" fill="black"/>
+                                                <rect x="74" y="5" width="1" height="30" fill="black"/>
+                                                <rect x="78" y="5" width="2" height="30" fill="black"/>
+                                                <rect x="84" y="5" width="3" height="30" fill="black"/>
+                                                <rect x="90" y="5" width="1" height="30" fill="black"/>
+                                                <rect x="94" y="5" width="4" height="30" fill="black"/>
+                                                <rect x="100" y="5" width="2" height="30" fill="black"/>
+                                                <rect x="106" y="5" width="5" height="30" fill="black"/>
+                                                <rect x="114" y="5" width="1" height="30" fill="black"/>
+                                                <rect x="118" y="5" width="3" height="30" fill="black"/>
+                                                <rect x="124" y="5" width="2" height="30" fill="black"/>
+                                                <rect x="128" y="5" width="2" height="30" fill="black"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex justify-between w-full px-2">
+                                            <span class="text-black font-label-md text-[9px]">WAT-TRX-9K</span>
+                                            <span class="text-black font-label-md text-[9px] font-bold" dir="ltr">$899.00</span>
+                                        </div>
+                                    </div>
+                                `);
+                            }
+                        </script>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

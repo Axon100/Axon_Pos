@@ -1,0 +1,123 @@
+<Window x:Class="Axon.UI.Views.AddExpenseWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="تسجيل مصروف جديد" Height="500" Width="430"
+        Icon="/Assets/app.ico"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        FontFamily="Segoe UI"
+        FlowDirection="RightToLeft">
+
+    <Window.Resources>
+        <Style x:Key="InputField" TargetType="TextBox">
+            <Setter Property="Background" Value="#111111"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#2C2C2C"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="CaretBrush" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#d90429"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#b4b5b5"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+        </Style>
+    </Window.Resources>
+
+    <!-- Solid High-End Axon 3D Dark Card -->
+    <Border CornerRadius="16" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" Margin="12">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="25" Direction="-90" RenderingBias="Quality" ShadowDepth="4" Opacity="0.85" Color="Black"/>
+        </Border.Effect>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/> <!-- Header -->
+                <RowDefinition Height="*"/>    <!-- Content -->
+                <RowDefinition Height="Auto"/> <!-- Footer Actions -->
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Border Grid.Row="0" Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="0,0,0,1" CornerRadius="15,15,0,0" Padding="20,16">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="CashMinus" Width="22" Height="22" Foreground="#d90429" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBlock Text="تسجيل مصروف تشغيلي جديد" FontSize="16" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Button HorizontalAlignment="Left" Style="{StaticResource MaterialDesignIconButton}" Width="28" Height="28" Padding="0" Click="Close_Click" Foreground="#8E8E93">
+                        <materialDesign:PackIcon Kind="Close" Width="18" Height="18"/>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- Content Form -->
+            <Border Grid.Row="1" Padding="22,16">
+                <StackPanel>
+                    <!-- الفئة والتصنيف -->
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="تصنيف المصروف *"/>
+                    <TextBox Name="TxtCategory" Style="{StaticResource InputField}" Margin="0,0,0,14" materialDesign:HintAssist.Hint="مثال: فواتير وخدمات، إيجار، رواتب، صيانة..."/>
+
+                    <!-- وسيلة الدفع -->
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="طريقة الدفع *"/>
+                    <TextBox Name="TxtPayment" Style="{StaticResource InputField}" Margin="0,0,0,14" materialDesign:HintAssist.Hint="النقدية / كاش / تحويل بنكي..."/>
+
+                    <!-- المبلغ المدفوع -->
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="المبلغ المدفوع (ج.م) *"/>
+                    <TextBox Name="TxtAmount" Style="{StaticResource InputField}" Margin="0,0,0,14" PreviewTextInput="NumberValidationTextBox" materialDesign:HintAssist.Hint="0.00"/>
+
+                    <!-- وصف وبيان المصروف -->
+                    <TextBlock Style="{StaticResource FieldLabel}" Text="بيان / وصف المصروف"/>
+                    <TextBox Name="TxtDescription" Style="{StaticResource InputField}" Margin="0,0,0,8" materialDesign:HintAssist.Hint="اختياري..."/>
+                </StackPanel>
+            </Border>
+
+            <!-- Actions Footer -->
+            <Border Grid.Row="2" Background="#141414" BorderBrush="#2C2C2C" BorderThickness="0,1,0,0" CornerRadius="0,0,15,15" Padding="20,14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Content="حفظ المصروف" Click="Save_Click" Background="#d90429" Foreground="White" BorderThickness="0" Height="40" FontWeight="Bold" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button Grid.Column="2" Content="إلغاء" Click="Close_Click" Background="#1F1F1F" Foreground="#b4b5b5" BorderBrush="#2C2C2C" BorderThickness="1" Height="40" FontWeight="Bold" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

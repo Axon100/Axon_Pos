@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>System Settings - Titan POS</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#007d36",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed": "#002109",
+                        "surface-container-high": "#2a2a2a",
+                        "tertiary-fixed-dim": "#4ae176",
+                        "secondary-fixed": "#e2e2e2",
+                        "primary-fixed-dim": "#ffb3af",
+                        "secondary": "#c6c6c7",
+                        "inverse-primary": "#bf0022",
+                        "on-tertiary-fixed-variant": "#005321",
+                        "primary-fixed": "#ffdad7",
+                        "tertiary-fixed": "#6bff8f",
+                        "on-secondary": "#2f3131",
+                        "on-tertiary": "#003915",
+                        "on-primary-fixed": "#410005",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "outline": "#ae8885",
+                        "on-surface-variant": "#e7bcba",
+                        "on-primary-container": "#ffeae8",
+                        "primary-container": "#d90429",
+                        "outline-variant": "#5d3f3d",
+                        "on-error": "#690005",
+                        "surface-container-lowest": "#0e0e0e",
+                        "background": "#111111", /* Adjusted for Level 0 */
+                        "surface-variant": "#353534",
+                        "secondary-container": "#454747",
+                        "tertiary": "#4ae176",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-container-low": "#1c1b1b",
+                        "on-background": "#e5e2e1",
+                        "primary": "#d90429", /* Re-mapped for primary accent */
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#1a1a1a", /* Adjusted for Level 1 */
+                        "on-secondary-fixed-variant": "#454747",
+                        "error-container": "#93000a",
+                        "surface-tint": "#ffb3af",
+                        "surface-bright": "#3a3939",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "on-surface": "#ffffff", /* Adjusted for clarity */
+                        "on-tertiary-container": "#b9ffbf",
+                        "inverse-on-surface": "#313030",
+                        "on-secondary-container": "#b4b5b5",
+                        "surface-container": "#1a1a1a",
+                        "surface-container-highest": "#222222", /* Level 2 */
+                        "on-primary-fixed-variant": "#930018",
+                        "surface-dim": "#111111"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "margin": "24px",
+                        "xl": "48px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "gutter": "16px",
+                        "xs": "4px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "label-md": ["JetBrains Mono"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "title-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #353534; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #454747; }
+        
+        /* Glass effect for TopNavBar */
+        .glass-top {
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased overflow-hidden">
+<!-- JSON Component: SideNavBar -->
+<nav class="w-[240px] h-screen fixed left-0 top-0 bg-surface-container dark:bg-surface-container border-r border-outline-variant dark:border-outline-variant shadow-xl flex flex-col h-full py-margin z-50">
+<!-- Header -->
+<div class="px-margin mb-xl">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary mb-1">Titan POS</h1>
+<p class="font-label-md text-label-md text-secondary uppercase tracking-wider">Enterprise Terminal 01</p>
+</div>
+<!-- CTA -->
+<div class="px-margin mb-lg">
+<button class="w-full bg-primary-container hover:bg-inverse-primary text-on-primary font-body-md text-body-md py-2 px-4 rounded transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 20px;">add</span>
+                New Sale
+            </button>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-1">
+<!-- Dashboard (Inactive) -->
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-all active:scale-[0.98] transition-transform duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" style="font-size: 20px;">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- Sales (Inactive) -->
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-all active:scale-[0.98] transition-transform duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" style="font-size: 20px;">payments</span>
+<span class="font-body-md text-body-md">Sales</span>
+</a>
+<!-- Inventory (Inactive) -->
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-all active:scale-[0.98] transition-transform duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" style="font-size: 20px;">inventory_2</span>
+<span class="font-body-md text-body-md">Inventory</span>
+</a>
+<!-- Reports (Inactive) -->
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-all active:scale-[0.98] transition-transform duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" style="font-size: 20px;">analytics</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+<!-- Customers (Inactive) -->
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high transition-all active:scale-[0.98] transition-transform duration-200 cursor-pointer" href="#">
+<span class="material-symbols-outlined" style="font-size: 20px;">group</span>
+<span class="font-body-md text-body-md">Customers</span>
+</a>
+<!-- Settings (Active) -->
+<a class="relative flex items-center gap-md px-4 py-3 text-on-surface bg-transparent before:content-[''] before:absolute before:left-0 before:w-[3px] before:h-6 before:bg-primary before:rounded-full cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1; font-size: 20px;">settings</span>
+<span class="font-body-md text-body-md font-bold">Settings</span>
+</a>
+</div>
+<!-- Footer Links -->
+<div class="px-4 mt-auto pt-lg border-t border-outline-variant flex flex-col gap-1">
+<a class="flex items-center gap-md px-4 py-2 text-secondary hover:text-on-surface transition-colors rounded hover:bg-surface-container-high cursor-pointer" href="#">
+<span class="material-symbols-outlined" style="font-size: 20px;">help</span>
+<span class="font-body-md text-body-md">Support</span>
+</a>
+<a class="flex items-center gap-md px-4 py-2 text-secondary hover:text-error transition-colors rounded hover:bg-surface-container-high cursor-pointer" href="#">
+<span class="material-symbols-outlined" style="font-size: 20px;">logout</span>
+<span class="font-body-md text-body-md">Log Out</span>
+</a>
+<div class="mt-md px-4 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img alt="Store Manager Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a store manager in a brightly lit retail environment, wearing a dark collared shirt. Soft, highly professional lighting, corporate modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwQnAPd3aRbPBmhe19o5UkUInmG1idMZ3BeHgKyp_GSWyj9fuWsnbzX-mZsvyGCu97tQJZIf0haECOVTHjCexQBMbZN_uM1sYF5ewJ71v490_YKYfEUfvHe5Hr60CclSZWdHvNUT76ARZ6XDwKf3-7ASbrUYr2T1--MuzbLHFvyAM2FMd5Q1SEIZZjZbt12CIHsyUiqHjECqZ4-taiVBFPTcVZPj01w9VSZgPhSFpbs43gml3szDh0"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Store Manager</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- JSON Component: TopNavBar -->
+<header class="fixed top-0 right-0 left-[240px] h-16 glass-top border-b border-white/5 shadow-sm flex items-center justify-between px-margin z-40">
+<!-- Search Bar (Left) -->
+<div class="flex-1 max-w-md">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary group-focus-within:text-primary transition-colors" style="font-size: 20px;">search</span>
+<input class="w-full bg-surface-container-highest border border-outline-variant rounded py-2 pl-10 pr-4 font-body-md text-body-md text-on-surface placeholder:text-secondary focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all shadow-inner" placeholder="Search settings, actions..." type="text"/>
+</div>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-sm mr-4 border-r border-outline-variant pr-4">
+<button class="w-10 h-10 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-white/5 transition-all cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">apps</span>
+</button>
+<button class="w-10 h-10 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-white/5 transition-all cursor-pointer active:opacity-80 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full border border-surface"></span>
+</button>
+<button class="w-10 h-10 rounded flex items-center justify-center text-secondary hover:text-on-surface hover:bg-white/5 transition-all cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+<button class="font-body-md text-body-md text-on-surface border border-outline-variant hover:bg-surface-container-high py-2 px-4 rounded transition-colors">
+                Notifications
+            </button>
+<button class="font-body-md text-body-md bg-primary-container hover:bg-inverse-primary text-on-primary py-2 px-4 rounded transition-colors font-bold shadow-lg shadow-primary/20">
+                New Sale
+            </button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[240px] mt-16 p-margin h-[calc(100vh-64px)] overflow-y-auto custom-scrollbar bg-background">
+<div class="max-w-6xl mx-auto w-full">
+<!-- Header Section -->
+<div class="mb-lg">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">System Settings</h2>
+<p class="font-body-lg text-body-lg text-secondary">Manage global configurations, integrations, and store profiles.</p>
+</div>
+<!-- Tabbed Interface -->
+<div class="border-b border-outline-variant mb-lg">
+<nav class="flex gap-lg">
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary pb-3 px-1 relative -bottom-[1px]" href="#">
+                        Store Profile
+                    </a>
+<a class="font-body-md text-body-md text-secondary hover:text-on-surface pb-3 px-1 transition-colors relative -bottom-[1px]" href="#">
+                        Payment Gateways
+                    </a>
+<a class="font-body-md text-body-md text-secondary hover:text-on-surface pb-3 px-1 transition-colors relative -bottom-[1px]" href="#">
+                        Tax Rules
+                    </a>
+<a class="font-body-md text-body-md text-secondary hover:text-on-surface pb-3 px-1 transition-colors relative -bottom-[1px]" href="#">
+                        Integration Settings
+                    </a>
+</nav>
+</div>
+<!-- Form Layout (Bento-style Grid for ERP feel) -->
+<div class="grid grid-cols-12 gap-lg pb-xl">
+<!-- Main Form Column -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-lg">
+<!-- General Information Card -->
+<div class="bg-surface border border-[#2C2C2C] rounded-lg p-lg shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+<div class="mb-md pb-sm border-b border-outline-variant flex items-center justify-between">
+<h3 class="font-title-md text-title-md text-on-surface">General Information</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Input Group -->
+<div class="col-span-1 md:col-span-2">
+<label class="block font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">Legal Store Name</label>
+<input class="w-full bg-surface-container-highest border border-[#2C2C2C] rounded py-2 px-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors shadow-inner" type="text" value="Titan Enterprises LLC"/>
+</div>
+<div class="col-span-1">
+<label class="block font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">Display Name</label>
+<input class="w-full bg-surface-container-highest border border-[#2C2C2C] rounded py-2 px-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors shadow-inner" type="text" value="Titan POS - Terminal 01"/>
+</div>
+<div class="col-span-1">
+<label class="block font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">Registration Number</label>
+<input class="w-full bg-surface-container-highest border border-[#2C2C2C] rounded py-2 px-3 font-label-md text-label-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors shadow-inner font-mono" type="text" value="REG-99482-TX"/>
+</div>
+</div>
+</div>
+<!-- Contact & Location Card -->
+<div class="bg-surface border border-[#2C2C2C] rounded-lg p-lg shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+<div class="mb-md pb-sm border-b border-outline-variant flex items-center justify-between">
+<h3 class="font-title-md text-title-md text-on-surface">Location &amp; Contact</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="col-span-1 md:col-span-2">
+<label class="block font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">Primary Address</label>
+<input class="w-full bg-surface-container-highest border border-[#2C2C2C] rounded py-2 px-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors shadow-inner" type="text" value="1245 Innovation Blvd, Suite 400"/>
+</div>
+<div class="col-span-1">
+<label class="block font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">City</label>
+<input class="w-full bg-surface-container-highest border border-[#2C2C2C] rounded py-2 px-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors shadow-inner" type="text" value="Austin"/>
+</div>
+<div class="col-span-1 grid grid-cols-2 gap-md">
+<div>
+<label class="block font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">State/Prov</label>
+<input class="w-full bg-surface-container-highest border border-[#2C2C2C] rounded py-2 px-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors shadow-inner" type="text" value="TX"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">Postal</label>
+<input class="w-full bg-surface-container-highest border border-[#2C2C2C] rounded py-2 px-3 font-label-md text-label-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors shadow-inner font-mono" type="text" value="78701"/>
+</div>
+</div>
+<div class="col-span-1">
+<label class="block font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">Support Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary" style="font-size: 18px;">mail</span>
+<input class="w-full bg-surface-container-highest border border-[#2C2C2C] rounded py-2 pl-10 pr-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors shadow-inner" type="email" value="support@titanpos.com"/>
+</div>
+</div>
+<div class="col-span-1">
+<label class="block font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">Support Phone</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary" style="font-size: 18px;">phone</span>
+<input class="w-full bg-surface-container-highest border border-[#2C2C2C] rounded py-2 pl-10 pr-3 font-label-md text-label-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors shadow-inner font-mono" type="tel" value="+1 (555) 123-4567"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Info Column (Side Info) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-lg">
+<!-- Localization Card -->
+<div class="bg-surface border border-[#2C2C2C] rounded-lg p-lg shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+<div class="mb-md pb-sm border-b border-outline-variant">
+<h3 class="font-title-md text-title-md text-on-surface">Localization</h3>
+</div>
+<div class="flex flex-col gap-md">
+<div>
+<label class="block font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">Base Currency</label>
+<select class="w-full bg-surface-container-highest border border-[#2C2C2C] rounded py-2 px-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors appearance-none">
+<option selected="" value="usd">USD - US Dollar</option>
+<option value="eur">EUR - Euro</option>
+<option value="gbp">GBP - British Pound</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-secondary uppercase tracking-wider mb-2">Timezone</label>
+<select class="w-full bg-surface-container-highest border border-[#2C2C2C] rounded py-2 px-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors appearance-none">
+<option selected="" value="cst">(GMT-06:00) Central Time (US &amp; Canada)</option>
+<option value="est">(GMT-05:00) Eastern Time</option>
+<option value="pst">(GMT-08:00) Pacific Time</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Store Status Card -->
+<div class="bg-surface border border-[#2C2C2C] rounded-lg p-lg shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+<div class="mb-md pb-sm border-b border-outline-variant">
+<h3 class="font-title-md text-title-md text-on-surface">Store Status</h3>
+</div>
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-tertiary shadow-[0_0_8px_rgba(74,225,118,0.6)]"></div>
+<span class="font-body-md text-body-md text-on-surface">Accepting Orders</span>
+</div>
+<!-- Switch -->
+<div class="w-10 h-6 bg-primary rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full transition-transform"></div>
+</div>
+</div>
+<p class="font-body-md text-sm text-secondary">Toggle to temporarily pause all incoming online orders and integrations while maintaining local POS functionality.</p>
+</div>
+</div>
+</div>
+<!-- Sticky Action Bar (Bottom) -->
+<div class="fixed bottom-0 left-[240px] right-0 bg-surface border-t border-[#2C2C2C] p-margin flex justify-end gap-md shadow-[0_-10px_40px_rgba(0,0,0,0.5)] z-30">
+<button class="font-body-md text-body-md text-on-surface border border-outline-variant hover:bg-surface-container-highest py-2 px-6 rounded transition-colors bg-transparent">
+                    Discard Changes
+                </button>
+<button class="font-body-md text-body-md bg-primary-container hover:bg-inverse-primary text-on-primary py-2 px-6 rounded transition-colors font-bold shadow-lg shadow-primary/20 flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 18px;">save</span>
+                    Save Changes
+                </button>
+</div>
+</div>
+</main>
+</body></html>

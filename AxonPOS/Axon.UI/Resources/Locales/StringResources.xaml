@@ -1,0 +1,203 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Layout Settings -->
+    <FlowDirection x:Key="AppFlowDirection">LeftToRight</FlowDirection>
+    <sys:Double x:Key="DirectionalIconScale">1</sys:Double>
+    <HorizontalAlignment x:Key="AppStartAlignment">Left</HorizontalAlignment>
+    <HorizontalAlignment x:Key="AppEndAlignment">Right</HorizontalAlignment>
+    <FontFamily x:Key="AppFont">Segoe UI</FontFamily>
+
+    <!-- General -->
+    <sys:String x:Key="Login">Login</sys:String>
+    <sys:String x:Key="Dashboard">Dashboard</sys:String>
+    <sys:String x:Key="Products">Products</sys:String>
+    <sys:String x:Key="Categories">Categories</sys:String>
+    <sys:String x:Key="Inventory">Inventory</sys:String>
+    <sys:String x:Key="Sales">Sales</sys:String>
+    <sys:String x:Key="Invoices">Invoices</sys:String>
+    <sys:String x:Key="Expenses">Expenses</sys:String>
+    <sys:String x:Key="Reports">Reports</sys:String>
+    <sys:String x:Key="Users">Users</sys:String>
+    <sys:String x:Key="Settings">Settings</sys:String>
+    
+    <sys:String x:Key="Barcode">Barcode</sys:String>
+    <sys:String x:Key="QRCode">QR Code</sys:String>
+    
+    <sys:String x:Key="Search">Search</sys:String>
+    <sys:String x:Key="Save">Save</sys:String>
+    <sys:String x:Key="Cancel">Cancel</sys:String>
+    <sys:String x:Key="Delete">Delete</sys:String>
+    <sys:String x:Key="Edit">Edit</sys:String>
+    <sys:String x:Key="Add">Add</sys:String>
+    <sys:String x:Key="Print">Print</sys:String>
+    <sys:String x:Key="Export">Export</sys:String>
+    <sys:String x:Key="Refresh">Refresh</sys:String>
+    
+    <sys:String x:Key="LowStock">Low Stock</sys:String>
+    <sys:String x:Key="Profit">Profit</sys:String>
+    <sys:String x:Key="Loss">Loss</sys:String>
+    
+    <sys:String x:Key="Cashier">Cashier</sys:String>
+    <sys:String x:Key="Admin">Admin</sys:String>
+    
+    <sys:String x:Key="Quantity">Quantity</sys:String>
+    <sys:String x:Key="Price">Price</sys:String>
+    <sys:String x:Key="Total">Total</sys:String>
+    <sys:String x:Key="Discount">Discount</sys:String>
+    <sys:String x:Key="Tax">Tax</sys:String>
+    <sys:String x:Key="Payment">Payment</sys:String>
+    
+    <sys:String x:Key="Customer">Customer</sys:String>
+    <sys:String x:Key="Supplier">Supplier</sys:String>
+    
+    <sys:String x:Key="Date">Date</sys:String>
+    <sys:String x:Key="Time">Time</sys:String>
+    <sys:String x:Key="Status">Status</sys:String>
+    <sys:String x:Key="Active">Active</sys:String>
+    <sys:String x:Key="Inactive">Inactive</sys:String>
+    
+    <sys:String x:Key="Success">Success</sys:String>
+    <sys:String x:Key="Error">Error</sys:String>
+    <sys:String x:Key="Warning">Warning</sys:String>
+    
+    <!-- MainWindow specific -->
+    <sys:String x:Key="PosTerminal">POS Terminal</sys:String>
+    <sys:String x:Key="Logout">Log Out</sys:String>
+    <sys:String x:Key="SearchPlaceholder">Search orders, customers, or products...</sys:String>
+
+    <!-- LoginView specific -->
+    <sys:String x:Key="SignInToContinue">Sign in to continue</sys:String>
+    <sys:String x:Key="UserID">User ID</sys:String>
+    <sys:String x:Key="Password">Password</sys:String>
+    <sys:String x:Key="KeepMeSignedIn">Keep me signed in</sys:String>
+    <sys:String x:Key="SignIn">Sign In</sys:String>
+    
+    <!-- DashboardView specific -->
+    <sys:String x:Key="TotalProfit">TOTAL PROFIT</sys:String>
+    <sys:String x:Key="TotalExpenses">TOTAL EXPENSES</sys:String>
+    <sys:String x:Key="TotalProducts">TOTAL PRODUCTS</sys:String>
+    <sys:String x:Key="LowStockAlerts">LOW STOCK ALERTS</sys:String>
+    <sys:String x:Key="VsLastMonth">vs last month</sys:String>
+    <sys:String x:Key="NewThisWeek">new this week</sys:String>
+    <sys:String x:Key="NeedsImmediateAction">Needs immediate action</sys:String>
+    <sys:String x:Key="SalesOverview">Sales Overview</sys:String>
+    <sys:String x:Key="RevenueDistribution">Revenue Distribution</sys:String>
+    <sys:String x:Key="RecentSales">Recent Sales</sys:String>
+    <sys:String x:Key="ViewAll">View All</sys:String>
+    <sys:String x:Key="ColTxID">TX ID</sys:String>
+    <sys:String x:Key="ColCustomer">CUSTOMER</sys:String>
+    <sys:String x:Key="ColAmount">AMOUNT</sys:String>
+    <sys:String x:Key="ColStatus">STATUS</sys:String>
+    <sys:String x:Key="ColTime">TIME</sys:String>
+    <sys:String x:Key="InventoryAlertsHeader">Inventory Alerts</sys:String>
+    <sys:String x:Key="Restock">Restock</sys:String>
+    <sys:String x:Key="AreaChartPlaceholder">[ Area Chart Placeholder ]</sys:String>
+    <sys:String x:Key="BarChartPlaceholder">[ Bar Chart Placeholder ]</sys:String>
+    
+    <!-- PosTerminalView specific -->
+    <sys:String x:Key="OutOfStock">OUT OF STOCK</sys:String>
+    <sys:String x:Key="InStockFormat">In Stock: {0}</sys:String>
+    <sys:String x:Key="WalkInCustomer">Walk-in Customer</sys:String>
+    <sys:String x:Key="AssignProfile">Assign Profile</sys:String>
+    <sys:String x:Key="HeaderItem">ITEM</sys:String>
+    <sys:String x:Key="HeaderQty">QTY</sys:String>
+    <sys:String x:Key="HeaderPrice">PRICE</sys:String>
+    <sys:String x:Key="BtnDiscount">Discount</sys:String>
+    <sys:String x:Key="BtnNote">Note</sys:String>
+    <sys:String x:Key="Subtotal">Subtotal</sys:String>
+    <sys:String x:Key="TaxLabel">Tax</sys:String>
+    <sys:String x:Key="PayNow">Pay Now</sys:String>
+    
+    <!-- ProductManagementView specific -->
+    <sys:String x:Key="ProductsDesc">Manage enterprise product catalog, stock levels, and pricing.</sys:String>
+    <sys:String x:Key="AddProduct">Add Product</sys:String>
+    <sys:String x:Key="CategoriesFilter">Categories</sys:String>
+    <sys:String x:Key="StockStatusFilter">Stock Status</sys:String>
+    <sys:String x:Key="FilterAllItems">All Items</sys:String>
+    <sys:String x:Key="FilterInStock">In Stock</sys:String>
+    <sys:String x:Key="FilterLowStock">Low Stock</sys:String>
+    <sys:String x:Key="FilterOutOfStock">Out of Stock</sys:String>
+    <sys:String x:Key="PriceRangeFilter">Price Range</sys:String>
+    <sys:String x:Key="ShowingProductsCount">Showing 245 of 1,024 products</sys:String>
+    <sys:String x:Key="HeaderImage">IMAGE</sys:String>
+    <sys:String x:Key="HeaderProductName">PRODUCT NAME</sys:String>
+    <sys:String x:Key="HeaderSku">SKU</sys:String>
+    <sys:String x:Key="HeaderCategory">CATEGORY</sys:String>
+    <sys:String x:Key="HeaderStockLevel">STOCK LEVEL</sys:String>
+    <sys:String x:Key="HeaderActions">ACTIONS</sys:String>
+    <sys:String x:Key="RowsPerPage">Rows per page:</sys:String>
+    <sys:String x:Key="PaginationCount">1-5 of 245</sys:String>
+    
+    <!-- InventoryControlView specific -->
+    <sys:String x:Key="InventoryDesc">Manage warehouse locations and monitor stock levels.</sys:String>
+    <sys:String x:Key="BtnFilter">Filter</sys:String>
+    <sys:String x:Key="BtnReceiveStock">Receive Stock</sys:String>
+    <sys:String x:Key="KpiTotalItems">TOTAL ITEMS</sys:String>
+    <sys:String x:Key="KpiLowStockAlerts">LOW STOCK ALERTS</sys:String>
+    <sys:String x:Key="KpiRequiresAttention">requires attention</sys:String>
+    <sys:String x:Key="KpiPendingRestock">PENDING RESTOCK</sys:String>
+    <sys:String x:Key="KpiIncoming48h">Incoming next 48h</sys:String>
+    <sys:String x:Key="KpiWarehouseCapacity">WAREHOUSE CAPACITY</sys:String>
+    <sys:String x:Key="InventoryList">Inventory List</sys:String>
+    <sys:String x:Key="HintSearchSku">Search SKU or Name...</sys:String>
+    <sys:String x:Key="HeaderCurrent">CURRENT</sys:String>
+    <sys:String x:Key="HeaderRequired">REQUIRED</sys:String>
+    <sys:String x:Key="HeaderLocation">LOCATION</sys:String>
+    <sys:String x:Key="HeaderStatus">STATUS</sys:String>
+    
+    <!-- ReportsView specific -->
+    <sys:String x:Key="ReportsDesc">Comprehensive view of business performance.</sys:String>
+    <sys:String x:Key="Last30Days">Last 30 Days</sys:String>
+    <sys:String x:Key="ExportCSV">CSV</sys:String>
+    <sys:String x:Key="ExportPDF">PDF</sys:String>
+    <sys:String x:Key="TotalRevenueLabel">Total Revenue</sys:String>
+    <sys:String x:Key="VsPrevious30Days">vs. previous 30 days</sys:String>
+    <sys:String x:Key="AverageOrderValueLabel">Average Order Value</sys:String>
+    <sys:String x:Key="NetProfitLabel">Net Profit</sys:String>
+    <sys:String x:Key="SalesTrendsLabel">Sales Trends</sys:String>
+    <sys:String x:Key="DailyLabel">Daily</sys:String>
+    <sys:String x:Key="WeeklyLabel">Weekly</sys:String>
+    <sys:String x:Key="ChartPlaceholderLabel">Chart Control Placeholder</sys:String>
+    <sys:String x:Key="CategoryPerformanceLabel">Category Performance</sys:String>
+    <sys:String x:Key="TopSellingItemsLabel">Top Selling Items</sys:String>
+    <sys:String x:Key="ViewAllLabel">View All</sys:String>
+    <sys:String x:Key="HeaderItemName">Item Name</sys:String>
+    <sys:String x:Key="HeaderSold">Sold</sys:String>
+    <sys:String x:Key="HeaderRevenue">Revenue</sys:String>
+    <sys:String x:Key="RegionalPerformanceLabel">Regional Performance</sys:String>
+    
+    <!-- SettingsView specific -->
+    <sys:String x:Key="SettingsDesc">Manage global configurations, integrations, and store profiles.</sys:String>
+    <sys:String x:Key="StoreProfileTab">Store Profile</sys:String>
+    <sys:String x:Key="PaymentGatewaysTab">Payment Gateways</sys:String>
+    <sys:String x:Key="TaxRulesTab">Tax Rules</sys:String>
+    <sys:String x:Key="IntegrationSettingsTab">Integration Settings</sys:String>
+    <sys:String x:Key="GeneralInformationLabel">General Information</sys:String>
+    <sys:String x:Key="LegalStoreNameLabel">LEGAL STORE NAME</sys:String>
+    <sys:String x:Key="DisplayNameLabel">DISPLAY NAME</sys:String>
+    <sys:String x:Key="RegistrationNumberLabel">REGISTRATION NUMBER</sys:String>
+    <sys:String x:Key="LocationContactLabel">Location &amp; Contact</sys:String>
+    <sys:String x:Key="PrimaryAddressLabel">PRIMARY ADDRESS</sys:String>
+    <sys:String x:Key="CityLabel">CITY</sys:String>
+    <sys:String x:Key="StateProvLabel">STATE/PROV</sys:String>
+    <sys:String x:Key="PostalLabel">POSTAL</sys:String>
+    <sys:String x:Key="SupportEmailLabel">SUPPORT EMAIL</sys:String>
+    <sys:String x:Key="SupportPhoneLabel">SUPPORT PHONE</sys:String>
+    <sys:String x:Key="LocalizationLabel">Localization</sys:String>
+    <sys:String x:Key="BaseCurrencyLabel">BASE CURRENCY</sys:String>
+    <sys:String x:Key="CurrencyUSD">USD - US Dollar</sys:String>
+    <sys:String x:Key="CurrencyEUR">EUR - Euro</sys:String>
+    <sys:String x:Key="CurrencyGBP">GBP - British Pound</sys:String>
+    <sys:String x:Key="TimezoneLabel">TIMEZONE</sys:String>
+    <sys:String x:Key="TimezoneCentral">(GMT-06:00) Central Time (US &amp; Canada)</sys:String>
+    <sys:String x:Key="TimezoneEastern">(GMT-05:00) Eastern Time</sys:String>
+    <sys:String x:Key="TimezonePacific">(GMT-08:00) Pacific Time</sys:String>
+    <sys:String x:Key="StoreStatusLabel">Store Status</sys:String>
+    <sys:String x:Key="AcceptingOrdersLabel">Accepting Orders</sys:String>
+    <sys:String x:Key="StoreStatusDesc">Toggle to temporarily pause all incoming online orders and integrations while maintaining local POS functionality.</sys:String>
+    <sys:String x:Key="DiscardChangesLabel">Discard Changes</sys:String>
+    <sys:String x:Key="SaveChangesLabel">Save Changes</sys:String>
+
+</ResourceDictionary>

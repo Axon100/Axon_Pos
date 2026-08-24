@@ -1,0 +1,181 @@
+using Axon.Application.Interfaces.Repositories;
+using Axon.Domain.Entities;
+using Axon.UI.Services;
+using Axon.UI.ViewModels.Base;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+
+namespace Axon.UI.ViewModels
+{
+    public partial class ExpensesViewModel : BaseViewModel
+    {
+        [ObservableProperty]
+        private string _searchText = string.Empty;
+
+        [ObservableProperty]
+        private DateTime _dateFrom = DateTime.Today.AddDays(-30);
+
+        [ObservableProperty]
+        private DateTime _dateTo = DateTime.Today;
+
+        [ObservableProperty]
+        private int _totalExpensesCount;
+
+        [ObservableProperty]
+        private decimal _totalExpensesAmount;
+
+        [ObservableProperty]
+        private string _topExpenseCategory = "—";
+
+        [ObservableProperty]
+        private ObservableCollection<ExpenseItemViewModel> _expenses = new();
+
+        [ObservableProperty]
+        private ObservableCollection<ExpenseItemViewModel> _filteredExpenses = new();
+
+        public ICommand AddExpenseCommand { get; }
+        public ICommand SearchCommand { get; }
+
+        private readonly IRepository<Expense> _expenseRepository;
+
+        public ExpensesViewModel(IRepository<Expense> expenseRepository)
+        {
+            _expenseRepository = expenseRepository;
+
+            AddExpenseCommand = new AsyncRelayCommand(OnAddExpenseAsync);
+            SearchCommand = new RelayCommand(OnSearch);
+
+            Title = "المصروفات الخارجية والنفقات";
+            _ = LoadDataAsync();
+        }
+
+        [RelayCommand]
+        public async Task LoadDataAsync()
+        {
+            IsBusy = true;
+            try
+            {
+                Expenses.Clear();
+                var dbExpenses = await _expenseRepository.GetAllAsync();
+
+                var start = DateFrom.Date;
+                var end = DateTo.Date.AddDays(1).AddTicks(-1);
+
+                var periodExpenses = dbExpenses
+                    .Where(e => e.ExpenseDate.DateTime >= start && e.ExpenseDate.DateTime <= end)
+                    .OrderByDescending(x => x.ExpenseDate)
+                    .ToList();
+
+                foreach (var e in periodExpenses)
+                {
+                    Expenses.Add(new ExpenseItemViewModel
+                    {
+                        Id = e.Id,
+                        DocNumber = string.IsNullOrEmpty(e.ReferenceNumber) ? $"EXP-{e.Id:D4}" : e.ReferenceNumber,
+                        Category = string.IsNullOrEmpty(e.Category) ? "عام" : e.Category,
+                        PaymentMethod = "نقداً (Cash)",
+                        Date = e.ExpenseDate.ToString("yyyy/MM/dd HH:mm"),
+                        DateRaw = e.ExpenseDate.DateTime,
+                        Amount = e.Amount,
+                        Description = string.IsNullOrEmpty(e.Description) ? "مصروف عام" : e.Description
+                    });
+                }
+
+                OnSearch();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Failed to load expenses: {ex.Message}");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task OnAddExpenseAsync()
+        {
+            await System.Windows.Application.Current.Dispatcher.InvokeAsync(async () =>
+            {
+                var dialog = new Axon.UI.Views.AddExpenseWindow();
+                if (dialog.ShowDialog() == true && dialog.Result != null)
+                {
+                    try
+                    {
+                        var newExpense = new Expense
+                        {
+                            Category = string.IsNullOrEmpty(dialog.Result.Category) ? "نثريات ومصروفات" : dialog.Result.Category,
+                            Description = string.IsNullOrEmpty(dialog.Result.Description) ? "مصروف خارجي" : dialog.Result.Description,
+                            Amount = dialog.Result.Amount,
+                            ExpenseDate = DateTimeOffset.Now,
+                            ReferenceNumber = dialog.Result.DocNumber,
+                            UserId = UserSessionService.CurrentUserId > 0 ? UserSessionService.CurrentUserId : 1
+                        };
+
+                        await _expenseRepository.AddAsync(newExpense);
+                        await LoadDataAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Windows.MessageBox.Show($"فشل حفظ المصروف: {ex.Message}", "خطأ في قاعدة البيانات", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                    }
+                }
+            });
+        }
+
+        partial void OnSearchTextChanged(string value)
+        {
+            OnSearch();
+        }
+
+        partial void OnDateFromChanged(DateTime value)
+        {
+            _ = LoadDataAsync();
+        }
+
+        partial void OnDateToChanged(DateTime value)
+        {
+            _ = LoadDataAsync();
+        }
+
+        private void OnSearch()
+        {
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                FilteredExpenses = new ObservableCollection<ExpenseItemViewModel>(Expenses);
+            }
+            else
+            {
+                var filtered = Expenses.Where(x => 
+                    x.DocNumber.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                    x.Category.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                    x.Description.Contains(SearchText, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
+                FilteredExpenses = new ObservableCollection<ExpenseItemViewModel>(filtered);
+            }
+            
+            TotalExpensesCount = FilteredExpenses.Count;
+            TotalExpensesAmount = FilteredExpenses.Sum(x => x.Amount);
+
+            var topCat = FilteredExpenses.GroupBy(x => x.Category).OrderByDescending(g => g.Sum(x => x.Amount)).FirstOrDefault();
+            TopExpenseCategory = topCat != null ? topCat.Key : "—";
+        }
+    }
+
+    public class ExpenseItemViewModel
+    {
+        public int Id { get; set; }
+        public string DocNumber { get; set; } = string.Empty;
+        public string Category { get; set; } = string.Empty;
+        public string PaymentMethod { get; set; } = string.Empty;
+        public string Date { get; set; } = string.Empty;
+        public DateTime DateRaw { get; set; }
+        public decimal Amount { get; set; }
+        public string Description { get; set; } = string.Empty;
+    }
+}

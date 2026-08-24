@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html class="dark" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Titan POS - محطة أداء عالي</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-container": "#007d36",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed": "#002109",
+                        "surface-container-high": "#2a2a2a",
+                        "tertiary-fixed-dim": "#4ae176",
+                        "secondary-fixed": "#e2e2e2",
+                        "primary-fixed-dim": "#ffb3af",
+                        "secondary": "#c6c6c7",
+                        "inverse-primary": "#bf0022",
+                        "on-tertiary-fixed-variant": "#005321",
+                        "primary-fixed": "#ffdad7",
+                        "tertiary-fixed": "#6bff8f",
+                        "on-secondary": "#2f3131",
+                        "on-tertiary": "#003915",
+                        "on-primary-fixed": "#410005",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "outline": "#ae8885",
+                        "on-surface-variant": "#e7bcba",
+                        "on-primary-container": "#ffeae8",
+                        "primary-container": "#d90429",
+                        "outline-variant": "#5d3f3d",
+                        "on-error": "#690005",
+                        "surface-container-lowest": "#0e0e0e",
+                        "background": "#131313",
+                        "surface-variant": "#353534",
+                        "secondary-container": "#454747",
+                        "tertiary": "#4ae176",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-container-low": "#1c1b1b",
+                        "on-background": "#e5e2e1",
+                        "primary": "#ffb3af",
+                        "on-primary": "#68000e",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#131313",
+                        "on-secondary-fixed-variant": "#454747",
+                        "error-container": "#93000a",
+                        "surface-tint": "#ffb3af",
+                        "surface-bright": "#3a3939",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "on-surface": "#e5e2e1",
+                        "on-tertiary-container": "#b9ffbf",
+                        "inverse-on-surface": "#313030",
+                        "on-secondary-container": "#b4b5b5",
+                        "surface-container": "#201f1f",
+                        "surface-container-highest": "#353534",
+                        "on-primary-fixed-variant": "#930018",
+                        "surface-dim": "#131313"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        lg: "24px",
+                        margin: "24px",
+                        xl: "48px",
+                        sm: "8px",
+                        md: "16px",
+                        gutter: "16px",
+                        xs: "4px",
+                        base: "4px"
+                    },
+                    fontFamily: {
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "label-md": ["JetBrains Mono"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "title-md": ["Hanken Grotesk"]
+                    },
+                    fontSize: {
+                        "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                        "headline-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                        "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "500" }],
+                        "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "title-md": ["18px", { lineHeight: "24px", fontWeight: "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #111111; color: #e5e2e1; }
+        .glass-panel { background: rgba(26, 26, 26, 0.8); backdrop-filter: blur(12px); border-top: 1px solid rgba(255, 255, 255, 0.05); }
+        .level-1-card { background-color: #1A1A1A; border: 1px solid #2C2C2C; }
+        .pos-shadow { box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        
+        /* Scrollbar styling for dense layout */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #353534; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #454747; }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-hidden selection:bg-primary-container selection:text-white">
+<!-- SideNavBar -->
+<nav class="hidden md:flex w-[240px] h-screen fixed right-0 top-0 bg-surface-container dark:bg-surface-container border-l border-outline-variant dark:border-outline-variant shadow-xl flex-col py-margin z-50">
+<div class="px-margin mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary">Titan POS</h1>
+<p class="font-label-md text-label-md text-secondary mt-1 uppercase tracking-wider">محطة المؤسسة 01</p>
+</div>
+<div class="flex-1 overflow-y-auto px-2">
+<!-- Active Tab: Sales (Implicit intent based on POS prompt) -->
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high active:scale-[0.98] duration-200 rounded-lg mb-1" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>لوحة القيادة</span>
+</a>
+<a class="relative flex items-center gap-md px-4 py-3 text-on-surface bg-transparent before:content-[''] before:absolute before:right-0 before:w-[3px] before:h-6 before:bg-primary before:rounded-full hover:bg-surface-container-high dark:hover:bg-surface-container-high active:scale-[0.98] transition-transform duration-200 rounded-lg mb-1" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-semibold text-white">المبيعات</span>
+</a>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high active:scale-[0.98] duration-200 rounded-lg mb-1" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>المخزون</span>
+</a>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high active:scale-[0.98] duration-200 rounded-lg mb-1" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>التقارير</span>
+</a>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high active:scale-[0.98] duration-200 rounded-lg mb-1" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>العملاء</span>
+</a>
+<a class="flex items-center gap-md px-4 py-3 text-secondary hover:text-on-surface transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-high active:scale-[0.98] duration-200 rounded-lg mb-1" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>الإعدادات</span>
+</a>
+</div>
+<div class="px-margin mt-auto pt-4 border-t border-outline-variant/30">
+<button class="w-full bg-primary-container hover:bg-[#EF233C] text-white py-3 rounded-lg font-title-md text-title-md transition-colors shadow-lg flex items-center justify-center gap-2 mb-6">
+<span class="material-symbols-outlined">add</span>
+                بيع جديد
+            </button>
+<a class="flex items-center gap-md px-2 py-2 text-secondary hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>الدعم</span>
+</a>
+<a class="flex items-center gap-md px-2 py-2 text-secondary hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>تسجيل الخروج</span>
+</a>
+</div>
+</nav>
+<!-- TopNavBar -->
+<header class="hidden md:flex fixed top-0 left-0 right-[240px] h-16 bg-surface/80 dark:bg-surface/80 backdrop-blur-md shadow-sm border-b border-white/5 items-center justify-between px-margin z-40">
+<div class="flex items-center w-1/3">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-secondary">search</span>
+<input class="w-full bg-[#1A1A1A] border border-[#2C2C2C] text-on-surface rounded-lg pr-10 pl-4 py-2 focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all font-body-md text-body-md placeholder-secondary/50" placeholder="البحث عن المنتجات، رمز المنتج، أو الباركود..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-secondary hover:text-on-surface hover:bg-white/5 transition-all p-2 rounded-full cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+</button>
+<button class="text-secondary hover:text-on-surface hover:bg-white/5 transition-all p-2 rounded-full cursor-pointer active:opacity-80 relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1 left-1 w-2 h-2 bg-primary-container rounded-full"></span>
+</button>
+<div class="h-8 w-px bg-outline-variant/30 mx-2"></div>
+<button class="flex items-center gap-2 hover:bg-white/5 p-1 pl-3 rounded-full transition-all">
+<img alt="Store Manager Profile" class="w-8 h-8 rounded-full object-cover border border-[#2C2C2C]" data-alt="A small, circular avatar portrait of a retail store manager. Professional, modern lighting, dark mode background. The portrait is sharply focused and subtly styled for a corporate dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXf3DjGAAJOCJGVY9IBNuqOmUZbqBGYeHOtks1VHoeMwuiCu7A3EGkZ2iVaj1b3p3CrpaWJPTgU-4JcmgEI04LV4T7PTBsiATgYhbzq29y1n2Zsj-DLW8AFJc6wlE6GFNNnoAVW5OxSUVL7Xm0D3XpWZq5PeSiIUUfzXwf-8zwnwVIxTm2xhWYFr_LQABaNZfBcNC1uxPsm9SbqBWk8rDnsr0nGfjnpiiiL3-SRQS9J4ad4pgKh3hO"/>
+<span class="font-body-md text-body-md text-on-surface hidden lg:block">مدير المتجر</span>
+<span class="material-symbols-outlined text-secondary text-sm">expand_more</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="md:mr-[240px] pt-16 h-screen flex flex-col md:flex-row bg-[#111111]">
+<!-- Left Pane: Product Grid & Categories -->
+<div class="flex-1 flex flex-col p-margin overflow-hidden border-l border-[#2C2C2C]">
+<!-- Category Filter Carousel -->
+<div class="flex gap-2 overflow-x-auto pb-4 mb-2 no-scrollbar scroll-smooth">
+<button class="px-4 py-2 bg-primary-container text-white rounded-full font-title-md text-title-md whitespace-nowrap shadow-md">كل العناصر</button>
+<button class="px-4 py-2 bg-[#1A1A1A] border border-[#2C2C2C] text-secondary hover:bg-[#222222] hover:text-on-surface rounded-full font-title-md text-title-md whitespace-nowrap transition-colors">إلكترونيات</button>
+<button class="px-4 py-2 bg-[#1A1A1A] border border-[#2C2C2C] text-secondary hover:bg-[#222222] hover:text-on-surface rounded-full font-title-md text-title-md whitespace-nowrap transition-colors">ملابس</button>
+<button class="px-4 py-2 bg-[#1A1A1A] border border-[#2C2C2C] text-secondary hover:bg-[#222222] hover:text-on-surface rounded-full font-title-md text-title-md whitespace-nowrap transition-colors">إكسسوارات</button>
+<button class="px-4 py-2 bg-[#1A1A1A] border border-[#2C2C2C] text-secondary hover:bg-[#222222] hover:text-on-surface rounded-full font-title-md text-title-md whitespace-nowrap transition-colors">سلع منزلية</button>
+<button class="px-4 py-2 bg-[#1A1A1A] border border-[#2C2C2C] text-secondary hover:bg-[#222222] hover:text-on-surface rounded-full font-title-md text-title-md whitespace-nowrap transition-colors">تصفية</button>
+</div>
+<!-- Bento Grid / Product Cards -->
+<div class="flex-1 overflow-y-auto pl-2">
+<div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+<!-- Product Card 1 -->
+<div class="level-1-card rounded-xl p-3 flex flex-col group hover:bg-[#222222] transition-colors cursor-pointer relative overflow-hidden pos-shadow">
+<div class="aspect-square bg-[#111111] rounded-lg mb-3 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A sleek, high-end wireless headphone rendered in 3D against a dark studio background. Dramatic spotlighting highlighting metallic textures. Minimalist, modern dark mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHp-yjnoD-7eKwOrZYtyGmemwPI2GheSrQpf_A6BqpDvSwB-ic6B3dNLMlLcdhAiotcmv-C3rBkGvAvq3feb-223gWR01nC1s1UbYRn1H0kTrliglOFWq-wMpsCSzcItPUHmgd6ki-i2XhKMlAxn6PiFZGL7d1NbPRuMbxcfb0743-ngBpQ1s9Jw6FuFU0tiZ4P6ozVKhRsyzQ1f2C5jrTttH7GjkU6oHaaW0FKzsdki8HdVCGM2WG"/>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface truncate">سماعات كوانتم X</h3>
+<p class="font-label-md text-label-md text-secondary mb-2">رمز المنتج: QX-992</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-headline-md text-white">$249.99</span>
+<span class="material-symbols-outlined text-primary-container bg-primary-container/10 p-1.5 rounded-md">add_shopping_cart</span>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="level-1-card rounded-xl p-3 flex flex-col group hover:bg-[#222222] transition-colors cursor-pointer relative overflow-hidden pos-shadow">
+<div class="absolute top-2 left-2 bg-tertiary-container/20 border border-tertiary-container/30 text-tertiary px-2 py-0.5 rounded font-label-md text-label-md uppercase text-[10px] z-10">متوفر: 14</div>
+<div class="aspect-square bg-[#111111] rounded-lg mb-3 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A minimalist smart watch with a dark metallic band and glowing digital display showing abstract data. Rendered in a sleek, high-contrast dark environment perfect for a tech product catalog." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVPL83JoKbAGtiEBjJi9fyRkuSIrzUE7BqnUVUC8HYIZ9O8QWlIUx6i0Cpwb7K5EvyREg3fPICBZTAeynVC2AUuhkQlIDAPgID4ix9teLQOyJAENF1YiUju2gRniaEExV1jX48QJ2SuSeTLe0XksyJBn-nx0gRwti94EilYddlD4NfYMw8WQeQUGzOnOx7EG6Fomofd_cgpy9nV1Gx4-RXxwo3KeoRT_URzrznE8TOFBOn6hnr6ZwF"/>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface truncate">ساعة نوفا الذكية</h3>
+<p class="font-label-md text-label-md text-secondary mb-2">رمز المنتج: NV-SW1</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-headline-md text-white">$199.00</span>
+<span class="material-symbols-outlined text-primary-container bg-primary-container/10 p-1.5 rounded-md">add_shopping_cart</span>
+</div>
+</div>
+<!-- Product Card 3 (Out of Stock variant) -->
+<div class="level-1-card rounded-xl p-3 flex flex-col cursor-not-allowed opacity-60 relative overflow-hidden">
+<div class="absolute inset-0 bg-black/40 z-10 flex items-center justify-center">
+<span class="bg-[#1A1A1A] border border-[#2C2C2C] text-secondary px-3 py-1 rounded-full font-label-md text-label-md uppercase tracking-wider backdrop-blur-sm">نفد المخزون</span>
+</div>
+<div class="aspect-square bg-[#111111] rounded-lg mb-3 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover grayscale" data-alt="A premium mechanical keyboard with dark grey and subtle red keycaps. Photographed from a top-down angle in a moody, low-light setting with sharp contrasts." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDA7mXLab_pEau9uGOMuVBaTLLNYRNvB_-Geg03sWoE9Mk6ihtZ915Oos1dihpgBQOsDcT1i1DFai_X_XJJpKiUsvo6OWIvGShHiNqTjdes01-x1SAX7t59boKRPS_HCM_2FocBEBPud_ktkQx6lwQnYpABpwZynssqAnFqQJW9ooLnIT2JtG-uOsv2JVqToY_D-FBpHwSm58BYElTuT5UPFCjM7Fr0QmGpJCQX8Nt9f2Gp1Dh0zrv8"/>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface truncate">لوحة مفاتيح ميك برو</h3>
+<p class="font-label-md text-label-md text-secondary mb-2">رمز المنتج: MKP-40</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-headline-md text-secondary">$129.50</span>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="level-1-card rounded-xl p-3 flex flex-col group hover:bg-[#222222] transition-colors cursor-pointer relative overflow-hidden pos-shadow">
+<div class="aspect-square bg-[#111111] rounded-lg mb-3 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A sleek, modern portable power bank in matte black finish with subtle LED charge indicators glowing faint red. Studio lighting, dark background, technical aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAriVFxN1QtjzX-Vv4GCd9ci5iX0tPLziKuLrDzZt0kp72GOB9oVmvHsA8UJhZqCkzy1E1n6Xr1TQLRVTO9Ny7qWf8Or7gnR4jK2d8z_BJ5wyCkJs2xhCQvNvlRBsPOJBRE1HtCfUJlx_eb_5UWamyhvLBdfjTCbZle-vh1BGmNQsuNOp7CQ8IPfST9iBiFUi0_2gGSd0NcRRa8aahe31S2u_DxajOzDgSrFq3LEGzIHsF-7dLTn52"/>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface truncate">بنك طاقة إيرو</h3>
+<p class="font-label-md text-label-md text-secondary mb-2">رمز المنتج: APB-10K</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-headline-md text-white">$49.99</span>
+<span class="material-symbols-outlined text-primary-container bg-primary-container/10 p-1.5 rounded-md">add_shopping_cart</span>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="level-1-card rounded-xl p-3 flex flex-col group hover:bg-[#222222] transition-colors cursor-pointer relative overflow-hidden pos-shadow">
+<div class="aspect-square bg-[#111111] rounded-lg mb-3 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A high-end metallic thermal water bottle in charcoal black. Cinematic dark mode studio lighting, emphasizing the premium matte texture and sleek cylindrical design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQY0tM4nhnUP3a1ggTQfFR5oQhsueHynQBJ94C4NH5nVANUYrxU6AlNowPGu7bWxHleVwYy4MrQBajc9r208rUlvT83j2tzoy7v3T5OkQG_F52TcD5nf_kpAP9e6J8DM1-sFhfyx06lWbkWmSapf79aM6yTfPDKyF_BdaJ2qwDtXLTJagkt7Bf0cMK155Z-CxKmVFDGK6A0zkswXydaimFoDPXgzgkG1ukhvAwrcbsCQiVtxwQfql7"/>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface truncate">قارورة تيتان الحرارية</h3>
+<p class="font-label-md text-label-md text-secondary mb-2">رمز المنتج: TTF-32</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-headline-md text-white">$34.50</span>
+<span class="material-symbols-outlined text-primary-container bg-primary-container/10 p-1.5 rounded-md">add_shopping_cart</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Pane: Active Cart & Checkout -->
+<div class="w-full md:w-[400px] flex flex-col bg-[#1A1A1A] h-full shadow-2xl z-10 border-r border-[#2C2C2C]">
+<!-- Customer / Order Context -->
+<div class="p-margin border-b border-[#2C2C2C] flex items-center justify-between bg-[#111111]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center border border-[#2C2C2C]">
+<span class="material-symbols-outlined text-secondary">person_add</span>
+</div>
+<div>
+<h2 class="font-title-md text-title-md text-white">عميل عابر</h2>
+<button class="font-label-md text-label-md text-primary-container hover:text-[#EF233C] transition-colors">تعيين ملف شخصي</button>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-lg border border-[#2C2C2C] text-secondary hover:bg-[#222222] hover:text-white flex items-center justify-center transition-colors" title="تعليق الطلب">
+<span class="material-symbols-outlined">pause</span>
+</button>
+<button class="w-10 h-10 rounded-lg border border-[#2C2C2C] text-secondary hover:bg-[#222222] hover:text-white flex items-center justify-center transition-colors" title="مسح الطلب">
+<span class="material-symbols-outlined">delete_sweep</span>
+</button>
+</div>
+</div>
+<!-- Cart Items List (DataGrid style) -->
+<div class="flex-1 overflow-y-auto">
+<!-- Header row -->
+<div class="sticky top-0 bg-[#1A1A1A] border-b border-[#2C2C2C] flex px-4 py-2 font-label-md text-label-md text-secondary uppercase tracking-wider text-[11px] z-10 shadow-sm">
+<div class="flex-[3]">العنصر</div>
+<div class="flex-1 text-center">الكمية</div>
+<div class="flex-1 text-left">السعر</div>
+</div>
+<!-- Cart Row 1 -->
+<div class="flex items-center px-4 py-sm bg-[#111111] border-b border-[#1A1A1A] hover:bg-[#1A1A1A] transition-colors group">
+<div class="flex-[3] pl-2">
+<p class="font-title-md text-title-md text-white truncate text-sm">سماعات كوانتم X</p>
+<p class="font-label-md text-label-md text-secondary text-[10px]">رمز المنتج: QX-992</p>
+</div>
+<div class="flex-1 flex justify-center items-center gap-1">
+<button class="text-secondary hover:text-white"><span class="material-symbols-outlined text-[16px]">remove</span></button>
+<span class="font-label-md text-label-md text-white px-2">1</span>
+<button class="text-secondary hover:text-white"><span class="material-symbols-outlined text-[16px]">add</span></button>
+</div>
+<div class="flex-1 text-left font-label-md text-label-md text-white">
+                        $249.99
+                    </div>
+</div>
+<!-- Cart Row 2 -->
+<div class="flex items-center px-4 py-sm bg-[#111111] border-b border-[#1A1A1A] hover:bg-[#1A1A1A] transition-colors group">
+<div class="flex-[3] pl-2">
+<p class="font-title-md text-title-md text-white truncate text-sm">ساعة نوفا الذكية</p>
+<p class="font-label-md text-label-md text-secondary text-[10px]">رمز المنتج: NV-SW1</p>
+</div>
+<div class="flex-1 flex justify-center items-center gap-1">
+<button class="text-secondary hover:text-white"><span class="material-symbols-outlined text-[16px]">remove</span></button>
+<span class="font-label-md text-label-md text-white px-2">2</span>
+<button class="text-secondary hover:text-white"><span class="material-symbols-outlined text-[16px]">add</span></button>
+</div>
+<div class="flex-1 text-left font-label-md text-label-md text-white">
+                        $398.00
+                    </div>
+</div>
+<!-- Cart Row 3 -->
+<div class="flex items-center px-4 py-sm bg-[#111111] border-b border-[#1A1A1A] hover:bg-[#1A1A1A] transition-colors group">
+<div class="flex-[3] pl-2">
+<p class="font-title-md text-title-md text-white truncate text-sm">قارورة تيتان الحرارية</p>
+<p class="font-label-md text-label-md text-secondary text-[10px]">رمز المنتج: TTF-32</p>
+<span class="inline-block mt-1 px-1.5 py-0.5 bg-primary-container/10 border border-primary-container/30 text-primary-container font-label-md text-[9px] rounded uppercase">عرض -10%</span>
+</div>
+<div class="flex-1 flex justify-center items-center gap-1">
+<button class="text-secondary hover:text-white"><span class="material-symbols-outlined text-[16px]">remove</span></button>
+<span class="font-label-md text-label-md text-white px-2">1</span>
+<button class="text-secondary hover:text-white"><span class="material-symbols-outlined text-[16px]">add</span></button>
+</div>
+<div class="flex-1 text-left font-label-md text-label-md text-white">
+<span class="line-through text-secondary text-[10px] block">$34.50</span>
+                        $31.05
+                    </div>
+</div>
+</div>
+<!-- Order Summary & Checkout -->
+<div class="glass-panel p-margin flex flex-col gap-4 z-20">
+<div class="flex gap-2">
+<button class="flex-1 bg-[#1A1A1A] border border-[#2C2C2C] text-secondary hover:bg-[#222222] hover:text-white py-2 rounded-lg font-title-md text-sm transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">sell</span> خصم
+                    </button>
+<button class="flex-1 bg-[#1A1A1A] border border-[#2C2C2C] text-secondary hover:bg-[#222222] hover:text-white py-2 rounded-lg font-title-md text-sm transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">note_add</span> ملاحظة
+                    </button>
+</div>
+<div class="space-y-2 border-t border-[#2C2C2C] pt-4">
+<div class="flex justify-between font-body-md text-secondary">
+<span>المجموع الفرعي</span>
+<span class="font-label-md text-label-md text-white">$679.04</span>
+</div>
+<div class="flex justify-between font-body-md text-secondary">
+<span>الضريبة (8.5%)</span>
+<span class="font-label-md text-label-md text-white">$57.72</span>
+</div>
+<div class="flex justify-between font-body-md text-primary-container">
+<span>خصم</span>
+<span class="font-label-md text-label-md">-$3.45</span>
+</div>
+</div>
+<div class="flex justify-between items-end border-t border-[#2C2C2C] pt-4 mb-2">
+<span class="font-title-md text-title-md text-white">الإجمالي</span>
+<span class="font-display-lg text-display-lg text-white leading-none">$733.31</span>
+</div>
+<button class="w-full bg-primary-container hover:bg-[#EF233C] text-white py-4 rounded-xl font-headline-md text-headline-md transition-colors shadow-[0_0_20px_rgba(217,4,41,0.3)] flex items-center justify-center gap-3">
+                    ادفع الآن
+                    <span class="material-symbols-outlined">arrow_back</span>
+</button>
+</div>
+</div>
+</main>
+</body></html>

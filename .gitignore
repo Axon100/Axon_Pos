@@ -1,0 +1,24 @@
+## Visual Studio / .NET ignores
+[Bb]in/
+[Oo]bj/
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+
+## Local database files
+*.db-shm
+*.db-wal
+
+## Logs & Temp files
+*.log
+*.tmp
+*_wpftmp.csproj

@@ -1,0 +1,202 @@
+<UserControl x:Class="Axon.UI.Views.CategoryManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Background="{DynamicResource AppBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
+             FontFamily="{DynamicResource AppFont}" FlowDirection="RightToLeft">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="24,20,24,32">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/> <!-- 1. Header Banner -->
+                <RowDefinition Height="Auto"/> <!-- 2. 2 KPI Cards -->
+                <RowDefinition Height="Auto"/> <!-- 3. Search & Add Category Toolbar -->
+                <RowDefinition Height="*"/>    <!-- 4. Export & Categories Table -->
+            </Grid.RowDefinitions>
+
+            <!-- ==================== 1. HEADER BANNER ==================== -->
+            <Border Grid.Row="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="14" Padding="24,18" Margin="0,0,0,20">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="قائمة الأقسام" FontSize="26" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                    <TextBlock Text="عرض وإدارة أقسام وتصنيفات المنتجات" FontSize="13" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,4,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- ==================== 2. 2 KPI CARDS ==================== -->
+            <Grid Grid.Row="1" Margin="0,0,0,20" HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="240"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="240"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- KPI Card 1: إجمالي الأقسام (Blue List Icon) -->
+                <Border Grid.Column="0" Style="{StaticResource HoverCardStyle}" Padding="20">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Width="44" Height="44" CornerRadius="12" Background="#1E293B" VerticalAlignment="Center" Margin="0,0,16,0">
+                            <materialDesign:PackIcon Kind="ViewList" Width="22" Height="22" Foreground="#3B82F6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="إجمالي الأقسام" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding TotalCategoriesCount, FallbackValue=6}" FontSize="24" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- KPI Card 2: الأقسام النشطة (Green Check Icon) -->
+                <Border Grid.Column="2" Style="{StaticResource HoverCardStyle}" Padding="20">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Width="44" Height="44" CornerRadius="12" Background="#152E22" VerticalAlignment="Center" Margin="0,0,16,0">
+                            <materialDesign:PackIcon Kind="CheckCircle" Width="22" Height="22" Foreground="#4ADE80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="الأقسام النشطة" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding ActiveCategoriesCount, FallbackValue=6}" FontSize="24" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- ==================== 3. SEARCH & ADD TOOLBAR ==================== -->
+            <Border Grid.Row="2" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="14,14,0,0" Padding="16" Margin="0,0,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <!-- Search Box Input (Right in RTL) -->
+                        <ColumnDefinition Width="280"/>
+                        <ColumnDefinition Width="*"/>
+                        <!-- Add Category Button (Left in RTL) -->
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,6">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Grid.Column="0" Kind="Magnify" Width="18" Height="18" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" VerticalAlignment="Center" FontSize="12" materialDesign:HintAssist.Hint="البحث في الأقسام..."/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Add Category Button (Red) -->
+                    <Button Grid.Column="2" Command="{Binding OpenAddCategoryDialogCommand}" Background="#EF4444" Foreground="White" BorderThickness="0" Padding="16,6" Height="38">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="+  إضافة قسم جديد" FontSize="13" FontWeight="Bold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- ==================== 4. EXPORT & DATA TABLE ==================== -->
+            <Border Grid.Row="3" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1,0,1,1" CornerRadius="0,0,14,14" Padding="16">
+                <StackPanel>
+                    <!-- Export Toolbar Header -->
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                    </Grid>
+
+                    <!-- Categories DataGrid Table -->
+                    <DataGrid ItemsSource="{Binding Categories}" AutoGenerateColumns="False" CanUserAddRows="False" Background="Transparent" RowBackground="{DynamicResource AppBgBrush}" AlternatingRowBackground="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}" HeadersVisibility="Column" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource CardBorderBrush}" GridLinesVisibility="None" RowHeight="52">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
+                                <Setter Property="FontSize" Value="12"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="Padding" Value="16,10"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+
+                        <DataGrid.Columns>
+                            <!-- 1. القسم -->
+                            <DataGridTextColumn Header="القسم" Binding="{Binding Name}" Width="180">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <!-- 2. الوصف -->
+                            <DataGridTextColumn Header="الوصف" Binding="{Binding Description}" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <!-- 3. عدد المنتجات (Blue Badge) -->
+                            <DataGridTemplateColumn Header="عدد المنتجات" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#103B82F6" BorderBrush="#303B82F6" BorderThickness="1" CornerRadius="10" Padding="10,3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding ProductsCount}" FontSize="11" FontWeight="Bold" Foreground="#3B82F6"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- 4. الحالة (Green Active Badge) -->
+                            <DataGridTemplateColumn Header="الحالة" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#152E22" CornerRadius="12" Padding="12,3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock Text="نشط" FontSize="11" FontWeight="Bold" Foreground="#4ADE80"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <!-- 5. العمليات -->
+                            <DataGridTemplateColumn Header="العمليات" Width="110">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource TextSecondaryBrush}" Padding="3" Width="26" Height="26" ToolTip="معاينة">
+                                                <materialDesign:PackIcon Kind="EyeOutline" Width="14" Height="14"/>
+                                            </Button>
+                                            <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource TextSecondaryBrush}" Padding="3" Width="26" Height="26" ToolTip="تعديل">
+                                                <materialDesign:PackIcon Kind="SquareEditOutline" Width="14" Height="14"/>
+                                            </Button>
+                                            <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource TextSecondaryBrush}" Padding="3" Width="26" Height="26" ToolTip="حذف">
+                                                <materialDesign:PackIcon Kind="TrashCanOutline" Width="14" Height="14"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Axon.Application/Axon.Application.csproj" />
+  <Project Path="Axon.Domain/Axon.Domain.csproj" />
+  <Project Path="Axon.Infrastructure/Axon.Infrastructure.csproj" />
+  <Project Path="Axon.Tests/Axon.Tests.csproj" />
+  <Project Path="Axon.UI/Axon.UI.csproj" />
+</Solution>
