@@ -120,21 +120,15 @@
                     <Grid.ColumnDefinitions>
                         <!-- 1. Barcode / Code Search -->
                         <ColumnDefinition Width="1.5*"/>
-                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="14"/>
                         <!-- 2. Category Picker -->
-                        <ColumnDefinition Width="1.5*"/>
-                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="1.8*"/>
+                        <ColumnDefinition Width="14"/>
                         <!-- 3. Product Picker -->
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="12"/>
-                        <!-- 4. Cost Price -->
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="12"/>
-                        <!-- 5. Selling Price -->
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="12"/>
-                        <!-- 6. Label Count -->
-                        <ColumnDefinition Width="1.2*"/>
+                        <ColumnDefinition Width="2.5*"/>
+                        <ColumnDefinition Width="14"/>
+                        <!-- 4. Label Count -->
+                        <ColumnDefinition Width="1.5*"/>
                     </Grid.ColumnDefinitions>
 
                     <!-- 1. بواسطة الباركود / الكود -->
@@ -165,20 +159,8 @@
                                   Padding="10,6" Height="34"/>
                     </StackPanel>
 
-                    <!-- 4. سعر الشراء -->
+                    <!-- 4. عدد الملصقات -->
                     <StackPanel Grid.Column="6">
-                        <TextBlock Style="{StaticResource BarcodeFieldLabel}" Text="سعر الشراء:"/>
-                        <TextBox Text="{Binding CostPrice, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource BarcodeFilterInput}" TextAlignment="Center"/>
-                    </StackPanel>
-
-                    <!-- 5. سعر البيع -->
-                    <StackPanel Grid.Column="8">
-                        <TextBlock Style="{StaticResource BarcodeFieldLabel}" Text="سعر البيع:"/>
-                        <TextBox Text="{Binding SellingPrice, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource BarcodeFilterInput}" TextAlignment="Center" FontWeight="Bold" Foreground="#ffb3af"/>
-                    </StackPanel>
-
-                    <!-- 6. عدد الملصقات -->
-                    <StackPanel Grid.Column="10">
                         <TextBlock Style="{StaticResource BarcodeFieldLabel}" Text="عدد الملصقات:"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
