@@ -47,17 +47,11 @@ namespace Axon.UI.ViewModels
         [ObservableProperty]
         private ObservableCollection<ExpenseItemViewModel> _filteredExpenses = new();
 
-        public ICommand AddExpenseCommand { get; }
-        public ICommand SearchCommand { get; }
-
         private readonly IRepository<Expense> _expenseRepository;
 
         public ExpensesViewModel(IRepository<Expense> expenseRepository)
         {
             _expenseRepository = expenseRepository;
-
-            AddExpenseCommand = new AsyncRelayCommand(OnAddExpenseAsync);
-            SearchCommand = new RelayCommand(OnSearch);
 
             Title = "المصروفات الخارجية والنفقات";
             _ = LoadDataAsync();
@@ -107,34 +101,38 @@ namespace Axon.UI.ViewModels
             }
         }
 
-        private async Task OnAddExpenseAsync()
+        [RelayCommand]
+        private async Task AddExpenseAsync()
         {
-            await System.Windows.Application.Current.Dispatcher.InvokeAsync(async () =>
+            try
             {
                 var dialog = new Axon.UI.Views.AddExpenseWindow();
+                var mainWindow = System.Windows.Application.Current?.MainWindow;
+                if (mainWindow != null && mainWindow.IsVisible)
+                {
+                    dialog.Owner = mainWindow;
+                }
+
                 if (dialog.ShowDialog() == true && dialog.Result != null)
                 {
-                    try
+                    var newExpense = new Expense
                     {
-                        var newExpense = new Expense
-                        {
-                            Category = string.IsNullOrEmpty(dialog.Result.Category) ? "نثريات ومصروفات" : dialog.Result.Category,
-                            Description = string.IsNullOrEmpty(dialog.Result.Description) ? "مصروف خارجي" : dialog.Result.Description,
-                            Amount = dialog.Result.Amount,
-                            ExpenseDate = DateTimeOffset.Now,
-                            ReferenceNumber = dialog.Result.DocNumber,
-                            UserId = UserSessionService.CurrentUserId > 0 ? UserSessionService.CurrentUserId : 1
-                        };
+                        Category = string.IsNullOrEmpty(dialog.Result.Category) ? "نثريات ومصروفات" : dialog.Result.Category,
+                        Description = string.IsNullOrEmpty(dialog.Result.Description) ? "مصروف خارجي" : dialog.Result.Description,
+                        Amount = dialog.Result.Amount,
+                        ExpenseDate = DateTimeOffset.Now,
+                        ReferenceNumber = dialog.Result.DocNumber,
+                        UserId = UserSessionService.CurrentUserId > 0 ? UserSessionService.CurrentUserId : 1
+                    };
 
-                        await _expenseRepository.AddAsync(newExpense);
-                        await LoadDataAsync();
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Windows.MessageBox.Show($"فشل حفظ المصروف: {ex.Message}", "خطأ في قاعدة البيانات", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                    }
+                    await _expenseRepository.AddAsync(newExpense);
+                    await LoadDataAsync();
                 }
-            });
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"فشل فتح نافذة المصروفات: {ex.Message}", "خطأ في التشغيل", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
         }
 
         partial void OnSearchTextChanged(string value)
