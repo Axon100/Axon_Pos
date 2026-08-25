@@ -247,9 +247,10 @@ namespace Axon.Infrastructure.Services
             }
 
             // Assign Cashier default permissions if empty
-            var cashierRoles = await _dbContext.Roles.Include(r => r.Permissions)
+            var allRolesList = await _dbContext.Roles.Include(r => r.Permissions).ToListAsync();
+            var cashierRoles = allRolesList
                 .Where(r => r.Id == 2 || r.Name.Contains("Cashier", StringComparison.OrdinalIgnoreCase) || r.Name.Contains("كاشير"))
-                .ToListAsync();
+                .ToList();
 
             var cashierPermCodes = new[] { "Dashboard.View", "POS.View", "POS.Sell", "POS.Discount", "POS.Refund", "Products.View", "Inventory.View" };
             var cashierPermObjects = allPerms.Where(p => cashierPermCodes.Contains(p.Code)).ToList();
