@@ -75,12 +75,17 @@
                     <!-- Product Info Box -->
                     <Border Background="#111111" BorderBrush="#222222" BorderThickness="1" CornerRadius="10" Padding="14,12" Margin="0,0,0,16">
                         <Grid>
-                            <StackPanel VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,12,0">
                                 <TextBlock Text="الصنف المحدد:" FontSize="11" Foreground="#8E8E93" FontWeight="SemiBold" Margin="0,0,0,2"/>
-                                <TextBlock x:Name="TxtProductName" Text="اسم المنتج" FontSize="15" FontWeight="Bold" Foreground="White"/>
+                                <TextBlock x:Name="TxtProductName" Text="اسم المنتج" FontSize="15" FontWeight="Bold" Foreground="White" TextTrimming="CharacterEllipsis"/>
                             </StackPanel>
                             
-                            <Border HorizontalAlignment="Left" VerticalAlignment="Center" Background="#224AE176" BorderBrush="#444AE176" BorderThickness="1" CornerRadius="6" Padding="10,4">
+                            <Border Grid.Column="1" VerticalAlignment="Center" Background="#224AE176" BorderBrush="#444AE176" BorderThickness="1" CornerRadius="6" Padding="10,5">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="المتاح بالرصيد: " FontSize="11" Foreground="#4AE176" FontWeight="SemiBold"/>
                                     <TextBlock x:Name="TxtCurrentStock" Text="0" FontSize="12" Foreground="#4AE176" FontWeight="ExtraBold"/>
