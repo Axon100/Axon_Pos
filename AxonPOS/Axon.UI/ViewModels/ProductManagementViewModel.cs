@@ -21,6 +21,15 @@ namespace Axon.UI.ViewModels
         private int _selectedTab = 0;
 
         [ObservableProperty]
+        private bool _isCardViewMode = true; // Default to 3D Cards Box View
+
+        [RelayCommand]
+        private void SetCardViewMode() => IsCardViewMode = true;
+
+        [RelayCommand]
+        private void SetTableViewMode() => IsCardViewMode = false;
+
+        [ObservableProperty]
         private string _showingProductsCountDisplay = string.Empty;
 
         [ObservableProperty]
