@@ -301,18 +301,14 @@
                                         </Grid>
 
                                         <!-- Row 2: Stock Fill Level & Counter -->
-                                        <Border Grid.Row="2" Background="#111111" BorderBrush="#222222" BorderThickness="1" CornerRadius="10" Padding="12,10" Margin="0,0,0,14">
-                                            <StackPanel>
-                                                <Grid Margin="0,0,0,6">
-                                                    <TextBlock Text="كمية المخزون الحالي" FontSize="11" Foreground="#8E8E93" FontWeight="SemiBold"/>
-                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                                        <TextBlock Text="{Binding CurrentStock}" FontSize="16" FontWeight="ExtraBold" Foreground="#4AE176"/>
-                                                        <TextBlock Text=" / " FontSize="14" Foreground="#8E8E93" VerticalAlignment="Center"/>
-                                                        <TextBlock Text="{Binding RequiredStock}" FontSize="13" Foreground="#8E8E93" VerticalAlignment="Center"/>
-                                                    </StackPanel>
-                                                </Grid>
-                                                <ProgressBar Value="{Binding CurrentStock}" Maximum="{Binding RequiredStock}" Height="6" Background="#222222" Foreground="#4AE176" BorderThickness="0"/>
-                                            </StackPanel>
+                                        <Border Grid.Row="2" Background="#111111" BorderBrush="#222222" BorderThickness="1" CornerRadius="10" Padding="14,10" Margin="0,0,0,14">
+                                            <Grid>
+                                                <TextBlock Text="كمية المخزون الحالي" FontSize="11" Foreground="#8E8E93" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding CurrentStock}" FontSize="16" FontWeight="ExtraBold" Foreground="#4AE176"/>
+                                                    <TextBlock Text=" قطعة" FontSize="12" Foreground="#4AE176" FontWeight="Bold" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                                                </StackPanel>
+                                            </Grid>
                                         </Border>
 
                                         <!-- Row 3: Quick Action Buttons (Restock / Deduct / Delete) -->
@@ -431,8 +427,6 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
 
-                        <!-- Required Stock -->
-                        <DataGridTextColumn Header="{DynamicResource HeaderRequired}" Binding="{Binding RequiredStock}" Foreground="#B3B3B3" Width="120"/>
                         
                         <!-- Status Badge -->
                         <DataGridTemplateColumn Header="{DynamicResource HeaderStatus}" Width="140">
