@@ -285,26 +285,33 @@ namespace Axon.UI.ViewModels
                 return;
             }
 
-            IsBusy = true;
-            try
-            {
-                var product = await _productRepository.GetByIdAsync(item.Id);
-                if (product != null)
-                {
-                    if (product.CurrentStock <= 0)
-                    {
-                        AxonMessageBox.Show($"الصنف ({item.Name}) مخزونه الحالي 0 ولا يمكن الخصم منه!", "تنبيه المخزون", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return;
-                    }
+            var product = await _productRepository.GetByIdAsync(item.Id);
+            if (product == null) return;
 
-                    product.CurrentStock = Math.Max(0, product.CurrentStock - 1);
+            if (product.CurrentStock <= 0)
+            {
+                AxonMessageBox.Show($"الصنف ({item.Name}) مخزونه الحالي 0 ولا يمكن الخصم منه!", "تنبيه المخزون", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var dialog = new DeductStockWindow();
+            dialog.InitializeData(item.Name, (int)product.CurrentStock);
+
+            if (dialog.ShowDialog() == true && dialog.QuantityToDeduct > 0)
+            {
+                IsBusy = true;
+                try
+                {
+                    int qtyDeducted = dialog.QuantityToDeduct;
+                    product.CurrentStock = Math.Max(0, product.CurrentStock - qtyDeducted);
                     await _productRepository.UpdateAsync(product);
                     await LoadDataAsync();
+                    AxonMessageBox.Show($"تم خصم كمية ({qtyDeducted}) قطعة من صنف ({item.Name}) بنجاح!", "خصم مخزون", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-            }
-            finally
-            {
-                IsBusy = false;
+                finally
+                {
+                    IsBusy = false;
+                }
             }
         }
 

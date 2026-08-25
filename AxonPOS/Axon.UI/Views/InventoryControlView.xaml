@@ -330,7 +330,7 @@
                                             </Button>
 
                                             <!-- Stock Deduct Button -->
-                                            <Button Grid.Column="2" Command="{Binding DataContext.DeductStockCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Style="{StaticResource Axon3DSecondaryButtonStyle}" Height="32" Padding="4,0" ToolTip="خصم / سحب قطعة واحدة من المخزون">
+                                            <Button Grid.Column="2" Command="{Binding DataContext.DeductStockCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Style="{StaticResource Axon3DSecondaryButtonStyle}" Height="32" Padding="4,0" ToolTip="خصم وسحب كمية مخصصة من المخزون">
                                                 <StackPanel Orientation="Horizontal">
                                                     <materialDesign:PackIcon Kind="Minus" Width="14" Height="14" Foreground="#FBBF24" Margin="0,0,4,0"/>
                                                     <TextBlock Text="خصم" FontSize="11" FontWeight="Bold"/>
