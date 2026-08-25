@@ -54,6 +54,17 @@ namespace Axon.UI.ViewModels
             OnPropertyChanged(nameof(IsExpensesVisible));
             OnPropertyChanged(nameof(IsReportsVisible));
             OnPropertyChanged(nameof(IsSettingsVisible));
+
+            if (IsDashboardVisible)
+                CurrentViewModel = App.AppHost!.Services.GetRequiredService<DashboardViewModel>();
+            else if (IsPosVisible)
+                CurrentViewModel = App.AppHost!.Services.GetRequiredService<PosTerminalViewModel>();
+            else if (IsInventoryVisible)
+                CurrentViewModel = App.AppHost!.Services.GetRequiredService<InventoryControlViewModel>();
+            else if (IsProductsVisible)
+                CurrentViewModel = App.AppHost!.Services.GetRequiredService<ProductManagementViewModel>();
+            else
+                CurrentViewModel = App.AppHost!.Services.GetRequiredService<PosTerminalViewModel>();
         }
 
         [RelayCommand]

@@ -247,15 +247,23 @@ namespace Axon.Infrastructure.Services
             }
 
             // Assign Cashier default permissions if empty
-            cashierRole = await _dbContext.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.Name == "Cashier" || r.Id == 2);
-            if (cashierRole != null && !cashierRole.Permissions.Any())
+            var cashierRoles = await _dbContext.Roles.Include(r => r.Permissions)
+                .Where(r => r.Id == 2 || r.Name.Contains("Cashier", StringComparison.OrdinalIgnoreCase) || r.Name.Contains("كاشير"))
+                .ToListAsync();
+
+            var cashierPermCodes = new[] { "Dashboard.View", "POS.View", "POS.Sell", "POS.Discount", "POS.Refund", "Products.View", "Inventory.View" };
+            var cashierPermObjects = allPerms.Where(p => cashierPermCodes.Contains(p.Code)).ToList();
+
+            foreach (var cRole in cashierRoles)
             {
-                var cashierPermCodes = new[] { "Dashboard.View", "POS.View", "POS.Sell", "Products.View", "Inventory.View" };
-                foreach (var p in allPerms.Where(p => cashierPermCodes.Contains(p.Code)))
+                if (cRole != null && !cRole.Permissions.Any())
                 {
-                    cashierRole.Permissions.Add(p);
+                    foreach (var p in cashierPermObjects)
+                    {
+                        cRole.Permissions.Add(p);
+                    }
+                    adminUpdated = true;
                 }
-                adminUpdated = true;
             }
 
             if (adminUpdated)
@@ -328,6 +336,17 @@ namespace Axon.Infrastructure.Services
                         }
                     }
                 }
+            }
+
+            // Fallback for Cashier roles if permissions are empty
+            if (effectiveCodes.Count == 0 && (user.RoleId == 2 || (user.Role != null && (user.Role.Name.Contains("Cashier", StringComparison.OrdinalIgnoreCase) || user.Role.Name.Contains("كاشير")))))
+            {
+                effectiveCodes.Add("POS.View");
+                effectiveCodes.Add("POS.Sell");
+                effectiveCodes.Add("POS.Discount");
+                effectiveCodes.Add("POS.Refund");
+                effectiveCodes.Add("Products.View");
+                effectiveCodes.Add("Inventory.View");
             }
 
             return effectiveCodes;

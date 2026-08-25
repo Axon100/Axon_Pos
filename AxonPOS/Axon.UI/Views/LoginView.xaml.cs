@@ -16,6 +16,11 @@ namespace Axon.UI.Views
         private void ViewModel_LoginSucceeded()
         {
             var mainWindow = App.AppHost!.Services.GetRequiredService<MainWindow>();
+            System.Windows.Application.Current.MainWindow = mainWindow;
+            if (mainWindow.DataContext is MainWindowViewModel mainVm)
+            {
+                mainVm.RefreshPermissions();
+            }
             mainWindow.Show();
             this.Close();
         }
