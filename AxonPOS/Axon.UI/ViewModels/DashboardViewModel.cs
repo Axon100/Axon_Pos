@@ -268,7 +268,7 @@ namespace Axon.UI.ViewModels
                     { 
                         TxId = !string.IsNullOrEmpty(s.ReceiptNumber) ? s.ReceiptNumber : $"#{s.Id}", 
                         Customer = "عميل نقدي", 
-                        AmountDisplay = $"{s.Total:N2} ج.م", 
+                        AmountDisplay = $"{s.Total:#,##0.##} ج.م", 
                         Status = statusAr, 
                         Time = s.Date.ToString("yyyy/MM/dd  hh:mm tt", arCulture)
                     });
@@ -278,7 +278,7 @@ namespace Axon.UI.ViewModels
                 InventoryAlerts.Clear();
                 foreach (var p in lowStockProducts.Take(5))
                 {
-                    string alertMsg = p.CurrentStock <= 0 ? "نفذت الكمية بالكامل بالمخزن!" : $"المتبقي {p.CurrentStock} قطع فقط";
+                    string alertMsg = p.CurrentStock <= 0 ? "نفذت الكمية بالكامل بالمخزن!" : $"المتبقي {(int)p.CurrentStock} قطع فقط";
                     InventoryAlerts.Add(new InventoryAlertItem 
                     { 
                         ProductName = string.IsNullOrEmpty(p.NameAR) ? p.NameEN : p.NameAR, 
@@ -304,7 +304,7 @@ namespace Axon.UI.ViewModels
         public decimal Amount { get; set; }
         public double BarHeight { get; set; } = 8;
         public double BarHeightPercentage { get; set; }
-        public string AmountDisplay => $"{Amount:N2} ج.م";
+        public string AmountDisplay => $"{Amount:#,##0.##} ج.م";
     }
 
     public class CategoryRevenueDistributionItem
@@ -312,7 +312,7 @@ namespace Axon.UI.ViewModels
         public string CategoryName { get; set; } = string.Empty;
         public decimal TotalSales { get; set; }
         public double Percentage { get; set; }
-        public string PercentageDisplay => $"{Percentage:F1}%";
+        public string PercentageDisplay => Percentage % 1 == 0 ? $"{Percentage:0}%" : $"{Percentage:0.#}%";
         public string ColorHex { get; set; } = "#D90429";
     }
 

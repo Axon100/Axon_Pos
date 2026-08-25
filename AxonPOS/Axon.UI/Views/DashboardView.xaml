@@ -75,7 +75,7 @@
                                 <materialDesign:PackIcon Kind="TrendingUp" Foreground="#4AE176" Width="18" Height="18"/>
                             </Border>
                         </Grid>
-                        <TextBlock Grid.Row="1" Text="{Binding TotalProfit, StringFormat='{}{0:N2} ج.م'}" FontSize="22" FontWeight="Bold" Foreground="#4AE176" Margin="0,10,0,6"/>
+                        <TextBlock Grid.Row="1" Text="{Binding TotalProfit, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="22" FontWeight="Bold" Foreground="#4AE176" Margin="0,10,0,6"/>
                         <TextBlock Grid.Row="2" Text="المبيعات - المرتجعات - المصروفات" Foreground="#6B7280" FontSize="11"/>
                     </Grid>
                 </Border>
@@ -98,7 +98,7 @@
                                 <materialDesign:PackIcon Kind="CashMinus" Foreground="#EF4444" Width="18" Height="18"/>
                             </Border>
                         </Grid>
-                        <TextBlock Grid.Row="1" Text="{Binding TotalExpenses, StringFormat='{}{0:N2} ج.م'}" FontSize="22" FontWeight="Bold" Foreground="#EF4444" Margin="0,10,0,6"/>
+                        <TextBlock Grid.Row="1" Text="{Binding TotalExpenses, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="22" FontWeight="Bold" Foreground="#EF4444" Margin="0,10,0,6"/>
                         <TextBlock Grid.Row="2" Text="إجمالي النفقات في الفترة المحددة" Foreground="#6B7280" FontSize="11"/>
                     </Grid>
                 </Border>
@@ -179,7 +179,7 @@
                             </StackPanel>
 
                             <Border Grid.Column="1" Background="#162D1C" BorderBrush="#234D28" BorderThickness="1" CornerRadius="6" Padding="10,4" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding TotalSales, StringFormat='إجمالي المبيعات: {0:N2} ج.م'}" FontSize="11" FontWeight="Bold" Foreground="#4AE176"/>
+                                <TextBlock Text="{Binding TotalSales, StringFormat='إجمالي المبيعات: {0:#,##0.##} ج.م'}" FontSize="11" FontWeight="Bold" Foreground="#4AE176"/>
                             </Border>
                         </Grid>
 
@@ -250,7 +250,7 @@
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock Grid.Column="0" Text="{Binding CategoryName}" FontWeight="SemiBold" FontSize="12" Foreground="White" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
                                                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                                                    <TextBlock Text="{Binding TotalSales, StringFormat='{}{0:N0} ج.م'}" FontSize="11" Foreground="#8E8E93" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding TotalSales, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="11" Foreground="#8E8E93" Margin="0,0,8,0" VerticalAlignment="Center"/>
                                                     <Border Background="#1E1E1E" CornerRadius="4" Padding="6,2">
                                                         <TextBlock Text="{Binding PercentageDisplay}" FontWeight="Bold" FontSize="11" Foreground="#4AE176"/>
                                                     </Border>
