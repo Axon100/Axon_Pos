@@ -18,6 +18,15 @@ namespace Axon.UI.ViewModels
         private string _searchText = string.Empty;
 
         [ObservableProperty]
+        private bool _isCardViewMode = true; // Default to 3D Cards Box View
+
+        [RelayCommand]
+        private void SetCardViewMode() => IsCardViewMode = true;
+
+        [RelayCommand]
+        private void SetTableViewMode() => IsCardViewMode = false;
+
+        [ObservableProperty]
         private DateTime _dateFrom = DateTime.Today.AddDays(-30);
 
         [ObservableProperty]
