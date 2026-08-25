@@ -921,7 +921,113 @@ namespace Axon.UI.ViewModels
                         ws.Columns().AdjustToContents();
                     }
 
-                    wb.SaveAs(filePath);
+                    if (ext == ".xlsx" || ext == ".xlsm" || ext == ".xltx" || ext == ".xltm")
+                    {
+                        wb.SaveAs(filePath);
+                    }
+                    else if (ext == ".csv" || ext == ".txt")
+                    {
+                        var sb = new StringBuilder();
+                        sb.AppendLine($"تقرير Axon POS — الفترة من {StartDate:yyyy/MM/dd} إلى {EndDate:yyyy/MM/dd}");
+                        sb.AppendLine();
+
+                        if (SelectedReportTab == 1)
+                        {
+                            sb.AppendLine("كود القسم,اسم القسم / التصنيف,عدد الأصناف,الكمية المباعة,إجمالي المبيعات (ج.م),النسبة %");
+                            foreach (var i in SalesClassificationReport)
+                                sb.AppendLine($"\"{i.CategoryCode}\",\"{i.CategoryName}\",{i.DistinctProductsCount},{i.QuantitySold},{i.TotalSales},{i.PercentageDisplay}");
+                            sb.AppendLine($",الإجمالي العام,,{CategoryReportTotalQty},{CategoryReportTotalSales},100%");
+                        }
+                        else if (SelectedReportTab == 2)
+                        {
+                            if (IsSingleProductMode)
+                            {
+                                sb.AppendLine("رقم الفاتورة,التاريخ والوقت,الكاشير,الكمية المباعة,سعر الوحدة,الخصم,إجمالي البيع");
+                                foreach (var i in SingleProductCycleReport)
+                                    sb.AppendLine($"\"{i.ReceiptNumber}\",\"{i.DateDisplay}\",\"{i.CashierName}\",{i.Quantity},{i.UnitPrice},{i.DiscountAmount},{i.LineTotal}");
+                                sb.AppendLine($",,الإجمالي الشامل,{ProductReportTotalQty},,,{ProductReportTotalSales}");
+                            }
+                            else
+                            {
+                                sb.AppendLine("كود الصنف,اسم المنتج,القسم / التصنيف,سعر الوحدة,الكمية المباعة,إجمالي المبيعات,النسبة %");
+                                foreach (var i in ProductSalesReport)
+                                    sb.AppendLine($"\"{i.DisplayCode}\",\"{i.ProductName}\",\"{i.CategoryName}\",{i.UnitPrice},{i.QuantitySold},{i.TotalSales},{i.PercentageDisplay}");
+                                sb.AppendLine($",,,الإجمالي الكلي,{ProductReportTotalQty},{ProductReportTotalSales},100%");
+                            }
+                        }
+                        else if (SelectedReportTab == 3)
+                        {
+                            sb.AppendLine("رقم الفاتورة,التاريخ والوقت,الكاشير,عدد القطع,المجموع الفرعي,الخصم,الضريبة,الإجمالي النهائي,الحالة");
+                            foreach (var i in SalesInvoicesReport)
+                                sb.AppendLine($"\"{i.ReceiptNumber}\",\"{i.DateDisplay}\",\"{i.CashierName}\",{i.ItemsCount},{i.SubTotal},{i.DiscountAmount},{i.TaxAmount},{i.Total},\"{i.Status}\"");
+                            sb.AppendLine($",,,{SalesInvoicesReport.Sum(x=>x.ItemsCount)},{SalesInvoicesReport.Sum(x=>x.SubTotal)},{TotalDiscounts},{TotalTax},{TotalRevenue},");
+                        }
+                        else
+                        {
+                            sb.AppendLine("رقم التقفيلة,الكاشير / النقطة,الفترة الزمنية,نقدي (ج.م),مرتجع (ج.م),صافي البيع (ج.م),الحالة");
+                            foreach (var i in ClosedRegisterReport)
+                                sb.AppendLine($"\"{i.ClosureCode}\",\"{i.CashierName} ({i.TerminalName})\",\"{i.PeriodDisplay}\",{i.CashSales},{i.ReturnsAmount},{i.NetSales},\"{i.Status}\"");
+                            sb.AppendLine($",,الإجمالي العام,{ClosedBoxCashTotal},{ClosedBoxReturnTotal},{ClosedBoxNetTotal},");
+                        }
+
+                        File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
+                    }
+                    else
+                    {
+                        // PDF, Word DOCX, HTML, or any other format
+                        var sb = new StringBuilder();
+                        sb.AppendLine("<!DOCTYPE html><html dir='rtl' lang='ar'><head><meta charset='utf-8'><title>تقرير Axon POS</title>");
+                        sb.AppendLine("<style>body{font-family:'Segoe UI',Tahoma,sans-serif;padding:25px;background:#fff;color:#111;} h1{color:#d90429;margin-bottom:6px;} h2{color:#333;} table{width:100%;border-collapse:collapse;margin-top:16px;} th,td{border:1px solid #ccc;padding:10px 14px;text-align:right;} th{background:#d90429;color:#fff;font-weight:bold;} tr:nth-child(even){background:#f8f9fa;} .total-row{font-weight:bold;background:#fff3cd;}</style></head><body>");
+                        sb.AppendLine($"<h1>تقرير Axon POS — التقارير والتحليلات المالية</h1>");
+                        sb.AppendLine($"<p><b>الفترة الزمنية:</b> من {StartDate:yyyy/MM/dd} إلى {EndDate:yyyy/MM/dd}</p><hr/>");
+
+                        if (SelectedReportTab == 1)
+                        {
+                            sb.AppendLine("<h2>تقرير تصنيف مبيعات الأقسام</h2>");
+                            sb.AppendLine("<table><thead><tr><th>كود القسم</th><th>اسم القسم / التصنيف</th><th>عدد الأصناف</th><th>الكمية المباعة</th><th>إجمالي المبيعات (ج.م)</th><th>النسبة %</th></tr></thead><tbody>");
+                            foreach (var i in SalesClassificationReport)
+                                sb.AppendLine($"<tr><td>{i.CategoryCode}</td><td>{i.CategoryName}</td><td>{i.DistinctProductsCount}</td><td>{i.QuantitySold}</td><td>{i.TotalSales:N2}</td><td>{i.PercentageDisplay}</td></tr>");
+                            sb.AppendLine($"<tr class='total-row'><td colspan='3'>الإجمالي العام</td><td>{CategoryReportTotalQty}</td><td>{CategoryReportTotalSales:N2}</td><td>100%</td></tr></tbody></table>");
+                        }
+                        else if (SelectedReportTab == 2)
+                        {
+                            if (IsSingleProductMode)
+                            {
+                                sb.AppendLine($"<h2>تقرير دورة مبيعات المنتج: {SingleProductName} ({SingleProductSku})</h2>");
+                                sb.AppendLine("<table><thead><tr><th>رقم الفاتورة</th><th>التاريخ والوقت</th><th>الكاشير</th><th>الكمية المباعة</th><th>سعر الوحدة</th><th>الخصم</th><th>إجمالي البيع</th></tr></thead><tbody>");
+                                foreach (var i in SingleProductCycleReport)
+                                    sb.AppendLine($"<tr><td>{i.ReceiptNumber}</td><td>{i.DateDisplay}</td><td>{i.CashierName}</td><td>{i.Quantity}</td><td>{i.UnitPrice:N2}</td><td>{i.DiscountAmount:N2}</td><td>{i.LineTotal:N2}</td></tr>");
+                                sb.AppendLine($"<tr class='total-row'><td colspan='3'>الإجمالي الشامل</td><td>{ProductReportTotalQty}</td><td colspan='2'></td><td>{ProductReportTotalSales:N2}</td></tr></tbody></table>");
+                            }
+                            else
+                            {
+                                sb.AppendLine("<h2>تقرير مبيعات منتج موسع</h2>");
+                                sb.AppendLine("<table><thead><tr><th>كود الصنف</th><th>اسم المنتج</th><th>القسم / التصنيف</th><th>سعر الوحدة</th><th>الكمية المباعة</th><th>إجمالي المبيعات</th><th>النسبة %</th></tr></thead><tbody>");
+                                foreach (var i in ProductSalesReport)
+                                    sb.AppendLine($"<tr><td>{i.DisplayCode}</td><td>{i.ProductName}</td><td>{i.CategoryName}</td><td>{i.UnitPrice:N2}</td><td>{i.QuantitySold}</td><td>{i.TotalSales:N2}</td><td>{i.PercentageDisplay}</td></tr>");
+                                sb.AppendLine($"<tr class='total-row'><td colspan='4'>الإجمالي الكلي</td><td>{ProductReportTotalQty}</td><td>{ProductReportTotalSales:N2}</td><td>100%</td></tr></tbody></table>");
+                            }
+                        }
+                        else if (SelectedReportTab == 3)
+                        {
+                            sb.AppendLine("<h2>تقرير سجل الفواتير والمبيعات التفصيلي</h2>");
+                            sb.AppendLine("<table><thead><tr><th>رقم الفاتورة</th><th>التاريخ والوقت</th><th>الكاشير</th><th>عدد القطع</th><th>المجموع الفرعي</th><th>الخصم</th><th>الضريبة</th><th>الإجمالي النهائي</th><th>الحالة</th></tr></thead><tbody>");
+                            foreach (var i in SalesInvoicesReport)
+                                sb.AppendLine($"<tr><td>{i.ReceiptNumber}</td><td>{i.DateDisplay}</td><td>{i.CashierName}</td><td>{i.ItemsCount}</td><td>{i.SubTotal:N2}</td><td>{i.DiscountAmount:N2}</td><td>{i.TaxAmount:N2}</td><td>{i.Total:N2}</td><td>{i.Status}</td></tr>");
+                            sb.AppendLine($"<tr class='total-row'><td colspan='3'>الإجمالي العام</td><td>{SalesInvoicesReport.Sum(x=>x.ItemsCount)}</td><td>{SalesInvoicesReport.Sum(x=>x.SubTotal):N2}</td><td>{TotalDiscounts:N2}</td><td>{TotalTax:N2}</td><td>{TotalRevenue:N2}</td><td></td></tr></tbody></table>");
+                        }
+                        else
+                        {
+                            sb.AppendLine("<h2>تقرير الصندوق المغلق (تقفيلات الشيفت)</h2>");
+                            sb.AppendLine("<table><thead><tr><th>رقم التقفيلة</th><th>الكاشير / النقطة</th><th>الفترة الزمنية</th><th>نقدي (ج.م)</th><th>مرتجع (ج.م)</th><th>صافي البيع (ج.م)</th><th>الحالة</th></tr></thead><tbody>");
+                            foreach (var i in ClosedRegisterReport)
+                                sb.AppendLine($"<tr><td>{i.ClosureCode}</td><td>{i.CashierName} ({i.TerminalName})</td><td>{i.PeriodDisplay}</td><td>{i.CashSales:N2}</td><td>{i.ReturnsAmount:N2}</td><td>{i.NetSales:N2}</td><td>{i.Status}</td></tr>");
+                            sb.AppendLine($"<tr class='total-row'><td colspan='3'>الإجمالي العام</td><td>{ClosedBoxCashTotal:N2}</td><td>{ClosedBoxReturnTotal:N2}</td><td>{ClosedBoxNetTotal:N2}</td><td></td></tr></tbody></table>");
+                        }
+
+                        sb.AppendLine("</body></html>");
+                        File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
+                    }
                 });
 
                 Axon.UI.Views.AxonMessageBox.Show($"تم تصدير وحفظ التقرير بنجاح!\nالمسار: {filePath}", "نجاح التصدير", MessageBoxButton.OK, MessageBoxImage.Information);
