@@ -433,13 +433,7 @@
                         </Button>
                     </Grid>
 
-                    <TextBlock Text="نوع الخصم" Foreground="#b4b5b5" FontSize="12" Margin="0,0,0,6"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
-                        <RadioButton Content="نسبة مئوية (%)" IsChecked="{Binding IsDiscountPercentage}" Foreground="White" Margin="0,0,16,0"/>
-                        <RadioButton Content="مبلغ ثابت (ج.م)" IsChecked="{Binding IsDiscountPercentage, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="White"/>
-                    </StackPanel>
-
-                    <TextBlock Text="قيمة الخصم" Foreground="#b4b5b5" FontSize="12" Margin="0,0,0,6"/>
+                    <TextBlock Text="قيمة الخصم (بالجنيه / ج.م) *" Foreground="#b4b5b5" FontSize="12" Margin="0,0,0,6"/>
                     <TextBox Text="{Binding DiscountInput, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="12,8" Margin="0,0,0,4" FontSize="16" FontWeight="Bold"/>
 
                     <!-- Red Validation Error Text -->

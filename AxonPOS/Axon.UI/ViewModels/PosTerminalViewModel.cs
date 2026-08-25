@@ -172,9 +172,7 @@ namespace Axon.UI.ViewModels
                 return;
             }
 
-            decimal calculatedDiscountInEgp = IsDiscountPercentage ? (Subtotal * (DiscountInput / 100m)) : DiscountInput;
-
-            if (calculatedDiscountInEgp > 30m)
+            if (DiscountInput > 30m)
             {
                 DiscountValidationError = "غير مسموح حدود الخصم 30 جنيه كحد أقصى";
                 HasDiscountError = true;
@@ -207,14 +205,7 @@ namespace Axon.UI.ViewModels
             ValidateDiscount();
             if (HasDiscountError) return;
 
-            if (IsDiscountPercentage)
-            {
-                Discount = Math.Min(30m, Subtotal * (DiscountInput / 100m));
-            }
-            else
-            {
-                Discount = Math.Min(30m, DiscountInput);
-            }
+            Discount = Math.Min(30m, Math.Max(0m, DiscountInput));
             RecalculateTotals();
             IsDiscountDialogOpen = false;
         }
