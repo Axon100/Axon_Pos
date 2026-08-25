@@ -200,7 +200,7 @@
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                         <StackPanel>
                             <!-- 0. تسجيل الرواتب والسلف -->
-                            <RadioButton IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=0}" Style="{StaticResource HrVerticalNavTabStyle}">
+                            <RadioButton GroupName="HrSubTabs" IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=0}" Style="{StaticResource HrVerticalNavTabStyle}">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="CashMultiple" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                     <TextBlock Text="تسجيل الرواتب والسلف" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"/>
@@ -208,7 +208,7 @@
                             </RadioButton>
 
                             <!-- 1. تقرير المرتبات والسلف -->
-                            <RadioButton IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=1}" Style="{StaticResource HrVerticalNavTabStyle}">
+                            <RadioButton GroupName="HrSubTabs" IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=1}" Style="{StaticResource HrVerticalNavTabStyle}">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="FileDocumentOutline" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                     <TextBlock Text="تقرير المرتبات والسلف" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"/>
@@ -216,7 +216,7 @@
                             </RadioButton>
 
                             <!-- 2. تسديد السلف -->
-                            <RadioButton IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=2}" Style="{StaticResource HrVerticalNavTabStyle}">
+                            <RadioButton GroupName="HrSubTabs" IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=2}" Style="{StaticResource HrVerticalNavTabStyle}">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="CashCheck" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                     <TextBlock Text="تسديد السلف" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"/>
@@ -224,7 +224,7 @@
                             </RadioButton>
 
                             <!-- 3. تسجيل حضور وانصراف -->
-                            <RadioButton IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=3}" Style="{StaticResource HrVerticalNavTabStyle}">
+                            <RadioButton GroupName="HrSubTabs" IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=3}" Style="{StaticResource HrVerticalNavTabStyle}">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="ClockCheckOutline" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                     <TextBlock Text="تسجيل حضور وانصراف" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"/>
@@ -232,7 +232,7 @@
                             </RadioButton>
 
                             <!-- 4. تقرير الحضور والانصراف -->
-                            <RadioButton IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=4}" Style="{StaticResource HrVerticalNavTabStyle}">
+                            <RadioButton GroupName="HrSubTabs" IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=4}" Style="{StaticResource HrVerticalNavTabStyle}">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="FileClockOutline" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                     <TextBlock Text="تقرير الحضور والانصراف" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"/>
@@ -240,7 +240,7 @@
                             </RadioButton>
 
                             <!-- 5. تسجيل الخصومات -->
-                            <RadioButton IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=5}" Style="{StaticResource HrVerticalNavTabStyle}">
+                            <RadioButton GroupName="HrSubTabs" IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=5}" Style="{StaticResource HrVerticalNavTabStyle}">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="CashMinus" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                     <TextBlock Text="تسجيل الخصومات" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"/>
@@ -248,7 +248,7 @@
                             </RadioButton>
 
                             <!-- 6. تقرير الخصومات -->
-                            <RadioButton IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=6}" Style="{StaticResource HrVerticalNavTabStyle}">
+                            <RadioButton GroupName="HrSubTabs" IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=6}" Style="{StaticResource HrVerticalNavTabStyle}">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="FilePercentOutline" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                     <TextBlock Text="تقرير الخصومات" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"/>
@@ -256,7 +256,7 @@
                             </RadioButton>
 
                             <!-- 7. الإجازات والغيابات -->
-                            <RadioButton IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=7}" Style="{StaticResource HrVerticalNavTabStyle}">
+                            <RadioButton GroupName="HrSubTabs" IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=7}" Style="{StaticResource HrVerticalNavTabStyle}">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="CalendarAlert" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                     <TextBlock Text="الإجازات والغيابات" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"/>
@@ -264,7 +264,7 @@
                             </RadioButton>
 
                             <!-- 8. تقرير الإجازات والغيابات -->
-                            <RadioButton IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=8}" Style="{StaticResource HrVerticalNavTabStyle}">
+                            <RadioButton GroupName="HrSubTabs" IsChecked="{Binding SelectedTab, Converter={StaticResource IntToBool}, ConverterParameter=8}" Style="{StaticResource HrVerticalNavTabStyle}">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="FileCalendarOutline" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                     <TextBlock Text="تقرير الإجازات والغيابات" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"/>

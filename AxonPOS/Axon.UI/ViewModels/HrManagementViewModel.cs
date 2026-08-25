@@ -245,52 +245,64 @@ namespace Axon.UI.ViewModels
             IsBusy = true;
             try
             {
-                // Ensure HR schema & permissions exist in database
-                await _permissionService.EnsureDefaultPermissionsSeededAsync();
-                var empList = (await _employeeRepository.GetAllAsync()).Where(e => !e.IsDeleted).ToList();
-                Employees.Clear();
-                foreach (var e in empList) Employees.Add(e);
-
-                var advList = (await _advanceRepository.GetAllAsync()).Where(a => !a.IsDeleted).ToList();
-                Advances.Clear();
-                foreach (var a in advList) Advances.Add(a);
-
-                var payList = (await _advancePaymentRepository.GetAllAsync()).Where(p => !p.IsDeleted).ToList();
-                AdvancePayments.Clear();
-                foreach (var p in payList) AdvancePayments.Add(p);
-
-                var salList = (await _salaryPaymentRepository.GetAllAsync()).Where(s => !s.IsDeleted).ToList();
-                SalaryPayments.Clear();
-                foreach (var s in salList) SalaryPayments.Add(s);
-
-                var attList = (await _attendanceRepository.GetAllAsync()).Where(at => !at.IsDeleted).ToList();
-                Attendances.Clear();
-                foreach (var at in attList) Attendances.Add(at);
-
-                var dedList = (await _deductionRepository.GetAllAsync()).Where(d => !d.IsDeleted).ToList();
-                Deductions.Clear();
-                foreach (var d in dedList) Deductions.Add(d);
-
-                var levList = (await _leaveRepository.GetAllAsync()).Where(l => !l.IsDeleted).ToList();
-                Leaves.Clear();
-                foreach (var l in levList) Leaves.Add(l);
-
-                // Update KPI Cards
-                TotalEmployeesCount = Employees.Count(e => e.IsActive);
-                TotalMonthlySalaryPool = Employees.Where(e => e.IsActive).Sum(e => e.BasicSalary);
-                TotalPendingAdvances = Advances.Sum(a => a.RemainingAmount);
-                TotalDeductionsThisMonth = Deductions.Where(d => d.DeductionDate.Month == DateTime.Today.Month && d.DeductionDate.Year == DateTime.Today.Year).Sum(d => d.Amount);
-                TodayPresentCount = Attendances.Count(a => a.Date.Date == DateTime.Today.Date && a.Status == "حاضر");
+                await FetchDataInternalAsync();
             }
             catch (Exception ex)
             {
-                Axon.UI.Views.AxonMessageBox.Show($"خطأ أثناء تحميل بيانات شؤون العاملين: {ex.Message}", "خطأ في التحميل", MessageBoxButton.OK, MessageBoxImage.Error);
+                // Schema fallback if table is missing
+                try
+                {
+                    await _permissionService.EnsureDefaultPermissionsSeededAsync();
+                    await FetchDataInternalAsync();
+                }
+                catch (Exception retryEx)
+                {
+                    Axon.UI.Views.AxonMessageBox.Show($"خطأ أثناء تحميل بيانات شؤون العاملين: {retryEx.Message}", "خطأ في التحميل", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             finally
             {
                 IsBusy = false;
                 _loadLock.Release();
             }
+        }
+
+        private async Task FetchDataInternalAsync()
+        {
+            var empList = (await _employeeRepository.GetAllAsync()).Where(e => !e.IsDeleted).ToList();
+            Employees.Clear();
+            foreach (var e in empList) Employees.Add(e);
+
+            var advList = (await _advanceRepository.GetAllAsync()).Where(a => !a.IsDeleted).ToList();
+            Advances.Clear();
+            foreach (var a in advList) Advances.Add(a);
+
+            var payList = (await _advancePaymentRepository.GetAllAsync()).Where(p => !p.IsDeleted).ToList();
+            AdvancePayments.Clear();
+            foreach (var p in payList) AdvancePayments.Add(p);
+
+            var salList = (await _salaryPaymentRepository.GetAllAsync()).Where(s => !s.IsDeleted).ToList();
+            SalaryPayments.Clear();
+            foreach (var s in salList) SalaryPayments.Add(s);
+
+            var attList = (await _attendanceRepository.GetAllAsync()).Where(at => !at.IsDeleted).ToList();
+            Attendances.Clear();
+            foreach (var at in attList) Attendances.Add(at);
+
+            var dedList = (await _deductionRepository.GetAllAsync()).Where(d => !d.IsDeleted).ToList();
+            Deductions.Clear();
+            foreach (var d in dedList) Deductions.Add(d);
+
+            var levList = (await _leaveRepository.GetAllAsync()).Where(l => !l.IsDeleted).ToList();
+            Leaves.Clear();
+            foreach (var l in levList) Leaves.Add(l);
+
+            // Update KPI Cards
+            TotalEmployeesCount = Employees.Count(e => e.IsActive);
+            TotalMonthlySalaryPool = Employees.Where(e => e.IsActive).Sum(e => e.BasicSalary);
+            TotalPendingAdvances = Advances.Sum(a => a.RemainingAmount);
+            TotalDeductionsThisMonth = Deductions.Where(d => d.DeductionDate.Month == DateTime.Today.Month && d.DeductionDate.Year == DateTime.Today.Year).Sum(d => d.Amount);
+            TodayPresentCount = Attendances.Count(a => a.Date.Date == DateTime.Today.Date && a.Status == "حاضر");
         }
 
         [RelayCommand]
