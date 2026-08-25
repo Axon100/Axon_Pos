@@ -478,18 +478,30 @@
                 <!-- Order Summary & Checkout Footer -->
                 <Border Grid.Row="2" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="0,1,0,0" Padding="16,14">
                     <StackPanel>
-                        <!-- Discount Trigger Button -->
-                        <Button Command="{Binding OpenDiscountDialogCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Background="#1A1A1A" Foreground="#E0E0E0" Height="34" Margin="0,0,0,12" Padding="10,0">
-                            <Grid Width="340">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <!-- Payment Method & Discount Action Buttons Row -->
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Discount Trigger Button -->
+                            <Button Grid.Column="0" Command="{Binding OpenDiscountDialogCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Background="#1A1A1A" Foreground="#E0E0E0" Height="38" Padding="6,0" ToolTip="تطبيق خصم على الفاتورة">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="TicketPercentOutline" Width="16" Height="16" Foreground="#d90429" Margin="0,0,6,0" VerticalAlignment="Center"/>
                                     <TextBlock Text="{DynamicResource BtnDiscount}" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"/>
                                 </StackPanel>
-                                <Border Background="#22d90429" BorderBrush="#44d90429" BorderThickness="1" CornerRadius="4" Padding="6,1" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                    <TextBlock Text="تطبيق خصم" FontSize="10" FontWeight="Bold" Foreground="#d90429"/>
-                                </Border>
-                            </Grid>
-                        </Button>
+                            </Button>
+
+                            <!-- Other Payment Button ("دفع آخر") -->
+                            <Button Grid.Column="2" Command="{Binding OpenPaymentMethodDialogCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#d90429" Background="#2b0005" Foreground="#ffb3af" Height="38" Padding="6,0" ToolTip="اختر طريقة الدفع (فيزا، فودافون كاش، إنستاباي...)">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="CreditCardOutline" Width="16" Height="16" Foreground="#d90429" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding SelectedPaymentMethod, FallbackValue='دفع آخر'}" FontSize="11" FontWeight="Bold" Foreground="#ffb3af" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
 
                         <!-- Breakdown: Subtotal & Discount -->
                         <StackPanel Margin="0,0,0,12">
@@ -571,6 +583,85 @@
             </Border>
         </Grid>
 
+        <!-- ==================== PAYMENT METHOD SELECTION OVERLAY ==================== -->
+        <Grid Visibility="{Binding IsPaymentMethodDialogOpen, Converter={StaticResource BooleanToVisibilityConverter}}" Background="#99000000" Grid.ColumnSpan="2" Panel.ZIndex="1100">
+            <Border Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="14" Width="440" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="20" Effect="{DynamicResource Axon3DDialogShadow}">
+                <StackPanel>
+                    <!-- Header -->
+                    <Grid Margin="0,0,0,16">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="CreditCardOutline" Width="22" Height="22" Foreground="#d90429" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="تحديد طريقة الدفع (دفع آخر)" FontSize="16" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Button Command="{Binding ClosePaymentMethodDialogCommand}" Style="{StaticResource MaterialDesignIconButton}" Foreground="#8E8E93" Width="26" Height="26" Padding="0" HorizontalAlignment="Right">
+                            <materialDesign:PackIcon Kind="Close" Width="18" Height="18"/>
+                        </Button>
+                    </Grid>
+
+                    <TextBlock Text="اختر طريقة دفع الفاتورة لتسجيلها بالسيستم وتضمينها بالتقارير:" Foreground="#8E8E93" FontSize="11" Margin="0,0,0,12"/>
+
+                    <UniformGrid Columns="1">
+                        <!-- 1. Cash -->
+                        <Button Command="{Binding SelectPaymentMethodCommand}" CommandParameter="نقداً (Cash)" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Background="#111111" Height="46" Margin="0,0,0,8" Padding="12,0" HorizontalContentAlignment="Stretch">
+                            <Grid Width="380">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Cash" Width="20" Height="20" Foreground="#4ae176" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="نقداً (كاش / Cash)" FontSize="13" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18" Foreground="#8E8E93" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+
+                        <!-- 2. Visa / Card -->
+                        <Button Command="{Binding SelectPaymentMethodCommand}" CommandParameter="فيزا / كارت (Visa)" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Background="#111111" Height="46" Margin="0,0,0,8" Padding="12,0" HorizontalContentAlignment="Stretch">
+                            <Grid Width="380">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="CreditCard" Width="20" Height="20" Foreground="#60A5FA" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="فيزا / شبكة (Visa / Card)" FontSize="13" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18" Foreground="#8E8E93" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+
+                        <!-- 3. Vodafone Cash -->
+                        <Button Command="{Binding SelectPaymentMethodCommand}" CommandParameter="فودافون كاش (Vodafone)" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Background="#111111" Height="46" Margin="0,0,0,8" Padding="12,0" HorizontalContentAlignment="Stretch">
+                            <Grid Width="380">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="CellphoneCog" Width="20" Height="20" Foreground="#EF4444" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="فودافون كاش (Vodafone Cash)" FontSize="13" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18" Foreground="#8E8E93" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+
+                        <!-- 4. InstaPay -->
+                        <Button Command="{Binding SelectPaymentMethodCommand}" CommandParameter="إنستاباي (InstaPay)" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Background="#111111" Height="46" Margin="0,0,0,8" Padding="12,0" HorizontalContentAlignment="Stretch">
+                            <Grid Width="380">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Flash" Width="20" Height="20" Foreground="#F59E0B" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="إنستاباي (InstaPay)" FontSize="13" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18" Foreground="#8E8E93" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+
+                        <!-- 5. Credit / Account -->
+                        <Button Command="{Binding SelectPaymentMethodCommand}" CommandParameter="آجل / حساب (Credit)" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Background="#111111" Height="46" Margin="0,0,0,4" Padding="12,0" HorizontalContentAlignment="Stretch">
+                            <Grid Width="380">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="AccountClock" Width="20" Height="20" Foreground="#A78BFA" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="آجل / حساب عميل (On Credit)" FontSize="13" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18" Foreground="#8E8E93" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+                    </UniformGrid>
+
+                    <Button Command="{Binding ClosePaymentMethodDialogCommand}" Content="إلغاء" Style="{StaticResource Axon3DSecondaryButtonStyle}" HorizontalAlignment="Center" Width="100" Height="36" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
         <!-- ==================== THERMAL RECEIPT OVERLAY ==================== -->
         <Grid Visibility="{Binding IsReceiptDialogOpen, Converter={StaticResource BooleanToVisibilityConverter}}" Background="#99000000" Grid.ColumnSpan="2" Panel.ZIndex="2000">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,16">
@@ -608,6 +699,7 @@
                             <Grid Margin="0,2"><TextBlock Text="Receipt:" FontSize="11" Foreground="Black"/><TextBlock Text="{Binding ReceiptSaleId}" FontSize="11" FontWeight="Medium" Foreground="Black" HorizontalAlignment="Right"/></Grid>
                             <Grid Margin="0,2"><TextBlock Text="Date:" FontSize="11" Foreground="Black"/><TextBlock Text="{Binding ReceiptDate, StringFormat='{}{0:yyyy/MM/dd HH:mm}'}" FontSize="11" FontWeight="Medium" Foreground="Black" HorizontalAlignment="Right"/></Grid>
                             <Grid Margin="0,2"><TextBlock Text="Terminal:" FontSize="11" Foreground="Black"/><TextBlock Text="Cash-PC" FontSize="11" FontWeight="Medium" Foreground="Black" HorizontalAlignment="Right"/></Grid>
+                            <Grid Margin="0,2"><TextBlock Text="Payment Method:" FontSize="11" Foreground="Black"/><TextBlock Text="{Binding ReceiptPaymentMethod}" FontSize="11" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Right"/></Grid>
                             <Grid Margin="0,2"><TextBlock Text="Served by:" FontSize="11" Foreground="Black"/><TextBlock Text="Manager" FontSize="11" FontWeight="Medium" Foreground="Black" HorizontalAlignment="Right"/></Grid>
 
                             <TextBlock Text="----------------------------------------------------------" Foreground="Black" FontSize="10" TextAlignment="Center" Margin="0,2"/>

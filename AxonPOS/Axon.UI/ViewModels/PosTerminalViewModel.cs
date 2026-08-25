@@ -72,6 +72,16 @@ namespace Axon.UI.ViewModels
         [ObservableProperty]
         private decimal _receiptTotal;
 
+        [ObservableProperty]
+        private string _receiptPaymentMethod = "نقداً (Cash)";
+
+        // ==================== PAYMENT METHOD DIALOG PROPERTIES ====================
+        [ObservableProperty]
+        private bool _isPaymentMethodDialogOpen;
+
+        [ObservableProperty]
+        private string _selectedPaymentMethod = "نقداً (Cash)";
+
         // ==================== RETURN / REFUND PROPERTIES ====================
         [ObservableProperty]
         private bool _isReturnDialogOpen;
@@ -217,6 +227,30 @@ namespace Axon.UI.ViewModels
             Discount = Math.Min(30m, Math.Max(0m, DiscountInput));
             RecalculateTotals();
             IsDiscountDialogOpen = false;
+        }
+
+        // ==================== PAYMENT METHOD COMMANDS ====================
+
+        [RelayCommand]
+        private void OpenPaymentMethodDialog()
+        {
+            IsPaymentMethodDialogOpen = true;
+        }
+
+        [RelayCommand]
+        private void ClosePaymentMethodDialog()
+        {
+            IsPaymentMethodDialogOpen = false;
+        }
+
+        [RelayCommand]
+        private void SelectPaymentMethod(string method)
+        {
+            if (!string.IsNullOrWhiteSpace(method))
+            {
+                SelectedPaymentMethod = method;
+            }
+            IsPaymentMethodDialogOpen = false;
         }
 
         // ==================== RETURN WORKFLOW COMMANDS ====================
@@ -829,6 +863,8 @@ namespace Axon.UI.ViewModels
             IsBusy = true;
             try
             {
+                var chosenMethod = string.IsNullOrWhiteSpace(SelectedPaymentMethod) ? "نقداً (Cash)" : SelectedPaymentMethod;
+
                 var sale = new Sale
                 {
                     ReceiptNumber = await _salesService.GenerateInvoiceNumberAsync(),
@@ -843,7 +879,16 @@ namespace Axon.UI.ViewModels
                         ProductId = c.Id,
                         Quantity = c.Quantity,
                         UnitPrice = c.Price
-                    }).ToList()
+                    }).ToList(),
+                    Payments = new List<Payment>
+                    {
+                        new Payment
+                        {
+                            PaymentMethod = chosenMethod,
+                            Amount = Total,
+                            PaymentDate = DateTime.Now
+                        }
+                    }
                 };
 
                 var completedSale = await _salesService.ProcessSaleAsync(sale);
@@ -865,6 +910,7 @@ namespace Axon.UI.ViewModels
                 ReceiptTax = Tax;
                 ReceiptDiscount = Discount;
                 ReceiptTotal = Total;
+                ReceiptPaymentMethod = chosenMethod;
 
                 ReceiptItems.Clear();
                 foreach (var item in Cart)
