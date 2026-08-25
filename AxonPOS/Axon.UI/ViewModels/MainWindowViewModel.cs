@@ -132,9 +132,7 @@ namespace Axon.UI.ViewModels
                     CurrentViewModel = App.AppHost!.Services.GetRequiredService<ExpensesViewModel>();
                     break;
                 case "HR":
-                    var hrVm = App.AppHost!.Services.GetRequiredService<HrManagementViewModel>();
-                    _ = hrVm.LoadDataAsync();
-                    CurrentViewModel = hrVm;
+                    CurrentViewModel = App.AppHost!.Services.GetRequiredService<HrManagementViewModel>();
                     break;
                 case "Reports":
                     CurrentViewModel = App.AppHost!.Services.GetRequiredService<ReportsViewModel>();

@@ -1,4 +1,5 @@
 using Axon.Application.Interfaces.Repositories;
+using Axon.Application.Interfaces.Services;
 using Axon.Domain.Entities;
 using Axon.UI.Helpers;
 using Axon.UI.Services;
@@ -6,6 +7,7 @@ using Axon.UI.Views;
 using Axon.UI.ViewModels.Base;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,14 +19,6 @@ namespace Axon.UI.ViewModels
 {
     public partial class HrManagementViewModel : BaseViewModel
     {
-        private readonly IRepository<Employee> _employeeRepository;
-        private readonly IRepository<EmployeeAdvance> _advanceRepository;
-        private readonly IRepository<EmployeeAdvancePayment> _advancePaymentRepository;
-        private readonly IRepository<EmployeeSalaryPayment> _salaryPaymentRepository;
-        private readonly IRepository<EmployeeAttendance> _attendanceRepository;
-        private readonly IRepository<EmployeeDeduction> _deductionRepository;
-        private readonly IRepository<EmployeeLeave> _leaveRepository;
-
         // Active Selected Sub-Tab (0 to 8)
         [ObservableProperty]
         private int _selectedTab = 0;
@@ -213,29 +207,10 @@ namespace Axon.UI.ViewModels
         [ObservableProperty]
         private string _leaveReason = string.Empty;
 
-        private readonly Axon.Application.Interfaces.Services.IPermissionService _permissionService;
-
         private readonly System.Threading.SemaphoreSlim _loadLock = new(1, 1);
 
-        public HrManagementViewModel(
-            IRepository<Employee> employeeRepository,
-            IRepository<EmployeeAdvance> advanceRepository,
-            IRepository<EmployeeAdvancePayment> advancePaymentRepository,
-            IRepository<EmployeeSalaryPayment> salaryPaymentRepository,
-            IRepository<EmployeeAttendance> attendanceRepository,
-            IRepository<EmployeeDeduction> deductionRepository,
-            IRepository<EmployeeLeave> leaveRepository,
-            Axon.Application.Interfaces.Services.IPermissionService permissionService)
+        public HrManagementViewModel()
         {
-            _employeeRepository = employeeRepository;
-            _advanceRepository = advanceRepository;
-            _advancePaymentRepository = advancePaymentRepository;
-            _salaryPaymentRepository = salaryPaymentRepository;
-            _attendanceRepository = attendanceRepository;
-            _deductionRepository = deductionRepository;
-            _leaveRepository = leaveRepository;
-            _permissionService = permissionService;
-
             _ = LoadDataAsync();
         }
 
@@ -247,12 +222,13 @@ namespace Axon.UI.ViewModels
             {
                 await FetchDataInternalAsync();
             }
-            catch (Exception ex)
+            catch
             {
-                // Schema fallback if table is missing
                 try
                 {
-                    await _permissionService.EnsureDefaultPermissionsSeededAsync();
+                    using var scope = App.AppHost!.Services.CreateScope();
+                    var permService = scope.ServiceProvider.GetRequiredService<IPermissionService>();
+                    await permService.EnsureDefaultPermissionsSeededAsync();
                     await FetchDataInternalAsync();
                 }
                 catch (Exception retryEx)
@@ -269,31 +245,41 @@ namespace Axon.UI.ViewModels
 
         private async Task FetchDataInternalAsync()
         {
-            var empList = (await _employeeRepository.GetAllAsync()).Where(e => !e.IsDeleted).ToList();
+            using var scope = App.AppHost!.Services.CreateScope();
+            var empRepo = scope.ServiceProvider.GetRequiredService<IRepository<Employee>>();
+            var advRepo = scope.ServiceProvider.GetRequiredService<IRepository<EmployeeAdvance>>();
+            var payRepo = scope.ServiceProvider.GetRequiredService<IRepository<EmployeeAdvancePayment>>();
+            var salRepo = scope.ServiceProvider.GetRequiredService<IRepository<EmployeeSalaryPayment>>();
+            var attRepo = scope.ServiceProvider.GetRequiredService<IRepository<EmployeeAttendance>>();
+            var dedRepo = scope.ServiceProvider.GetRequiredService<IRepository<EmployeeDeduction>>();
+            var levRepo = scope.ServiceProvider.GetRequiredService<IRepository<EmployeeLeave>>();
+
+            var empList = (await empRepo.GetAllAsync()).Where(e => !e.IsDeleted).ToList();
+            var advList = (await advRepo.GetAllAsync()).Where(a => !a.IsDeleted).ToList();
+            var payList = (await payRepo.GetAllAsync()).Where(p => !p.IsDeleted).ToList();
+            var salList = (await salRepo.GetAllAsync()).Where(s => !s.IsDeleted).ToList();
+            var attList = (await attRepo.GetAllAsync()).Where(at => !at.IsDeleted).ToList();
+            var dedList = (await dedRepo.GetAllAsync()).Where(d => !d.IsDeleted).ToList();
+            var levList = (await levRepo.GetAllAsync()).Where(l => !l.IsDeleted).ToList();
+
             Employees.Clear();
             foreach (var e in empList) Employees.Add(e);
 
-            var advList = (await _advanceRepository.GetAllAsync()).Where(a => !a.IsDeleted).ToList();
             Advances.Clear();
             foreach (var a in advList) Advances.Add(a);
 
-            var payList = (await _advancePaymentRepository.GetAllAsync()).Where(p => !p.IsDeleted).ToList();
             AdvancePayments.Clear();
             foreach (var p in payList) AdvancePayments.Add(p);
 
-            var salList = (await _salaryPaymentRepository.GetAllAsync()).Where(s => !s.IsDeleted).ToList();
             SalaryPayments.Clear();
             foreach (var s in salList) SalaryPayments.Add(s);
 
-            var attList = (await _attendanceRepository.GetAllAsync()).Where(at => !at.IsDeleted).ToList();
             Attendances.Clear();
             foreach (var at in attList) Attendances.Add(at);
 
-            var dedList = (await _deductionRepository.GetAllAsync()).Where(d => !d.IsDeleted).ToList();
             Deductions.Clear();
             foreach (var d in dedList) Deductions.Add(d);
 
-            var levList = (await _leaveRepository.GetAllAsync()).Where(l => !l.IsDeleted).ToList();
             Leaves.Clear();
             foreach (var l in levList) Leaves.Add(l);
 
@@ -354,9 +340,12 @@ namespace Axon.UI.ViewModels
             IsBusy = true;
             try
             {
+                using var scope = App.AppHost!.Services.CreateScope();
+                var empRepo = scope.ServiceProvider.GetRequiredService<IRepository<Employee>>();
+
                 if (IsEditEmployeeMode && EditingEmployeeId.HasValue)
                 {
-                    var emp = await _employeeRepository.GetByIdAsync(EditingEmployeeId.Value);
+                    var emp = await empRepo.GetByIdAsync(EditingEmployeeId.Value);
                     if (emp != null)
                     {
                         emp.FullName = EmpFullName;
@@ -364,7 +353,7 @@ namespace Axon.UI.ViewModels
                         emp.Phone = EmpPhone;
                         emp.NationalId = EmpNationalId;
                         emp.BasicSalary = EmpBasicSalary;
-                        await _employeeRepository.UpdateAsync(emp);
+                        await empRepo.UpdateAsync(emp);
                     }
                 }
                 else
@@ -379,7 +368,7 @@ namespace Axon.UI.ViewModels
                         HireDate = DateTime.Today,
                         IsActive = true
                     };
-                    await _employeeRepository.AddAsync(newEmp);
+                    await empRepo.AddAsync(newEmp);
                 }
 
                 IsEmployeeDialogOpen = false;
@@ -417,6 +406,9 @@ namespace Axon.UI.ViewModels
             IsBusy = true;
             try
             {
+                using var scope = App.AppHost!.Services.CreateScope();
+                var advRepo = scope.ServiceProvider.GetRequiredService<IRepository<EmployeeAdvance>>();
+
                 var adv = new EmployeeAdvance
                 {
                     EmployeeId = SelectedAdvanceEmployee.Id,
@@ -428,7 +420,7 @@ namespace Axon.UI.ViewModels
                     Status = "غير مسددة"
                 };
 
-                await _advanceRepository.AddAsync(adv);
+                await advRepo.AddAsync(adv);
                 IsAdvanceDialogOpen = false;
                 await LoadDataAsync();
             }
@@ -476,6 +468,10 @@ namespace Axon.UI.ViewModels
             IsBusy = true;
             try
             {
+                using var scope = App.AppHost!.Services.CreateScope();
+                var pmtRepo = scope.ServiceProvider.GetRequiredService<IRepository<EmployeeAdvancePayment>>();
+                var advRepo = scope.ServiceProvider.GetRequiredService<IRepository<EmployeeAdvance>>();
+
                 var pmt = new EmployeeAdvancePayment
                 {
                     EmployeeAdvanceId = SelectedAdvanceToPay.Id,
@@ -483,13 +479,17 @@ namespace Axon.UI.ViewModels
                     AmountPaid = PayoffAmount,
                     Notes = PayoffNotes
                 };
-                await _advancePaymentRepository.AddAsync(pmt);
+                await pmtRepo.AddAsync(pmt);
 
-                SelectedAdvanceToPay.PaidAmount += PayoffAmount;
-                SelectedAdvanceToPay.RemainingAmount = SelectedAdvanceToPay.Amount - SelectedAdvanceToPay.PaidAmount;
-                SelectedAdvanceToPay.Status = SelectedAdvanceToPay.RemainingAmount <= 0 ? "مسددة بالكامل" : "سداد جزئي";
+                var targetAdv = await advRepo.GetByIdAsync(SelectedAdvanceToPay.Id);
+                if (targetAdv != null)
+                {
+                    targetAdv.PaidAmount += PayoffAmount;
+                    targetAdv.RemainingAmount = targetAdv.Amount - targetAdv.PaidAmount;
+                    targetAdv.Status = targetAdv.RemainingAmount <= 0 ? "مسددة بالكامل" : "سداد جزئي";
+                    await advRepo.UpdateAsync(targetAdv);
+                }
 
-                await _advanceRepository.UpdateAsync(SelectedAdvanceToPay);
                 IsPayoffDialogOpen = false;
                 await LoadDataAsync();
             }
@@ -522,13 +522,11 @@ namespace Axon.UI.ViewModels
             if (SelectedSalaryEmployee == null) return;
             SalaryBasic = SelectedSalaryEmployee.BasicSalary;
 
-            // Auto fetch deductions for selected month
             var mDeds = Deductions.Where(d => d.EmployeeId == SelectedSalaryEmployee.Id && d.DeductionDate.Month == SalaryMonth && d.DeductionDate.Year == SalaryYear).Sum(d => d.Amount);
             SalaryDeductions = mDeds;
 
-            // Auto suggest advance loan deduction
             var empAdv = Advances.Where(a => a.EmployeeId == SelectedSalaryEmployee.Id && a.RemainingAmount > 0).Sum(a => a.RemainingAmount);
-            SalaryAdvanceDeduction = Math.Min(empAdv, SalaryBasic * 0.5m); // suggest max 50% basic or remaining loan
+            SalaryAdvanceDeduction = Math.Min(empAdv, SalaryBasic * 0.5m);
 
             CalculateNetSalary();
         }
@@ -549,6 +547,11 @@ namespace Axon.UI.ViewModels
             IsBusy = true;
             try
             {
+                using var scope = App.AppHost!.Services.CreateScope();
+                var salRepo = scope.ServiceProvider.GetRequiredService<IRepository<EmployeeSalaryPayment>>();
+                var advRepo = scope.ServiceProvider.GetRequiredService<IRepository<EmployeeAdvance>>();
+                var pmtRepo = scope.ServiceProvider.GetRequiredService<IRepository<EmployeeAdvancePayment>>();
+
                 var sal = new EmployeeSalaryPayment
                 {
                     EmployeeId = SelectedSalaryEmployee.Id,
@@ -563,12 +566,11 @@ namespace Axon.UI.ViewModels
                     Notes = SalaryNotes
                 };
 
-                await _salaryPaymentRepository.AddAsync(sal);
+                await salRepo.AddAsync(sal);
 
-                // If advance deduction was applied, settle advances automatically
                 if (SalaryAdvanceDeduction > 0)
                 {
-                    var openAdvances = Advances.Where(a => a.EmployeeId == SelectedSalaryEmployee.Id && a.RemainingAmount > 0).OrderBy(a => a.AdvanceDate).ToList();
+                    var openAdvances = (await advRepo.GetAllAsync()).Where(a => a.EmployeeId == SelectedSalaryEmployee.Id && a.RemainingAmount > 0).OrderBy(a => a.AdvanceDate).ToList();
                     decimal remDeduct = SalaryAdvanceDeduction;
                     foreach (var adv in openAdvances)
                     {
@@ -579,8 +581,8 @@ namespace Axon.UI.ViewModels
                         adv.Status = adv.RemainingAmount <= 0 ? "مسددة بالكامل" : "سداد جزئي";
                         remDeduct -= payThis;
 
-                        await _advanceRepository.UpdateAsync(adv);
-                        await _advancePaymentRepository.AddAsync(new EmployeeAdvancePayment
+                        await advRepo.UpdateAsync(adv);
+                        await pmtRepo.AddAsync(new EmployeeAdvancePayment
                         {
                             EmployeeAdvanceId = adv.Id,
                             PaymentDate = DateTime.Today,
@@ -623,6 +625,9 @@ namespace Axon.UI.ViewModels
             IsBusy = true;
             try
             {
+                using var scope = App.AppHost!.Services.CreateScope();
+                var attRepo = scope.ServiceProvider.GetRequiredService<IRepository<EmployeeAttendance>>();
+
                 double hrs = (CheckOutTime > CheckInTime) ? (CheckOutTime - CheckInTime).TotalHours : 0;
                 var att = new EmployeeAttendance
                 {
@@ -635,7 +640,7 @@ namespace Axon.UI.ViewModels
                     Notes = AttendanceNotes
                 };
 
-                await _attendanceRepository.AddAsync(att);
+                await attRepo.AddAsync(att);
                 IsAttendanceDialogOpen = false;
                 await LoadDataAsync();
             }
@@ -672,6 +677,9 @@ namespace Axon.UI.ViewModels
             IsBusy = true;
             try
             {
+                using var scope = App.AppHost!.Services.CreateScope();
+                var dedRepo = scope.ServiceProvider.GetRequiredService<IRepository<EmployeeDeduction>>();
+
                 var ded = new EmployeeDeduction
                 {
                     EmployeeId = SelectedDeductionEmployee.Id,
@@ -681,7 +689,7 @@ namespace Axon.UI.ViewModels
                     Notes = DeductionNotes
                 };
 
-                await _deductionRepository.AddAsync(ded);
+                await dedRepo.AddAsync(ded);
                 IsDeductionDialogOpen = false;
                 await LoadDataAsync();
             }
@@ -719,6 +727,9 @@ namespace Axon.UI.ViewModels
             IsBusy = true;
             try
             {
+                using var scope = App.AppHost!.Services.CreateScope();
+                var levRepo = scope.ServiceProvider.GetRequiredService<IRepository<EmployeeLeave>>();
+
                 int days = (LeaveEndDate - LeaveStartDate).Days + 1;
                 var lev = new EmployeeLeave
                 {
@@ -731,7 +742,7 @@ namespace Axon.UI.ViewModels
                     Status = "مقبولة"
                 };
 
-                await _leaveRepository.AddAsync(lev);
+                await levRepo.AddAsync(lev);
                 IsLeaveDialogOpen = false;
                 await LoadDataAsync();
             }
