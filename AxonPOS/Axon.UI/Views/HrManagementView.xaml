@@ -49,7 +49,7 @@
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="border" Property="Background" Value="#2A141A"/>
                                 <Setter TargetName="border" Property="BorderBrush" Value="#D90429"/>
-                                <Setter Property="Foreground" Value="#White"/>
+                                <Setter Property="Foreground" Value="White"/>
                                 <Setter TargetName="activeIndicator" Property="Visibility" Value="Visible"/>
                                 <Setter TargetName="arrowIcon" Property="Visibility" Value="Visible"/>
                             </Trigger>
