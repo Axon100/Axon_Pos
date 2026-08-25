@@ -58,13 +58,21 @@ namespace Axon.UI.ViewModels
             if (IsDashboardVisible)
                 CurrentViewModel = App.AppHost!.Services.GetRequiredService<DashboardViewModel>();
             else if (IsPosVisible)
-                CurrentViewModel = App.AppHost!.Services.GetRequiredService<PosTerminalViewModel>();
+            {
+                var posVm = App.AppHost!.Services.GetRequiredService<PosTerminalViewModel>();
+                _ = posVm.LoadDataAsync();
+                CurrentViewModel = posVm;
+            }
             else if (IsInventoryVisible)
                 CurrentViewModel = App.AppHost!.Services.GetRequiredService<InventoryControlViewModel>();
             else if (IsProductsVisible)
                 CurrentViewModel = App.AppHost!.Services.GetRequiredService<ProductManagementViewModel>();
             else
-                CurrentViewModel = App.AppHost!.Services.GetRequiredService<PosTerminalViewModel>();
+            {
+                var posVm = App.AppHost!.Services.GetRequiredService<PosTerminalViewModel>();
+                _ = posVm.LoadDataAsync();
+                CurrentViewModel = posVm;
+            }
         }
 
         [RelayCommand]
@@ -95,7 +103,9 @@ namespace Axon.UI.ViewModels
                     CurrentViewModel = App.AppHost!.Services.GetRequiredService<DashboardViewModel>();
                     break;
                 case "PosTerminal":
-                    CurrentViewModel = App.AppHost!.Services.GetRequiredService<PosTerminalViewModel>();
+                    var posVmNav = App.AppHost!.Services.GetRequiredService<PosTerminalViewModel>();
+                    _ = posVmNav.LoadDataAsync();
+                    CurrentViewModel = posVmNav;
                     break;
                 case "Inventory":
                     CurrentViewModel = App.AppHost!.Services.GetRequiredService<InventoryControlViewModel>();

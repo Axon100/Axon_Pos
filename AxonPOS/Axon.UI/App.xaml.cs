@@ -44,7 +44,7 @@ namespace Axon.UI
                     });
 
                     // Add Views
-                    services.AddSingleton<MainWindow>();
+                    services.AddTransient<MainWindow>();
                     services.AddTransient<Axon.UI.Views.LoginView>();
                     services.AddTransient<Axon.UI.Views.DashboardView>();
                     services.AddTransient<Axon.UI.Views.ProductManagementView>();
