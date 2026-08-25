@@ -1,5 +1,6 @@
 using System.Windows;
 using Axon.UI.Services;
+using Axon.UI.Views;
 using Axon.UI.ViewModels.Base;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -73,7 +74,7 @@ namespace Axon.UI.ViewModels
 
             if (!string.IsNullOrEmpty(requiredPermission) && !UserSessionService.HasPermission(requiredPermission) && UserSessionService.RoleName != "Admin")
             {
-                MessageBox.Show("ليس لديك صلاحية للوصول إلى هذه الصفحة!", "تنبيه الصلاحيات (RBAC)", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AxonMessageBox.Show("ليس لديك صلاحية للوصول إلى هذه الصفحة!", "تنبيه الصلاحيات (RBAC)", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 

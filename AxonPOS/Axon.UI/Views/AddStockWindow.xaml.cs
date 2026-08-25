@@ -146,13 +146,13 @@ namespace Axon.UI.Views
 
             if (string.IsNullOrWhiteSpace(itemName))
             {
-                MessageBox.Show("يرجى اختيار أو كتابة اسم الصنف المراد توريده.", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AxonMessageBox.Show("يرجى اختيار أو كتابة اسم الصنف المراد توريده.", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(TxtQuantity.Text) || !int.TryParse(TxtQuantity.Text, out int qty) || qty <= 0)
             {
-                MessageBox.Show("يرجى إدخال كمية مضافة صحيحة (أكبر من 0).", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AxonMessageBox.Show("يرجى إدخال كمية مضافة صحيحة (أكبر من 0).", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 

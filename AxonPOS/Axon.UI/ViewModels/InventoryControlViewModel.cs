@@ -158,7 +158,7 @@ namespace Axon.UI.ViewModels
         {
             if (!UserSessionService.HasPermission("Inventory.StockIn"))
             {
-                MessageBox.Show("ليس لديك صلاحية لتوريد وتغذية شحنات مخزنية!", "تنبيه الصلاحيات (RBAC)", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AxonMessageBox.Show("ليس لديك صلاحية لتوريد وتغذية شحنات مخزنية!", "تنبيه الصلاحيات (RBAC)", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -209,7 +209,7 @@ namespace Axon.UI.ViewModels
                 }
 
                 await LoadDataAsync();
-                MessageBox.Show($"تم توريد وتغذية كمية ({res.QuantityAdded}) للصنف ({res.ItemName}) بنجاح!", "تغذية المخزون", MessageBoxButton.OK, MessageBoxImage.Information);
+                AxonMessageBox.Show($"تم توريد وتغذية كمية ({res.QuantityAdded}) للصنف ({res.ItemName}) بنجاح!", "تغذية المخزون", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -219,7 +219,7 @@ namespace Axon.UI.ViewModels
             if (item == null) return;
             if (!UserSessionService.HasPermission("Inventory.StockIn"))
             {
-                MessageBox.Show("ليس لديك صلاحية لتوريد وتغذية كميات للمخزن!", "تنبيه الصلاحيات (RBAC)", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AxonMessageBox.Show("ليس لديك صلاحية لتوريد وتغذية كميات للمخزن!", "تنبيه الصلاحيات (RBAC)", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -242,7 +242,7 @@ namespace Axon.UI.ViewModels
                     }
                     await _productRepository.UpdateAsync(product);
                     await LoadDataAsync();
-                    MessageBox.Show($"تم تزويد الصنف ({item.Name}) بكمية {res.QuantityAdded} بنجاح!", "تغذية المخزون", MessageBoxButton.OK, MessageBoxImage.Information);
+                    AxonMessageBox.Show($"تم تزويد الصنف ({item.Name}) بكمية {res.QuantityAdded} بنجاح!", "تغذية المخزون", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
         }
@@ -253,7 +253,7 @@ namespace Axon.UI.ViewModels
             if (item == null) return;
             if (!UserSessionService.HasPermission("Inventory.StockIn"))
             {
-                MessageBox.Show("ليس لديك صلاحية لإعادة تخزين أصناف المستودع!", "تنبيه الصلاحيات (RBAC)", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AxonMessageBox.Show("ليس لديك صلاحية لإعادة تخزين أصناف المستودع!", "تنبيه الصلاحيات (RBAC)", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -266,7 +266,7 @@ namespace Axon.UI.ViewModels
                     product.CurrentStock += 50;
                     await _productRepository.UpdateAsync(product);
                     await LoadDataAsync();
-                    MessageBox.Show($"تمت زيادة مخزون الصنف ({item.Name}) بمقدار 50 قطعة بنجاح!", "إعادة التخزين", MessageBoxButton.OK, MessageBoxImage.Information);
+                    AxonMessageBox.Show($"تمت زيادة مخزون الصنف ({item.Name}) بمقدار 50 قطعة بنجاح!", "إعادة التخزين", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             finally
@@ -281,7 +281,7 @@ namespace Axon.UI.ViewModels
             if (item == null) return;
             if (!UserSessionService.HasPermission("Inventory.StockIn"))
             {
-                MessageBox.Show("ليس لديك صلاحية لخصم كميات من المخزن!", "تنبيه الصلاحيات (RBAC)", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AxonMessageBox.Show("ليس لديك صلاحية لخصم كميات من المخزن!", "تنبيه الصلاحيات (RBAC)", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -293,7 +293,7 @@ namespace Axon.UI.ViewModels
                 {
                     if (product.CurrentStock <= 0)
                     {
-                        MessageBox.Show($"الصنف ({item.Name}) مخزونه الحالي 0 ولا يمكن الخصم منه!", "تنبيه المخزون", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        AxonMessageBox.Show($"الصنف ({item.Name}) مخزونه الحالي 0 ولا يمكن الخصم منه!", "تنبيه المخزون", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
                     }
 
@@ -314,11 +314,11 @@ namespace Axon.UI.ViewModels
             if (item == null) return;
             if (!UserSessionService.HasPermission("Inventory.Delete"))
             {
-                MessageBox.Show("ليس لديك صلاحية لحذف أصناف الجرد من المخزون!", "تنبيه الصلاحيات (RBAC)", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AxonMessageBox.Show("ليس لديك صلاحية لحذف أصناف الجرد من المخزون!", "تنبيه الصلاحيات (RBAC)", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            var confirm = MessageBox.Show($"هل أنت أيد أنك تريد حذف الصنف ({item.Name}) نهائياً من المخزون؟", "تأكيد الحذف", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            var confirm = AxonMessageBox.Show($"هل أنت متأكد أنك تريد حذف الصنف ({item.Name}) نهائياً من المخزون؟", "تأكيد الحذف", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (confirm == MessageBoxResult.Yes)
             {
                 IsBusy = true;

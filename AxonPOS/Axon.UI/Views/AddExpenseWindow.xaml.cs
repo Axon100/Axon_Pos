@@ -33,7 +33,7 @@ namespace Axon.UI.Views
         {
             if (string.IsNullOrWhiteSpace(TxtAmount.Text) || !decimal.TryParse(TxtAmount.Text, out decimal amount))
             {
-                MessageBox.Show("يرجى إدخال مبلغ صحيح.", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AxonMessageBox.Show("يرجى إدخال مبلغ صحيح.", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 

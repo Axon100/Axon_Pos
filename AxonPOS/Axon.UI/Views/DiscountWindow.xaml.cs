@@ -48,7 +48,7 @@ namespace Axon.UI.Views
             }
             else
             {
-                MessageBox.Show("يرجى إدخال رقم خصم صحيح", "خطأ", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AxonMessageBox.Show("يرجى إدخال رقم خصم صحيح", "خطأ", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Windows;
+using Axon.UI.Views;
 
 namespace Axon.UI.ViewModels
 {
@@ -383,7 +384,7 @@ namespace Axon.UI.ViewModels
 
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 {
-                    System.Windows.MessageBox.Show(
+                    AxonMessageBox.Show(
                         result.Message,
                         result.Success ? "اختبار الاتصال - نجاح" : "اختبار الاتصال - فشل",
                         System.Windows.MessageBoxButton.OK,
@@ -399,7 +400,7 @@ namespace Axon.UI.ViewModels
 
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 {
-                    System.Windows.MessageBox.Show(
+                    AxonMessageBox.Show(
                         DbStatusMessage,
                         "خطأ في الاتصال",
                         System.Windows.MessageBoxButton.OK,
@@ -428,7 +429,7 @@ namespace Axon.UI.ViewModels
 
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 {
-                    System.Windows.MessageBox.Show(
+                    AxonMessageBox.Show(
                         DbStatusMessage,
                         "حفظ الإعدادات",
                         System.Windows.MessageBoxButton.OK,
@@ -444,7 +445,7 @@ namespace Axon.UI.ViewModels
 
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 {
-                    System.Windows.MessageBox.Show(
+                    AxonMessageBox.Show(
                         DbStatusMessage,
                         "خطأ في الحفظ",
                         System.Windows.MessageBoxButton.OK,
@@ -477,7 +478,7 @@ namespace Axon.UI.ViewModels
 
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 {
-                    System.Windows.MessageBox.Show(
+                    AxonMessageBox.Show(
                         result.Message,
                         result.Success ? "إنشاء وترحيل قاعدة البيانات - نجاح" : "إنشاء وترحيل قاعدة البيانات - فشل",
                         System.Windows.MessageBoxButton.OK,
@@ -493,7 +494,7 @@ namespace Axon.UI.ViewModels
 
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 {
-                    System.Windows.MessageBox.Show(
+                    AxonMessageBox.Show(
                         DbStatusMessage,
                         "خطأ في التكشيف والترحيل",
                         System.Windows.MessageBoxButton.OK,

@@ -6,6 +6,7 @@ using Axon.Domain.Entities;
 using Axon.UI.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Axon.UI.Views;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Linq;
@@ -240,19 +241,19 @@ namespace Axon.UI.ViewModels
         {
             if (string.IsNullOrWhiteSpace(NewProductNameAR))
             {
-                System.Windows.MessageBox.Show("يرجى إدخال اسم المنتج بالعربي!", "حقل مطلوب", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                AxonMessageBox.Show("يرجى إدخال اسم المنتج بالعربي!", "حقل مطلوب", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 return;
             }
 
             if (IsEditMode && !UserSessionService.HasPermission("Products.Edit"))
             {
-                System.Windows.MessageBox.Show("ليس لديك صلاحية لتعديل بيانات المنتجات!", "تنبيه الصلاحيات (RBAC)", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                AxonMessageBox.Show("ليس لديك صلاحية لتعديل بيانات المنتجات!", "تنبيه الصلاحيات (RBAC)", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 return;
             }
 
             if (!IsEditMode && !UserSessionService.HasPermission("Products.Add"))
             {
-                System.Windows.MessageBox.Show("ليس لديك صلاحية لإضافة منتجات جديدة!", "تنبيه الصلاحيات (RBAC)", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                AxonMessageBox.Show("ليس لديك صلاحية لإضافة منتجات جديدة!", "تنبيه الصلاحيات (RBAC)", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 return;
             }
 
@@ -322,7 +323,7 @@ namespace Axon.UI.ViewModels
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show(
+                AxonMessageBox.Show(
                     $"فشل حفظ المنتج: {ex.Message}",
                     "خطأ في الحفظ",
                     System.Windows.MessageBoxButton.OK,
@@ -341,11 +342,11 @@ namespace Axon.UI.ViewModels
 
             if (!UserSessionService.HasPermission("Products.Delete"))
             {
-                System.Windows.MessageBox.Show("ليس لديك صلاحية لحذف المنتجات من النظام!", "تنبيه الصلاحيات (RBAC)", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                AxonMessageBox.Show("ليس لديك صلاحية لحذف المنتجات من النظام!", "تنبيه الصلاحيات (RBAC)", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 return;
             }
 
-            var confirm = System.Windows.MessageBox.Show($"هل أنت متأكد أنك تريد حذف المنتج ({item.Name}) نهائياً؟", "تأكيد الحذف", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Warning);
+            var confirm = AxonMessageBox.Show($"هل أنت متأكد أنك تريد حذف المنتج ({item.Name}) نهائياً؟", "تأكيد الحذف", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Warning);
             if (confirm != System.Windows.MessageBoxResult.Yes) return;
 
             IsBusy = true;
@@ -400,13 +401,13 @@ namespace Axon.UI.ViewModels
         {
             if (string.IsNullOrWhiteSpace(NewCategoryNameAR))
             {
-                System.Windows.MessageBox.Show("يرجى إدخال اسم القسم بالعربي!", "حقل مطلوب", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                AxonMessageBox.Show("يرجى إدخال اسم القسم بالعربي!", "حقل مطلوب", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 return;
             }
 
             if (!UserSessionService.HasPermission("Products.Add") && !UserSessionService.HasPermission("Products.Edit"))
             {
-                System.Windows.MessageBox.Show("ليس لديك صلاحية لإدارة الأقسام!", "تنبيه الصلاحيات (RBAC)", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                AxonMessageBox.Show("ليس لديك صلاحية لإدارة الأقسام!", "تنبيه الصلاحيات (RBAC)", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 return;
             }
 
@@ -438,7 +439,7 @@ namespace Axon.UI.ViewModels
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show($"فشل حفظ القسم: {ex.Message}", "خطأ في الحفظ", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                AxonMessageBox.Show($"فشل حفظ القسم: {ex.Message}", "خطأ في الحفظ", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
             finally
             {
@@ -453,13 +454,13 @@ namespace Axon.UI.ViewModels
 
             if (!UserSessionService.HasPermission("Products.Delete"))
             {
-                System.Windows.MessageBox.Show("ليس لديك صلاحية لحذف الأقسام!", "تنبيه الصلاحيات (RBAC)", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                AxonMessageBox.Show("ليس لديك صلاحية لحذف الأقسام!", "تنبيه الصلاحيات (RBAC)", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 return;
             }
 
             if (item.ProductsCount > 0)
             {
-                var warnResult = System.Windows.MessageBox.Show(
+                var warnResult = AxonMessageBox.Show(
                     $"هذا القسم يحتوي على ({item.ProductsCount}) منتج مرتبط به! هل تريد حذفه وتعيين منتجاته كقسم عام؟",
                     "تحذير وجود منتجات مرتبطة",
                     System.Windows.MessageBoxButton.YesNo,
@@ -469,7 +470,7 @@ namespace Axon.UI.ViewModels
             }
             else
             {
-                var confirm = System.Windows.MessageBox.Show(
+                var confirm = AxonMessageBox.Show(
                     $"هل أنت متأكد أنك تريد حذف القسم ({item.Name}) نهائياً؟",
                     "تأكيد الحذف",
                     System.Windows.MessageBoxButton.YesNo,
