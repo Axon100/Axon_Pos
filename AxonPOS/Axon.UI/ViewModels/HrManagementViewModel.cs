@@ -215,6 +215,8 @@ namespace Axon.UI.ViewModels
 
         private readonly Axon.Application.Interfaces.Services.IPermissionService _permissionService;
 
+        private readonly System.Threading.SemaphoreSlim _loadLock = new(1, 1);
+
         public HrManagementViewModel(
             IRepository<Employee> employeeRepository,
             IRepository<EmployeeAdvance> advanceRepository,
@@ -239,6 +241,7 @@ namespace Axon.UI.ViewModels
 
         public async Task LoadDataAsync()
         {
+            if (!await _loadLock.WaitAsync(0)) return;
             IsBusy = true;
             try
             {
@@ -286,6 +289,7 @@ namespace Axon.UI.ViewModels
             finally
             {
                 IsBusy = false;
+                _loadLock.Release();
             }
         }
 
