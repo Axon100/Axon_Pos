@@ -275,13 +275,14 @@ namespace Axon.UI.ViewModels
                 foreach (var r in dbRoles)
                 {
                     var userCount = dbUsers.Count(u => u.RoleId == r.Id);
+                    var isPrimaryAdmin = r.Id == 1 || r.Name.Contains("Admin", StringComparison.OrdinalIgnoreCase) || r.Name.Contains("مدير النظام");
                     Roles.Add(new RoleModel 
                     { 
                         Id = r.Id, 
                         Name = r.Name,
                         Description = string.IsNullOrWhiteSpace(r.Description) ? "رتبة وظيفية محددة الصلاحيات" : r.Description,
                         UsersCount = userCount,
-                        IsSystemBuiltIn = r.Id <= 3
+                        IsSystemBuiltIn = isPrimaryAdmin
                     });
                 }
                 SelectedRole = Roles.FirstOrDefault();
@@ -293,6 +294,7 @@ namespace Axon.UI.ViewModels
                     {
                         Id = u.Id,
                         Username = u.Username,
+                        RoleId = u.RoleId,
                         RoleName = roleName,
                         IsActive = u.IsActive
                     });
@@ -829,10 +831,10 @@ namespace Axon.UI.ViewModels
         {
             if (role == null) return;
 
-            if (role.IsSystemBuiltIn || role.Id <= 3)
+            if (role.IsSystemBuiltIn)
             {
                 AxonMessageBox.Show(
-                    "لا يمكن حذف الرتب الأساسية للنظام للحفاظ على استقرار أمان الحسابات.",
+                    "لا يمكن حذف رتبة مدير النظام الرئيسية (Admin) للحفاظ على استقرار أمان الحسابات.",
                     "حظر الحذف",
                     System.Windows.MessageBoxButton.OK,
                     System.Windows.MessageBoxImage.Warning);
@@ -840,7 +842,7 @@ namespace Axon.UI.ViewModels
             }
 
             var confirm = AxonMessageBox.Show(
-                $"هل أنت تأكد من رغبتك في حذف الرتبة ({role.Name}) نهائياً من النظام؟\nتنبيه: سيتم إسقاط صلاحيات المستخدمين المرتبطين بهذه الرتبة.",
+                $"هل أنت تأكد من رغبتك في حذف الرتبة ({role.Name}) نهائياً من النظام؟\nتنبيه: سيتم نقل المستخدمين المرتبطين إلى الرتب الافتراضية.",
                 "تأكيد حذف الرتبة",
                 System.Windows.MessageBoxButton.YesNo,
                 System.Windows.MessageBoxImage.Question);
@@ -883,6 +885,110 @@ namespace Axon.UI.ViewModels
                 IsBusy = false;
             }
         }
+
+        [RelayCommand]
+        private async Task DeleteUserAsync(UserModel? user)
+        {
+            if (user == null) return;
+
+            if (user.Id == UserSessionService.CurrentUserId || user.Username.Equals("admin", StringComparison.OrdinalIgnoreCase))
+            {
+                AxonMessageBox.Show(
+                    "لا يمكن حذف حساب مدير النظام المسجل دخوله حالياً لحماية أمان النظام.",
+                    "حظر الحذف",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Warning);
+                return;
+            }
+
+            var confirm = AxonMessageBox.Show(
+                $"هل أنت تأكد من رغبتك في حذف حساب المستخدم ({user.Username}) نهائياً من النظام؟",
+                "تأكيد حذف المستخدم",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Question);
+
+            if (confirm != System.Windows.MessageBoxResult.Yes) return;
+
+            IsBusy = true;
+            try
+            {
+                await _dbLock.WaitAsync();
+                try
+                {
+                    var dbUser = await _userRepository.GetByIdAsync(user.Id);
+                    if (dbUser != null)
+                    {
+                        await _userRepository.DeleteAsync(dbUser);
+                    }
+                }
+                finally
+                {
+                    _dbLock.Release();
+                }
+
+                Users.Remove(user);
+
+                RbacStatusMessage = $"تم حذف حساب المستخدم ({user.Username}) بنجاح.";
+                IsRbacStatusVisible = true;
+            }
+            catch (Exception ex)
+            {
+                RbacStatusMessage = $"فشل حذف حساب المستخدم: {ex.Message}";
+                IsRbacStatusVisible = true;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task ToggleUserActiveAsync(UserModel? user)
+        {
+            if (user == null) return;
+
+            if (user.Id == UserSessionService.CurrentUserId)
+            {
+                AxonMessageBox.Show(
+                    "لا يمكن تعليق أو إيقاف الحساب المسجل به دخلوياً حالياً.",
+                    "حظر التعديل",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Warning);
+                return;
+            }
+
+            IsBusy = true;
+            try
+            {
+                await _dbLock.WaitAsync();
+                try
+                {
+                    var dbUser = await _userRepository.GetByIdAsync(user.Id);
+                    if (dbUser != null)
+                    {
+                        dbUser.IsActive = !user.IsActive;
+                        await _userRepository.UpdateAsync(dbUser);
+                        user.IsActive = dbUser.IsActive;
+                    }
+                }
+                finally
+                {
+                    _dbLock.Release();
+                }
+
+                RbacStatusMessage = $"تم تغيير حالة حساب ({user.Username}) إلى {(user.IsActive ? "نشط" : "موقوف")}.";
+                IsRbacStatusVisible = true;
+            }
+            catch (Exception ex)
+            {
+                RbacStatusMessage = $"فشل تحديث حالة الحساب: {ex.Message}";
+                IsRbacStatusVisible = true;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
     }
 
     public partial class PermissionItemModel : ObservableObject
@@ -903,12 +1009,17 @@ namespace Axon.UI.ViewModels
         public ObservableCollection<PermissionItemModel> Permissions { get; set; } = new();
     }
 
-    public class UserModel
+    public partial class UserModel : ObservableObject
     {
         public int Id { get; set; }
         public string Username { get; set; } = string.Empty;
-        public string RoleName { get; set; } = string.Empty;
-        public bool IsActive { get; set; }
+        public int RoleId { get; set; }
+
+        [ObservableProperty]
+        private string _roleName = string.Empty;
+
+        [ObservableProperty]
+        private bool _isActive = true;
     }
 
     public class RoleModel
