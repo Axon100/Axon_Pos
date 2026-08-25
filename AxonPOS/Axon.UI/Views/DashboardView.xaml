@@ -5,6 +5,10 @@
              Background="#111111" Foreground="White"
              FontFamily="Segoe UI" FlowDirection="RightToLeft">
     
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid Margin="24,18,24,24">
             <Grid.RowDefinitions>

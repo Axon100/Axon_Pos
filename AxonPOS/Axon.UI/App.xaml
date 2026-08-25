@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:Axon.UI">
     <Application.Resources>
         <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
             <helpers:ZeroToEmptyConverter x:Key="ZeroToEmptyConverter" xmlns:helpers="clr-namespace:Axon.UI.Helpers" />
             
             <ResourceDictionary.MergedDictionaries>
