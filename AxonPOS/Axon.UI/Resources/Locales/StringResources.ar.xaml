@@ -23,6 +23,8 @@
     <sys:String x:Key="Settings">الإعدادات</sys:String>
     
     <sys:String x:Key="Barcode">الباركود</sys:String>
+    <sys:String x:Key="Barcodes">الباركودات</sys:String>
+    <sys:String x:Key="ExternalExpenses">المصروفات الخارجية</sys:String>
     <sys:String x:Key="QRCode">رمز QR</sys:String>
     
     <sys:String x:Key="Search">بحث</sys:String>
