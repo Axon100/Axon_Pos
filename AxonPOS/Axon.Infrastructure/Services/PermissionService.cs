@@ -231,7 +231,7 @@ namespace Axon.Infrastructure.Services
 
             // Assign ALL permissions to Administrator Role (Role #1)
             var allPerms = await _dbContext.Permissions.ToListAsync();
-            adminRole = await _dbContext.Roles.Include(r => r.Permissions).FirstAsync(r => r.Id == 1);
+            adminRole = await _dbContext.Roles.Include(r => r.Permissions).FirstAsync(r => r.Name == "Administrator");
             
             bool adminUpdated = false;
             foreach (var perm in allPerms)
@@ -244,7 +244,7 @@ namespace Axon.Infrastructure.Services
             }
 
             // Assign Cashier default permissions if empty
-            cashierRole = await _dbContext.Roles.Include(r => r.Permissions).FirstAsync(r => r.Id == 2);
+            cashierRole = await _dbContext.Roles.Include(r => r.Permissions).FirstAsync(r => r.Name == "Cashier");
             if (!cashierRole.Permissions.Any())
             {
                 var cashierPermCodes = new[] { "Dashboard.View", "POS.View", "POS.Sell", "Products.View", "Inventory.View" };
