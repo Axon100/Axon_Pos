@@ -15,14 +15,21 @@ namespace Axon.UI.Views
 
         private void ViewModel_LoginSucceeded()
         {
-            var mainWindow = App.AppHost!.Services.GetRequiredService<MainWindow>();
-            System.Windows.Application.Current.MainWindow = mainWindow;
-            if (mainWindow.DataContext is MainWindowViewModel mainVm)
+            try
             {
-                mainVm.RefreshPermissions();
+                var mainWindow = App.AppHost!.Services.GetRequiredService<MainWindow>();
+                System.Windows.Application.Current.MainWindow = mainWindow;
+                if (mainWindow.DataContext is MainWindowViewModel mainVm)
+                {
+                    mainVm.RefreshPermissions();
+                }
+                mainWindow.Show();
+                this.Close();
             }
-            mainWindow.Show();
-            this.Close();
+            catch (System.Exception ex)
+            {
+                System.Windows.MessageBox.Show($"خطأ أثناء فتح الواجهة الرئيسية:\n{ex.Message}", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private bool _isUpdatingPassword;

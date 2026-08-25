@@ -573,8 +573,11 @@ namespace Axon.UI.ViewModels
 
         // ==================== POS CATALOG & CART ====================
 
+        private readonly SemaphoreSlim _loadDataLock = new(1, 1);
+
         public async Task LoadDataAsync()
         {
+            if (!await _loadDataLock.WaitAsync(100)) return; // Prevent concurrent re-entry
             IsBusy = true;
             try
             {
@@ -620,9 +623,9 @@ namespace Axon.UI.ViewModels
                     _allProductItems.Add(new ProductItem
                     {
                         Id = p.Id,
-                        Name = string.IsNullOrEmpty(p.NameAR) ? p.NameEN : p.NameAR,
-                        Sku = p.SKU,
-                        Barcode = p.Barcode,
+                        Name = string.IsNullOrEmpty(p.NameAR) ? (string.IsNullOrEmpty(p.NameEN) ? $"صنف #{p.Id}" : p.NameEN) : p.NameAR,
+                        Sku = p.SKU ?? string.Empty,
+                        Barcode = p.Barcode ?? string.Empty,
                         Price = p.SellingPrice,
                         Stock = (int)p.CurrentStock,
                         Category = catName,
@@ -640,9 +643,14 @@ namespace Axon.UI.ViewModels
 
                 ApplyFilter();
             }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[PosTerminalViewModel.LoadDataAsync] Exception: {ex.Message}");
+            }
             finally
             {
                 IsBusy = false;
+                _loadDataLock.Release();
             }
         }
 

@@ -81,6 +81,21 @@ namespace Axon.UI
 
         protected override async void OnStartup(StartupEventArgs e)
         {
+            // Ensure application only exits on explicit user close/shutdown
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
+            // Global exception logging & crash prevention
+            this.DispatcherUnhandledException += (s, args) =>
+            {
+                System.Diagnostics.Debug.WriteLine($"[DispatcherUnhandledException] {args.Exception}");
+                args.Handled = true;
+            };
+
+            AppDomain.CurrentDomain.UnhandledException += (s, args) =>
+            {
+                System.Diagnostics.Debug.WriteLine($"[AppDomain UnhandledException] {args.ExceptionObject}");
+            };
+
             // Global UX Enhancement: Auto-Select text & clear zero confusion on focus across ALL TextBoxes in system
             EventManager.RegisterClassHandler(typeof(System.Windows.Controls.TextBox), System.Windows.UIElement.GotFocusEvent, new RoutedEventHandler((s, ev) =>
             {

@@ -56,22 +56,31 @@ namespace Axon.UI.ViewModels
             OnPropertyChanged(nameof(IsSettingsVisible));
 
             if (IsDashboardVisible)
-                CurrentViewModel = App.AppHost!.Services.GetRequiredService<DashboardViewModel>();
+            {
+                if (CurrentViewModel is not DashboardViewModel)
+                    CurrentViewModel = App.AppHost!.Services.GetRequiredService<DashboardViewModel>();
+            }
             else if (IsPosVisible)
             {
-                var posVm = App.AppHost!.Services.GetRequiredService<PosTerminalViewModel>();
-                _ = posVm.LoadDataAsync();
-                CurrentViewModel = posVm;
+                if (CurrentViewModel is not PosTerminalViewModel)
+                    CurrentViewModel = App.AppHost!.Services.GetRequiredService<PosTerminalViewModel>();
+                else if (CurrentViewModel is PosTerminalViewModel pos)
+                    _ = pos.LoadDataAsync();
             }
             else if (IsInventoryVisible)
-                CurrentViewModel = App.AppHost!.Services.GetRequiredService<InventoryControlViewModel>();
+            {
+                if (CurrentViewModel is not InventoryControlViewModel)
+                    CurrentViewModel = App.AppHost!.Services.GetRequiredService<InventoryControlViewModel>();
+            }
             else if (IsProductsVisible)
-                CurrentViewModel = App.AppHost!.Services.GetRequiredService<ProductManagementViewModel>();
+            {
+                if (CurrentViewModel is not ProductManagementViewModel)
+                    CurrentViewModel = App.AppHost!.Services.GetRequiredService<ProductManagementViewModel>();
+            }
             else
             {
-                var posVm = App.AppHost!.Services.GetRequiredService<PosTerminalViewModel>();
-                _ = posVm.LoadDataAsync();
-                CurrentViewModel = posVm;
+                if (CurrentViewModel is not PosTerminalViewModel)
+                    CurrentViewModel = App.AppHost!.Services.GetRequiredService<PosTerminalViewModel>();
             }
         }
 
@@ -133,8 +142,16 @@ namespace Axon.UI.ViewModels
         {
             UserSessionService.ClearSession();
             var loginView = App.AppHost!.Services.GetRequiredService<Views.LoginView>();
+            System.Windows.Application.Current.MainWindow = loginView;
             loginView.Show();
-            System.Windows.Application.Current.Windows[0].Close();
+
+            foreach (Window win in System.Windows.Application.Current.Windows)
+            {
+                if (win is MainWindow)
+                {
+                    win.Close();
+                }
+            }
         }
     }
 }
