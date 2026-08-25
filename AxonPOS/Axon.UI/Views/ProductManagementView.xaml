@@ -655,13 +655,13 @@
                                     <TextBlock Text="تصنيف الضريبة *" Foreground="#b4b5b5" FontSize="12" Margin="0,0,0,4"/>
                                     <Border Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="6" Padding="4">
                                         <StackPanel Orientation="Horizontal">
-                                            <RadioButton Content="عليه ضريبة"
-                                                         IsChecked="{Binding NewProductIsTaxable, Mode=TwoWay}"
+                                            <RadioButton Content="بدون ضريبة"
+                                                         IsChecked="{Binding NewProductIsNotTaxable, Mode=TwoWay}"
                                                          GroupName="TaxClassGroup"
                                                          Foreground="#b4b5b5" Margin="4,2" Padding="4,2"
                                                          VerticalContentAlignment="Center"/>
-                                            <RadioButton Content="بدون ضريبة"
-                                                         IsChecked="{Binding NewProductIsNotTaxable, Mode=TwoWay}"
+                                            <RadioButton Content="عليه ضريبة"
+                                                         IsChecked="{Binding NewProductIsTaxable, Mode=TwoWay}"
                                                          GroupName="TaxClassGroup"
                                                          Foreground="#b4b5b5" Margin="4,2" Padding="4,2"
                                                          VerticalContentAlignment="Center"/>
@@ -670,22 +670,17 @@
                                 </StackPanel>
                             </Grid>
 
-                            <!-- SKU & Barcode -->
-                            <Grid Margin="0,0,0,12">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="12"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0">
-                                    <TextBlock Text="رمز الصنف (SKU)" Foreground="#b4b5b5" FontSize="12" Margin="0,0,0,4"/>
-                                    <TextBox Text="{Binding NewProductSKU, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="8"/>
-                                </StackPanel>
-                                <StackPanel Grid.Column="2">
-                                    <TextBlock Text="الباركود (المرجع)" Foreground="#b4b5b5" FontSize="12" Margin="0,0,0,4"/>
-                                    <TextBox Text="{Binding NewProductBarcode, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="8"/>
-                                </StackPanel>
-                            </Grid>
+                            <!-- Dynamic Tax Amount Field (Visible only when NewProductIsTaxable is True) -->
+                            <StackPanel Margin="0,0,0,12" Visibility="{Binding NewProductIsTaxable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock Text="قيمة الضريبة لكل قطعة (بالجنيه / ج.م) *" Foreground="#D90429" FontSize="12" FontWeight="Bold" Margin="0,0,0,4"/>
+                                <TextBox Text="{Binding NewProductTaxAmount, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#D90429" BorderThickness="1" Padding="8" FontSize="13"/>
+                            </StackPanel>
+
+                            <!-- Barcode -->
+                            <StackPanel Margin="0,0,0,12">
+                                <TextBlock Text="الباركود (المرجع)" Foreground="#b4b5b5" FontSize="12" Margin="0,0,0,4"/>
+                                <TextBox Text="{Binding NewProductBarcode, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="8"/>
+                            </StackPanel>
 
                             <!-- Selling Price & Cost Price -->
                             <Grid Margin="0,0,0,12">

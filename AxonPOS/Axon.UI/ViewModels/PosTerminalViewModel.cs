@@ -584,7 +584,8 @@ namespace Axon.UI.ViewModels
                         Category = catName,
                         CategoryId = p.CategoryId,
                         ImageUrl = string.IsNullOrEmpty(p.ImagePath) ? null : p.ImagePath,
-                        IsTaxable = p.IsTaxable
+                        IsTaxable = p.IsTaxable,
+                        TaxAmount = p.TaxAmount
                     });
                 }
 
@@ -679,7 +680,8 @@ namespace Axon.UI.ViewModels
                         Sku = product.Sku,
                         Price = product.Price,
                         Quantity = 1,
-                        IsTaxable = product.IsTaxable
+                        IsTaxable = product.IsTaxable,
+                        TaxAmount = product.TaxAmount
                     });
                 }
                 else
@@ -743,7 +745,7 @@ namespace Axon.UI.ViewModels
         private void RecalculateTotals()
         {
             Subtotal = Cart.Sum(x => x.TotalPrice);
-            Tax = Cart.Where(x => x.IsTaxable).Sum(x => x.TotalPrice * 0.14m);
+            Tax = Cart.Where(x => x.IsTaxable).Sum(x => x.Quantity * x.TaxAmount);
             OnPropertyChanged(nameof(Total));
             OnPropertyChanged(nameof(IsTaxVisible));
         }
@@ -848,7 +850,8 @@ namespace Axon.UI.ViewModels
         public string Category { get; set; } = string.Empty;
         public int CategoryId { get; set; }
         public string? ImageUrl { get; set; }
-        public bool IsTaxable { get; set; } = true;
+        public bool IsTaxable { get; set; } = false;
+        public decimal TaxAmount { get; set; } = 0;
 
         public bool IsOutOfStock => Stock <= 0;
         public bool IsLowStock => Stock > 0 && Stock < 10;
@@ -865,7 +868,8 @@ namespace Axon.UI.ViewModels
         [ObservableProperty]
         private decimal _quantity;
 
-        public bool IsTaxable { get; set; } = true;
+        public bool IsTaxable { get; set; } = false;
+        public decimal TaxAmount { get; set; } = 0;
 
         public decimal TotalPrice => Quantity * Price;
 

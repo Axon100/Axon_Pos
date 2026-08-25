@@ -124,12 +124,14 @@ namespace Axon.UI
                         {
                             await dbContext.Database.ExecuteSqlRawAsync(
                                 "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Products' AND COLUMN_NAME = 'IsTaxable') " +
-                                "BEGIN ALTER TABLE Products ADD IsTaxable BIT NOT NULL DEFAULT 1; END");
+                                "BEGIN ALTER TABLE Products ADD IsTaxable BIT NOT NULL DEFAULT 0; END; " +
+                                "IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Products' AND COLUMN_NAME = 'TaxAmount') " +
+                                "BEGIN ALTER TABLE Products ADD TaxAmount DECIMAL(18,2) NOT NULL DEFAULT 0; END;");
                         }
                         else if (dbContext.Database.IsSqlite())
                         {
-                            await dbContext.Database.ExecuteSqlRawAsync(
-                                "ALTER TABLE Products ADD COLUMN IsTaxable INTEGER NOT NULL DEFAULT 1;");
+                            try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Products ADD COLUMN IsTaxable INTEGER NOT NULL DEFAULT 0;"); } catch { }
+                            try { await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE Products ADD COLUMN TaxAmount NUMERIC NOT NULL DEFAULT 0;"); } catch { }
                         }
                     }
                     catch { /* column already exists or table not yet created */ }

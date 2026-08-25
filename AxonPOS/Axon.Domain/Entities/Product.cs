@@ -24,6 +24,7 @@ namespace Axon.Domain.Entities
         
         public string? ImagePath { get; set; }
         public bool IsActive { get; set; } = true;
-        public bool IsTaxable { get; set; } = true;
+        public bool IsTaxable { get; set; } = false;
+        public decimal TaxAmount { get; set; } = 0;
     }
 }

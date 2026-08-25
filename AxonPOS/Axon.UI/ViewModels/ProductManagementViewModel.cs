@@ -67,7 +67,10 @@ namespace Axon.UI.ViewModels
         private int _newProductCategoryId;
 
         [ObservableProperty]
-        private bool _newProductIsTaxable = true;
+        private bool _newProductIsTaxable = false; // Default to 'بدون ضريبة'
+
+        [ObservableProperty]
+        private decimal _newProductTaxAmount = 0; // Value in EGP
 
         public bool NewProductIsNotTaxable
         {
@@ -182,7 +185,8 @@ namespace Axon.UI.ViewModels
             NewProductStock = 0;
             NewProductImagePath = string.Empty;
             NewProductCategoryId = DialogCategories.Count > 0 ? DialogCategories[0].Id : 0;
-            NewProductIsTaxable = true;
+            NewProductIsTaxable = false;
+            NewProductTaxAmount = 0;
             IsAddProductDialogOpen = true;
         }
 
@@ -206,6 +210,7 @@ namespace Axon.UI.ViewModels
             NewProductImagePath = product.ImagePath ?? string.Empty;
             NewProductCategoryId = product.CategoryId;
             NewProductIsTaxable = product.IsTaxable;
+            NewProductTaxAmount = product.TaxAmount;
             IsAddProductDialogOpen = true;
         }
 
@@ -285,6 +290,7 @@ namespace Axon.UI.ViewModels
                         existingProduct.ImagePath = NewProductImagePath;
                         existingProduct.CategoryId = categoryId.Value;
                         existingProduct.IsTaxable = NewProductIsTaxable;
+                        existingProduct.TaxAmount = NewProductIsTaxable ? NewProductTaxAmount : 0;
 
                         await _productRepository.UpdateAsync(existingProduct);
                     }
@@ -304,7 +310,8 @@ namespace Axon.UI.ViewModels
                         CategoryId = categoryId.Value,
                         UnitId = unitId.Value,
                         IsActive = true,
-                        IsTaxable = NewProductIsTaxable
+                        IsTaxable = NewProductIsTaxable,
+                        TaxAmount = NewProductIsTaxable ? NewProductTaxAmount : 0
                     };
 
                     await _productRepository.AddAsync(product);
