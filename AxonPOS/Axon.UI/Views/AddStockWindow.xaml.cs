@@ -38,9 +38,10 @@ namespace Axon.UI.Views
         public AddStockWindow()
         {
             InitializeComponent();
-            if (System.Windows.Application.Current.MainWindow != null)
+            var main = System.Windows.Application.Current?.MainWindow;
+            if (main != null && main != this)
             {
-                this.Owner = System.Windows.Application.Current.MainWindow;
+                this.Owner = main;
             }
         }
 

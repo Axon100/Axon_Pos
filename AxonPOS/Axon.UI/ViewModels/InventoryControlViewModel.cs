@@ -37,6 +37,15 @@ namespace Axon.UI.ViewModels
         private string _searchText = string.Empty;
 
         [ObservableProperty]
+        private bool _isCardViewMode = true; // Default to 3D Box Cards View
+
+        [RelayCommand]
+        private void SetCardViewMode() => IsCardViewMode = true;
+
+        [RelayCommand]
+        private void SetTableViewMode() => IsCardViewMode = false;
+
+        [ObservableProperty]
         private bool _isLowStockFilterActive;
 
         private readonly IInventoryService _inventoryService;
@@ -156,55 +165,52 @@ namespace Axon.UI.ViewModels
             var products = (await _productRepository.GetAllAsync()).ToList();
             var categories = (await _categoryRepository.GetAllAsync()).ToList();
 
-            await System.Windows.Application.Current.Dispatcher.InvokeAsync(async () =>
+            var window = new AddStockWindow();
+            window.InitializeData(categories, products);
+
+            if (window.ShowDialog() == true && window.Result != null)
             {
-                var window = new AddStockWindow();
-                window.InitializeData(categories, products);
+                var res = window.Result;
+                Product? matchedProd = null;
 
-                if (window.ShowDialog() == true && window.Result != null)
+                if (res.ProductId.HasValue)
                 {
-                    var res = window.Result;
-                    Product? matchedProd = null;
-
-                    if (res.ProductId.HasValue)
-                    {
-                        matchedProd = await _productRepository.GetByIdAsync(res.ProductId.Value);
-                    }
-                    else
-                    {
-                        matchedProd = products.FirstOrDefault(p => (p.NameAR != null && p.NameAR.Equals(res.ItemName, StringComparison.OrdinalIgnoreCase)) ||
-                                                                   (p.NameEN != null && p.NameEN.Equals(res.ItemName, StringComparison.OrdinalIgnoreCase)));
-                    }
-
-                    if (matchedProd != null)
-                    {
-                        matchedProd.CurrentStock += res.QuantityAdded;
-                        if (res.CategoryId.HasValue)
-                        {
-                            matchedProd.CategoryId = res.CategoryId.Value;
-                        }
-                        await _productRepository.UpdateAsync(matchedProd);
-                    }
-                    else
-                    {
-                        var newProd = new Product
-                        {
-                            NameAR = res.ItemName,
-                            NameEN = res.ItemName,
-                            SKU = $"SKU-{new Random().Next(10000, 99999)}",
-                            CategoryId = res.CategoryId ?? (categories.FirstOrDefault()?.Id ?? 1),
-                            SellingPrice = 0,
-                            CostPrice = 0,
-                            CurrentStock = res.QuantityAdded,
-                            IsActive = true
-                        };
-                        await _productRepository.AddAsync(newProd);
-                    }
-
-                    await LoadDataAsync();
-                    MessageBox.Show($"تم توريد وتغذية كمية ({res.QuantityAdded}) للصنف ({res.ItemName}) بنجاح!", "تغذية المخزون", MessageBoxButton.OK, MessageBoxImage.Information);
+                    matchedProd = await _productRepository.GetByIdAsync(res.ProductId.Value);
                 }
-            });
+                else
+                {
+                    matchedProd = products.FirstOrDefault(p => (p.NameAR != null && p.NameAR.Equals(res.ItemName, StringComparison.OrdinalIgnoreCase)) ||
+                                                               (p.NameEN != null && p.NameEN.Equals(res.ItemName, StringComparison.OrdinalIgnoreCase)));
+                }
+
+                if (matchedProd != null)
+                {
+                    matchedProd.CurrentStock += res.QuantityAdded;
+                    if (res.CategoryId.HasValue)
+                    {
+                        matchedProd.CategoryId = res.CategoryId.Value;
+                    }
+                    await _productRepository.UpdateAsync(matchedProd);
+                }
+                else
+                {
+                    var newProd = new Product
+                    {
+                        NameAR = res.ItemName,
+                        NameEN = res.ItemName,
+                        SKU = $"SKU-{new Random().Next(10000, 99999)}",
+                        CategoryId = res.CategoryId ?? (categories.FirstOrDefault()?.Id ?? 1),
+                        SellingPrice = 0,
+                        CostPrice = 0,
+                        CurrentStock = res.QuantityAdded,
+                        IsActive = true
+                    };
+                    await _productRepository.AddAsync(newProd);
+                }
+
+                await LoadDataAsync();
+                MessageBox.Show($"تم توريد وتغذية كمية ({res.QuantityAdded}) للصنف ({res.ItemName}) بنجاح!", "تغذية المخزون", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         [RelayCommand]
@@ -220,28 +226,25 @@ namespace Axon.UI.ViewModels
             var products = (await _productRepository.GetAllAsync()).ToList();
             var categories = (await _categoryRepository.GetAllAsync()).ToList();
 
-            await System.Windows.Application.Current.Dispatcher.InvokeAsync(async () =>
-            {
-                var window = new AddStockWindow();
-                window.InitializeData(categories, products, item.Id);
+            var window = new AddStockWindow();
+            window.InitializeData(categories, products, item.Id);
 
-                if (window.ShowDialog() == true && window.Result != null)
+            if (window.ShowDialog() == true && window.Result != null)
+            {
+                var res = window.Result;
+                var product = await _productRepository.GetByIdAsync(item.Id);
+                if (product != null)
                 {
-                    var res = window.Result;
-                    var product = await _productRepository.GetByIdAsync(item.Id);
-                    if (product != null)
+                    product.CurrentStock += res.QuantityAdded;
+                    if (res.CategoryId.HasValue)
                     {
-                        product.CurrentStock += res.QuantityAdded;
-                        if (res.CategoryId.HasValue)
-                        {
-                            product.CategoryId = res.CategoryId.Value;
-                        }
-                        await _productRepository.UpdateAsync(product);
-                        await LoadDataAsync();
-                        MessageBox.Show($"تم تزويد الصنف ({item.Name}) بكمية {res.QuantityAdded} بنجاح!", "تغذية المخزون", MessageBoxButton.OK, MessageBoxImage.Information);
+                        product.CategoryId = res.CategoryId.Value;
                     }
+                    await _productRepository.UpdateAsync(product);
+                    await LoadDataAsync();
+                    MessageBox.Show($"تم تزويد الصنف ({item.Name}) بكمية {res.QuantityAdded} بنجاح!", "تغذية المخزون", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-            });
+            }
         }
 
         [RelayCommand]
@@ -264,6 +267,39 @@ namespace Axon.UI.ViewModels
                     await _productRepository.UpdateAsync(product);
                     await LoadDataAsync();
                     MessageBox.Show($"تمت زيادة مخزون الصنف ({item.Name}) بمقدار 50 قطعة بنجاح!", "إعادة التخزين", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task DeductStockAsync(InventoryItemModel item)
+        {
+            if (item == null) return;
+            if (!UserSessionService.HasPermission("Inventory.StockIn"))
+            {
+                MessageBox.Show("ليس لديك صلاحية لخصم كميات من المخزن!", "تنبيه الصلاحيات (RBAC)", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            IsBusy = true;
+            try
+            {
+                var product = await _productRepository.GetByIdAsync(item.Id);
+                if (product != null)
+                {
+                    if (product.CurrentStock <= 0)
+                    {
+                        MessageBox.Show($"الصنف ({item.Name}) مخزونه الحالي 0 ولا يمكن الخصم منه!", "تنبيه المخزون", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
+                    product.CurrentStock = Math.Max(0, product.CurrentStock - 1);
+                    await _productRepository.UpdateAsync(product);
+                    await LoadDataAsync();
                 }
             }
             finally
