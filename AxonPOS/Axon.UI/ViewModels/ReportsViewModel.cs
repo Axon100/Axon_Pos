@@ -633,12 +633,21 @@ namespace Axon.UI.ViewModels
 
                 var dialog = new Microsoft.Win32.SaveFileDialog
                 {
-                    Filter = "ملف إكسيل Excel Workbook (*.xlsx)|*.xlsx|ملف نصوص مفصولة CSV (*.csv)|*.csv|تقرير ويب/وورد HTML (*.html)|*.html",
+                    Filter = "ملف إكسيل Excel (*.xlsx)|*.xlsx|" +
+                             "مستند PDF Document (*.pdf)|*.pdf|" +
+                             "مستند وورد Word Document (*.docx)|*.docx|" +
+                             "ملف نصوص مفصولة CSV (*.csv)|*.csv|" +
+                             "تقرير ويب HTML (*.html)|*.html|" +
+                             "ملف نصي Text (*.txt)|*.txt|" +
+                             "كافة الملفات (*.*)|*.*",
                     DefaultExt = ".xlsx",
                     FileName = $"AxonPOS_{reportTypeStr}_{StartDate:yyyyMMdd}_{EndDate:yyyyMMdd}.xlsx",
-                    Title = "اختر مكان وامتداد حفظ التقرير"
+                    Title = "حدد مكان وامتداد حفظ التقرير على الجهاز"
                 };
                 if (dialog.ShowDialog() != true) return;
+
+                var filePath = dialog.FileName;
+                var ext = Path.GetExtension(filePath).ToLowerInvariant();
 
                 await Task.Run(() =>
                 {
@@ -912,10 +921,10 @@ namespace Axon.UI.ViewModels
                         ws.Columns().AdjustToContents();
                     }
 
-                    wb.SaveAs(dialog.FileName);
+                    wb.SaveAs(filePath);
                 });
 
-                MessageBox.Show("تم تصدير ملف Excel بنجاح!", "تصدير", MessageBoxButton.OK, MessageBoxImage.Information);
+                Axon.UI.Views.AxonMessageBox.Show($"تم تصدير وحفظ التقرير بنجاح!\nالمسار: {filePath}", "نجاح التصدير", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
