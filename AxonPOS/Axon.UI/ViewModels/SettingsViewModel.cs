@@ -269,14 +269,23 @@ namespace Axon.UI.ViewModels
                     dbRoles = new[] { adminRole, cashierRole, managerRole };
                 }
 
+                Users.Clear();
+                var dbUsers = await _userRepository.GetAllAsync();
+
                 foreach (var r in dbRoles)
                 {
-                    Roles.Add(new RoleModel { Id = r.Id, Name = r.Name });
+                    var userCount = dbUsers.Count(u => u.RoleId == r.Id);
+                    Roles.Add(new RoleModel 
+                    { 
+                        Id = r.Id, 
+                        Name = r.Name,
+                        Description = string.IsNullOrWhiteSpace(r.Description) ? "رتبة وظيفية محددة الصلاحيات" : r.Description,
+                        UsersCount = userCount,
+                        IsSystemBuiltIn = r.Id <= 3
+                    });
                 }
                 SelectedRole = Roles.FirstOrDefault();
 
-                Users.Clear();
-                var dbUsers = await _userRepository.GetAllAsync();
                 foreach (var u in dbUsers)
                 {
                     var roleName = dbRoles.FirstOrDefault(r => r.Id == u.RoleId)?.Name ?? "عام";
@@ -814,6 +823,66 @@ namespace Axon.UI.ViewModels
                 IsBusy = false;
             }
         }
+
+        [RelayCommand]
+        private async Task DeleteRoleAsync(RoleModel? role)
+        {
+            if (role == null) return;
+
+            if (role.IsSystemBuiltIn || role.Id <= 3)
+            {
+                AxonMessageBox.Show(
+                    "لا يمكن حذف الرتب الأساسية للنظام للحفاظ على استقرار أمان الحسابات.",
+                    "حظر الحذف",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Warning);
+                return;
+            }
+
+            var confirm = AxonMessageBox.Show(
+                $"هل أنت تأكد من رغبتك في حذف الرتبة ({role.Name}) نهائياً من النظام؟\nتنبيه: سيتم إسقاط صلاحيات المستخدمين المرتبطين بهذه الرتبة.",
+                "تأكيد حذف الرتبة",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Question);
+
+            if (confirm != System.Windows.MessageBoxResult.Yes) return;
+
+            IsBusy = true;
+            try
+            {
+                await _dbLock.WaitAsync();
+                try
+                {
+                    var dbRole = await _roleRepository.GetByIdAsync(role.Id);
+                    if (dbRole != null)
+                    {
+                        await _roleRepository.DeleteAsync(dbRole);
+                    }
+                }
+                finally
+                {
+                    _dbLock.Release();
+                }
+
+                Roles.Remove(role);
+                if (SelectedRoleForPermissions?.Id == role.Id)
+                {
+                    SelectedRoleForPermissions = Roles.FirstOrDefault();
+                }
+
+                RbacStatusMessage = $"تم حذف الرتبة ({role.Name}) بنجاح.";
+                IsRbacStatusVisible = true;
+            }
+            catch (Exception ex)
+            {
+                RbacStatusMessage = $"فشل حذف الرتبة: {ex.Message}";
+                IsRbacStatusVisible = true;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
     }
 
     public partial class PermissionItemModel : ObservableObject
@@ -846,5 +915,8 @@ namespace Axon.UI.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public int UsersCount { get; set; }
+        public bool IsSystemBuiltIn { get; set; }
     }
 }
