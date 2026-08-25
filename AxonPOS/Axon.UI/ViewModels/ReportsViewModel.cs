@@ -974,6 +974,11 @@ namespace Axon.UI.ViewModels
                     }
                     else if (ext == ".pdf")
                     {
+                        if (PdfSharp.Fonts.GlobalFontSettings.FontResolver == null)
+                        {
+                            try { PdfSharp.Fonts.GlobalFontSettings.FontResolver = new AxonPdfFontResolver(); } catch { }
+                        }
+
                         using var pdf = new PdfSharp.Pdf.PdfDocument();
                         pdf.Info.Title = "Axon POS Report";
                         var page = pdf.AddPage();
@@ -1233,5 +1238,43 @@ namespace Axon.UI.ViewModels
         public decimal Total { get; set; }
         public string PaymentMethod { get; set; } = "نقدي (Cash)";
         public string Status { get; set; } = "مكتمل";
+    }
+
+    public class AxonPdfFontResolver : PdfSharp.Fonts.IFontResolver
+    {
+        public byte[]? GetFont(string faceName)
+        {
+            try
+            {
+                var fontsDir = Environment.GetFolderPath(Environment.SpecialFolder.Fonts);
+                var fontFile = faceName.ToLowerInvariant() switch
+                {
+                    "arial#b" => "arialbd.ttf",
+                    "arial#i" => "ariali.ttf",
+                    "arial#bi" => "arialbi.ttf",
+                    _ => "arial.ttf"
+                };
+
+                var fullPath = System.IO.Path.Combine(fontsDir, fontFile);
+                if (System.IO.File.Exists(fullPath))
+                    return System.IO.File.ReadAllBytes(fullPath);
+
+                var fallbackPath = System.IO.Path.Combine(fontsDir, "arial.ttf");
+                if (System.IO.File.Exists(fallbackPath))
+                    return System.IO.File.ReadAllBytes(fallbackPath);
+            }
+            catch { }
+            return null;
+        }
+
+        public PdfSharp.Fonts.FontResolverInfo? ResolveTypeface(string familyName, bool isBold, bool isItalic)
+        {
+            var suffix = "";
+            if (isBold && isItalic) suffix = "#bi";
+            else if (isBold) suffix = "#b";
+            else if (isItalic) suffix = "#i";
+
+            return new PdfSharp.Fonts.FontResolverInfo("Arial" + suffix);
+        }
     }
 }
