@@ -30,18 +30,6 @@
                     <TextBlock Text="{DynamicResource SettingsDesc}" FontSize="14" Foreground="{DynamicResource AxonSecondaryTextBrush}" />
                 </StackPanel>
 
-                <!-- Tabbed Interface -->
-                <Border Grid.Row="1" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="0,0,0,1" Margin="0,0,0,24">
-                    <StackPanel Orientation="Horizontal">
-                        <Border BorderBrush="{DynamicResource AxonPrimaryBrush}" BorderThickness="0,0,0,2" Padding="4,0,4,12" Margin="0,0,24,0">
-                            <TextBlock Text="{DynamicResource StoreProfileTab}" Foreground="{DynamicResource AxonPrimaryBrush}" FontWeight="Bold" FontSize="14"/>
-                        </Border>
-                        <TextBlock Text="{DynamicResource PaymentGatewaysTab}" Foreground="{DynamicResource AxonSecondaryTextBrush}" Margin="0,0,24,0" Cursor="Hand" FontSize="14" VerticalAlignment="Center"/>
-                        <TextBlock Text="{DynamicResource TaxRulesTab}" Foreground="{DynamicResource AxonSecondaryTextBrush}" Margin="0,0,24,0" Cursor="Hand" FontSize="14" VerticalAlignment="Center"/>
-                        <TextBlock Text="{DynamicResource IntegrationSettingsTab}" Foreground="{DynamicResource AxonSecondaryTextBrush}" Cursor="Hand" FontSize="14" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Border>
-
                 <!-- Form Layout Grid -->
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
@@ -61,87 +49,11 @@
                                 </Border>
 
                                 <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="16"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="16" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <!-- Legal Store Name -->
-                                    <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
-                                        <TextBlock Text="{DynamicResource LegalStoreNameLabel}" FontSize="13" Foreground="{DynamicResource AxonSecondaryTextBrush}" Margin="0,0,0,6"/>
+                                    <!-- Store Name -->
+                                    <StackPanel>
+                                        <TextBlock Text="اسم المتجر" FontSize="13" Foreground="{DynamicResource AxonSecondaryTextBrush}" Margin="0,0,0,6"/>
                                         <Border Background="#111111" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="44">
                                             <TextBox Text="{Binding LegalStoreName}" BorderThickness="0" Background="Transparent" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </StackPanel>
-
-                                    <!-- Display Name -->
-                                    <StackPanel Grid.Row="2" Grid.Column="0">
-                                        <TextBlock Text="{DynamicResource DisplayNameLabel}" FontSize="13" Foreground="{DynamicResource AxonSecondaryTextBrush}" Margin="0,0,0,6"/>
-                                        <Border Background="#111111" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="44">
-                                            <TextBox Text="{Binding DisplayName}" BorderThickness="0" Background="Transparent" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </StackPanel>
-
-                                    <!-- Registration Number -->
-                                    <StackPanel Grid.Row="2" Grid.Column="2">
-                                        <TextBlock Text="{DynamicResource RegistrationNumberLabel}" FontSize="13" Foreground="{DynamicResource AxonSecondaryTextBrush}" Margin="0,0,0,6"/>
-                                        <Border Background="#111111" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="44">
-                                            <TextBox Text="{Binding RegistrationNumber}" BorderThickness="0" Background="Transparent" Foreground="White" FontSize="14" VerticalAlignment="Center" FontFamily="Consolas"/>
-                                        </Border>
-                                    </StackPanel>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Contact & Location Card -->
-                        <Border Style="{StaticResource Axon3DCardStyle}" Margin="0,0,0,24">
-                            <StackPanel>
-                                <Border BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,12" Margin="0,0,0,20">
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="MapMarkerOutline" Width="22" Height="22" Foreground="{DynamicResource AxonPrimaryBrush}" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                        <TextBlock Text="{DynamicResource LocationContactLabel}" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </Border>
-
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="16"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="16" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <!-- Phone Number -->
-                                    <StackPanel Grid.Row="0" Grid.Column="0">
-                                        <TextBlock Text="{DynamicResource PhoneLabel}" FontSize="13" Foreground="{DynamicResource AxonSecondaryTextBrush}" Margin="0,0,0,6"/>
-                                        <Border Background="#111111" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="44">
-                                            <TextBox Text="{Binding Phone}" BorderThickness="0" Background="Transparent" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </StackPanel>
-
-                                    <!-- Email Address -->
-                                    <StackPanel Grid.Row="0" Grid.Column="2">
-                                        <TextBlock Text="{DynamicResource EmailLabel}" FontSize="13" Foreground="{DynamicResource AxonSecondaryTextBrush}" Margin="0,0,0,6"/>
-                                        <Border Background="#111111" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="44">
-                                            <TextBox Text="{Binding Email}" BorderThickness="0" Background="Transparent" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </StackPanel>
-
-                                    <!-- Address -->
-                                    <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
-                                        <TextBlock Text="{DynamicResource AddressLabel}" FontSize="13" Foreground="{DynamicResource AxonSecondaryTextBrush}" Margin="0,0,0,6"/>
-                                        <Border Background="#111111" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="44">
-                                            <TextBox Text="{Binding Address}" BorderThickness="0" Background="Transparent" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
                                         </Border>
                                     </StackPanel>
                                 </Grid>
