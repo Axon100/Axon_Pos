@@ -20,6 +20,7 @@ namespace Axon.UI.ViewModels
         private readonly IBarcodeService _barcodeService;
         private readonly IRepository<Product> _productRepository;
         private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<SystemSetting> _systemSettingRepository;
 
         // ===== Filter & Selection Properties =====
         [ObservableProperty]
@@ -41,7 +42,7 @@ namespace Axon.UI.ViewModels
         private int _labelsCount = 12;
 
         [ObservableProperty]
-        private string _storeName = "AXON POS";
+        private string _storeName = "Axon POS";
 
         [ObservableProperty]
         private string _labelSize = "50mm × 25mm (حراري قياسي)";
@@ -99,11 +100,13 @@ namespace Axon.UI.ViewModels
         public BarcodeManagementViewModel(
             IBarcodeService barcodeService,
             IRepository<Product> productRepository,
-            IRepository<Category> categoryRepository)
+            IRepository<Category> categoryRepository,
+            IRepository<SystemSetting> systemSettingRepository)
         {
             _barcodeService = barcodeService;
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
+            _systemSettingRepository = systemSettingRepository;
 
             Title = "إدارة وطباعة الباركود";
             _ = LoadInitialDataAsync();
@@ -117,6 +120,14 @@ namespace Axon.UI.ViewModels
             _isInitializing = true;
             try
             {
+                // Fetch dynamic store name from Settings
+                var settings = await _systemSettingRepository.GetAllAsync();
+                var storeSetting = settings.FirstOrDefault(s => s.Key == "LegalStoreName");
+                if (storeSetting != null && !string.IsNullOrWhiteSpace(storeSetting.Value))
+                {
+                    StoreName = storeSetting.Value;
+                }
+
                 Categories.Clear();
                 Products.Clear();
                 _allProducts.Clear();
@@ -237,13 +248,24 @@ namespace Axon.UI.ViewModels
         // ==================== COMMANDS ====================
 
         [RelayCommand]
-        private void ExecuteGenerate()
+        private async Task ExecuteGenerateAsync()
         {
             if (SelectedProduct == null && _allProducts.Count == 0 && string.IsNullOrWhiteSpace(SearchBarcodeOrCode))
             {
                 MessageBox.Show("يرجى اختيار صنف أو إدخال كود الباركود أولاً لإنشاء الملصقات!", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+
+            try
+            {
+                var settings = await _systemSettingRepository.GetAllAsync();
+                var storeSetting = settings.FirstOrDefault(s => s.Key == "LegalStoreName");
+                if (storeSetting != null && !string.IsNullOrWhiteSpace(storeSetting.Value))
+                {
+                    StoreName = storeSetting.Value;
+                }
+            }
+            catch { }
 
             var prod = SelectedProduct ?? _allProducts.FirstOrDefault();
 
