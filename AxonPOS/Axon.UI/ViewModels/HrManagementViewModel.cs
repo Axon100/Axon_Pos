@@ -213,6 +213,8 @@ namespace Axon.UI.ViewModels
         [ObservableProperty]
         private string _leaveReason = string.Empty;
 
+        private readonly Axon.Application.Interfaces.Services.IPermissionService _permissionService;
+
         public HrManagementViewModel(
             IRepository<Employee> employeeRepository,
             IRepository<EmployeeAdvance> advanceRepository,
@@ -220,7 +222,8 @@ namespace Axon.UI.ViewModels
             IRepository<EmployeeSalaryPayment> salaryPaymentRepository,
             IRepository<EmployeeAttendance> attendanceRepository,
             IRepository<EmployeeDeduction> deductionRepository,
-            IRepository<EmployeeLeave> leaveRepository)
+            IRepository<EmployeeLeave> leaveRepository,
+            Axon.Application.Interfaces.Services.IPermissionService permissionService)
         {
             _employeeRepository = employeeRepository;
             _advanceRepository = advanceRepository;
@@ -229,6 +232,7 @@ namespace Axon.UI.ViewModels
             _attendanceRepository = attendanceRepository;
             _deductionRepository = deductionRepository;
             _leaveRepository = leaveRepository;
+            _permissionService = permissionService;
 
             _ = LoadDataAsync();
         }
@@ -238,6 +242,8 @@ namespace Axon.UI.ViewModels
             IsBusy = true;
             try
             {
+                // Ensure HR schema & permissions exist in database
+                await _permissionService.EnsureDefaultPermissionsSeededAsync();
                 var empList = (await _employeeRepository.GetAllAsync()).Where(e => !e.IsDeleted).ToList();
                 Employees.Clear();
                 foreach (var e in empList) Employees.Add(e);
