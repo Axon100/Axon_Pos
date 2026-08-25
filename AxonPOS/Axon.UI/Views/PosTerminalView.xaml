@@ -77,11 +77,10 @@
                         </Grid>
                     </Border>
                     
-                    <TextBlock Grid.Row="1" Text="{Binding Name}" FontSize="16" FontWeight="SemiBold" Foreground="White" TextTrimming="CharacterEllipsis"/>
-                    <TextBlock Grid.Row="2" Text="{Binding Sku, StringFormat=SKU: {0}}" FontSize="12" Foreground="#b4b5b5" Margin="0,4,0,8"/>
+                    <TextBlock Grid.Row="1" Text="{Binding Name}" FontSize="16" FontWeight="SemiBold" Foreground="White" TextTrimming="CharacterEllipsis" Margin="0,0,0,8"/>
                     
                     <Grid Grid.Row="3">
-                        <TextBlock Text="{Binding Price, StringFormat='{}{0:N2} ج.م'}" FontSize="18" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Price, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="18" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center"/>
                         <Button Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Style="{StaticResource MaterialDesignFlatButton}" Background="#2b0005" Foreground="#d90429" HorizontalAlignment="Right" Padding="8,4" Height="32">
                             <materialDesign:PackIcon Kind="CartPlus" />
                         </Button>
@@ -111,7 +110,6 @@
                     
                     <StackPanel Grid.Column="0" VerticalAlignment="Center">
                         <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold" Foreground="White" TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="{Binding Sku, StringFormat=SKU: {0}}" FontSize="10" Foreground="#b4b5b5"/>
                     </StackPanel>
                     
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -125,7 +123,7 @@
                     </StackPanel>
                     
                     <StackPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding TotalPrice, StringFormat='{}{0:N2} ج.م'}" FontSize="14" Foreground="White" HorizontalAlignment="Right"/>
+                        <TextBlock Text="{Binding TotalPrice, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="14" Foreground="White" HorizontalAlignment="Right"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -390,21 +388,21 @@
                         <StackPanel Margin="0,0,0,16">
                             <Grid Margin="0,0,0,8">
                                 <TextBlock Text="{DynamicResource Subtotal}" Foreground="#b4b5b5"/>
-                                <TextBlock Text="{Binding Subtotal, StringFormat='{}{0:N2} ج.م'}" Foreground="White" HorizontalAlignment="Right"/>
+                                <TextBlock Text="{Binding Subtotal, StringFormat='{}{0:#,##0.##} ج.م'}" Foreground="White" HorizontalAlignment="Right"/>
                             </Grid>
                             <Grid Margin="0,0,0,8" Visibility="{Binding IsTaxVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <TextBlock Text="{DynamicResource TaxLabel}" Foreground="#b4b5b5"/>
-                                <TextBlock Text="{Binding Tax, StringFormat='{}{0:N2} ج.م'}" Foreground="White" HorizontalAlignment="Right"/>
+                                <TextBlock Text="{Binding Tax, StringFormat='{}{0:#,##0.##} ج.م'}" Foreground="White" HorizontalAlignment="Right"/>
                             </Grid>
                             <Grid>
                                 <TextBlock Text="{DynamicResource BtnDiscount}" Foreground="#d90429"/>
-                                <TextBlock Text="{Binding Discount, StringFormat='-{0:N2} ج.م'}" Foreground="#d90429" HorizontalAlignment="Right"/>
+                                <TextBlock Text="{Binding Discount, StringFormat='-{0:#,##0.##} ج.م'}" Foreground="#d90429" HorizontalAlignment="Right"/>
                             </Grid>
                         </StackPanel>
 
                         <Grid Margin="0,0,0,24">
                             <TextBlock Text="{DynamicResource Total}" FontSize="18" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Bottom"/>
-                            <TextBlock Text="{Binding Total, StringFormat='{}{0:N2} ج.م'}" FontSize="32" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
+                            <TextBlock Text="{Binding Total, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="32" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
                         </Grid>
 
                         <Button Command="{Binding CheckoutCommand}" Background="#d90429" Foreground="White" BorderThickness="0" Height="64" FontSize="20" FontWeight="SemiBold">

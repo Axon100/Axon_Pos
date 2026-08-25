@@ -235,7 +235,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <materialDesign:PackIcon Grid.Column="0" Kind="Magnify" Width="18" Height="18" Foreground="#8E8E93" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                <TextBox Grid.Column="1" Text="{Binding ProductSearchText, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Foreground="White" BorderThickness="0" VerticalAlignment="Center" FontSize="12" materialDesign:HintAssist.Hint="بحث باسم المنتج أو كود SKU..."/>
+                                <TextBox Grid.Column="1" Text="{Binding ProductSearchText, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Foreground="White" BorderThickness="0" VerticalAlignment="Center" FontSize="12" materialDesign:HintAssist.Hint="بحث باسم المنتج..."/>
                             </Grid>
                         </Border>
                     </Grid>
@@ -289,13 +289,9 @@
                                                 </Grid>
                                             </Border>
 
-                                            <!-- Row 2: Product Name & Code -->
+                                            <!-- Row 2: Product Name -->
                                             <StackPanel Grid.Row="2" Margin="0,0,0,12">
                                                 <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="Bold" Foreground="White" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/>
-                                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                                                    <materialDesign:PackIcon Kind="Barcode" Width="14" Height="14" Foreground="#737373" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                                                    <TextBlock Text="{Binding SKU}" FontSize="11" Foreground="#737373" VerticalAlignment="Center"/>
-                                                </StackPanel>
                                             </StackPanel>
 
                                             <!-- Row 3: Price & Stock Info -->
@@ -303,7 +299,7 @@
                                                 <Grid>
                                                     <StackPanel VerticalAlignment="Center">
                                                         <TextBlock Text="السعر" FontSize="10" Foreground="#737373" FontWeight="SemiBold"/>
-                                                        <TextBlock Text="{Binding SellingPriceFormatted}" FontSize="16" FontWeight="ExtraBold" Foreground="#D90429"/>
+                                                        <TextBlock Text="{Binding Price, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="16" FontWeight="ExtraBold" Foreground="#D90429"/>
                                                     </StackPanel>
                                                     <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
                                                         <TextBlock Text="المخزون" FontSize="10" Foreground="#737373" FontWeight="SemiBold" HorizontalAlignment="Right"/>
@@ -407,12 +403,9 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-
+                            
                             <!-- Product Name -->
                             <DataGridTextColumn Header="اسم المنتج" Binding="{Binding Name}" Width="2*" FontWeight="SemiBold" Foreground="White"/>
-                            
-                            <!-- SKU -->
-                            <DataGridTextColumn Header="رمز الصنف (SKU)" Binding="{Binding Sku}" Width="1.2*" Foreground="#b4b5b5"/>
                             
                             <!-- Category -->
                             <DataGridTextColumn Header="القسم" Binding="{Binding Category}" Width="1.2*" Foreground="#E0E0E0"/>
@@ -429,7 +422,7 @@
                             </DataGridTemplateColumn>
 
                             <!-- Price -->
-                            <DataGridTextColumn Header="السعر" Binding="{Binding Price, StringFormat='{}{0:N2} ج.م'}" Width="1*" FontWeight="Bold" Foreground="White"/>
+                            <DataGridTextColumn Header="السعر" Binding="{Binding Price, StringFormat='{}{0:#,##0.##} ج.م'}" Width="1*" FontWeight="Bold" Foreground="White"/>
 
                             <!-- Actions -->
                             <DataGridTemplateColumn Header="إجراءات" Width="100">
