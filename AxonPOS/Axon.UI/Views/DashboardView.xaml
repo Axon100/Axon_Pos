@@ -29,20 +29,41 @@
                     <TextBlock Text="{Binding DateRange}" FontSize="12" Foreground="#8E8E93" Margin="36,4,0,0"/>
                 </StackPanel>
 
-                <!-- Interactive Arabic Date Range Picker Dropdown -->
-                <Border Grid.Column="1" Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="8" Padding="12,4" Height="38" VerticalAlignment="Center">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CalendarToday" Foreground="#D90429" Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                        <ComboBox ItemsSource="{Binding DateRanges}" SelectedItem="{Binding SelectedDateRange}"
-                                  Background="Transparent" Foreground="White" BorderThickness="0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding}" Foreground="White" FontWeight="Bold" FontSize="12"/>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                <!-- Interactive Arabic Date Range & Year Picker Bar -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <!-- Year Selector Dropdown (Appears when 'سنوي' is selected) -->
+                    <Border Background="#1A1A1A" BorderBrush="#d90429" BorderThickness="1" CornerRadius="8" Padding="10,4" Height="38" Margin="0,0,8,0"
+                            Visibility="{Binding IsYearSelectorVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="CalendarRange" Foreground="#D90429" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="السنة:" Foreground="#8E8E93" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                            <ComboBox ItemsSource="{Binding AvailableYears}" SelectedItem="{Binding SelectedYear}"
+                                      Background="Transparent" Foreground="White" BorderThickness="0" FontSize="13" FontWeight="Bold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Custom Date Range Pickers (Appears when 'فترة مخصصة' is selected) -->
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding IsCustomDateVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,0,8,0" VerticalAlignment="Center">
+                        <DatePicker SelectedDate="{Binding CustomStartDate}" Width="120" Height="38" Background="#1A1A1A" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Margin="0,0,6,0" Padding="6,2" VerticalContentAlignment="Center"/>
+                        <TextBlock Text="إلى" Foreground="#8E8E93" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <DatePicker SelectedDate="{Binding CustomEndDate}" Width="120" Height="38" Background="#1A1A1A" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Margin="0,0,6,0" Padding="6,2" VerticalContentAlignment="Center"/>
                     </StackPanel>
-                </Border>
+
+                    <!-- Main Filter Dropdown -->
+                    <Border Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="8" Padding="12,4" Height="38" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="CalendarToday" Foreground="#D90429" Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <ComboBox ItemsSource="{Binding DateRanges}" SelectedItem="{Binding SelectedDateRange}"
+                                      Background="Transparent" Foreground="White" BorderThickness="0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" Foreground="White" FontWeight="Bold" FontSize="12"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
             </Grid>
 
             <!-- ==================== 2. KPI CARDS ==================== -->
