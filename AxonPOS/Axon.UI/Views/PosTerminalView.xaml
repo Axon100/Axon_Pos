@@ -143,37 +143,88 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- Top Search & Barcode Scan Bar -->
-            <Border Grid.Row="0" Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Margin="0,0,0,16" Effect="{DynamicResource Axon3DCardShadow}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <materialDesign:PackIcon Grid.Column="0" Kind="BarcodeScan" Width="22" Height="22" Foreground="#d90429" 
-                                             VerticalAlignment="Center" Margin="14,0,8,0"/>
-                    <TextBox Grid.Column="1"
-                             Text="{Binding BarcodeInput, UpdateSourceTrigger=PropertyChanged}"
-                             materialDesign:HintAssist.Hint="امسح الباركود أو اكتب اسم / كود المنتج للبحث المباشر..."
-                             Style="{StaticResource MaterialDesignFilledTextBox}"
-                             Background="Transparent" Foreground="White" BorderThickness="0"
-                             CaretBrush="White" Padding="8,12" FontSize="13">
-                        <TextBox.InputBindings>
-                            <KeyBinding Key="Return" Command="{Binding ProcessBarcodeInputCommand}"/>
-                        </TextBox.InputBindings>
-                    </TextBox>
-                    <Button Grid.Column="2" Command="{Binding ProcessBarcodeInputCommand}"
-                            Style="{StaticResource MaterialDesignFlatButton}"
-                            Background="#2b0005" Foreground="#d90429" Margin="8,4" Padding="12,4" Height="36"
-                            ToolTip="إضافة للسلة">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="CartPlus" Width="20" Height="20" Margin="0,0,6,0"/>
-                            <TextBlock Text="إضافة" VerticalAlignment="Center" FontWeight="SemiBold"/>
-                        </StackPanel>
-                    </Button>
-                </Grid>
-            </Border>
+            <!-- Top Search & Barcode Scan Bar with Live Visual Feedback -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,16">
+                <Border Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="12" Padding="4" Effect="{DynamicResource Axon3DCardShadow}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Scanner Animated Icon & Badge -->
+                        <Border Grid.Column="0" Background="#22d90429" BorderBrush="#44d90429" BorderThickness="1" CornerRadius="8" Padding="10,8" Margin="4,0,8,0">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="BarcodeScan" Width="22" Height="22" Foreground="#d90429" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                <TextBlock Text="قارئ الباركود" FontSize="12" FontWeight="Bold" Foreground="#d90429" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Input Field -->
+                        <TextBox Grid.Column="1"
+                                 x:Name="TxtBarcodeInput"
+                                 Text="{Binding BarcodeInput, UpdateSourceTrigger=PropertyChanged}"
+                                 materialDesign:HintAssist.Hint="امسح باركود المنتج بالـ Scanner هنا أو اكتب الكود للبحث المباشر..."
+                                 Background="Transparent" Foreground="White" BorderThickness="0"
+                                 CaretBrush="#d90429" Padding="8,12" FontSize="14" FontWeight="SemiBold">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Return" Command="{Binding ProcessBarcodeInputCommand}"/>
+                            </TextBox.InputBindings>
+                        </TextBox>
+
+                        <!-- Clear Input Button -->
+                        <Button Grid.Column="2" 
+                                Command="{Binding ClearBarcodeInputCommand}" 
+                                Visibility="{Binding BarcodeInput.Length, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                Style="{StaticResource MaterialDesignIconButton}" Width="28" Height="28" Padding="0" Foreground="#8E8E93" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="CloseCircle" Width="18" Height="18"/>
+                        </Button>
+
+                        <!-- Add / Search Button -->
+                        <Button Grid.Column="3" Command="{Binding ProcessBarcodeInputCommand}"
+                                Style="{StaticResource Axon3DPrimaryButtonStyle}"
+                                Height="38" Padding="14,0" Margin="4,0" ToolTip="مسح وإضافة المنتج للسلة مباشرة">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="CartPlus" Width="18" Height="18" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="إضافة للسلة" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- Live Barcode Scan Feedback Toast Badge -->
+                <Border Margin="0,6,0,0" CornerRadius="8" Padding="12,8" Visibility="{Binding HasBarcodeFeedback, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="#154AE176"/>
+                            <Setter Property="BorderBrush" Value="#404AE176"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLastScanSuccess}" Value="False">
+                                    <Setter Property="Background" Value="#22EF4444"/>
+                                    <Setter Property="BorderBrush" Value="#44EF4444"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Grid>
+                        <TextBlock Text="{Binding LastScannedBarcodeFeedback}" FontSize="12" FontWeight="Bold">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#4AE176"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsLastScanSuccess}" Value="False">
+                                            <Setter Property="Foreground" Value="#EF4444"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </Border>
+            </StackPanel>
 
             <!-- Main Content Area: Split into Categories Side Panel and Products Grid -->
             <Grid Grid.Row="1">

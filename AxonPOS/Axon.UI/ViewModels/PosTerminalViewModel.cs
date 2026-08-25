@@ -111,6 +111,15 @@ namespace Axon.UI.ViewModels
         private string _barcodeInput = string.Empty;
 
         [ObservableProperty]
+        private string _lastScannedBarcodeFeedback = string.Empty;
+
+        [ObservableProperty]
+        private bool _isLastScanSuccess = true;
+
+        [ObservableProperty]
+        private bool _hasBarcodeFeedback = false;
+
+        [ObservableProperty]
         private string _selectedCategory = string.Empty;
 
         [ObservableProperty]
@@ -667,6 +676,13 @@ namespace Axon.UI.ViewModels
         }
 
         [RelayCommand]
+        private void ClearBarcodeInput()
+        {
+            BarcodeInput = string.Empty;
+            HasBarcodeFeedback = false;
+        }
+
+        [RelayCommand]
         private void ProcessBarcodeInput()
         {
             if (string.IsNullOrWhiteSpace(BarcodeInput)) return;
@@ -674,15 +690,21 @@ namespace Axon.UI.ViewModels
             var query = BarcodeInput.Trim();
             var matchedProduct = _allProductItems.FirstOrDefault(p => 
                 (p.Barcode != null && p.Barcode.Equals(query, StringComparison.OrdinalIgnoreCase)) ||
-                (p.Sku != null && p.Sku.Equals(query, StringComparison.OrdinalIgnoreCase)));
+                (p.Barcode != null && p.Barcode.Contains(query, StringComparison.OrdinalIgnoreCase)));
 
             if (matchedProduct != null)
             {
                 AddToCart(matchedProduct);
+                LastScannedBarcodeFeedback = $"✓ تم مسح الباركود بنجاح: [{query}] — تمت إضافة ({matchedProduct.Name}) بسعر {matchedProduct.Price:#,##0.##} ج.م للسلة!";
+                IsLastScanSuccess = true;
+                HasBarcodeFeedback = true;
                 BarcodeInput = string.Empty;
             }
             else
             {
+                LastScannedBarcodeFeedback = $"⚠️ الباركود أو الكود [{query}] غير مسجل في المنتجات!";
+                IsLastScanSuccess = false;
+                HasBarcodeFeedback = true;
                 ApplyFilter();
             }
         }
