@@ -107,12 +107,6 @@ namespace Axon.UI.ViewModels
             try
             {
                 var dialog = new Axon.UI.Views.AddExpenseWindow();
-                var mainWindow = System.Windows.Application.Current?.MainWindow;
-                if (mainWindow != null && mainWindow.IsVisible)
-                {
-                    dialog.Owner = mainWindow;
-                }
-
                 if (dialog.ShowDialog() == true && dialog.Result != null)
                 {
                     var newExpense = new Expense

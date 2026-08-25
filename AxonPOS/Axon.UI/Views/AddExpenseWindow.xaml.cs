@@ -15,10 +15,11 @@ namespace Axon.UI.Views
         {
             InitializeComponent();
             
-            // Set Owner to MainWindow
-            if (System.Windows.Application.Current.MainWindow != null)
+            // Set Owner to MainWindow safely
+            var main = System.Windows.Application.Current?.MainWindow;
+            if (main != null && main != this)
             {
-                this.Owner = System.Windows.Application.Current.MainWindow;
+                this.Owner = main;
             }
         }
 
