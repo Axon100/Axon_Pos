@@ -378,13 +378,96 @@
         <Border Grid.Column="1" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1,0,0,0">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> <!-- Multi-Invoice Tabs Bar -->
                     <RowDefinition Height="Auto"/> <!-- Customer Header -->
                     <RowDefinition Height="*"/>    <!-- Cart Items Table -->
                     <RowDefinition Height="Auto"/> <!-- Totals & Pay Now -->
                 </Grid.RowDefinitions>
 
+                <!-- Multi-Invoice Tab Switcher Bar (فاتورة 1 | فاتورة 2 | فاتورة 3) -->
+                <Border Grid.Row="0" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="0,0,0,1" Padding="10,8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="6"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="6"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Tab 1: فاتورة 1 -->
+                        <Button Grid.Column="0" Command="{Binding SwitchOrderTabCommand}" CommandParameter="1" Height="36" Padding="4,0" ToolTip="فاتورة الزبون الأول">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+                                    <Setter Property="Background" Value="#1A1A1A"/>
+                                    <Setter Property="BorderBrush" Value="#2C2C2C"/>
+                                    <Setter Property="Foreground" Value="#8E8E93"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsTab1Active}" Value="True">
+                                            <Setter Property="Background" Value="#2b0005"/>
+                                            <Setter Property="BorderBrush" Value="#d90429"/>
+                                            <Setter Property="Foreground" Value="#ffb3af"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="ReceiptText" Width="15" Height="15" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="فاتورة 1" FontSize="11" FontWeight="Bold" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Tab1Badge}" FontSize="10" FontWeight="Black" Foreground="#4ae176" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Tab 2: فاتورة 2 -->
+                        <Button Grid.Column="2" Command="{Binding SwitchOrderTabCommand}" CommandParameter="2" Height="36" Padding="4,0" ToolTip="فاتورة الزبون الثاني">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+                                    <Setter Property="Background" Value="#1A1A1A"/>
+                                    <Setter Property="BorderBrush" Value="#2C2C2C"/>
+                                    <Setter Property="Foreground" Value="#8E8E93"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsTab2Active}" Value="True">
+                                            <Setter Property="Background" Value="#2b0005"/>
+                                            <Setter Property="BorderBrush" Value="#d90429"/>
+                                            <Setter Property="Foreground" Value="#ffb3af"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="ReceiptText" Width="15" Height="15" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="فاتورة 2" FontSize="11" FontWeight="Bold" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Tab2Badge}" FontSize="10" FontWeight="Black" Foreground="#4ae176" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Tab 3: فاتورة 3 -->
+                        <Button Grid.Column="4" Command="{Binding SwitchOrderTabCommand}" CommandParameter="3" Height="36" Padding="4,0" ToolTip="فاتورة الزبون الثالث">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+                                    <Setter Property="Background" Value="#1A1A1A"/>
+                                    <Setter Property="BorderBrush" Value="#2C2C2C"/>
+                                    <Setter Property="Foreground" Value="#8E8E93"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsTab3Active}" Value="True">
+                                            <Setter Property="Background" Value="#2b0005"/>
+                                            <Setter Property="BorderBrush" Value="#d90429"/>
+                                            <Setter Property="Foreground" Value="#ffb3af"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="ReceiptText" Width="15" Height="15" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="فاتورة 3" FontSize="11" FontWeight="Bold" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Tab3Badge}" FontSize="10" FontWeight="Black" Foreground="#4ae176" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </Border>
+
                 <!-- Customer Header -->
-                <Border Grid.Row="0" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="0,0,0,1" Padding="14,12">
+                <Border Grid.Row="1" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="0,0,0,1" Padding="14,12">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -429,7 +512,7 @@
                 </Border>
 
                 <!-- Cart Items List Area -->
-                <Grid Grid.Row="1" Margin="12,8">
+                <Grid Grid.Row="2" Margin="12,8">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/> <!-- Table Header -->
                         <RowDefinition Height="*"/>    <!-- Scrollable Items -->
@@ -476,7 +559,7 @@
                 </Grid>
 
                 <!-- Order Summary & Checkout Footer -->
-                <Border Grid.Row="2" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="0,1,0,0" Padding="16,14">
+                <Border Grid.Row="3" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="0,1,0,0" Padding="16,14">
                     <StackPanel>
                         <!-- Payment Method & Discount Action Buttons Row -->
                         <Grid Margin="0,0,0,12">

@@ -82,6 +82,35 @@ namespace Axon.UI.ViewModels
         [ObservableProperty]
         private string _selectedPaymentMethod = "نقداً (Cash)";
 
+        // ==================== MULTI-INVOICE TAB PROPERTIES ====================
+        private readonly PosOrderTabState[] _orderTabs = new PosOrderTabState[]
+        {
+            new() { TabIndex = 1 },
+            new() { TabIndex = 2 },
+            new() { TabIndex = 3 }
+        };
+
+        [ObservableProperty]
+        private int _activeOrderTab = 1;
+
+        [ObservableProperty]
+        private bool _isTab1Active = true;
+
+        [ObservableProperty]
+        private bool _isTab2Active = false;
+
+        [ObservableProperty]
+        private bool _isTab3Active = false;
+
+        [ObservableProperty]
+        private string _tab1Badge = string.Empty;
+
+        [ObservableProperty]
+        private string _tab2Badge = string.Empty;
+
+        [ObservableProperty]
+        private string _tab3Badge = string.Empty;
+
         // ==================== RETURN / REFUND PROPERTIES ====================
         [ObservableProperty]
         private bool _isReturnDialogOpen;
@@ -251,6 +280,85 @@ namespace Axon.UI.ViewModels
                 SelectedPaymentMethod = method;
             }
             IsPaymentMethodDialogOpen = false;
+        }
+
+        // ==================== MULTI-INVOICE TAB COMMANDS ====================
+
+        [RelayCommand]
+        private void SwitchOrderTab(string tabParam)
+        {
+            if (int.TryParse(tabParam, out int newTab) && newTab >= 1 && newTab <= 3)
+            {
+                if (newTab == ActiveOrderTab) return;
+
+                // 1. Save current active tab state
+                var currentSlot = _orderTabs[ActiveOrderTab - 1];
+                currentSlot.Items = Cart.Select(item => new CartItem
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Sku = item.Sku,
+                    Price = item.Price,
+                    Quantity = item.Quantity,
+                    IsTaxable = item.IsTaxable,
+                    TaxAmount = item.TaxAmount
+                }).ToList();
+                currentSlot.Discount = Discount;
+                currentSlot.PaymentMethod = SelectedPaymentMethod;
+
+                // 2. Change active tab index
+                ActiveOrderTab = newTab;
+                IsTab1Active = (ActiveOrderTab == 1);
+                IsTab2Active = (ActiveOrderTab == 2);
+                IsTab3Active = (ActiveOrderTab == 3);
+
+                // 3. Load target tab state
+                var targetSlot = _orderTabs[ActiveOrderTab - 1];
+                Cart.Clear();
+                foreach (var item in targetSlot.Items)
+                {
+                    Cart.Add(new CartItem
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        Sku = item.Sku,
+                        Price = item.Price,
+                        Quantity = item.Quantity,
+                        IsTaxable = item.IsTaxable,
+                        TaxAmount = item.TaxAmount
+                    });
+                }
+                Discount = targetSlot.Discount;
+                SelectedPaymentMethod = targetSlot.PaymentMethod;
+
+                // 4. Refresh badges and totals
+                RecalculateTotals();
+                UpdateTabBadges();
+            }
+        }
+
+        public void UpdateTabBadges()
+        {
+            if (ActiveOrderTab >= 1 && ActiveOrderTab <= 3)
+            {
+                var currentSlot = _orderTabs[ActiveOrderTab - 1];
+                currentSlot.Items = Cart.Select(item => new CartItem
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Sku = item.Sku,
+                    Price = item.Price,
+                    Quantity = item.Quantity,
+                    IsTaxable = item.IsTaxable,
+                    TaxAmount = item.TaxAmount
+                }).ToList();
+                currentSlot.Discount = Discount;
+                currentSlot.PaymentMethod = SelectedPaymentMethod;
+            }
+
+            Tab1Badge = _orderTabs[0].HasItems ? $"({_orderTabs[0].ItemsCount})" : string.Empty;
+            Tab2Badge = _orderTabs[1].HasItems ? $"({_orderTabs[1].ItemsCount})" : string.Empty;
+            Tab3Badge = _orderTabs[2].HasItems ? $"({_orderTabs[2].ItemsCount})" : string.Empty;
         }
 
         // ==================== RETURN WORKFLOW COMMANDS ====================
@@ -847,6 +955,7 @@ namespace Axon.UI.ViewModels
             Tax = Cart.Where(x => x.IsTaxable).Sum(x => x.Quantity * x.TaxAmount);
             OnPropertyChanged(nameof(Total));
             OnPropertyChanged(nameof(IsTaxVisible));
+            UpdateTabBadges();
         }
 
         [RelayCommand]
@@ -931,15 +1040,33 @@ namespace Axon.UI.ViewModels
                 // Reload product inventory to reflect deducted stock
                 await LoadDataAsync();
 
-                // Clear POS Cart
+                // Clear current active slot & POS Cart
+                var currentSlot = _orderTabs[ActiveOrderTab - 1];
+                currentSlot.Items.Clear();
+                currentSlot.Discount = 0;
+                currentSlot.PaymentMethod = "نقداً (Cash)";
+                Discount = 0;
+                SelectedPaymentMethod = "نقداً (Cash)";
                 Cart.Clear();
                 RecalculateTotals();
+                UpdateTabBadges();
             }
             finally
             {
                 IsBusy = false;
             }
         }
+    }
+
+    public class PosOrderTabState
+    {
+        public int TabIndex { get; set; }
+        public List<CartItem> Items { get; set; } = new();
+        public decimal Discount { get; set; } = 0;
+        public string PaymentMethod { get; set; } = "نقداً (Cash)";
+
+        public int ItemsCount => Items.Sum(x => (int)x.Quantity);
+        public bool HasItems => Items.Count > 0;
     }
 
     public class CategoryDisplayItem : ObservableObject
