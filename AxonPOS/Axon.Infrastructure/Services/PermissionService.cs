@@ -231,21 +231,24 @@ namespace Axon.Infrastructure.Services
 
             // Assign ALL permissions to Administrator Role (Role #1)
             var allPerms = await _dbContext.Permissions.ToListAsync();
-            adminRole = await _dbContext.Roles.Include(r => r.Permissions).FirstAsync(r => r.Name == "Administrator");
+            adminRole = await _dbContext.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.Name == "Administrator" || r.Id == 1);
             
             bool adminUpdated = false;
-            foreach (var perm in allPerms)
+            if (adminRole != null)
             {
-                if (!adminRole.Permissions.Any(p => p.Id == perm.Id))
+                foreach (var perm in allPerms)
                 {
-                    adminRole.Permissions.Add(perm);
-                    adminUpdated = true;
+                    if (!adminRole.Permissions.Any(p => p.Id == perm.Id))
+                    {
+                        adminRole.Permissions.Add(perm);
+                        adminUpdated = true;
+                    }
                 }
             }
 
             // Assign Cashier default permissions if empty
-            cashierRole = await _dbContext.Roles.Include(r => r.Permissions).FirstAsync(r => r.Name == "Cashier");
-            if (!cashierRole.Permissions.Any())
+            cashierRole = await _dbContext.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.Name == "Cashier" || r.Id == 2);
+            if (cashierRole != null && !cashierRole.Permissions.Any())
             {
                 var cashierPermCodes = new[] { "Dashboard.View", "POS.View", "POS.Sell", "Products.View", "Inventory.View" };
                 foreach (var p in allPerms.Where(p => cashierPermCodes.Contains(p.Code)))
