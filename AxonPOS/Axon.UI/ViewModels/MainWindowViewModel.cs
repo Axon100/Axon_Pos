@@ -25,6 +25,7 @@ namespace Axon.UI.ViewModels
         public bool IsProductsVisible => UserSessionService.HasPermission("Products.View");
         public bool IsBarcodeVisible => UserSessionService.HasPermission("Barcodes.View");
         public bool IsExpensesVisible => UserSessionService.HasPermission("Expenses.View") || UserSessionService.RoleName == "Admin" || UserSessionService.HasPermission("Reports.View");
+        public bool IsHrVisible => UserSessionService.HasPermission("HR.View") || UserSessionService.RoleName == "Admin";
         public bool IsReportsVisible => UserSessionService.HasPermission("Reports.View");
         public bool IsSettingsVisible => UserSessionService.HasPermission("Settings.View");
 
@@ -52,6 +53,7 @@ namespace Axon.UI.ViewModels
             OnPropertyChanged(nameof(IsProductsVisible));
             OnPropertyChanged(nameof(IsBarcodeVisible));
             OnPropertyChanged(nameof(IsExpensesVisible));
+            OnPropertyChanged(nameof(IsHrVisible));
             OnPropertyChanged(nameof(IsReportsVisible));
             OnPropertyChanged(nameof(IsSettingsVisible));
 
@@ -95,6 +97,7 @@ namespace Axon.UI.ViewModels
                 "Products" => "Products.View",
                 "Barcodes" => "Barcodes.View",
                 "Expenses" => "Expenses.View",
+                "HR" => "HR.View",
                 "Reports" => "Reports.View",
                 "Settings" => "Settings.View",
                 _ => string.Empty
@@ -127,6 +130,11 @@ namespace Axon.UI.ViewModels
                     break;
                 case "Expenses":
                     CurrentViewModel = App.AppHost!.Services.GetRequiredService<ExpensesViewModel>();
+                    break;
+                case "HR":
+                    var hrVm = App.AppHost!.Services.GetRequiredService<HrManagementViewModel>();
+                    _ = hrVm.LoadDataAsync();
+                    CurrentViewModel = hrVm;
                     break;
                 case "Reports":
                     CurrentViewModel = App.AppHost!.Services.GetRequiredService<ReportsViewModel>();

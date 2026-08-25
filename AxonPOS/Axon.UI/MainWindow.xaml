@@ -37,6 +37,9 @@
         <DataTemplate DataType="{x:Type viewmodels:BarcodeManagementViewModel}">
             <views:BarcodeManagementView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:HrManagementViewModel}">
+            <views:HrManagementView />
+        </DataTemplate>
 
         <!-- Sidebar Button Style based on Axon 3D Design System -->
         <Style x:Key="SidebarButtonStyle" TargetType="Button" BasedOn="{StaticResource Axon3DSidebarButtonStyle}">
@@ -163,6 +166,23 @@
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="CashMinus" Width="24" Height="24" Margin="0,0,16,0"/>
                                 <TextBlock Text="{DynamicResource ExternalExpenses}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <!-- Personnel / HR Management -->
+                        <Button Command="{Binding NavigateCommand}" CommandParameter="HR">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsHrVisible}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="AccountGroup" Width="24" Height="24" Margin="0,0,16,0"/>
+                                <TextBlock Text="شؤون العاملين" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                         <Button Command="{Binding NavigateCommand}" CommandParameter="Reports">
