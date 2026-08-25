@@ -218,17 +218,22 @@
                                 <!-- Card Header -->
                                 <Border BorderBrush="#2C2C2C" BorderThickness="0,0,0,1" Padding="0,0,0,16" Margin="0,0,0,20">
                                     <Grid>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,16,0">
                                             <Border Width="40" Height="40" Background="#22D90429" BorderBrush="#44D90429" BorderThickness="1" CornerRadius="10" Margin="0,0,12,0" VerticalAlignment="Center">
                                                 <materialDesign:PackIcon Kind="ShieldAccount" Width="22" Height="22" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Border>
                                             <StackPanel VerticalAlignment="Center">
-                                                <TextBlock Text="إدارة وديناميكية الصلاحيات الفردية (Granular RBAC Manager)" FontSize="18" FontWeight="Bold" Foreground="White"/>
+                                                <TextBlock Text="إدارة وديناميكية الصلاحيات الفردية (Granular RBAC Manager)" FontSize="17" FontWeight="Bold" Foreground="White" TextTrimming="CharacterEllipsis"/>
                                                 <TextBlock Text="حدد الأدوار أو المستخدمين للتعديل الفوري على صلاحيات وشاشات النظام" FontSize="12" Foreground="#A0A0A0" Margin="0,2,0,0"/>
                                             </StackPanel>
                                         </StackPanel>
 
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                                             <Button Command="{Binding SelectAllPermissionsCommand}" Background="#162D1C" Foreground="#4AE176" BorderBrush="#234D28" BorderThickness="1" Style="{StaticResource MaterialDesignFlatButton}" Padding="14,0" Height="36" Margin="0,0,8,0">
                                                 <StackPanel Orientation="Horizontal">
                                                     <materialDesign:PackIcon Kind="CheckAll" Foreground="#4AE176" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>

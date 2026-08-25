@@ -123,10 +123,12 @@ namespace Axon.UI.ViewModels
 
         [ObservableProperty]
         private bool _isManagingRolePermissions = true; // true = Role permissions, false = User-specific overrides
+        private readonly System.Threading.SemaphoreSlim _dbLock = new(1, 1);
+        private bool _isInitializing = false;
 
         partial void OnSelectedRoleForPermissionsChanged(RoleModel? value)
         {
-            if (value != null && IsManagingRolePermissions)
+            if (value != null && IsManagingRolePermissions && !_isInitializing)
             {
                 _ = LoadRolePermissionsAsync(value.Id);
             }
@@ -134,7 +136,7 @@ namespace Axon.UI.ViewModels
 
         partial void OnSelectedUserForPermissionsChanged(UserModel? value)
         {
-            if (value != null && !IsManagingRolePermissions)
+            if (value != null && !IsManagingRolePermissions && !_isInitializing)
             {
                 _ = LoadUserPermissionsAsync(value.Id);
             }
@@ -142,6 +144,7 @@ namespace Axon.UI.ViewModels
 
         partial void OnIsManagingRolePermissionsChanged(bool value)
         {
+            if (_isInitializing) return;
             if (value && SelectedRoleForPermissions != null)
             {
                 _ = LoadRolePermissionsAsync(SelectedRoleForPermissions.Id);
@@ -179,9 +182,22 @@ namespace Axon.UI.ViewModels
             Title = AppResources.GetString("Settings", "System Settings");
 
             LoadDatabaseConfig();
-            _ = LoadSettingsAsync();
-            _ = LoadUsersAndRolesAsync();
-            _ = InitializeRbacAsync();
+            _ = LoadAllDataSequentiallyAsync();
+        }
+
+        private async Task LoadAllDataSequentiallyAsync()
+        {
+            _isInitializing = true;
+            try
+            {
+                await LoadSettingsAsync();
+                await LoadUsersAndRolesAsync();
+                await InitializeRbacAsync();
+            }
+            finally
+            {
+                _isInitializing = false;
+            }
         }
 
         // ─── Change Password Command ───────────────────────────────────────────
@@ -671,27 +687,53 @@ namespace Axon.UI.ViewModels
 
         private async Task LoadRolePermissionsAsync(int roleId)
         {
-            var grantedCodes = (await _permissionService.GetRolePermissionCodesAsync(roleId)).ToHashSet(System.StringComparer.OrdinalIgnoreCase);
-
-            foreach (var group in PermissionModuleGroups)
+            await _dbLock.WaitAsync();
+            try
             {
-                foreach (var perm in group.Permissions)
+                var grantedCodes = (await _permissionService.GetRolePermissionCodesAsync(roleId)).ToHashSet(System.StringComparer.OrdinalIgnoreCase);
+
+                foreach (var group in PermissionModuleGroups)
                 {
-                    perm.IsGranted = grantedCodes.Contains(perm.Code);
+                    foreach (var perm in group.Permissions)
+                    {
+                        perm.IsGranted = grantedCodes.Contains(perm.Code);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                RbacStatusMessage = $"خطأ في تحميل صلاحيات الرتبة: {ex.Message}";
+                IsRbacStatusVisible = true;
+            }
+            finally
+            {
+                _dbLock.Release();
             }
         }
 
         private async Task LoadUserPermissionsAsync(int userId)
         {
-            var effectiveCodes = await _permissionService.GetUserEffectivePermissionsAsync(userId);
-
-            foreach (var group in PermissionModuleGroups)
+            await _dbLock.WaitAsync();
+            try
             {
-                foreach (var perm in group.Permissions)
+                var effectiveCodes = await _permissionService.GetUserEffectivePermissionsAsync(userId);
+
+                foreach (var group in PermissionModuleGroups)
                 {
-                    perm.IsGranted = effectiveCodes.Contains(perm.Code);
+                    foreach (var perm in group.Permissions)
+                    {
+                        perm.IsGranted = effectiveCodes.Contains(perm.Code);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                RbacStatusMessage = $"خطأ في تحميل صلاحيات المستخدم: {ex.Message}";
+                IsRbacStatusVisible = true;
+            }
+            finally
+            {
+                _dbLock.Release();
             }
         }
 
