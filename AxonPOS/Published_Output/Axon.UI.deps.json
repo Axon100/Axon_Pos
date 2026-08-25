@@ -16,6 +16,7 @@
           "MaterialDesignThemes": "5.3.2",
           "Microsoft.EntityFrameworkCore.Design": "9.0.0",
           "Microsoft.Extensions.Hosting": "9.0.0",
+          "PDFsharp": "6.2.4",
           "Serilog.Extensions.Hosting": "9.0.0",
           "Serilog.Sinks.Console": "6.1.1",
           "Serilog.Sinks.File": "7.0.0",
@@ -1802,6 +1803,50 @@
           "System.CodeDom": "6.0.0"
         }
       },
+      "PDFsharp/6.2.4": {
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
+          "System.Security.Cryptography.Pkcs": "8.0.1"
+        },
+        "runtime": {
+          "lib/net9.0/PdfSharp.BarCodes.dll": {
+            "assemblyVersion": "6.2.4.0",
+            "fileVersion": "6.2.4.7675"
+          },
+          "lib/net9.0/PdfSharp.Charting.dll": {
+            "assemblyVersion": "6.2.4.0",
+            "fileVersion": "6.2.4.7675"
+          },
+          "lib/net9.0/PdfSharp.Cryptography.dll": {
+            "assemblyVersion": "6.2.4.0",
+            "fileVersion": "6.2.4.7675"
+          },
+          "lib/net9.0/PdfSharp.Quality.dll": {
+            "assemblyVersion": "6.2.4.0",
+            "fileVersion": "6.2.4.7675"
+          },
+          "lib/net9.0/PdfSharp.Shared.dll": {
+            "assemblyVersion": "6.2.4.0",
+            "fileVersion": "6.2.4.7675"
+          },
+          "lib/net9.0/PdfSharp.Snippets.dll": {
+            "assemblyVersion": "6.2.4.0",
+            "fileVersion": "6.2.4.7675"
+          },
+          "lib/net9.0/PdfSharp.System.dll": {
+            "assemblyVersion": "6.2.4.0",
+            "fileVersion": "6.2.4.7675"
+          },
+          "lib/net9.0/PdfSharp.WPFonts.dll": {
+            "assemblyVersion": "6.2.4.0",
+            "fileVersion": "6.2.4.7675"
+          },
+          "lib/net9.0/PdfSharp.dll": {
+            "assemblyVersion": "6.2.4.0",
+            "fileVersion": "6.2.4.7675"
+          }
+        }
+      },
       "RBush/4.0.0": {
         "runtime": {
           "lib/net8.0/RBush.dll": {
@@ -2040,6 +2085,7 @@
           "System.Formats.Asn1": "9.0.0"
         }
       },
+      "System.Security.Cryptography.Pkcs/8.0.1": {},
       "System.Security.Cryptography.ProtectedData/6.0.0": {},
       "System.Security.Permissions/6.0.0": {
         "dependencies": {
@@ -2682,6 +2728,13 @@
       "path": "mono.texttemplating/3.0.0",
       "hashPath": "mono.texttemplating.3.0.0.nupkg.sha512"
     },
+    "PDFsharp/6.2.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-GhTr9F1uOYXHCIEOB5PXIgqn5a8WLsJL2m0eewTA0IvY1j6N4HGXHKKmEyB90/N6vrjmYamf41V9zbmdW2HY3g==",
+      "path": "pdfsharp/6.2.4",
+      "hashPath": "pdfsharp.6.2.4.nupkg.sha512"
+    },
     "RBush/4.0.0": {
       "type": "package",
       "serviceable": true,
@@ -2933,6 +2986,13 @@
       "sha512": "sha512-jIMXsKn94T9JY7PvPq/tMfqa6GAaHpElRDpmG+SuL+D3+sTw2M8VhnibKnN8Tq+4JqbPJ/f+BwtLeDMEnzAvRg==",
       "path": "system.security.cryptography.cng/5.0.0",
       "hashPath": "system.security.cryptography.cng.5.0.0.nupkg.sha512"
+    },
+    "System.Security.Cryptography.Pkcs/8.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-CoCRHFym33aUSf/NtWSVSZa99dkd0Hm7OCZUxORBjRB16LNhIEOf8THPqzIYlvKM0nNDAPTRBa1FxEECrgaxxA==",
+      "path": "system.security.cryptography.pkcs/8.0.1",
+      "hashPath": "system.security.cryptography.pkcs.8.0.1.nupkg.sha512"
     },
     "System.Security.Cryptography.ProtectedData/6.0.0": {
       "type": "package",

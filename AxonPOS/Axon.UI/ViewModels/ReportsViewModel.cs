@@ -972,9 +972,90 @@ namespace Axon.UI.ViewModels
 
                         File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
                     }
+                    else if (ext == ".pdf")
+                    {
+                        using var pdf = new PdfSharp.Pdf.PdfDocument();
+                        pdf.Info.Title = "Axon POS Report";
+                        var page = pdf.AddPage();
+                        page.Size = PdfSharp.PageSize.A4;
+
+                        using var gfx = PdfSharp.Drawing.XGraphics.FromPdfPage(page);
+                        var fontTitle = new PdfSharp.Drawing.XFont("Arial", 16, PdfSharp.Drawing.XFontStyleEx.Bold);
+                        var fontSub = new PdfSharp.Drawing.XFont("Arial", 10, PdfSharp.Drawing.XFontStyleEx.Regular);
+                        var fontHeader = new PdfSharp.Drawing.XFont("Arial", 11, PdfSharp.Drawing.XFontStyleEx.Bold);
+                        var fontBody = new PdfSharp.Drawing.XFont("Arial", 9, PdfSharp.Drawing.XFontStyleEx.Regular);
+
+                        gfx.DrawString("Axon POS — Financial Report", fontTitle, PdfSharp.Drawing.XBrushes.DarkRed, new PdfSharp.Drawing.XRect(0, 35, page.Width, 25), PdfSharp.Drawing.XStringFormats.TopCenter);
+                        gfx.DrawString($"Period: {StartDate:yyyy/MM/dd} - {EndDate:yyyy/MM/dd}", fontSub, PdfSharp.Drawing.XBrushes.DarkGray, new PdfSharp.Drawing.XRect(0, 65, page.Width, 20), PdfSharp.Drawing.XStringFormats.TopCenter);
+
+                        double y = 105;
+                        if (SelectedReportTab == 1)
+                        {
+                            gfx.DrawString("Category Sales Classification Report", fontHeader, PdfSharp.Drawing.XBrushes.Black, 40, y);
+                            y += 25;
+                            foreach (var i in SalesClassificationReport)
+                            {
+                                if (y > page.Height - 50) { page = pdf.AddPage(); y = 40; }
+                                gfx.DrawString($"[{i.CategoryCode}] {i.CategoryName} | Qty: {i.QuantitySold} | Sales: {i.TotalSales:N2} LE ({i.PercentageDisplay})", fontBody, PdfSharp.Drawing.XBrushes.Black, 40, y);
+                                y += 18;
+                            }
+                            gfx.DrawString($"Total Qty: {CategoryReportTotalQty} | Total Revenue: {CategoryReportTotalSales:N2} LE", fontHeader, PdfSharp.Drawing.XBrushes.DarkRed, 40, y + 10);
+                        }
+                        else if (SelectedReportTab == 2)
+                        {
+                            if (IsSingleProductMode)
+                            {
+                                gfx.DrawString($"Product Cycle Report: {SingleProductName} ({SingleProductSku})", fontHeader, PdfSharp.Drawing.XBrushes.Black, 40, y);
+                                y += 25;
+                                foreach (var i in SingleProductCycleReport)
+                                {
+                                    if (y > page.Height - 50) { page = pdf.AddPage(); y = 40; }
+                                    gfx.DrawString($"Inv: #{i.ReceiptNumber} | Date: {i.DateDisplay} | Qty: {i.Quantity} | Total: {i.LineTotal:N2} LE", fontBody, PdfSharp.Drawing.XBrushes.Black, 40, y);
+                                    y += 18;
+                                }
+                            }
+                            else
+                            {
+                                gfx.DrawString("Extended Product Sales Report", fontHeader, PdfSharp.Drawing.XBrushes.Black, 40, y);
+                                y += 25;
+                                foreach (var i in ProductSalesReport)
+                                {
+                                    if (y > page.Height - 50) { page = pdf.AddPage(); y = 40; }
+                                    gfx.DrawString($"[{i.DisplayCode}] {i.ProductName} ({i.CategoryName}) | Qty: {i.QuantitySold} | Sales: {i.TotalSales:N2} LE", fontBody, PdfSharp.Drawing.XBrushes.Black, 40, y);
+                                    y += 18;
+                                }
+                            }
+                        }
+                        else if (SelectedReportTab == 3)
+                        {
+                            gfx.DrawString("Sales Invoices Ledger Report", fontHeader, PdfSharp.Drawing.XBrushes.Black, 40, y);
+                            y += 25;
+                            foreach (var i in SalesInvoicesReport)
+                            {
+                                if (y > page.Height - 50) { page = pdf.AddPage(); y = 40; }
+                                gfx.DrawString($"Invoice #{i.ReceiptNumber} | Date: {i.DateDisplay} | Items: {i.ItemsCount} | Total: {i.Total:N2} LE", fontBody, PdfSharp.Drawing.XBrushes.Black, 40, y);
+                                y += 18;
+                            }
+                            gfx.DrawString($"Total Revenue: {TotalRevenue:N2} LE", fontHeader, PdfSharp.Drawing.XBrushes.DarkRed, 40, y + 10);
+                        }
+                        else
+                        {
+                            gfx.DrawString("Closed Register Shift Report", fontHeader, PdfSharp.Drawing.XBrushes.Black, 40, y);
+                            y += 25;
+                            foreach (var i in ClosedRegisterReport)
+                            {
+                                if (y > page.Height - 50) { page = pdf.AddPage(); y = 40; }
+                                gfx.DrawString($"{i.ClosureCode} | Cashier: {i.CashierName} | Cash: {i.CashSales:N2} LE | Returns: {i.ReturnsAmount:N2} LE | Net: {i.NetSales:N2} LE", fontBody, PdfSharp.Drawing.XBrushes.Black, 40, y);
+                                y += 18;
+                            }
+                            gfx.DrawString($"Net Total: {ClosedBoxNetTotal:N2} LE", fontHeader, PdfSharp.Drawing.XBrushes.DarkRed, 40, y + 10);
+                        }
+
+                        pdf.Save(filePath);
+                    }
                     else
                     {
-                        // PDF, Word DOCX, HTML, or any other format
+                        // Word DOCX, HTML, or any other web format
                         var sb = new StringBuilder();
                         sb.AppendLine("<!DOCTYPE html><html dir='rtl' lang='ar'><head><meta charset='utf-8'><title>تقرير Axon POS</title>");
                         sb.AppendLine("<style>body{font-family:'Segoe UI',Tahoma,sans-serif;padding:25px;background:#fff;color:#111;} h1{color:#d90429;margin-bottom:6px;} h2{color:#333;} table{width:100%;border-collapse:collapse;margin-top:16px;} th,td{border:1px solid #ccc;padding:10px 14px;text-align:right;} th{background:#d90429;color:#fff;font-weight:bold;} tr:nth-child(even){background:#f8f9fa;} .total-row{font-weight:bold;background:#fff3cd;}</style></head><body>");
