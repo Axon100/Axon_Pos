@@ -434,7 +434,7 @@
                     </Grid>
 
                     <TextBlock Text="قيمة الخصم (بالجنيه / ج.م) *" Foreground="#b4b5b5" FontSize="12" Margin="0,0,0,6"/>
-                    <TextBox Text="{Binding DiscountInput, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="12,8" Margin="0,0,0,4" FontSize="16" FontWeight="Bold"/>
+                    <TextBox Text="{Binding DiscountInput, Converter={StaticResource ZeroToEmptyConverter}, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="12,8" Margin="0,0,0,4" FontSize="16" FontWeight="Bold"/>
 
                     <!-- Red Validation Error Text -->
                     <TextBlock Text="{Binding DiscountValidationError}" Foreground="#EF4444" FontSize="12" FontWeight="Bold" Margin="0,4,0,16" Visibility="{Binding HasDiscountError, Converter={StaticResource BooleanToVisibilityConverter}}"/>

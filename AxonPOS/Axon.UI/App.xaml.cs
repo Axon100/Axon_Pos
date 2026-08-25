@@ -81,6 +81,24 @@ namespace Axon.UI
 
         protected override async void OnStartup(StartupEventArgs e)
         {
+            // Global UX Enhancement: Auto-Select text & clear zero confusion on focus across ALL TextBoxes in system
+            EventManager.RegisterClassHandler(typeof(System.Windows.Controls.TextBox), System.Windows.UIElement.GotFocusEvent, new RoutedEventHandler((s, ev) =>
+            {
+                if (s is System.Windows.Controls.TextBox tb)
+                {
+                    tb.SelectAll();
+                }
+            }));
+
+            EventManager.RegisterClassHandler(typeof(System.Windows.Controls.TextBox), System.Windows.UIElement.PreviewMouseLeftButtonDownEvent, new System.Windows.Input.MouseButtonEventHandler((s, ev) =>
+            {
+                if (s is System.Windows.Controls.TextBox tb && !tb.IsKeyboardFocusWithin)
+                {
+                    tb.Focus();
+                    ev.Handled = true;
+                }
+            }));
+
             await AppHost!.StartAsync();
 
             var configService = AppHost.Services.GetRequiredService<IDatabaseConfigService>();

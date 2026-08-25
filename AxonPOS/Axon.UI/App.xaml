@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:Axon.UI">
     <Application.Resources>
         <ResourceDictionary>
+            <helpers:ZeroToEmptyConverter x:Key="ZeroToEmptyConverter" xmlns:helpers="clr-namespace:Axon.UI.Helpers" />
+            
             <ResourceDictionary.MergedDictionaries>
                 <materialDesign:BundledTheme xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" BaseTheme="Dark" PrimaryColor="Red" SecondaryColor="Red" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />

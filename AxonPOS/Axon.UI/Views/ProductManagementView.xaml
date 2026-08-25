@@ -673,7 +673,7 @@
                             <!-- Dynamic Tax Amount Field (Visible only when NewProductIsTaxable is True) -->
                             <StackPanel Margin="0,0,0,12" Visibility="{Binding NewProductIsTaxable, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <TextBlock Text="قيمة الضريبة لكل قطعة (بالجنيه / ج.م) *" Foreground="#D90429" FontSize="12" FontWeight="Bold" Margin="0,0,0,4"/>
-                                <TextBox Text="{Binding NewProductTaxAmount, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#D90429" BorderThickness="1" Padding="8" FontSize="13"/>
+                                <TextBox Text="{Binding NewProductTaxAmount, Converter={StaticResource ZeroToEmptyConverter}, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#D90429" BorderThickness="1" Padding="8" FontSize="13"/>
                             </StackPanel>
 
                             <!-- Barcode -->
@@ -691,17 +691,17 @@
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
                                     <TextBlock Text="سعر البيع *" Foreground="#b4b5b5" FontSize="12" Margin="0,0,0,4"/>
-                                    <TextBox Text="{Binding NewProductSellingPrice, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="8"/>
+                                    <TextBox Text="{Binding NewProductSellingPrice, Converter={StaticResource ZeroToEmptyConverter}, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="8"/>
                                 </StackPanel>
                                 <StackPanel Grid.Column="2">
                                     <TextBlock Text="سعر الشراء (التكلفة)" Foreground="#b4b5b5" FontSize="12" Margin="0,0,0,4"/>
-                                    <TextBox Text="{Binding NewProductCostPrice, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="8"/>
+                                    <TextBox Text="{Binding NewProductCostPrice, Converter={StaticResource ZeroToEmptyConverter}, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="8"/>
                                 </StackPanel>
                             </Grid>
 
                             <!-- Stock -->
                             <TextBlock Text="الكمية بالمخزون" Foreground="#b4b5b5" FontSize="12" Margin="0,0,0,4"/>
-                            <TextBox Text="{Binding NewProductStock, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="8" Margin="0,0,0,12"/>
+                            <TextBox Text="{Binding NewProductStock, Converter={StaticResource ZeroToEmptyConverter}, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="8" Margin="0,0,0,12"/>
 
                             <!-- Image Path -->
                             <TextBlock Text="صورة المنتج (اختياري)" Foreground="#b4b5b5" FontSize="12" Margin="0,0,0,4"/>
