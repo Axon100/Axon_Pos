@@ -42,7 +42,13 @@ namespace Axon.UI.ViewModels
         private decimal _discountInput;
 
         [ObservableProperty]
-        private bool _isDiscountPercentage = true;
+        private bool _isDiscountPercentage = false;
+
+        [ObservableProperty]
+        private string _discountValidationError = string.Empty;
+
+        [ObservableProperty]
+        private bool _hasDiscountError = false;
 
         // Receipt Modal Properties
         [ObservableProperty]
@@ -147,10 +153,45 @@ namespace Axon.UI.ViewModels
             _ = LoadDataAsync();
         }
 
+        partial void OnDiscountInputChanged(decimal value)
+        {
+            ValidateDiscount();
+        }
+
+        partial void OnIsDiscountPercentageChanged(bool value)
+        {
+            ValidateDiscount();
+        }
+
+        private void ValidateDiscount()
+        {
+            if (DiscountInput < 0)
+            {
+                DiscountValidationError = "غير مسموح بقيم سالبة!";
+                HasDiscountError = true;
+                return;
+            }
+
+            decimal calculatedDiscountInEgp = IsDiscountPercentage ? (Subtotal * (DiscountInput / 100m)) : DiscountInput;
+
+            if (calculatedDiscountInEgp > 30m)
+            {
+                DiscountValidationError = "غير مسموح حدود الخصم 30 جنيه كحد أقصى";
+                HasDiscountError = true;
+            }
+            else
+            {
+                DiscountValidationError = string.Empty;
+                HasDiscountError = false;
+            }
+        }
+
         [RelayCommand]
         private void OpenDiscountDialog()
         {
             DiscountInput = Discount;
+            DiscountValidationError = string.Empty;
+            HasDiscountError = false;
             IsDiscountDialogOpen = true;
         }
 
@@ -163,13 +204,16 @@ namespace Axon.UI.ViewModels
         [RelayCommand]
         private void ApplyDiscount()
         {
+            ValidateDiscount();
+            if (HasDiscountError) return;
+
             if (IsDiscountPercentage)
             {
-                Discount = Subtotal * (DiscountInput / 100m);
+                Discount = Math.Min(30m, Subtotal * (DiscountInput / 100m));
             }
             else
             {
-                Discount = DiscountInput;
+                Discount = Math.Min(30m, DiscountInput);
             }
             RecalculateTotals();
             IsDiscountDialogOpen = false;

@@ -384,13 +384,7 @@
                 <Border Grid.Row="2" Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="0,1,0,0" Padding="24">
                     <StackPanel>
                         <Grid Margin="0,0,0,16">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="8"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Button Command="{Binding OpenDiscountDialogCommand}" Grid.Column="0" Content="{DynamicResource BtnDiscount}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Foreground="#b4b5b5"/>
-                            <Button Grid.Column="2" Content="{DynamicResource BtnNote}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Foreground="#b4b5b5"/>
+                            <Button Command="{Binding OpenDiscountDialogCommand}" Content="{DynamicResource BtnDiscount}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Foreground="#b4b5b5" Height="38"/>
                         </Grid>
 
                         <StackPanel Margin="0,0,0,16">
@@ -446,9 +440,12 @@
                     </StackPanel>
 
                     <TextBlock Text="قيمة الخصم" Foreground="#b4b5b5" FontSize="12" Margin="0,0,0,6"/>
-                    <TextBox Text="{Binding DiscountInput, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="12,8" Margin="0,0,0,24" FontSize="16" FontWeight="Bold"/>
+                    <TextBox Text="{Binding DiscountInput, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="12,8" Margin="0,0,0,4" FontSize="16" FontWeight="Bold"/>
 
-                    <Grid>
+                    <!-- Red Validation Error Text -->
+                    <TextBlock Text="{Binding DiscountValidationError}" Foreground="#EF4444" FontSize="12" FontWeight="Bold" Margin="0,4,0,16" Visibility="{Binding HasDiscountError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                    <Grid Margin="0,12,0,0">
                         <Button Command="{Binding CloseDiscountDialogCommand}" Content="إلغاء" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Foreground="#b4b5b5" HorizontalAlignment="Left" Width="100"/>
                         <Button Command="{Binding ApplyDiscountCommand}" Content="تطبيق الخصم" Background="#d90429" Foreground="White" BorderThickness="0" HorizontalAlignment="Right" Width="130"/>
                     </Grid>
