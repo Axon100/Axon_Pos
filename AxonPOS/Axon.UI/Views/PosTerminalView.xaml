@@ -2,20 +2,15 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             Background="#0F1015" Foreground="White"
+             Background="#111111" Foreground="White"
              FontFamily="{DynamicResource AppFont}">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
-        <!-- 3D Shadow for POS Cards -->
-        <DropShadowEffect x:Key="PosCardShadow" BlurRadius="12" Direction="270" ShadowDepth="3" Opacity="0.35" Color="#000000"/>
-        <DropShadowEffect x:Key="PosCardHoverShadow" BlurRadius="16" Direction="270" ShadowDepth="5" Opacity="0.55" Color="#E63946"/>
-        <DropShadowEffect x:Key="PosPayGlowShadow" BlurRadius="16" Direction="270" ShadowDepth="4" Opacity="0.45" Color="#D90429"/>
-
         <!-- Product Card Template -->
         <DataTemplate x:Key="ProductCardTemplate">
-            <Border Background="#181A22" BorderBrush="#262936" BorderThickness="1" CornerRadius="12" Margin="6" Padding="10" Cursor="Hand" Effect="{StaticResource PosCardShadow}">
+            <Border Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Margin="6" Padding="10" Cursor="Hand" Effect="{DynamicResource Axon3DCardShadow}">
                 <Border.InputBindings>
                     <MouseBinding Gesture="LeftClick" Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
                 </Border.InputBindings>
@@ -23,9 +18,9 @@
                     <Style TargetType="Border">
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#20232E" />
-                                <Setter Property="BorderBrush" Value="#E63946" />
-                                <Setter Property="Effect" Value="{StaticResource PosCardHoverShadow}" />
+                                <Setter Property="Background" Value="#222222" />
+                                <Setter Property="BorderBrush" Value="#d90429" />
+                                <Setter Property="Effect" Value="{DynamicResource Axon3DCardHoverShadow}" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -38,10 +33,10 @@
                     </Grid.RowDefinitions>
 
                     <!-- Product Image Container -->
-                    <Border Grid.Row="0" Background="#111218" CornerRadius="8" Height="130" Margin="0,0,0,10" ClipToBounds="True">
+                    <Border Grid.Row="0" Background="#111111" CornerRadius="8" Height="130" Margin="0,0,0,10" ClipToBounds="True">
                         <Grid>
                             <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <materialDesign:PackIcon Kind="ImageOutline" Width="42" Height="42" Foreground="#323544" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="ImageOutline" Width="42" Height="42" Foreground="#353534" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <materialDesign:PackIcon.Style>
                                     <Style TargetType="materialDesign:PackIcon">
                                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -58,7 +53,7 @@
                             </materialDesign:PackIcon>
 
                             <!-- In Stock Badge (Green) -->
-                            <Border Background="#1A10B981" BorderBrush="#5510B981" BorderThickness="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="6" Padding="6,2" CornerRadius="6">
+                            <Border Background="#104ae176" BorderBrush="#4d4ae176" BorderThickness="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="6" Padding="6,2" CornerRadius="6">
                                 <Border.Style>
                                     <Style TargetType="Border">
                                         <Setter Property="Visibility" Value="Visible"/>
@@ -70,29 +65,29 @@
                                     </Style>
                                 </Border.Style>
                                 <StackPanel Orientation="Horizontal">
-                                    <Ellipse Width="6" Height="6" Fill="#10B981" Margin="0,0,4,0" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding StockDisplay}" Foreground="#10B981" FontSize="10" FontWeight="Bold"/>
+                                    <Ellipse Width="6" Height="6" Fill="#4ae176" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding StockDisplay}" Foreground="#4ae176" FontSize="10" FontWeight="Bold"/>
                                 </StackPanel>
                             </Border>
 
                             <!-- Out of Stock Badge (Red) -->
-                            <Border Background="#CC7F1D1D" BorderBrush="#EF4444" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10,4" CornerRadius="6" Visibility="{Binding IsOutOfStock, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <TextBlock Text="{DynamicResource OutOfStock}" Foreground="#FECACA" FontSize="11" FontWeight="Bold"/>
+                            <Border Background="#B3690005" BorderBrush="#ffb4ab" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10,4" CornerRadius="6" Visibility="{Binding IsOutOfStock, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock Text="{DynamicResource OutOfStock}" Foreground="#ffb4ab" FontSize="11" FontWeight="Bold"/>
                             </Border>
                         </Grid>
                     </Border>
 
                     <!-- Product Name -->
-                    <TextBlock Grid.Row="1" Text="{Binding Name}" FontSize="14" FontWeight="Bold" Foreground="#F3F4F6" TextTrimming="CharacterEllipsis" Margin="2,0,2,6"/>
+                    <TextBlock Grid.Row="1" Text="{Binding Name}" FontSize="14" FontWeight="Bold" Foreground="White" TextTrimming="CharacterEllipsis" Margin="2,0,2,6"/>
 
                     <!-- Price & Quick Add Button -->
                     <Grid Grid.Row="2" Margin="2,2,2,0">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding Price, StringFormat='{}{0:#,##0.##}'}" FontSize="16" FontWeight="Black" Foreground="#FFFFFF" VerticalAlignment="Center"/>
-                            <TextBlock Text=" ج.م" FontSize="11" FontWeight="SemiBold" Foreground="#9CA3AF" VerticalAlignment="Center" Margin="2,0,0,0"/>
+                            <TextBlock Text="{Binding Price, StringFormat='{}{0:#,##0.##}'}" FontSize="16" FontWeight="Black" Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock Text=" ج.م" FontSize="11" FontWeight="SemiBold" Foreground="#8E8E93" VerticalAlignment="Center" Margin="2,0,0,0"/>
                         </StackPanel>
                         <Button Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
-                                Style="{StaticResource MaterialDesignIconButton}" Background="#2B0E14" Foreground="#E63946" BorderBrush="#E63946" BorderThickness="1" HorizontalAlignment="Right" Width="30" Height="30" Padding="0" ToolTip="إضافة إلى السلة">
+                                Style="{StaticResource MaterialDesignIconButton}" Background="#2b0005" Foreground="#d90429" BorderBrush="#d90429" BorderThickness="1" HorizontalAlignment="Right" Width="30" Height="30" Padding="0" ToolTip="إضافة إلى السلة">
                             <materialDesign:PackIcon Kind="CartPlus" Width="16" Height="16"/>
                         </Button>
                     </Grid>
@@ -102,7 +97,7 @@
 
         <!-- Cart Item Template -->
         <DataTemplate x:Key="CartItemTemplate">
-            <Border Background="#181A22" BorderBrush="#262936" BorderThickness="1" CornerRadius="8" Margin="0,0,0,6" Padding="10,8">
+            <Border Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="8" Margin="0,0,0,6" Padding="10,8">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2.5*"/>
@@ -113,20 +108,20 @@
 
                     <!-- Item Name & Price Subtitle -->
                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0">
-                        <TextBlock Text="{Binding Name}" FontSize="13" FontWeight="Bold" Foreground="#F9FAFB" TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="{Binding Price, StringFormat='{}{0:#,##0.##} ج.م للقطعة'}" FontSize="10" Foreground="#9CA3AF" Margin="0,2,0,0"/>
+                        <TextBlock Text="{Binding Name}" FontSize="13" FontWeight="Bold" Foreground="White" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Price, StringFormat='{}{0:#,##0.##} ج.م للقطعة'}" FontSize="10" Foreground="#8E8E93" Margin="0,2,0,0"/>
                     </StackPanel>
 
                     <!-- Stepper [-] Qty [+] -->
-                    <Border Grid.Column="1" Background="#111218" BorderBrush="#282B38" BorderThickness="1" CornerRadius="6" Padding="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Border Grid.Column="1" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="6" Padding="2" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <Button Command="{Binding DataContext.DecreaseQtyCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
-                                    Style="{StaticResource MaterialDesignIconButton}" Foreground="#9CA3AF" Width="22" Height="22" Padding="0">
+                                    Style="{StaticResource MaterialDesignIconButton}" Foreground="#8E8E93" Width="22" Height="22" Padding="0">
                                 <materialDesign:PackIcon Kind="Minus" Width="14" Height="14"/>
                             </Button>
                             <TextBlock Text="{Binding Quantity}" Foreground="White" FontSize="13" FontWeight="Bold" Margin="6,0" VerticalAlignment="Center" MinWidth="16" TextAlignment="Center"/>
                             <Button Command="{Binding DataContext.IncreaseQtyCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
-                                    Style="{StaticResource MaterialDesignIconButton}" Foreground="#9CA3AF" Width="22" Height="22" Padding="0">
+                                    Style="{StaticResource MaterialDesignIconButton}" Foreground="#8E8E93" Width="22" Height="22" Padding="0">
                                 <materialDesign:PackIcon Kind="Plus" Width="14" Height="14"/>
                             </Button>
                         </StackPanel>
@@ -134,12 +129,12 @@
 
                     <!-- Line Total Price -->
                     <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0">
-                        <TextBlock Text="{Binding TotalPrice, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="13" FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Right"/>
+                        <TextBlock Text="{Binding TotalPrice, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
                     </StackPanel>
 
                     <!-- Remove Item Button -->
                     <Button Grid.Column="3" Command="{Binding DataContext.DecreaseQtyCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
-                            Style="{StaticResource MaterialDesignIconButton}" Foreground="#6B7280" Width="24" Height="24" Padding="0" VerticalAlignment="Center" ToolTip="حذف">
+                            Style="{StaticResource MaterialDesignIconButton}" Foreground="#8E8E93" Width="24" Height="24" Padding="0" VerticalAlignment="Center" ToolTip="حذف">
                         <materialDesign:PackIcon Kind="Close" Width="14" Height="14"/>
                     </Button>
                 </Grid>
@@ -164,7 +159,7 @@
 
             <!-- Top Search & Barcode Scan Bar with Live Feedback -->
             <StackPanel Grid.Row="0" Margin="0,0,0,12">
-                <Border Background="#161820" BorderBrush="#262936" BorderThickness="1" CornerRadius="12" Padding="4" Effect="{StaticResource PosCardShadow}">
+                <Border Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="12" Padding="4" Effect="{DynamicResource Axon3DCardShadow}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -174,10 +169,10 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Scanner Animated Icon & Badge -->
-                        <Border Grid.Column="0" Background="#1FE63946" BorderBrush="#44E63946" BorderThickness="1" CornerRadius="8" Padding="10,6" Margin="4,0,8,0">
+                        <Border Grid.Column="0" Background="#22d90429" BorderBrush="#44d90429" BorderThickness="1" CornerRadius="8" Padding="10,6" Margin="4,0,8,0">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <materialDesign:PackIcon Kind="BarcodeScan" Width="18" Height="18" Foreground="#E63946" VerticalAlignment="Center" Margin="0,0,6,0"/>
-                                <TextBlock Text="قارئ الباركود" FontSize="11" FontWeight="Bold" Foreground="#E63946" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="BarcodeScan" Width="18" Height="18" Foreground="#d90429" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                <TextBlock Text="قارئ الباركود" FontSize="11" FontWeight="Bold" Foreground="#d90429" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Border>
 
@@ -187,7 +182,7 @@
                                  Text="{Binding BarcodeInput, UpdateSourceTrigger=PropertyChanged}"
                                  materialDesign:HintAssist.Hint="امسح باركود المنتج بالـ Scanner هنا أو اكتب الكود للبحث المباشر..."
                                  Background="Transparent" Foreground="White" BorderThickness="0"
-                                 CaretBrush="#E63946" Padding="8,10" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center">
+                                 CaretBrush="#d90429" Padding="8,10" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center">
                             <TextBox.InputBindings>
                                 <KeyBinding Key="Return" Command="{Binding ProcessBarcodeInputCommand}"/>
                             </TextBox.InputBindings>
@@ -197,7 +192,7 @@
                         <Button Grid.Column="2" 
                                 Command="{Binding ClearBarcodeInputCommand}" 
                                 Visibility="{Binding BarcodeInput.Length, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                Style="{StaticResource MaterialDesignIconButton}" Width="26" Height="26" Padding="0" Foreground="#9CA3AF" VerticalAlignment="Center">
+                                Style="{StaticResource MaterialDesignIconButton}" Width="26" Height="26" Padding="0" Foreground="#8E8E93" VerticalAlignment="Center">
                             <materialDesign:PackIcon Kind="CloseCircle" Width="16" Height="16"/>
                         </Button>
 
@@ -217,8 +212,8 @@
                 <Border Margin="0,6,0,0" CornerRadius="8" Padding="12,6" Visibility="{Binding HasBarcodeFeedback, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Border.Style>
                         <Style TargetType="Border">
-                            <Setter Property="Background" Value="#1510B981"/>
-                            <Setter Property="BorderBrush" Value="#4010B981"/>
+                            <Setter Property="Background" Value="#154ae176"/>
+                            <Setter Property="BorderBrush" Value="#404ae176"/>
                             <Setter Property="BorderThickness" Value="1"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsLastScanSuccess}" Value="False">
@@ -232,7 +227,7 @@
                         <TextBlock Text="{Binding LastScannedBarcodeFeedback}" FontSize="11" FontWeight="Bold">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="Foreground" Value="#10B981"/>
+                                    <Setter Property="Foreground" Value="#4ae176"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsLastScanSuccess}" Value="False">
                                             <Setter Property="Foreground" Value="#EF4444"/>
@@ -255,7 +250,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- 1. Categories Side Panel -->
-                <Border Grid.Column="0" Background="#161820" BorderBrush="#262936" BorderThickness="1" CornerRadius="12" Margin="0,0,12,0" Padding="8" Effect="{StaticResource PosCardShadow}">
+                <Border Grid.Column="0" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="12" Margin="0,0,12,0" Padding="8" Effect="{DynamicResource Axon3DCardShadow}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -264,7 +259,7 @@
 
                         <!-- Header -->
                         <Grid Grid.Row="0" Margin="6,4,6,10">
-                            <TextBlock Text="الأقسام والتصنيفات" FontSize="13" FontWeight="Bold" Foreground="#F3F4F6" VerticalAlignment="Center"/>
+                            <TextBlock Text="الأقسام والتصنيفات" FontSize="13" FontWeight="Bold" Foreground="#8E8E93" VerticalAlignment="Center"/>
                         </Grid>
 
                         <!-- Vertical Categories List -->
@@ -283,8 +278,8 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ListBoxItem">
                                                 <Border x:Name="CatBorder"
-                                                        Background="#1A1C24"
-                                                        BorderBrush="#262936"
+                                                        Background="#1A1A1A"
+                                                        BorderBrush="#2C2C2C"
                                                         BorderThickness="1"
                                                         CornerRadius="8"
                                                         Padding="10,8"
@@ -295,25 +290,25 @@
                                                             <ColumnDefinition Width="*"/>
                                                             <ColumnDefinition Width="Auto"/>
                                                         </Grid.ColumnDefinitions>
-                                                        <materialDesign:PackIcon x:Name="CatIcon" Grid.Column="0" Kind="{Binding IconKind}" Width="16" Height="16" Foreground="#9CA3AF" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                                        <TextBlock x:Name="CatText" Grid.Column="1" Text="{Binding Name}" Foreground="#D1D5DB" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                                                        <Border x:Name="CountBadge" Grid.Column="2" Background="#262936" CornerRadius="6" Padding="6,1" VerticalAlignment="Center" Margin="4,0,0,0">
-                                                            <TextBlock x:Name="CountText" Text="{Binding ProductCount}" FontSize="10" FontWeight="Bold" Foreground="#9CA3AF"/>
+                                                        <materialDesign:PackIcon x:Name="CatIcon" Grid.Column="0" Kind="{Binding IconKind}" Width="16" Height="16" Foreground="#8E8E93" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                                        <TextBlock x:Name="CatText" Grid.Column="1" Text="{Binding Name}" Foreground="#E0E0E0" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                                        <Border x:Name="CountBadge" Grid.Column="2" Background="#242424" CornerRadius="6" Padding="6,1" VerticalAlignment="Center" Margin="4,0,0,0">
+                                                            <TextBlock x:Name="CountText" Text="{Binding ProductCount}" FontSize="10" FontWeight="Bold" Foreground="#8E8E93"/>
                                                         </Border>
                                                     </Grid>
                                                 </Border>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsSelected" Value="True">
-                                                        <Setter TargetName="CatBorder" Property="Background" Value="#2B0E14"/>
-                                                        <Setter TargetName="CatBorder" Property="BorderBrush" Value="#E63946"/>
-                                                        <Setter TargetName="CatIcon" Property="Foreground" Value="#E63946"/>
-                                                        <Setter TargetName="CatText" Property="Foreground" Value="#FEE2E2"/>
+                                                        <Setter TargetName="CatBorder" Property="Background" Value="#2b0005"/>
+                                                        <Setter TargetName="CatBorder" Property="BorderBrush" Value="#d90429"/>
+                                                        <Setter TargetName="CatIcon" Property="Foreground" Value="#d90429"/>
+                                                        <Setter TargetName="CatText" Property="Foreground" Value="#ffb3af"/>
                                                         <Setter TargetName="CatText" Property="FontWeight" Value="Bold"/>
-                                                        <Setter TargetName="CountBadge" Property="Background" Value="#4C1118"/>
-                                                        <Setter TargetName="CountText" Property="Foreground" Value="#FCA5A5"/>
+                                                        <Setter TargetName="CountBadge" Property="Background" Value="#4d000a"/>
+                                                        <Setter TargetName="CountText" Property="Foreground" Value="#ff897d"/>
                                                     </Trigger>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="CatBorder" Property="Background" Value="#222530"/>
+                                                        <Setter TargetName="CatBorder" Property="Background" Value="#222222"/>
                                                         <Setter TargetName="CatText" Property="Foreground" Value="White"/>
                                                         <Setter TargetName="CatIcon" Property="Foreground" Value="White"/>
                                                     </Trigger>
@@ -338,8 +333,8 @@
                     <Grid Grid.Row="0" Margin="4,0,4,10">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock Text="{Binding SelectedCategoryItem.Name, FallbackValue='جميع الأصناف'}" FontSize="15" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
-                            <Border Background="#1E202B" BorderBrush="#2C2F3E" BorderThickness="1" CornerRadius="8" Padding="8,2" Margin="8,0,0,0" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Products.Count, StringFormat='{}{0} صنف'}" FontSize="11" FontWeight="Bold" Foreground="#9CA3AF"/>
+                            <Border Background="#242424" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="8" Padding="8,2" Margin="8,0,0,0" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Products.Count, StringFormat='{}{0} صنف'}" FontSize="11" FontWeight="Bold" Foreground="#8E8E93"/>
                             </Border>
                         </StackPanel>
                     </Grid>
@@ -367,11 +362,11 @@
                                         </Style.Triggers>
                                     </Style>
                                 </StackPanel.Style>
-                                <Border Width="72" Height="72" CornerRadius="36" Background="#1A1C24" BorderBrush="#262936" BorderThickness="1" HorizontalAlignment="Center" Margin="0,0,0,14">
-                                    <materialDesign:PackIcon Kind="PackageVariantClosed" Width="36" Height="36" Foreground="#4B5563" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Width="72" Height="72" CornerRadius="36" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" HorizontalAlignment="Center" Margin="0,0,0,14">
+                                    <materialDesign:PackIcon Kind="PackageVariantClosed" Width="36" Height="36" Foreground="#353534" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <TextBlock Text="لا توجد منتجات في هذا القسم" Foreground="#9CA3AF" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                <TextBlock Text="جرب اختيار قسم آخر أو امسح الباركود مباشرة" Foreground="#6B7280" FontSize="12" Margin="0,4,0,0" HorizontalAlignment="Center"/>
+                                <TextBlock Text="لا توجد منتجات في هذا القسم" Foreground="#8E8E93" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock Text="جرب اختيار قسم آخر أو امسح الباركود مباشرة" Foreground="#666666" FontSize="12" Margin="0,4,0,0" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Grid>
                     </ScrollViewer>
@@ -380,7 +375,7 @@
         </Grid>
 
         <!-- ==================== RIGHT PANE: CART & CHECKOUT ==================== -->
-        <Border Grid.Column="1" Background="#14151C" BorderBrush="#262936" BorderThickness="1,0,0,0">
+        <Border Grid.Column="1" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1,0,0,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/> <!-- Customer Header -->
@@ -389,7 +384,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- Customer Header -->
-                <Border Grid.Row="0" Background="#181A22" BorderBrush="#262936" BorderThickness="0,0,0,1" Padding="14,12">
+                <Border Grid.Row="0" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="0,0,0,1" Padding="14,12">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -398,35 +393,35 @@
                         </Grid.ColumnDefinitions>
                         
                         <!-- Customer Avatar Icon -->
-                        <Border Grid.Column="0" Width="36" Height="36" CornerRadius="18" Background="#1E212B" BorderBrush="#2D3140" BorderThickness="1" Margin="0,0,10,0">
-                            <materialDesign:PackIcon Kind="Account" Foreground="#9CA3AF" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border Grid.Column="0" Width="36" Height="36" CornerRadius="18" Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" Margin="0,0,10,0">
+                            <materialDesign:PackIcon Kind="Account" Foreground="#8E8E93" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
-                                <Ellipse Width="6" Height="6" Fill="#10B981" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <Ellipse Width="6" Height="6" Fill="#4ae176" Margin="0,0,6,0" VerticalAlignment="Center"/>
                                 <TextBlock Text="{DynamicResource WalkInCustomer}" FontSize="14" FontWeight="Bold" Foreground="White"/>
                             </StackPanel>
-                            <TextBlock Text="{DynamicResource AssignProfile}" FontSize="11" Foreground="#E63946" Cursor="Hand" Margin="12,2,0,0"/>
+                            <TextBlock Text="{DynamicResource AssignProfile}" FontSize="11" Foreground="#d90429" Cursor="Hand" Margin="12,2,0,0"/>
                         </StackPanel>
                         
                         <!-- Top Toolbar Actions -->
                         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
                             <!-- Return / Refund Button -->
-                            <Button Command="{Binding OpenReturnDialogCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#E63946" Foreground="#FCA5A5" Background="#1AE63946" Padding="8,4" Height="32" Margin="0,0,6,0" ToolTip="طلب مرتجع / استرجاع مبيعات">
+                            <Button Command="{Binding OpenReturnDialogCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#d90429" Foreground="#ffb3af" Background="#1a2b0005" Padding="8,4" Height="32" Margin="0,0,6,0" ToolTip="طلب مرتجع / استرجاع مبيعات">
                                 <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="CashRefund" Width="16" Height="16" Margin="0,0,4,0" VerticalAlignment="Center" Foreground="#E63946"/>
+                                    <materialDesign:PackIcon Kind="CashRefund" Width="16" Height="16" Margin="0,0,4,0" VerticalAlignment="Center" Foreground="#d90429"/>
                                     <TextBlock Text="مرتجع" FontWeight="Bold" VerticalAlignment="Center" FontSize="11"/>
                                 </StackPanel>
                             </Button>
                             
                             <!-- Hold / Pause Cart -->
-                            <Button Style="{StaticResource MaterialDesignIconButton}" Background="#1E202B" BorderBrush="#2C2F3E" BorderThickness="1" Foreground="#9CA3AF" Width="32" Height="32" Padding="0" Margin="0,0,6,0" ToolTip="تعليق الطلب">
+                            <Button Style="{StaticResource MaterialDesignIconButton}" Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" Foreground="#8E8E93" Width="32" Height="32" Padding="0" Margin="0,0,6,0" ToolTip="تعليق الطلب">
                                 <materialDesign:PackIcon Kind="Pause" Width="16" Height="16"/>
                             </Button>
                             
                             <!-- Clear Cart Button -->
-                            <Button Command="{Binding ClearCartCommand}" Style="{StaticResource MaterialDesignIconButton}" Background="#1E202B" BorderBrush="#2C2F3E" BorderThickness="1" Foreground="#EF4444" Width="32" Height="32" Padding="0" ToolTip="مسح السلة بالكامل">
+                            <Button Command="{Binding ClearCartCommand}" Style="{StaticResource MaterialDesignIconButton}" Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" Foreground="#EF4444" Width="32" Height="32" Padding="0" ToolTip="مسح السلة بالكامل">
                                 <materialDesign:PackIcon Kind="DeleteSweep" Width="16" Height="16"/>
                             </Button>
                         </StackPanel>
@@ -448,9 +443,9 @@
                             <ColumnDefinition Width="1.5*"/>
                             <ColumnDefinition Width="24"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{DynamicResource HeaderItem}" FontSize="11" Foreground="#9CA3AF" FontWeight="Bold"/>
-                        <TextBlock Grid.Column="1" Text="{DynamicResource HeaderQty}" FontSize="11" Foreground="#9CA3AF" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="2" Text="{DynamicResource HeaderPrice}" FontSize="11" Foreground="#9CA3AF" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,0,8,0"/>
+                        <TextBlock Grid.Column="0" Text="{DynamicResource HeaderItem}" FontSize="11" Foreground="#8E8E93" FontWeight="Bold"/>
+                        <TextBlock Grid.Column="1" Text="{DynamicResource HeaderQty}" FontSize="11" Foreground="#8E8E93" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Text="{DynamicResource HeaderPrice}" FontSize="11" Foreground="#8E8E93" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,0,8,0"/>
                     </Grid>
                     
                     <!-- Items / Empty State -->
@@ -470,28 +465,28 @@
                                         </Style.Triggers>
                                     </Style>
                                 </StackPanel.Style>
-                                <Border Width="64" Height="64" CornerRadius="32" Background="#181A22" BorderBrush="#262936" BorderThickness="1" HorizontalAlignment="Center" Margin="0,0,0,12">
-                                    <materialDesign:PackIcon Kind="CartOutline" Width="30" Height="30" Foreground="#4B5563" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Width="64" Height="64" CornerRadius="32" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" HorizontalAlignment="Center" Margin="0,0,0,12">
+                                    <materialDesign:PackIcon Kind="CartOutline" Width="30" Height="30" Foreground="#353534" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <TextBlock Text="سلة المشتريات فارغة" Foreground="#9CA3AF" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                <TextBlock Text="امسح باركود أو انقر على صنف لإضافته" Foreground="#6B7280" FontSize="11" Margin="0,4,0,0" HorizontalAlignment="Center"/>
+                                <TextBlock Text="سلة المشتريات فارغة" Foreground="#8E8E93" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock Text="امسح باركود أو انقر على صنف لإضافته" Foreground="#666666" FontSize="11" Margin="0,4,0,0" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Grid>
                     </ScrollViewer>
                 </Grid>
 
                 <!-- Order Summary & Checkout Footer -->
-                <Border Grid.Row="2" Background="#181A22" BorderBrush="#262936" BorderThickness="0,1,0,0" Padding="16,14">
+                <Border Grid.Row="2" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="0,1,0,0" Padding="16,14">
                     <StackPanel>
                         <!-- Discount Trigger Button -->
-                        <Button Command="{Binding OpenDiscountDialogCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2E3242" Background="#1E202B" Foreground="#D1D5DB" Height="34" Margin="0,0,0,12" Padding="10,0">
+                        <Button Command="{Binding OpenDiscountDialogCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Background="#1A1A1A" Foreground="#E0E0E0" Height="34" Margin="0,0,0,12" Padding="10,0">
                             <Grid Width="340">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="TicketPercentOutline" Width="16" Height="16" Foreground="#E63946" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                    <materialDesign:PackIcon Kind="TicketPercentOutline" Width="16" Height="16" Foreground="#d90429" Margin="0,0,6,0" VerticalAlignment="Center"/>
                                     <TextBlock Text="{DynamicResource BtnDiscount}" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"/>
                                 </StackPanel>
-                                <Border Background="#1FE63946" BorderBrush="#44E63946" BorderThickness="1" CornerRadius="4" Padding="6,1" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                    <TextBlock Text="تطبيق خصم" FontSize="10" FontWeight="Bold" Foreground="#E63946"/>
+                                <Border Background="#22d90429" BorderBrush="#44d90429" BorderThickness="1" CornerRadius="4" Padding="6,1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <TextBlock Text="تطبيق خصم" FontSize="10" FontWeight="Bold" Foreground="#d90429"/>
                                 </Border>
                             </Grid>
                         </Button>
@@ -500,62 +495,48 @@
                         <StackPanel Margin="0,0,0,12">
                             <!-- Subtotal -->
                             <Grid Margin="0,0,0,6">
-                                <TextBlock Text="{DynamicResource Subtotal}" Foreground="#9CA3AF" FontSize="12"/>
-                                <TextBlock Text="{Binding Subtotal, StringFormat='{}{0:#,##0.##} ج.م'}" Foreground="#E5E7EB" FontWeight="SemiBold" FontSize="12" HorizontalAlignment="Right"/>
+                                <TextBlock Text="{DynamicResource Subtotal}" Foreground="#8E8E93" FontSize="12"/>
+                                <TextBlock Text="{Binding Subtotal, StringFormat='{}{0:#,##0.##} ج.م'}" Foreground="White" FontWeight="SemiBold" FontSize="12" HorizontalAlignment="Right"/>
                             </Grid>
                             
                             <!-- Tax (if applicable) -->
                             <Grid Margin="0,0,0,6" Visibility="{Binding IsTaxVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <TextBlock Text="{DynamicResource TaxLabel}" Foreground="#9CA3AF" FontSize="12"/>
-                                <TextBlock Text="{Binding Tax, StringFormat='{}{0:#,##0.##} ج.م'}" Foreground="#E5E7EB" FontWeight="SemiBold" FontSize="12" HorizontalAlignment="Right"/>
+                                <TextBlock Text="{DynamicResource TaxLabel}" Foreground="#8E8E93" FontSize="12"/>
+                                <TextBlock Text="{Binding Tax, StringFormat='{}{0:#,##0.##} ج.م'}" Foreground="White" FontWeight="SemiBold" FontSize="12" HorizontalAlignment="Right"/>
                             </Grid>
                             
                             <!-- Discount Amount -->
                             <Grid>
-                                <TextBlock Text="الخصم المطبق" Foreground="#E63946" FontSize="12" FontWeight="Bold"/>
-                                <TextBlock Text="{Binding Discount, StringFormat='-{0:#,##0.##} ج.م'}" Foreground="#E63946" FontWeight="Bold" FontSize="12" HorizontalAlignment="Right"/>
+                                <TextBlock Text="الخصم المطبق" Foreground="#d90429" FontSize="12" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding Discount, StringFormat='-{0:#,##0.##} ج.م'}" Foreground="#d90429" FontWeight="Bold" FontSize="12" HorizontalAlignment="Right"/>
                             </Grid>
                         </StackPanel>
 
                         <!-- Grand Total Highlight -->
-                        <Border Background="#111218" BorderBrush="#262936" BorderThickness="1" CornerRadius="10" Padding="14,10" Margin="0,0,0,12">
+                        <Border Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="14,10" Margin="0,0,0,12">
                             <Grid>
                                 <StackPanel VerticalAlignment="Center">
-                                    <TextBlock Text="{DynamicResource Total}" FontSize="13" FontWeight="Bold" Foreground="#9CA3AF"/>
-                                    <TextBlock Text="شامل كافة الخصومات" FontSize="10" Foreground="#6B7280"/>
+                                    <TextBlock Text="{DynamicResource Total}" FontSize="13" FontWeight="Bold" Foreground="#8E8E93"/>
+                                    <TextBlock Text="شامل كافة الخصومات" FontSize="10" Foreground="#666666"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Total, StringFormat='{}{0:#,##0.##}'}" FontSize="28" FontWeight="Black" Foreground="#FFFFFF"/>
-                                    <TextBlock Text=" ج.م" FontSize="14" FontWeight="Bold" Foreground="#E63946" VerticalAlignment="Bottom" Margin="4,0,0,4"/>
+                                    <TextBlock Text="{Binding Total, StringFormat='{}{0:#,##0.##}'}" FontSize="28" FontWeight="Black" Foreground="White"/>
+                                    <TextBlock Text=" ج.م" FontSize="14" FontWeight="Bold" Foreground="#d90429" VerticalAlignment="Bottom" Margin="4,0,0,4"/>
                                 </StackPanel>
                             </Grid>
                         </Border>
 
                         <!-- Big Checkout Pay Now Button -->
-                        <Button Command="{Binding CheckoutCommand}" Background="#E63946" Foreground="White" BorderThickness="0" Height="52" Effect="{StaticResource PosPayGlowShadow}" Cursor="Hand">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border x:Name="payBtn" Background="#D90429" CornerRadius="10" Padding="{TemplateBinding Padding}">
-                                        <Grid Width="330">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <materialDesign:PackIcon Kind="CashRegister" Width="22" Height="22" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                                <TextBlock Text="{DynamicResource PayNow}" FontSize="16" FontWeight="Black" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                            <Border Background="#33FFFFFF" CornerRadius="4" Padding="6,2" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                                <TextBlock Text="F12" FontSize="10" FontWeight="Black" Foreground="White"/>
-                                            </Border>
-                                        </Grid>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="payBtn" Property="Background" Value="#EF233C"/>
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="payBtn" Property="Background" Value="#B91C1C"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Button.Template>
+                        <Button Command="{Binding CheckoutCommand}" Style="{StaticResource Axon3DPrimaryButtonStyle}" Height="52" Cursor="Hand">
+                            <Grid Width="330">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="CashRegister" Width="22" Height="22" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource PayNow}" FontSize="16" FontWeight="Black" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <Border Background="#33FFFFFF" CornerRadius="4" Padding="6,2" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <TextBlock Text="F12" FontSize="10" FontWeight="Black" Foreground="White"/>
+                                </Border>
+                            </Grid>
                         </Button>
                     </StackPanel>
                 </Border>
@@ -564,20 +545,20 @@
 
         <!-- ==================== DISCOUNT MODAL OVERLAY ==================== -->
         <Grid Visibility="{Binding IsDiscountDialogOpen, Converter={StaticResource BooleanToVisibilityConverter}}" Background="#99000000" Grid.ColumnSpan="2" Panel.ZIndex="1000">
-            <Border Background="#181A22" BorderBrush="#2C2F3E" BorderThickness="1" CornerRadius="14" Width="380" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="20" Effect="{StaticResource PosCardShadow}">
+            <Border Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="14" Width="380" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="20" Effect="{DynamicResource Axon3DDialogShadow}">
                 <StackPanel>
                     <Grid Margin="0,0,0,14">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <materialDesign:PackIcon Kind="TicketPercentOutline" Width="20" Height="20" Foreground="#E63946" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <materialDesign:PackIcon Kind="TicketPercentOutline" Width="20" Height="20" Foreground="#d90429" Margin="0,0,8,0" VerticalAlignment="Center"/>
                             <TextBlock Text="تطبيق خصم على الفاتورة" FontSize="16" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
                         </StackPanel>
-                        <Button Command="{Binding CloseDiscountDialogCommand}" Style="{StaticResource MaterialDesignIconButton}" Foreground="#9CA3AF" Width="26" Height="26" Padding="0" HorizontalAlignment="Right">
+                        <Button Command="{Binding CloseDiscountDialogCommand}" Style="{StaticResource MaterialDesignIconButton}" Foreground="#8E8E93" Width="26" Height="26" Padding="0" HorizontalAlignment="Right">
                             <materialDesign:PackIcon Kind="Close" Width="18" Height="18"/>
                         </Button>
                     </Grid>
 
-                    <TextBlock Text="قيمة الخصم (بالجنيه / ج.م) *" Foreground="#9CA3AF" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,6"/>
-                    <TextBox Text="{Binding DiscountInput, Converter={StaticResource ZeroToEmptyConverter}, UpdateSourceTrigger=PropertyChanged}" Background="#111218" Foreground="White" BorderBrush="#2C2F3E" BorderThickness="1" Padding="12,8" Margin="0,0,0,4" FontSize="15" FontWeight="Bold"/>
+                    <TextBlock Text="قيمة الخصم (بالجنيه / ج.م) *" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                    <TextBox Text="{Binding DiscountInput, Converter={StaticResource ZeroToEmptyConverter}, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="12,8" Margin="0,0,0,4" FontSize="15" FontWeight="Bold"/>
 
                     <!-- Red Validation Error Text -->
                     <TextBlock Text="{Binding DiscountValidationError}" Foreground="#EF4444" FontSize="11" FontWeight="Bold" Margin="0,4,0,12" Visibility="{Binding HasDiscountError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
@@ -594,7 +575,7 @@
         <Grid Visibility="{Binding IsReceiptDialogOpen, Converter={StaticResource BooleanToVisibilityConverter}}" Background="#99000000" Grid.ColumnSpan="2" Panel.ZIndex="2000">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,16">
                 <!-- Thermal Paper Ticket Card -->
-                <Border Background="White" CornerRadius="8" Width="340" Padding="16" SnapsToDevicePixels="True" Effect="{StaticResource PosCardShadow}">
+                <Border Background="White" CornerRadius="8" Width="340" Padding="16" SnapsToDevicePixels="True" Effect="{DynamicResource Axon3DDialogShadow}">
                     <ScrollViewer MaxHeight="520" VerticalScrollBarVisibility="Auto">
                         <StackPanel TextElement.Foreground="Black">
                             <!-- 1. CIRCULAR LOGO BRANDING -->
@@ -698,7 +679,7 @@
 
         <!-- ==================== RETURN / REFUND MODAL DIALOG ==================== -->
         <Grid Grid.ColumnSpan="2" Background="#B3000000" Visibility="{Binding IsReturnDialogOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Border Background="#161820" BorderBrush="#2C2F3E" BorderThickness="1" CornerRadius="14" Width="900" MaxHeight="640" Padding="20" HorizontalAlignment="Center" VerticalAlignment="Center" Effect="{StaticResource PosCardShadow}">
+            <Border Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="14" Width="900" MaxHeight="640" Padding="20" HorizontalAlignment="Center" VerticalAlignment="Center" Effect="{DynamicResource Axon3DDialogShadow}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/> <!-- Header -->
@@ -713,12 +694,12 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="CashRefund" Width="24" Height="24" Foreground="#E63946" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <materialDesign:PackIcon Kind="CashRefund" Width="24" Height="24" Foreground="#d90429" VerticalAlignment="Center" Margin="0,0,8,0"/>
                                 <TextBlock Text="إرجاع مبيعات / استرجاع فاتورة" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
                             </StackPanel>
-                            <TextBlock Text="ابحث برقم الفاتورة، أو اسم المنتج، أو الباركود، أو اختر مباشرة من قائمة الفواتير المسجلة." FontSize="11" Foreground="#9CA3AF" Margin="32,2,0,0"/>
+                            <TextBlock Text="ابحث برقم الفاتورة، أو اسم المنتج، أو الباركود، أو اختر مباشرة من قائمة الفواتير المسجلة." FontSize="11" Foreground="#8E8E93" Margin="32,2,0,0"/>
                         </StackPanel>
-                        <Button Grid.Column="1" Command="{Binding CloseReturnDialogCommand}" Style="{StaticResource MaterialDesignIconButton}" Foreground="#9CA3AF" Width="28" Height="28" Padding="0">
+                        <Button Grid.Column="1" Command="{Binding CloseReturnDialogCommand}" Style="{StaticResource MaterialDesignIconButton}" Foreground="#8E8E93" Width="28" Height="28" Padding="0">
                             <materialDesign:PackIcon Kind="Close" Width="18" Height="18"/>
                         </Button>
                     </Grid>
@@ -732,7 +713,7 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Invoices List -->
-                        <Border Grid.Column="0" Background="#111218" BorderBrush="#262936" BorderThickness="1" CornerRadius="10" Padding="10">
+                        <Border Grid.Column="0" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="10">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
@@ -741,11 +722,11 @@
 
                                 <Grid Grid.Row="0" Margin="4,0,4,8">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="ReceiptTextOutline" Width="16" Height="16" Foreground="#E63946" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                        <materialDesign:PackIcon Kind="ReceiptTextOutline" Width="16" Height="16" Foreground="#d90429" VerticalAlignment="Center" Margin="0,0,6,0"/>
                                         <TextBlock Text="سجل الفواتير" FontSize="13" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
                                     </StackPanel>
-                                    <Border Background="#1E202B" CornerRadius="6" Padding="6,1" HorizontalAlignment="Left">
-                                        <TextBlock Text="{Binding RecentSalesForReturn.Count, StringFormat='{}{0} فاتورة'}" FontSize="10" FontWeight="Bold" Foreground="#9CA3AF"/>
+                                    <Border Background="#242424" CornerRadius="6" Padding="6,1" HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding RecentSalesForReturn.Count, StringFormat='{}{0} فاتورة'}" FontSize="10" FontWeight="Bold" Foreground="#8E8E93"/>
                                     </Border>
                                 </Grid>
 
@@ -764,8 +745,8 @@
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="ListBoxItem">
                                                         <Border x:Name="SaleCardBorder"
-                                                                Background="#181A22"
-                                                                BorderBrush="#262936"
+                                                                Background="#181818"
+                                                                BorderBrush="#2C2C2C"
                                                                 BorderThickness="1"
                                                                 CornerRadius="8"
                                                                 Padding="10,8"
@@ -777,26 +758,26 @@
                                                                 </Grid.RowDefinitions>
                                                                 <Grid Grid.Row="0" Margin="0,0,0,4">
                                                                     <TextBlock Text="{Binding ReceiptNumber}" Foreground="White" FontWeight="Bold" FontSize="11" TextTrimming="CharacterEllipsis"/>
-                                                                    <Border Background="#1010B981" BorderBrush="#4D10B981" BorderThickness="1" CornerRadius="4" Padding="4,1" HorizontalAlignment="Left">
-                                                                        <TextBlock Text="{Binding Status}" Foreground="#10B981" FontSize="9" FontWeight="Bold"/>
+                                                                    <Border Background="#104ae176" BorderBrush="#4d4ae176" BorderThickness="1" CornerRadius="4" Padding="4,1" HorizontalAlignment="Left">
+                                                                        <TextBlock Text="{Binding Status}" Foreground="#4ae176" FontSize="9" FontWeight="Bold"/>
                                                                     </Border>
                                                                 </Grid>
                                                                 <Grid Grid.Row="1">
                                                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                                        <materialDesign:PackIcon Kind="ClockOutline" Width="11" Height="11" Foreground="#9CA3AF" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                                                                        <TextBlock Text="{Binding Date, StringFormat='{}{0:MM/dd HH:mm}'}" Foreground="#9CA3AF" FontSize="10" VerticalAlignment="Center"/>
+                                                                        <materialDesign:PackIcon Kind="ClockOutline" Width="11" Height="11" Foreground="#8E8E93" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                                                        <TextBlock Text="{Binding Date, StringFormat='{}{0:MM/dd HH:mm}'}" Foreground="#8E8E93" FontSize="10" VerticalAlignment="Center"/>
                                                                     </StackPanel>
-                                                                    <TextBlock Text="{Binding Total, StringFormat='{}{0:N2} ج.م'}" Foreground="#FCA5A5" FontWeight="Bold" FontSize="11" HorizontalAlignment="Left"/>
+                                                                    <TextBlock Text="{Binding Total, StringFormat='{}{0:N2} ج.م'}" Foreground="#ffb3af" FontWeight="Bold" FontSize="11" HorizontalAlignment="Left"/>
                                                                 </Grid>
                                                             </Grid>
                                                         </Border>
                                                         <ControlTemplate.Triggers>
                                                             <Trigger Property="IsSelected" Value="True">
-                                                                <Setter TargetName="SaleCardBorder" Property="Background" Value="#2B0E14"/>
-                                                                <Setter TargetName="SaleCardBorder" Property="BorderBrush" Value="#E63946"/>
+                                                                <Setter TargetName="SaleCardBorder" Property="Background" Value="#2b0005"/>
+                                                                <Setter TargetName="SaleCardBorder" Property="BorderBrush" Value="#d90429"/>
                                                             </Trigger>
                                                             <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter TargetName="SaleCardBorder" Property="Background" Value="#222530"/>
+                                                                <Setter TargetName="SaleCardBorder" Property="Background" Value="#222222"/>
                                                             </Trigger>
                                                         </ControlTemplate.Triggers>
                                                     </ControlTemplate>
@@ -817,14 +798,14 @@
                             </Grid.RowDefinitions>
 
                             <!-- Search Bar -->
-                            <Border Grid.Row="0" Background="#111218" BorderBrush="#262936" BorderThickness="1" CornerRadius="8" Padding="8,4" Margin="0,0,0,8">
+                            <Border Grid.Row="0" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="8" Padding="8,4" Margin="0,0,0,8">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <materialDesign:PackIcon Grid.Column="0" Kind="BarcodeScan" Width="18" Height="18" Foreground="#E63946" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                    <materialDesign:PackIcon Grid.Column="0" Kind="BarcodeScan" Width="18" Height="18" Foreground="#d90429" VerticalAlignment="Center" Margin="0,0,8,0"/>
                                     <TextBox Grid.Column="1"
                                              Text="{Binding ReturnInvoiceSearchQuery, UpdateSourceTrigger=PropertyChanged}"
                                              Background="Transparent" Foreground="White" BorderThickness="0"
@@ -834,7 +815,7 @@
                                             <KeyBinding Key="Return" Command="{Binding SearchSaleForReturnCommand}"/>
                                         </TextBox.InputBindings>
                                     </TextBox>
-                                    <Button Grid.Column="2" Command="{Binding SearchSaleForReturnCommand}" Background="#E63946" Foreground="White" BorderThickness="0" Padding="10,4" Height="28">
+                                    <Button Grid.Column="2" Command="{Binding SearchSaleForReturnCommand}" Background="#d90429" Foreground="White" BorderThickness="0" Padding="10,4" Height="28">
                                         <StackPanel Orientation="Horizontal">
                                             <materialDesign:PackIcon Kind="Magnify" Margin="0,0,4,0" VerticalAlignment="Center" Width="13" Height="13"/>
                                             <TextBlock Text="بحث" FontWeight="Bold" FontSize="10" VerticalAlignment="Center"/>
@@ -844,7 +825,7 @@
                             </Border>
 
                             <!-- Items Table Area -->
-                            <Border Grid.Row="1" Background="#111218" BorderBrush="#262936" BorderThickness="1" CornerRadius="8" Padding="8" Margin="0,0,0,8">
+                            <Border Grid.Row="1" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="8" Padding="8" Margin="0,0,0,8">
                                 <Grid>
                                     <Grid Visibility="{Binding IsSaleFoundForReturn, Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Grid.RowDefinitions>
@@ -853,17 +834,17 @@
                                         </Grid.RowDefinitions>
 
                                         <!-- Invoice Summary Ribbon -->
-                                        <Border Grid.Row="0" Background="#181A22" BorderBrush="#262936" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,0,6">
+                                        <Border Grid.Row="0" Background="#181818" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,0,6">
                                             <Grid>
                                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                    <TextBlock Text="الفاتورة: " Foreground="#9CA3AF" FontSize="11"/>
+                                                    <TextBlock Text="الفاتورة: " Foreground="#8E8E93" FontSize="11"/>
                                                     <TextBlock Text="{Binding SelectedSaleForReturn.ReceiptNumber}" Foreground="White" FontWeight="Bold" FontSize="11" Margin="0,0,12,0"/>
-                                                    <TextBlock Text="التاريخ: " Foreground="#9CA3AF" FontSize="11"/>
+                                                    <TextBlock Text="التاريخ: " Foreground="#8E8E93" FontSize="11"/>
                                                     <TextBlock Text="{Binding SelectedSaleForReturn.Date, StringFormat='{}{0:yyyy/MM/dd HH:mm}'}" Foreground="White" FontSize="11"/>
                                                 </StackPanel>
                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                                    <TextBlock Text="القيمة الأصلية: " Foreground="#9CA3AF" FontSize="11"/>
-                                                    <TextBlock Text="{Binding SelectedSaleForReturn.Total, StringFormat='{}{0:N2} ج.م'}" Foreground="#FCA5A5" FontWeight="Bold" FontSize="11"/>
+                                                    <TextBlock Text="القيمة الأصلية: " Foreground="#8E8E93" FontSize="11"/>
+                                                    <TextBlock Text="{Binding SelectedSaleForReturn.Total, StringFormat='{}{0:N2} ج.م'}" Foreground="#ffb3af" FontWeight="Bold" FontSize="11"/>
                                                 </StackPanel>
                                             </Grid>
                                         </Border>
@@ -873,7 +854,7 @@
                                             <ItemsControl ItemsSource="{Binding ReturnLineItems}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Border Background="#161820" BorderBrush="#262936" BorderThickness="1" CornerRadius="6" Padding="8,6" Margin="0,0,0,4">
+                                                        <Border Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="6" Padding="8,6" Margin="0,0,0,4">
                                                             <Grid>
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="2*"/>
@@ -885,34 +866,34 @@
 
                                                                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
                                                                     <TextBlock Text="{Binding ProductName}" Foreground="White" FontWeight="SemiBold" FontSize="11"/>
-                                                                    <TextBlock Text="{Binding Sku}" Foreground="#9CA3AF" FontSize="9"/>
+                                                                    <TextBlock Text="{Binding Sku}" Foreground="#8E8E93" FontSize="9"/>
                                                                 </StackPanel>
 
                                                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                                    <TextBlock Text="السعر:" Foreground="#9CA3AF" FontSize="9"/>
+                                                                    <TextBlock Text="السعر:" Foreground="#8E8E93" FontSize="9"/>
                                                                     <TextBlock Text="{Binding UnitPrice, StringFormat='{}{0:N2} ج.م'}" Foreground="#E0E0E0" FontSize="10" FontWeight="SemiBold"/>
                                                                 </StackPanel>
 
                                                                 <StackPanel Grid.Column="2" VerticalAlignment="Center">
-                                                                    <TextBlock Text="المباع:" Foreground="#9CA3AF" FontSize="9"/>
+                                                                    <TextBlock Text="المباع:" Foreground="#8E8E93" FontSize="9"/>
                                                                     <TextBlock Text="{Binding MaxQuantity, StringFormat='x{0}'}" Foreground="#E0E0E0" FontSize="10" FontWeight="Bold"/>
                                                                 </StackPanel>
 
                                                                 <StackPanel Grid.Column="3" VerticalAlignment="Center">
-                                                                    <TextBlock Text="الكمية المرتجعة:" Foreground="#FCA5A5" FontSize="9" FontWeight="Bold" Margin="0,0,0,2"/>
+                                                                    <TextBlock Text="الكمية المرتجعة:" Foreground="#ffb3af" FontSize="9" FontWeight="Bold" Margin="0,0,0,2"/>
                                                                     <StackPanel Orientation="Horizontal">
-                                                                        <Button Command="{Binding DataContext.DecreaseReturnQuantityCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Content="-" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2F3E" Foreground="White" Width="20" Height="20" Padding="0" Margin="0,0,2,0"/>
-                                                                        <Border Background="#111218" BorderBrush="#E63946" BorderThickness="1" CornerRadius="4" Padding="2,0" Width="36">
+                                                                        <Button Command="{Binding DataContext.DecreaseReturnQuantityCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Content="-" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Foreground="White" Width="20" Height="20" Padding="0" Margin="0,0,2,0"/>
+                                                                        <Border Background="#111111" BorderBrush="#d90429" BorderThickness="1" CornerRadius="4" Padding="2,0" Width="36">
                                                                             <TextBox Text="{Binding QuantityToReturn, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Foreground="White" BorderThickness="0" FontWeight="Bold" FontSize="11" TextAlignment="Center"/>
                                                                         </Border>
-                                                                        <Button Command="{Binding DataContext.IncreaseReturnQuantityCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Content="+" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2F3E" Foreground="White" Width="20" Height="20" Padding="0" Margin="2,0,2,0"/>
-                                                                        <Button Command="{Binding DataContext.SetFullReturnQuantityCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Content="الكل" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2F3E" Foreground="#9CA3AF" FontSize="8" Width="26" Height="20" Padding="0"/>
+                                                                        <Button Command="{Binding DataContext.IncreaseReturnQuantityCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Content="+" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Foreground="White" Width="20" Height="20" Padding="0" Margin="2,0,2,0"/>
+                                                                        <Button Command="{Binding DataContext.SetFullReturnQuantityCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Content="الكل" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Foreground="#8E8E93" FontSize="8" Width="26" Height="20" Padding="0"/>
                                                                     </StackPanel>
                                                                 </StackPanel>
 
                                                                 <StackPanel Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                                                    <TextBlock Text="المسترد:" Foreground="#9CA3AF" FontSize="9"/>
-                                                                    <TextBlock Text="{Binding LineRefundTotal, StringFormat='{}{0:N2} ج.م'}" Foreground="#E63946" FontWeight="Black" FontSize="11"/>
+                                                                    <TextBlock Text="المسترد:" Foreground="#8E8E93" FontSize="9"/>
+                                                                    <TextBlock Text="{Binding LineRefundTotal, StringFormat='{}{0:N2} ج.م'}" Foreground="#d90429" FontWeight="Black" FontSize="11"/>
                                                                 </StackPanel>
                                                             </Grid>
                                                         </Border>
@@ -934,8 +915,8 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </StackPanel.Style>
-                                        <materialDesign:PackIcon Kind="ReceiptTextCheckOutline" Width="38" Height="38" Foreground="#323544" HorizontalAlignment="Center" Margin="0,0,0,6"/>
-                                        <TextBlock Text="اختر فاتورة من القائمة على اليمين أو ابحث لعرض الأصناف" Foreground="#9CA3AF" FontSize="11" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                        <materialDesign:PackIcon Kind="ReceiptTextCheckOutline" Width="38" Height="38" Foreground="#353534" HorizontalAlignment="Center" Margin="0,0,0,6"/>
+                                        <TextBlock Text="اختر فاتورة من القائمة على اليمين أو ابحث لعرض الأصناف" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" HorizontalAlignment="Center"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -949,15 +930,15 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0">
-                                        <TextBlock Text="سبب المرتجع:" Foreground="#9CA3AF" FontSize="10" Margin="0,0,0,2"/>
-                                        <TextBox Text="{Binding ReturnReason, UpdateSourceTrigger=PropertyChanged}" Background="#111218" Foreground="White" BorderBrush="#262936" BorderThickness="1" Padding="6,4" FontSize="11"/>
+                                        <TextBlock Text="سبب المرتجع:" Foreground="#8E8E93" FontSize="10" Margin="0,0,0,2"/>
+                                        <TextBox Text="{Binding ReturnReason, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="6,4" FontSize="11"/>
                                     </StackPanel>
-                                    <CheckBox Grid.Column="2" IsChecked="{Binding ReturnRestockToInventory, Mode=TwoWay}" Content="إعادة الأصناف للمخزون (+ المخزون)" Foreground="#10B981" FontWeight="SemiBold" VerticalAlignment="Bottom" Margin="0,0,0,2" FontSize="10"/>
+                                    <CheckBox Grid.Column="2" IsChecked="{Binding ReturnRestockToInventory, Mode=TwoWay}" Content="إعادة الأصناف للمخزون (+ المخزون)" Foreground="#4ae176" FontWeight="SemiBold" VerticalAlignment="Bottom" Margin="0,0,0,2" FontSize="10"/>
                                 </Grid>
 
-                                <Border Background="#2B0E14" BorderBrush="#E63946" BorderThickness="1" CornerRadius="6" Padding="10,6" Margin="0,0,0,8">
+                                <Border Background="#2b0005" BorderBrush="#d90429" BorderThickness="1" CornerRadius="6" Padding="10,6" Margin="0,0,0,8">
                                     <Grid>
-                                        <TextBlock Text="إجمالي المبلغ المسترد للعميل:" FontSize="12" FontWeight="Bold" Foreground="#FEE2E2" VerticalAlignment="Center"/>
+                                        <TextBlock Text="إجمالي المبلغ المسترد للعميل:" FontSize="12" FontWeight="Bold" Foreground="#ffb3af" VerticalAlignment="Center"/>
                                         <TextBlock Text="{Binding TotalRefundAmount, StringFormat='{}{0:N2} ج.م'}" FontSize="16" FontWeight="Black" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                     </Grid>
                                 </Border>

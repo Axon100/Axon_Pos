@@ -28,13 +28,6 @@ namespace Axon.Infrastructure.Data
         public DbSet<ReturnLineItem> ReturnLineItems { get; set; } = null!;
         public DbSet<SystemSetting> SystemSettings { get; set; } = null!;
         public DbSet<AuditLog> AuditLogs { get; set; } = null!;
-        public DbSet<Employee> Employees { get; set; } = null!;
-        public DbSet<EmployeeAdvance> EmployeeAdvances { get; set; } = null!;
-        public DbSet<EmployeeAdvancePayment> EmployeeAdvancePayments { get; set; } = null!;
-        public DbSet<EmployeeSalaryPayment> EmployeeSalaryPayments { get; set; } = null!;
-        public DbSet<EmployeeAttendance> EmployeeAttendances { get; set; } = null!;
-        public DbSet<EmployeeDeduction> EmployeeDeductions { get; set; } = null!;
-        public DbSet<EmployeeLeave> EmployeeLeaves { get; set; } = null!;
 
         public AxonDbContext(DbContextOptions<AxonDbContext> options) : base(options)
         {

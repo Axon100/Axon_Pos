@@ -57,155 +57,9 @@ namespace Axon.Infrastructure.Services
                                 CONSTRAINT [FK_UserPermissions_Permissions_PermissionId] FOREIGN KEY ([PermissionId]) REFERENCES [Permissions] ([Id]) ON DELETE CASCADE
                             );
                         END
-                        IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Employees')
-                        BEGIN
-                            CREATE TABLE [Employees] (
-                                [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                                [FullName] NVARCHAR(MAX) NOT NULL DEFAULT '',
-                                [JobTitle] NVARCHAR(MAX) NOT NULL DEFAULT '',
-                                [Phone] NVARCHAR(MAX) NOT NULL DEFAULT '',
-                                [NationalId] NVARCHAR(MAX) NOT NULL DEFAULT '',
-                                [BasicSalary] DECIMAL(18,4) NOT NULL DEFAULT 0,
-                                [HireDate] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-                                [IsActive] BIT NOT NULL DEFAULT 1,
-                                [UserId] INT NULL,
-                                [CreatedAt] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-                                [CreatedBy] INT NULL,
-                                [UpdatedAt] DATETIMEOFFSET NULL,
-                                [UpdatedBy] INT NULL,
-                                [IsDeleted] BIT NOT NULL DEFAULT 0,
-                                [DeletedAt] DATETIMEOFFSET NULL,
-                                [DeletedBy] INT NULL,
-                                [RowVersion] VARBINARY(8) NULL
-                            );
-                        END
-                        IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'EmployeeAdvances')
-                        BEGIN
-                            CREATE TABLE [EmployeeAdvances] (
-                                [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                                [EmployeeId] INT NOT NULL,
-                                [Amount] DECIMAL(18,4) NOT NULL DEFAULT 0,
-                                [PaidAmount] DECIMAL(18,4) NOT NULL DEFAULT 0,
-                                [RemainingAmount] DECIMAL(18,4) NOT NULL DEFAULT 0,
-                                [AdvanceDate] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-                                [Notes] NVARCHAR(MAX) NOT NULL DEFAULT '',
-                                [Status] NVARCHAR(MAX) NOT NULL DEFAULT 'غير مسددة',
-                                [CreatedAt] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-                                [CreatedBy] INT NULL,
-                                [UpdatedAt] DATETIMEOFFSET NULL,
-                                [UpdatedBy] INT NULL,
-                                [IsDeleted] BIT NOT NULL DEFAULT 0,
-                                [DeletedAt] DATETIMEOFFSET NULL,
-                                [DeletedBy] INT NULL,
-                                [RowVersion] VARBINARY(8) NULL
-                            );
-                        END
-                        IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'EmployeeAdvancePayments')
-                        BEGIN
-                            CREATE TABLE [EmployeeAdvancePayments] (
-                                [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                                [EmployeeAdvanceId] INT NOT NULL,
-                                [PaymentDate] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-                                [AmountPaid] DECIMAL(18,4) NOT NULL DEFAULT 0,
-                                [Notes] NVARCHAR(MAX) NOT NULL DEFAULT '',
-                                [CreatedAt] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-                                [CreatedBy] INT NULL,
-                                [UpdatedAt] DATETIMEOFFSET NULL,
-                                [UpdatedBy] INT NULL,
-                                [IsDeleted] BIT NOT NULL DEFAULT 0,
-                                [DeletedAt] DATETIMEOFFSET NULL,
-                                [DeletedBy] INT NULL,
-                                [RowVersion] VARBINARY(8) NULL
-                            );
-                        END
-                        IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'EmployeeSalaryPayments')
-                        BEGIN
-                            CREATE TABLE [EmployeeSalaryPayments] (
-                                [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                                [EmployeeId] INT NOT NULL,
-                                [PaymentDate] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-                                [Month] INT NOT NULL DEFAULT 1,
-                                [Year] INT NOT NULL DEFAULT 2026,
-                                [BasicSalary] DECIMAL(18,4) NOT NULL DEFAULT 0,
-                                [BonusAmount] DECIMAL(18,4) NOT NULL DEFAULT 0,
-                                [DeductionAmount] DECIMAL(18,4) NOT NULL DEFAULT 0,
-                                [AdvanceDeduction] DECIMAL(18,4) NOT NULL DEFAULT 0,
-                                [NetSalary] DECIMAL(18,4) NOT NULL DEFAULT 0,
-                                [Notes] NVARCHAR(MAX) NOT NULL DEFAULT '',
-                                [CreatedAt] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-                                [CreatedBy] INT NULL,
-                                [UpdatedAt] DATETIMEOFFSET NULL,
-                                [UpdatedBy] INT NULL,
-                                [IsDeleted] BIT NOT NULL DEFAULT 0,
-                                [DeletedAt] DATETIMEOFFSET NULL,
-                                [DeletedBy] INT NULL,
-                                [RowVersion] VARBINARY(8) NULL
-                            );
-                        END
-                        IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'EmployeeAttendances')
-                        BEGIN
-                            CREATE TABLE [EmployeeAttendances] (
-                                [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                                [EmployeeId] INT NOT NULL,
-                                [Date] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-                                [CheckInTime] TIME NULL,
-                                [CheckOutTime] TIME NULL,
-                                [Status] NVARCHAR(MAX) NOT NULL DEFAULT 'حاضر',
-                                [WorkHours] FLOAT NOT NULL DEFAULT 0,
-                                [Notes] NVARCHAR(MAX) NOT NULL DEFAULT '',
-                                [CreatedAt] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-                                [CreatedBy] INT NULL,
-                                [UpdatedAt] DATETIMEOFFSET NULL,
-                                [UpdatedBy] INT NULL,
-                                [IsDeleted] BIT NOT NULL DEFAULT 0,
-                                [DeletedAt] DATETIMEOFFSET NULL,
-                                [DeletedBy] INT NULL,
-                                [RowVersion] VARBINARY(8) NULL
-                            );
-                        END
-                        IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'EmployeeDeductions')
-                        BEGIN
-                            CREATE TABLE [EmployeeDeductions] (
-                                [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                                [EmployeeId] INT NOT NULL,
-                                [DeductionDate] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-                                [Amount] DECIMAL(18,4) NOT NULL DEFAULT 0,
-                                [Reason] NVARCHAR(MAX) NOT NULL DEFAULT '',
-                                [Notes] NVARCHAR(MAX) NOT NULL DEFAULT '',
-                                [CreatedAt] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-                                [CreatedBy] INT NULL,
-                                [UpdatedAt] DATETIMEOFFSET NULL,
-                                [UpdatedBy] INT NULL,
-                                [IsDeleted] BIT NOT NULL DEFAULT 0,
-                                [DeletedAt] DATETIMEOFFSET NULL,
-                                [DeletedBy] INT NULL,
-                                [RowVersion] VARBINARY(8) NULL
-                            );
-                        END
-                        IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'EmployeeLeaves')
-                        BEGIN
-                            CREATE TABLE [EmployeeLeaves] (
-                                [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                                [EmployeeId] INT NOT NULL,
-                                [StartDate] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-                                [EndDate] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-                                [LeaveType] NVARCHAR(MAX) NOT NULL DEFAULT 'إجازة إعتيادية',
-                                [TotalDays] INT NOT NULL DEFAULT 1,
-                                [Reason] NVARCHAR(MAX) NOT NULL DEFAULT '',
-                                [Status] NVARCHAR(MAX) NOT NULL DEFAULT 'مقبولة',
-                                [CreatedAt] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
-                                [CreatedBy] INT NULL,
-                                [UpdatedAt] DATETIMEOFFSET NULL,
-                                [UpdatedBy] INT NULL,
-                                [IsDeleted] BIT NOT NULL DEFAULT 0,
-                                [DeletedAt] DATETIMEOFFSET NULL,
-                                [DeletedBy] INT NULL,
-                                [RowVersion] VARBINARY(8) NULL
-                            );
-                        END
                     ");
 
-                    var allTables = new[] { "Users", "Roles", "Permissions", "UserPermissions", "Products", "Categories", "Expenses", "Invoices", "Returns", "SaleLineItems", "ReturnLineItems", "InventoryTransactions", "StockMovements", "Payments", "SystemSettings", "AuditLogs", "Sales", "Employees", "EmployeeAdvances", "EmployeeAdvancePayments", "EmployeeSalaryPayments", "EmployeeAttendances", "EmployeeDeductions", "EmployeeLeaves" };
+                    var allTables = new[] { "Users", "Roles", "Permissions", "UserPermissions", "Products", "Categories", "Expenses", "Invoices", "Returns", "SaleLineItems", "ReturnLineItems", "InventoryTransactions", "StockMovements", "Payments", "SystemSettings", "AuditLogs", "Sales" };
                     foreach (var tbl in allTables)
                     {
                         await _dbContext.Database.ExecuteSqlRawAsync($@"
@@ -250,15 +104,7 @@ namespace Axon.Infrastructure.Services
                         ");
                     } catch {}
 
-                    try { await _dbContext.Database.ExecuteSqlRawAsync("CREATE TABLE IF NOT EXISTS Employees (Id INTEGER PRIMARY KEY AUTOINCREMENT, FullName TEXT NOT NULL DEFAULT '', JobTitle TEXT NOT NULL DEFAULT '', Phone TEXT NOT NULL DEFAULT '', NationalId TEXT NOT NULL DEFAULT '', BasicSalary TEXT NOT NULL DEFAULT '0', HireDate TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, IsActive INTEGER NOT NULL DEFAULT 1, UserId INTEGER NULL, CreatedAt TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, CreatedBy INTEGER NULL, UpdatedAt TEXT NULL, UpdatedBy INTEGER NULL, IsDeleted INTEGER NOT NULL DEFAULT 0, DeletedAt TEXT NULL, DeletedBy INTEGER NULL, RowVersion BLOB NULL);"); } catch {}
-                    try { await _dbContext.Database.ExecuteSqlRawAsync("CREATE TABLE IF NOT EXISTS EmployeeAdvances (Id INTEGER PRIMARY KEY AUTOINCREMENT, EmployeeId INTEGER NOT NULL, Amount TEXT NOT NULL DEFAULT '0', PaidAmount TEXT NOT NULL DEFAULT '0', RemainingAmount TEXT NOT NULL DEFAULT '0', AdvanceDate TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, Notes TEXT NOT NULL DEFAULT '', Status TEXT NOT NULL DEFAULT 'غير مسددة', CreatedAt TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, CreatedBy INTEGER NULL, UpdatedAt TEXT NULL, UpdatedBy INTEGER NULL, IsDeleted INTEGER NOT NULL DEFAULT 0, DeletedAt TEXT NULL, DeletedBy INTEGER NULL, RowVersion BLOB NULL);"); } catch {}
-                    try { await _dbContext.Database.ExecuteSqlRawAsync("CREATE TABLE IF NOT EXISTS EmployeeAdvancePayments (Id INTEGER PRIMARY KEY AUTOINCREMENT, EmployeeAdvanceId INTEGER NOT NULL, PaymentDate TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, AmountPaid TEXT NOT NULL DEFAULT '0', Notes TEXT NOT NULL DEFAULT '', CreatedAt TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, CreatedBy INTEGER NULL, UpdatedAt TEXT NULL, UpdatedBy INTEGER NULL, IsDeleted INTEGER NOT NULL DEFAULT 0, DeletedAt TEXT NULL, DeletedBy INTEGER NULL, RowVersion BLOB NULL);"); } catch {}
-                    try { await _dbContext.Database.ExecuteSqlRawAsync("CREATE TABLE IF NOT EXISTS EmployeeSalaryPayments (Id INTEGER PRIMARY KEY AUTOINCREMENT, EmployeeId INTEGER NOT NULL, PaymentDate TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, Month INTEGER NOT NULL DEFAULT 1, Year INTEGER NOT NULL DEFAULT 2026, BasicSalary TEXT NOT NULL DEFAULT '0', BonusAmount TEXT NOT NULL DEFAULT '0', DeductionAmount TEXT NOT NULL DEFAULT '0', AdvanceDeduction TEXT NOT NULL DEFAULT '0', NetSalary TEXT NOT NULL DEFAULT '0', Notes TEXT NOT NULL DEFAULT '', CreatedAt TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, CreatedBy INTEGER NULL, UpdatedAt TEXT NULL, UpdatedBy INTEGER NULL, IsDeleted INTEGER NOT NULL DEFAULT 0, DeletedAt TEXT NULL, DeletedBy INTEGER NULL, RowVersion BLOB NULL);"); } catch {}
-                    try { await _dbContext.Database.ExecuteSqlRawAsync("CREATE TABLE IF NOT EXISTS EmployeeAttendances (Id INTEGER PRIMARY KEY AUTOINCREMENT, EmployeeId INTEGER NOT NULL, Date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, CheckInTime TEXT NULL, CheckOutTime TEXT NULL, Status TEXT NOT NULL DEFAULT 'حاضر', WorkHours REAL NOT NULL DEFAULT 0, Notes TEXT NOT NULL DEFAULT '', CreatedAt TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, CreatedBy INTEGER NULL, UpdatedAt TEXT NULL, UpdatedBy INTEGER NULL, IsDeleted INTEGER NOT NULL DEFAULT 0, DeletedAt TEXT NULL, DeletedBy INTEGER NULL, RowVersion BLOB NULL);"); } catch {}
-                    try { await _dbContext.Database.ExecuteSqlRawAsync("CREATE TABLE IF NOT EXISTS EmployeeDeductions (Id INTEGER PRIMARY KEY AUTOINCREMENT, EmployeeId INTEGER NOT NULL, DeductionDate TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, Amount TEXT NOT NULL DEFAULT '0', Reason TEXT NOT NULL DEFAULT '', Notes TEXT NOT NULL DEFAULT '', CreatedAt TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, CreatedBy INTEGER NULL, UpdatedAt TEXT NULL, UpdatedBy INTEGER NULL, IsDeleted INTEGER NOT NULL DEFAULT 0, DeletedAt TEXT NULL, DeletedBy INTEGER NULL, RowVersion BLOB NULL);"); } catch {}
-                    try { await _dbContext.Database.ExecuteSqlRawAsync("CREATE TABLE IF NOT EXISTS EmployeeLeaves (Id INTEGER PRIMARY KEY AUTOINCREMENT, EmployeeId INTEGER NOT NULL, StartDate TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, EndDate TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, LeaveType TEXT NOT NULL DEFAULT 'إجازة إعتيادية', TotalDays INTEGER NOT NULL DEFAULT 1, Reason TEXT NOT NULL DEFAULT '', Status TEXT NOT NULL DEFAULT 'مقبولة', CreatedAt TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, CreatedBy INTEGER NULL, UpdatedAt TEXT NULL, UpdatedBy INTEGER NULL, IsDeleted INTEGER NOT NULL DEFAULT 0, DeletedAt TEXT NULL, DeletedBy INTEGER NULL, RowVersion BLOB NULL);"); } catch {}
-
-                    var sqliteTables = new[] { "Users", "Roles", "Permissions", "UserPermissions", "Products", "Categories", "Expenses", "Invoices", "Returns", "SaleLineItems", "ReturnLineItems", "InventoryTransactions", "StockMovements", "Payments", "SystemSettings", "AuditLogs", "Sales", "Employees", "EmployeeAdvances", "EmployeeAdvancePayments", "EmployeeSalaryPayments", "EmployeeAttendances", "EmployeeDeductions", "EmployeeLeaves" };
+                    var sqliteTables = new[] { "Users", "Roles", "Permissions", "UserPermissions", "Products", "Categories", "Expenses", "Invoices", "Returns", "SaleLineItems", "ReturnLineItems", "InventoryTransactions", "StockMovements", "Payments", "SystemSettings", "AuditLogs", "Sales" };
                     foreach (var tbl in sqliteTables)
                     {
                         try { await _dbContext.Database.ExecuteSqlRawAsync($"ALTER TABLE {tbl} ADD COLUMN CreatedBy INTEGER NULL;"); } catch {}
@@ -332,11 +178,6 @@ namespace Axon.Infrastructure.Services
                 ("POS.Sell", "إتمام عملية بيع", "المبيعات", "نقطة البيع (POS)", "Sell", "طباعة فواتير وقبض مبيعات"),
                 ("POS.Discount", "تطبيق خصم على الفاتورة", "المبيعات", "نقطة البيع (POS)", "Discount", "إضافة نسبة أو مبلغ خصم"),
                 ("POS.Refund", "مرتجع وإلغاء فاتورة", "المبيعات", "نقطة البيع (POS)", "Refund", "إعادة البضاعة وإلغاء الفواتير"),
-
-                // HR / Staff Management
-                ("HR.View", "عرض شؤون العاملين", "شؤون العاملين", "شؤون العاملين", "View", "عرض إدارة الرواتب والحضور والغياب والخصومات"),
-                ("HR.Edit", "تعديل وتسجيل بيانات الموظفين", "شؤون العاملين", "شؤون العاملين", "Edit", "تسجيل الرواتب والسلف وتسديدها والخصومات والإجازات"),
-                ("HR.Reports", "عرض تقارير شؤون العاملين", "شؤون العاملين", "تقارير العاملين", "Reports", "عرض واستخراج تقارير الرواتب والحضور والخصومات"),
 
                 // Expenses
                 ("Expenses.View", "عرض قائمة المصروفات", "المصروفات", "إدارة المصروفات", "View", "عرض سجّلات السحبيات والمصروفات"),

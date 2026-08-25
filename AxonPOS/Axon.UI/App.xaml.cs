@@ -51,7 +51,6 @@ namespace Axon.UI
                     services.AddTransient<Axon.UI.Views.PosTerminalView>();
                     services.AddTransient<Axon.UI.Views.InventoryControlView>();
                     services.AddTransient<Axon.UI.Views.ExpensesView>();
-                    services.AddTransient<Axon.UI.Views.HrManagementView>();
                     services.AddTransient<Axon.UI.Views.DatabaseSetupWindow>();
 
                     // Add ViewModels
@@ -62,7 +61,6 @@ namespace Axon.UI
                     services.AddTransient<Axon.UI.ViewModels.PosTerminalViewModel>();
                     services.AddTransient<Axon.UI.ViewModels.InventoryControlViewModel>();
                     services.AddTransient<Axon.UI.ViewModels.ExpensesViewModel>();
-                    services.AddTransient<Axon.UI.ViewModels.HrManagementViewModel>();
                     services.AddTransient<Axon.UI.ViewModels.ReportsViewModel>();
                     services.AddTransient<Axon.UI.ViewModels.SettingsViewModel>();
                     services.AddTransient<Axon.UI.ViewModels.DatabaseSetupViewModel>();
