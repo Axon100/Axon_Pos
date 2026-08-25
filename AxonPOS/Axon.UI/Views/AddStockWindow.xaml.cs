@@ -105,7 +105,7 @@ namespace Axon.UI.Views
                 {
                     CmbCategory.SelectedValue = selectedProd.CategoryId.Value;
                 }
-                TxtCurrentStock.Text = $"المتوفر حالياً: {selectedProd.CurrentStock} قطعة";
+                TxtCurrentStock.Text = $"المتاح بالرصيد: {selectedProd.CurrentStock} قطعة";
                 _isUpdatingSelection = false;
             }
             else
