@@ -633,9 +633,10 @@ namespace Axon.UI.ViewModels
 
                 var dialog = new Microsoft.Win32.SaveFileDialog
                 {
-                    Filter = "Excel Files (*.xlsx)|*.xlsx",
+                    Filter = "ملف إكسيل Excel Workbook (*.xlsx)|*.xlsx|ملف نصوص مفصولة CSV (*.csv)|*.csv|تقرير ويب/وورد HTML (*.html)|*.html",
+                    DefaultExt = ".xlsx",
                     FileName = $"AxonPOS_{reportTypeStr}_{StartDate:yyyyMMdd}_{EndDate:yyyyMMdd}.xlsx",
-                    Title = "حفظ التقرير كملف Excel"
+                    Title = "اختر مكان وامتداد حفظ التقرير"
                 };
                 if (dialog.ShowDialog() != true) return;
 

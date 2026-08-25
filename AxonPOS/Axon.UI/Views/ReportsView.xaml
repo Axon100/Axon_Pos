@@ -10,11 +10,11 @@
 
         <!-- Toolbar Button Style -->
         <Style x:Key="ReportToolbarBtn" TargetType="Button">
-            <Setter Property="Background" Value="{DynamicResource CardBgBrush}"/>
-            <Setter Property="Foreground" Value="#b4b5b5"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
+            <Setter Property="Background" Value="#1E1E1E"/>
+            <Setter Property="Foreground" Value="#CCCCCC"/>
+            <Setter Property="BorderBrush" Value="#333333"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Padding" Value="10,4"/>
             <Setter Property="Height" Value="32"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
@@ -25,7 +25,8 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#252525"/>
+                                <Setter TargetName="bd" Property="Background" Value="#2A2A2A"/>
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#D90429"/>
                                 <Setter Property="Foreground" Value="White"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -398,7 +399,7 @@
         </Grid>
 
         <!-- ==================== 4. REPORT & PRINT TOOLBAR ==================== -->
-        <Border Grid.Row="3" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,6" Margin="0,0,0,10">
+        <Border Grid.Row="3" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="12,8" Margin="0,0,0,12" Effect="{DynamicResource Axon3DCardShadow}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -408,66 +409,67 @@
 
                 <!-- Navigation & Zoom -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Button Command="{Binding FirstPageCommand}" Style="{StaticResource ReportToolbarBtn}" Width="30" ToolTip="الصفحة الأولى" Margin="0,0,4,0">
+                    <!-- Pagination Buttons -->
+                    <Button Command="{Binding FirstPageCommand}" Style="{StaticResource ReportToolbarBtn}" Width="32" ToolTip="الصفحة الأولى" Margin="0,0,4,0">
                         <materialDesign:PackIcon Kind="PageFirst" Width="16" Height="16"/>
                     </Button>
-                    <Button Command="{Binding PrevPageCommand}" Style="{StaticResource ReportToolbarBtn}" Width="30" ToolTip="الصفحة السابقة" Margin="0,0,4,0">
+                    <Button Command="{Binding PrevPageCommand}" Style="{StaticResource ReportToolbarBtn}" Width="32" ToolTip="الصفحة السابقة" Margin="0,0,6,0">
                         <materialDesign:PackIcon Kind="ChevronRight" Width="16" Height="16"/>
                     </Button>
-                    <Border Background="{DynamicResource HeaderBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="10,4" Margin="0,0,4,0" VerticalAlignment="Center">
+
+                    <Border Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="6" Padding="12,4" Margin="0,0,6,0" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding CurrentPage}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="Bold" FontSize="11"/>
-                            <TextBlock Text=" / " Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11"/>
-                            <TextBlock Text="{Binding TotalPages}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11"/>
+                            <TextBlock Text="{Binding CurrentPage}" Foreground="White" FontWeight="Bold" FontSize="11"/>
+                            <TextBlock Text=" / " Foreground="#8E8E93" FontSize="11"/>
+                            <TextBlock Text="{Binding TotalPages}" Foreground="#8E8E93" FontSize="11"/>
                         </StackPanel>
                     </Border>
-                    <Button Command="{Binding NextPageCommand}" Style="{StaticResource ReportToolbarBtn}" Width="30" ToolTip="الصفحة التالية" Margin="0,0,4,0">
+
+                    <Button Command="{Binding NextPageCommand}" Style="{StaticResource ReportToolbarBtn}" Width="32" ToolTip="الصفحة التالية" Margin="0,0,4,0">
                         <materialDesign:PackIcon Kind="ChevronLeft" Width="16" Height="16"/>
                     </Button>
-                    <Button Command="{Binding LastPageCommand}" Style="{StaticResource ReportToolbarBtn}" Width="30" ToolTip="الصفحة الأخيرة" Margin="0,0,14,0">
+                    <Button Command="{Binding LastPageCommand}" Style="{StaticResource ReportToolbarBtn}" Width="32" ToolTip="الصفحة الأخيرة" Margin="0,0,14,0">
                         <materialDesign:PackIcon Kind="PageLast" Width="16" Height="16"/>
                     </Button>
 
-                    <Rectangle Width="1" Height="18" Fill="#2C2C2C" Margin="0,0,14,0"/>
+                    <Rectangle Width="1" Height="20" Fill="#2C2C2C" Margin="0,0,14,0"/>
 
                     <!-- Zoom Controls -->
-                    <Button Command="{Binding ZoomOutCommand}" Style="{StaticResource ReportToolbarBtn}" Width="30" ToolTip="تصغير" Margin="0,0,4,0">
+                    <Button Command="{Binding ZoomOutCommand}" Style="{StaticResource ReportToolbarBtn}" Width="32" ToolTip="تصغير التقرير" Margin="0,0,4,0">
                         <materialDesign:PackIcon Kind="MagnifyMinusOutline" Width="16" Height="16"/>
                     </Button>
-                    <Border Background="{DynamicResource HeaderBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,4,0" Width="55" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding ZoomText}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="Bold" FontSize="11" TextAlignment="Center"/>
+                    <Border Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,4,0" Width="55" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding ZoomText}" Foreground="White" FontWeight="Bold" FontSize="11" TextAlignment="Center"/>
                     </Border>
-                    <Button Command="{Binding ZoomInCommand}" Style="{StaticResource ReportToolbarBtn}" Width="30" ToolTip="تكبير" Margin="0,0,4,0">
+                    <Button Command="{Binding ZoomInCommand}" Style="{StaticResource ReportToolbarBtn}" Width="32" ToolTip="تكبير التقرير" Margin="0,0,4,0">
                         <materialDesign:PackIcon Kind="MagnifyPlusOutline" Width="16" Height="16"/>
                     </Button>
-                    <Button Command="{Binding ResetZoomCommand}" Style="{StaticResource ReportToolbarBtn}" Content="100%" FontSize="10" Padding="6,2" Height="30" Margin="0,0,10,0"/>
+                    <Button Command="{Binding ResetZoomCommand}" Style="{StaticResource ReportToolbarBtn}" Content="100%" FontSize="11" FontWeight="Bold" Padding="8,2" Height="32" Margin="0,0,10,0"/>
                 </StackPanel>
 
                 <!-- Status in center -->
-                <TextBlock Grid.Column="1" Text="{Binding ReportStatus}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="{Binding ReportStatus}" Foreground="#A0A0A0" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-                <!-- Right Actions: Print & Export -->
+                <!-- Right Actions: Save/Export & Print -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                    <!-- Excel Export -->
-                    <Button Command="{Binding ExportExcelCommand}" Style="{StaticResource ReportToolbarBtn}" Margin="0,0,8,0" Padding="12,4">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="FileExcel" Foreground="#22C55E" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="Excel" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                    <!-- Export Report Button (Save Dialog) -->
+                    <Button Command="{Binding ExportExcelCommand}"
+                            Background="#162D1C" Foreground="#4AE176" BorderBrush="#234D28" BorderThickness="1"
+                            Style="{StaticResource MaterialDesignFlatButton}" Margin="0,0,10,0" Padding="14,0" Height="34"
+                            ToolTip="حفظ وتصدير التقرير بملف خارجي (Excel .xlsx, CSV .csv, HTML)">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="FileDownload" Foreground="#4AE176" Width="18" Height="18" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="تصدير التقرير" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
 
                     <!-- Print Report Button -->
-                    <Button Command="{Binding PrintReportCommand}" CommandParameter="{Binding ElementName=ReportDocumentCanvas}" Background="#d90429" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" Padding="14,4" Height="32" Cursor="Hand">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="Printer" Margin="0,0,6,0" Width="16" Height="16" VerticalAlignment="Center"/>
-                                        <TextBlock Text="طباعة التقرير" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
+                    <Button Command="{Binding PrintReportCommand}" CommandParameter="{Binding ElementName=ReportDocumentCanvas}"
+                            Style="{StaticResource Axon3DPrimaryButtonStyle}" Height="34" Padding="16,0" ToolTip="طباعة التقرير مباشرة">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="Printer" Margin="0,0,6,0" Width="18" Height="18" VerticalAlignment="Center"/>
+                            <TextBlock Text="طباعة التقرير" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </Button>
                 </StackPanel>
             </Grid>
