@@ -96,13 +96,13 @@
                                               Foreground="{DynamicResource TextPrimaryBrush}" HeadersVisibility="Column" GridLinesVisibility="None" RowHeight="52">
                                         <DataGrid.ColumnHeaderStyle>
                                             <Style TargetType="DataGridColumnHeader">
-                                                <Setter Property="Background" Value="#1E1E1E"/>
-                                                <Setter Property="Foreground" Value="White"/>
+                                                <Setter Property="Background" Value="{DynamicResource CardInnerBgBrush}"/>
+                                                <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
                                                 <Setter Property="FontWeight" Value="Bold"/>
                                                 <Setter Property="FontSize" Value="13"/>
                                                 <Setter Property="Padding" Value="14,12"/>
                                                 <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                                                <Setter Property="BorderBrush" Value="#2C2C2C"/>
+                                                <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
                                             </Style>
                                         </DataGrid.ColumnHeaderStyle>
                                         <DataGrid.Columns>
@@ -112,7 +112,7 @@
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0">
                                                             <materialDesign:PackIcon Kind="AccountCircle" Foreground="#22C55E" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                                            <TextBlock Text="{Binding Username}" Foreground="White" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
+                                                            <TextBlock Text="{Binding Username}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
@@ -227,7 +227,7 @@
                         <!-- System Roles Management Card (جدول الأدوار والرتب الوظيفية) -->
                         <Border Style="{StaticResource Axon3DCardStyle}" Margin="0,0,0,24">
                             <StackPanel>
-                                <Border BorderBrush="#2C2C2C" BorderThickness="0,0,0,1" Padding="0,0,0,16" Margin="0,0,0,20">
+                                <Border BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,16" Margin="0,0,0,20">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -239,8 +239,8 @@
                                                 <materialDesign:PackIcon Kind="AccountKey" Width="22" Height="22" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Border>
                                             <StackPanel VerticalAlignment="Center">
-                                                <TextBlock Text="جدول إدارة الأدوار والرتب الوظيفية (System Roles Manager)" FontSize="18" FontWeight="Bold" Foreground="White"/>
-                                                <TextBlock Text="عرض والتحكم الكامل بالرتب الوظيفية وإمكانية إنشاء أو حذف رتب مخصصة" FontSize="12" Foreground="#A0A0A0" Margin="0,2,0,0"/>
+                                                <TextBlock Text="جدول إدارة الأدوار والرتب الوظيفية (System Roles Manager)" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                                <TextBlock Text="عرض والتحكم الكامل بالرتب الوظيفية وإمكانية إنشاء أو حذف رتب مخصصة" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,2,0,0"/>
                                             </StackPanel>
                                         </StackPanel>
 
@@ -260,19 +260,19 @@
                                 </Border>
 
                                 <!-- Roles DataGrid -->
-                                <Border Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" ClipToBounds="True">
+                                <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" ClipToBounds="True">
                                     <DataGrid ItemsSource="{Binding Roles}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" 
-                                              Background="#111111" RowBackground="#161616" AlternatingRowBackground="#111111"
-                                              Foreground="White" HeadersVisibility="Column" GridLinesVisibility="None" RowHeight="52">
+                                              Background="Transparent" RowBackground="{DynamicResource CardBgBrush}" AlternatingRowBackground="{DynamicResource TableAltRowBrush}"
+                                              Foreground="{DynamicResource TextPrimaryBrush}" HeadersVisibility="Column" GridLinesVisibility="None" RowHeight="52">
                                         <DataGrid.ColumnHeaderStyle>
                                             <Style TargetType="DataGridColumnHeader">
-                                                <Setter Property="Background" Value="#1E1E1E"/>
-                                                <Setter Property="Foreground" Value="White"/>
+                                                <Setter Property="Background" Value="{DynamicResource CardInnerBgBrush}"/>
+                                                <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
                                                 <Setter Property="FontWeight" Value="Bold"/>
                                                 <Setter Property="FontSize" Value="13"/>
                                                 <Setter Property="Padding" Value="14,12"/>
                                                 <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                                                <Setter Property="BorderBrush" Value="#2C2C2C"/>
+                                                <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
                                             </Style>
                                         </DataGrid.ColumnHeaderStyle>
                                         <DataGrid.Columns>
@@ -282,7 +282,7 @@
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0">
                                                             <materialDesign:PackIcon Kind="AccountKey" Foreground="#D90429" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                                            <TextBlock Text="{Binding Name}" Foreground="White" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
+                                                            <TextBlock Text="{Binding Name}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
