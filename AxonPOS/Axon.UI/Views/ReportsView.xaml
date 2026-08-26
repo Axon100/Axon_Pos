@@ -639,19 +639,21 @@
                                     <Border Background="#F1F5F9" BorderBrush="#CBD5E1" BorderThickness="1" CornerRadius="4" Padding="10,6" Margin="0,0,0,0">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="140"/>
                                                 <ColumnDefinition Width="130"/>
+                                                <ColumnDefinition Width="110"/>
                                                 <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="70"/>
+                                                <ColumnDefinition Width="55"/>
                                                 <ColumnDefinition Width="80"/>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="95"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column="0" Text="رقم الفاتورة" FontWeight="Bold" FontSize="10" Foreground="#334155"/>
                                             <TextBlock Grid.Column="1" Text="تاريخ ووقت الفاتورة" FontWeight="Bold" FontSize="10" Foreground="#334155"/>
-                                            <TextBlock Grid.Column="2" Text="الكاشير" FontWeight="Bold" FontSize="10" Foreground="#334155"/>
-                                            <TextBlock Grid.Column="3" Text="عدد القطع" FontWeight="Bold" FontSize="10" Foreground="#334155" TextAlignment="Center"/>
-                                            <TextBlock Grid.Column="4" Text="طريقة الدفع" FontWeight="Bold" FontSize="10" Foreground="#334155" TextAlignment="Center"/>
-                                            <TextBlock Grid.Column="5" Text="إجمالي الفاتورة" FontWeight="Bold" FontSize="10" Foreground="#334155" TextAlignment="Center"/>
+                                            <TextBlock Grid.Column="2" Text="الأصناف والقطع المباعة" FontWeight="Bold" FontSize="10" Foreground="#1E3A8A"/>
+                                            <TextBlock Grid.Column="3" Text="الكاشير" FontWeight="Bold" FontSize="10" Foreground="#334155"/>
+                                            <TextBlock Grid.Column="4" Text="العدد" FontWeight="Bold" FontSize="10" Foreground="#334155" TextAlignment="Center"/>
+                                            <TextBlock Grid.Column="5" Text="طريقة الدفع" FontWeight="Bold" FontSize="10" Foreground="#334155" TextAlignment="Center"/>
+                                            <TextBlock Grid.Column="6" Text="إجمالي الفاتورة" FontWeight="Bold" FontSize="10" Foreground="#334155" TextAlignment="Center"/>
                                         </Grid>
                                     </Border>
 
@@ -661,19 +663,21 @@
                                                 <Border BorderBrush="#F1F5F9" BorderThickness="1,0,1,1" Padding="10,6" Background="White">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="140"/>
                                                             <ColumnDefinition Width="130"/>
+                                                            <ColumnDefinition Width="110"/>
                                                             <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="70"/>
+                                                            <ColumnDefinition Width="55"/>
                                                             <ColumnDefinition Width="80"/>
-                                                            <ColumnDefinition Width="100"/>
-                                                            <ColumnDefinition Width="100"/>
+                                                            <ColumnDefinition Width="95"/>
                                                         </Grid.ColumnDefinitions>
                                                         <TextBlock Grid.Column="0" Text="{Binding ReceiptNumber}" FontWeight="Bold" FontSize="11" Foreground="#1E3A8A" VerticalAlignment="Center"/>
                                                         <TextBlock Grid.Column="1" Text="{Binding DateDisplay}" FontSize="10" Foreground="#475569" VerticalAlignment="Center"/>
-                                                        <TextBlock Grid.Column="2" Text="{Binding CashierName}" FontSize="10" Foreground="#0F172A" VerticalAlignment="Center"/>
-                                                        <TextBlock Grid.Column="3" Text="{Binding ItemsCount, StringFormat='{}{0} قطعة'}" FontSize="10" Foreground="#2563EB" TextAlignment="Center" VerticalAlignment="Center"/>
-                                                        <TextBlock Grid.Column="4" Text="{Binding PaymentMethod}" FontSize="10" Foreground="#475569" TextAlignment="Center" VerticalAlignment="Center"/>
-                                                        <TextBlock Grid.Column="5" Text="{Binding Total, StringFormat='{}{0:N2} ج.م'}" FontWeight="Bold" FontSize="11" Foreground="#059669" TextAlignment="Center" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Column="2" Text="{Binding ItemsSummary}" FontSize="11" FontWeight="SemiBold" Foreground="#0F172A" TextWrapping="Wrap" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                                        <TextBlock Grid.Column="3" Text="{Binding CashierName}" FontSize="10" Foreground="#475569" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Column="4" Text="{Binding ItemsCount, StringFormat='{}{0} ق'}" FontSize="10" Foreground="#2563EB" TextAlignment="Center" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Column="5" Text="{Binding PaymentMethod}" FontSize="10" Foreground="#475569" TextAlignment="Center" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Column="6" Text="{Binding Total, StringFormat='{}{0:N2} ج.م'}" FontWeight="Bold" FontSize="11" Foreground="#059669" TextAlignment="Center" VerticalAlignment="Center"/>
                                                     </Grid>
                                                 </Border>
                                             </DataTemplate>

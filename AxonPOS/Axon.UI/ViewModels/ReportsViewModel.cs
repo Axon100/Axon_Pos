@@ -526,11 +526,26 @@ namespace Axon.UI.ViewModels
 
                 // ==================== 4. سجل الفواتير (INVOICES - TAB 3) ====================
                 SalesInvoicesReport.Clear();
-                var lineItemsGroupedBySale = allLineItems.GroupBy(li => li.SaleId).ToDictionary(g => g.Key, g => (int)g.Sum(li => li.Quantity));
+                var lineItemsGroupedBySale = allLineItems.GroupBy(li => li.SaleId).ToDictionary(
+                    g => g.Key,
+                    g => new
+                    {
+                        Count = (int)g.Sum(li => li.Quantity),
+                        Summary = string.Join("، ", g.Select(li =>
+                        {
+                            var pName = productMap.TryGetValue(li.ProductId, out var p)
+                                ? (string.IsNullOrEmpty(p.NameAR) ? p.NameEN : p.NameAR)
+                                : $"منتج #{li.ProductId}";
+                            return $"{pName} (x{(int)li.Quantity})";
+                        }))
+                    });
 
                 foreach (var s in filteredSales.OrderByDescending(x => x.Date))
                 {
-                    var count = lineItemsGroupedBySale.TryGetValue(s.Id, out var cnt) ? cnt : 1;
+                    var hasData = lineItemsGroupedBySale.TryGetValue(s.Id, out var itemData);
+                    var count = hasData ? itemData!.Count : 1;
+                    var summary = hasData ? itemData!.Summary : "—";
+
                     SalesInvoicesReport.Add(new SalesClosingReportItem
                     {
                         SaleId = s.Id,
@@ -538,6 +553,7 @@ namespace Axon.UI.ViewModels
                         Date = s.Date,
                         CashierName = userMap.TryGetValue(s.CashierId, out var n) ? n : "كاشير عام",
                         ItemsCount = count,
+                        ItemsSummary = string.IsNullOrEmpty(summary) ? "—" : summary,
                         SubTotal = s.SubTotal,
                         DiscountAmount = s.DiscountAmount,
                         TaxAmount = s.TaxAmount,
@@ -1232,6 +1248,7 @@ namespace Axon.UI.ViewModels
         public string DateDisplay => Date.ToString("yyyy/MM/dd HH:mm");
         public string CashierName { get; set; } = string.Empty;
         public int ItemsCount { get; set; }
+        public string ItemsSummary { get; set; } = string.Empty;
         public decimal SubTotal { get; set; }
         public decimal DiscountAmount { get; set; }
         public decimal TaxAmount { get; set; }
