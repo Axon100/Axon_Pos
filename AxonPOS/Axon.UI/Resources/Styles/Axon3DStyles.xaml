@@ -2,13 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
-    <!-- 3D Elevated Card Border Style -->
+    <!-- 3D Elevated Card Border Style with Hover Lift & Red Shadow -->
     <Style x:Key="Axon3DCardStyle" TargetType="Border">
-        <Setter Property="Background" Value="{DynamicResource AxonSurfaceBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource AxonBorderBrush}"/>
+        <Setter Property="Background" Value="#161616"/>
+        <Setter Property="BorderBrush" Value="#2C2C2C"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="CornerRadius" Value="12"/>
-        <Setter Property="Padding" Value="20"/>
+        <Setter Property="CornerRadius" Value="14"/>
+        <Setter Property="Padding" Value="20,18"/>
         <Setter Property="Effect" Value="{DynamicResource Axon3DCardShadow}"/>
         <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
         <Setter Property="RenderTransform">
@@ -35,7 +35,7 @@
             </EventTrigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Effect" Value="{DynamicResource AxonRedGlowHoverEffect}"/>
-                <Setter Property="BorderBrush" Value="#E31E24"/>
+                <Setter Property="BorderBrush" Value="#d90429"/>
             </Trigger>
         </Style.Triggers>
     </Style>

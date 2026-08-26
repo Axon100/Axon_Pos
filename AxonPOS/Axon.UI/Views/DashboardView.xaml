@@ -104,7 +104,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- 1. Net Profit Card -->
-                <Border Grid.Column="0" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="14" Padding="20,18" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="0" Style="{StaticResource Axon3DCardStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -132,7 +132,7 @@
                 </Border>
 
                 <!-- 2. Expenses Card -->
-                <Border Grid.Column="2" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="14" Padding="20,18" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="2" Style="{StaticResource Axon3DCardStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -155,7 +155,7 @@
                 </Border>
 
                 <!-- 3. Products Card -->
-                <Border Grid.Column="4" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="14" Padding="20,18" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="4" Style="{StaticResource Axon3DCardStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -178,7 +178,7 @@
                 </Border>
 
                 <!-- 4. Low Stock Card -->
-                <Border Grid.Column="6" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="14" Padding="20,18" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="6" Style="{StaticResource Axon3DCardStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -210,7 +210,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Daily Sales Overview Chart -->
-                <Border Grid.Column="0" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="14" Padding="22" Height="320" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="0" Style="{StaticResource Axon3DCardStyle}" Height="320">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -277,7 +277,7 @@
                 </Border>
                 
                 <!-- Revenue Distribution by Category -->
-                <Border Grid.Column="2" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="14" Padding="22" Height="320" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="2" Style="{StaticResource Axon3DCardStyle}" Height="320">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -331,7 +331,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Recent Sales Table -->
-                <Border Grid.Column="0" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="14" Padding="22" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="0" Style="{StaticResource Axon3DCardStyle}">
                     <StackPanel>
                         <!-- Table Header -->
                         <Grid Margin="0,0,0,16">
@@ -401,7 +401,7 @@
                 </Border>
 
                 <!-- Inventory Alerts -->
-                <Border Grid.Column="2" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="14" Padding="22" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="2" Style="{StaticResource Axon3DCardStyle}">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,16" VerticalAlignment="Center">
                             <Border Width="32" Height="32" CornerRadius="8" Background="#2B2214" Margin="0,0,10,0">
