@@ -59,18 +59,8 @@ namespace Axon.Infrastructure.Services
                 // Fallback
             }
 
-            // Test if SQL Server is available locally
-            try
-            {
-                using var conn = new SqlConnection(DefaultSqlServerConnectionString);
-                conn.Open();
-                return DefaultSqlServerConnectionString;
-            }
-            catch
-            {
-                // Local SQL Server not running -> Fallback to permanent local SQLite database
-                return DefaultSqliteConnectionString;
-            }
+            // Default primary fallback is permanent local SQLite database (%appdata%\AxonPOS\AxonPOS.db)
+            return DefaultSqliteConnectionString;
         }
 
         public void SaveConnectionString(string connectionString)
