@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <ProjectReference Include="..\Axon.Application\Axon.Application.csproj" />
@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <Resource Include="Assets\**\*" />
+    <Resource Include="Resources\Fonts\**\*" />
   </ItemGroup>
 </Project>
 

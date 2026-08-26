@@ -7,7 +7,7 @@
     <sys:Double x:Key="DirectionalIconScale">-1</sys:Double>
     <HorizontalAlignment x:Key="AppStartAlignment">Right</HorizontalAlignment>
     <HorizontalAlignment x:Key="AppEndAlignment">Left</HorizontalAlignment>
-    <FontFamily x:Key="AppFont">Cairo, Segoe UI, Tahoma, Arial</FontFamily>
+    <FontFamily x:Key="AppFont">pack://application:,,,/Resources/Fonts/#Cairo, Cairo, Segoe UI, Tahoma, Arial</FontFamily>
 
     <!-- General -->
     <sys:String x:Key="Login">تسجيل الدخول</sys:String>
