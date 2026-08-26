@@ -81,6 +81,9 @@ namespace Axon.UI
 
         protected override async void OnStartup(StartupEventArgs e)
         {
+            // Ensure application theme dynamic resources are explicitly initialized from startup
+            Axon.UI.Services.ThemeService.SetTheme(Axon.UI.Services.ThemeService.IsDarkMode);
+
             // Ensure application only exits on explicit user close/shutdown
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
