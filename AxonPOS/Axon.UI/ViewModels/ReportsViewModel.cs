@@ -683,8 +683,19 @@ namespace Axon.UI.ViewModels
                             var rtb = new System.Windows.Media.Imaging.RenderTargetBitmap(pxW, pxH, 300, 300, System.Windows.Media.PixelFormats.Pbgra32);
                             rtb.Render(visualElement);
 
+                            // Correct WPF RTL mirroring by drawing onto a DrawingVisual with ScaleX = -1
+                            var dv = new DrawingVisual();
+                            using (var dc = dv.RenderOpen())
+                            {
+                                dc.PushTransform(new ScaleTransform(-1, 1, pxW / 2.0, 0));
+                                dc.DrawImage(rtb, new Rect(0, 0, pxW, pxH));
+                            }
+
+                            var rtbFlipped = new System.Windows.Media.Imaging.RenderTargetBitmap(pxW, pxH, 300, 300, System.Windows.Media.PixelFormats.Pbgra32);
+                            rtbFlipped.Render(dv);
+
                             var encoder = new System.Windows.Media.Imaging.PngBitmapEncoder();
-                            encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(rtb));
+                            encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(rtbFlipped));
 
                             imgStream = new MemoryStream();
                             encoder.Save(imgStream);
