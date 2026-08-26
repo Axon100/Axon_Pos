@@ -629,7 +629,7 @@ namespace Axon.UI.ViewModels
         }
 
         [RelayCommand]
-        private async Task ExportExcelAsync()
+        private async Task ExportExcelAsync(FrameworkElement? visualElement)
         {
             if (!HasReportData)
             {
@@ -649,21 +649,88 @@ namespace Axon.UI.ViewModels
 
                 var dialog = new Microsoft.Win32.SaveFileDialog
                 {
-                    Filter = "ملف إكسيل Excel (*.xlsx)|*.xlsx|" +
-                             "مستند PDF Document (*.pdf)|*.pdf|" +
+                    Filter = "مستند PDF Document (*.pdf)|*.pdf|" +
+                             "ملف إكسيل Excel (*.xlsx)|*.xlsx|" +
                              "مستند وورد Word Document (*.docx)|*.docx|" +
                              "ملف نصوص مفصولة CSV (*.csv)|*.csv|" +
                              "تقرير ويب HTML (*.html)|*.html|" +
                              "ملف نصي Text (*.txt)|*.txt|" +
                              "كافة الملفات (*.*)|*.*",
-                    DefaultExt = ".xlsx",
-                    FileName = $"AxonPOS_{reportTypeStr}_{StartDate:yyyyMMdd}_{EndDate:yyyyMMdd}.xlsx",
+                    DefaultExt = ".pdf",
+                    FileName = $"VelouraPOS_{reportTypeStr}_{StartDate:yyyyMMdd}_{EndDate:yyyyMMdd}.pdf",
                     Title = "حدد مكان وامتداد حفظ التقرير على الجهاز"
                 };
                 if (dialog.ShowDialog() != true) return;
 
                 var filePath = dialog.FileName;
                 var ext = Path.GetExtension(filePath).ToLowerInvariant();
+
+                if (ext == ".pdf" && visualElement != null)
+                {
+                    MemoryStream? imgStream = null;
+
+                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        try
+                        {
+                            double w = visualElement.ActualWidth > 0 ? visualElement.ActualWidth : 840;
+                            double h = visualElement.ActualHeight > 0 ? visualElement.ActualHeight : 1100;
+
+                            double scale = 300.0 / 96.0;
+                            int pxW = (int)(w * scale);
+                            int pxH = (int)(h * scale);
+
+                            var rtb = new System.Windows.Media.Imaging.RenderTargetBitmap(pxW, pxH, 300, 300, System.Windows.Media.PixelFormats.Pbgra32);
+                            rtb.Render(visualElement);
+
+                            var encoder = new System.Windows.Media.Imaging.PngBitmapEncoder();
+                            encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(rtb));
+
+                            imgStream = new MemoryStream();
+                            encoder.Save(imgStream);
+                            imgStream.Position = 0;
+                        }
+                        catch { }
+                    });
+
+                    if (imgStream != null)
+                    {
+                        await Task.Run(() =>
+                        {
+                            if (PdfSharp.Fonts.GlobalFontSettings.FontResolver == null)
+                            {
+                                try { PdfSharp.Fonts.GlobalFontSettings.FontResolver = new AxonPdfFontResolver(); } catch { }
+                            }
+
+                            using var pdf = new PdfSharp.Pdf.PdfDocument();
+                            pdf.Info.Title = "Veloura POS Financial Report";
+                            var page = pdf.AddPage();
+                            page.Size = PdfSharp.PageSize.A4;
+
+                            using var gfx = PdfSharp.Drawing.XGraphics.FromPdfPage(page);
+                            using var ximg = PdfSharp.Drawing.XImage.FromStream(imgStream);
+
+                            double margin = 15;
+                            double targetW = page.Width.Point - (margin * 2);
+                            double targetH = (ximg.PixelHeight / (double)ximg.PixelWidth) * targetW;
+
+                            if (targetH > page.Height.Point - (margin * 2))
+                            {
+                                targetH = page.Height.Point - (margin * 2);
+                                targetW = (ximg.PixelWidth / (double)ximg.PixelHeight) * targetH;
+                            }
+
+                            double posX = (page.Width.Point - targetW) / 2;
+                            double posY = margin;
+
+                            gfx.DrawImage(ximg, posX, posY, targetW, targetH);
+                            pdf.Save(filePath);
+                        });
+
+                        MessageBox.Show("تم تصدير التقرير كملف PDF بنفس الشكل المطابق تماماً للبرنامج بنجاح!", "تم التصدير بنجاح", MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    }
+                }
 
                 await Task.Run(() =>
                 {

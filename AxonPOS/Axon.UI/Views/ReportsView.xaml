@@ -453,10 +453,10 @@
                 <!-- Right Actions: Save/Export & Print -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
                     <!-- Export Report Button (Save Dialog) -->
-                    <Button Command="{Binding ExportExcelCommand}"
+                    <Button Command="{Binding ExportExcelCommand}" CommandParameter="{Binding ElementName=ReportDocumentCanvas}"
                             Background="#162D1C" Foreground="#4AE176" BorderBrush="#234D28" BorderThickness="1"
                             Style="{StaticResource MaterialDesignFlatButton}" Margin="0,0,10,0" Padding="14,0" Height="34"
-                            ToolTip="حفظ وتصدير التقرير بملف خارجي (Excel .xlsx, CSV .csv, HTML)">
+                            ToolTip="حفظ وتصدير التقرير بملف خارجي (PDFمطابق تماماً للشاشة, Excel .xlsx, CSV)">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <materialDesign:PackIcon Kind="FileDownload" Foreground="#4AE176" Width="18" Height="18" Margin="0,0,6,0" VerticalAlignment="Center"/>
                             <TextBlock Text="تصدير التقرير" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
