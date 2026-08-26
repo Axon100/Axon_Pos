@@ -63,16 +63,16 @@
             <StackPanel Grid.Column="0" VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="PackageVariantClosed" Width="28" Height="28" Foreground="#d90429" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <TextBlock Text="{Binding Title}" FontSize="24" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Title}" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                 </StackPanel>
-                <TextBlock Text="إدارة مواقع المستودعات، تتبع حركة المواد والتوريدات، ومراقبة مستويات المخزون بالنظام." Foreground="#8E8E93" FontSize="13" Margin="38,4,0,0"/>
+                <TextBlock Text="إدارة مواقع المستودعات، تتبع حركة المواد والتوريدات، ومراقبة مستويات المخزون بالنظام." Foreground="{DynamicResource TextSecondaryBrush}" FontSize="13" Margin="38,4,0,0"/>
             </StackPanel>
             
             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                 <!-- Filter Low Stock Toggle -->
                 <Button Command="{Binding ToggleLowStockFilterCommand}" Style="{StaticResource Axon3DSecondaryButtonStyle}" Height="38" Padding="14,6" Margin="0,0,10,0">
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="FilterVariant" Width="18" Height="18" Foreground="#B3B3B3" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <materialDesign:PackIcon Kind="FilterVariant" Width="18" Height="18" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,6,0" VerticalAlignment="Center"/>
                         <TextBlock Text="تصفية النواقص فقط" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
                     </StackPanel>
                 </Button>
@@ -107,11 +107,11 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                        <TextBlock Text="إجمالي الأصناف بالمخزن" FontSize="11" Foreground="#B3B3B3" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                        <TextBlock Text="{Binding TotalItemsCount}" FontSize="24" FontWeight="ExtraBold" Foreground="White"/>
+                        <TextBlock Text="إجمالي الأصناف بالمخزن" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="{Binding TotalItemsCount}" FontSize="24" FontWeight="ExtraBold" Foreground="{DynamicResource TextPrimaryBrush}"/>
                     </StackPanel>
                     <Border Grid.Column="1" Background="#22FFFFFF" Width="42" Height="42" CornerRadius="10" VerticalAlignment="Center">
-                        <materialDesign:PackIcon Kind="PackageVariantClosed" Width="24" Height="24" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <materialDesign:PackIcon Kind="PackageVariantClosed" Width="24" Height="24" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </Grid>
             </Border>
@@ -124,7 +124,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                        <TextBlock Text="تنبيهات نقص المخزون" FontSize="11" Foreground="#B3B3B3" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="تنبيهات نقص المخزون" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding LowStockAlertsCount}" FontSize="24" FontWeight="ExtraBold" Foreground="#EF4444"/>
                     </StackPanel>
                     <Border Grid.Column="1" Background="#22EF4444" Width="42" Height="42" CornerRadius="10" VerticalAlignment="Center">
@@ -141,7 +141,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                        <TextBlock Text="بانتظار إعادة التخزين" FontSize="11" Foreground="#B3B3B3" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="بانتظار إعادة التخزين" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding PendingRestockCount}" FontSize="24" FontWeight="ExtraBold" Foreground="#FBBF24"/>
                     </StackPanel>
                     <Border Grid.Column="1" Background="#22FBBF24" Width="42" Height="42" CornerRadius="10" VerticalAlignment="Center">
@@ -158,9 +158,9 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                        <TextBlock Text="سعة المستودع التشغيلية" FontSize="11" Foreground="#B3B3B3" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="سعة المستودع التشغيلية" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding WarehouseCapacity, StringFormat={}{0}%}" FontSize="24" FontWeight="ExtraBold" Foreground="#4AE176"/>
-                        <ProgressBar Value="{Binding WarehouseCapacity}" Height="5" Background="#222222" Foreground="#4AE176" BorderThickness="0" Margin="0,6,0,0"/>
+                        <ProgressBar Value="{Binding WarehouseCapacity}" Height="5" Background="{DynamicResource ChartTrackBgBrush}" Foreground="#4AE176" BorderThickness="0" Margin="0,6,0,0"/>
                     </StackPanel>
                     <Border Grid.Column="1" Background="#224AE176" Width="42" Height="42" CornerRadius="10" VerticalAlignment="Center">
                         <materialDesign:PackIcon Kind="Warehouse" Width="24" Height="24" Foreground="#4AE176" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -170,7 +170,7 @@
         </Grid>
 
         <!-- ==================== 3. MAIN INVENTORY CATALOG / TABLE CONTAINER ==================== -->
-        <Border Grid.Row="2" Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="12" Padding="20" Effect="{DynamicResource Axon3DCardShadow}">
+        <Border Grid.Row="2" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="20">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -188,14 +188,14 @@
                     
                     <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                         <materialDesign:PackIcon Kind="ClipboardTextMultiple" Width="20" Height="20" Foreground="#d90429" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                        <TextBlock Text="{DynamicResource InventoryList}" FontSize="15" FontWeight="Bold" Foreground="White" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                        <Border Background="#222222" BorderBrush="#333333" BorderThickness="1" CornerRadius="6" Padding="8,3" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding EntriesCountDisplay}" Foreground="#B3B3B3" FontSize="11" FontWeight="Bold"/>
+                        <TextBlock Text="{DynamicResource InventoryList}" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                        <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8,3" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding EntriesCountDisplay}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="Bold"/>
                         </Border>
                     </StackPanel>
 
                     <!-- View Switcher (3D Cards / Table) -->
-                    <Border Grid.Column="2" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="8" Padding="3" Margin="0,0,12,0">
+                    <Border Grid.Column="2" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="3" Margin="0,0,12,0">
                         <StackPanel Orientation="Horizontal">
                             <Button Command="{Binding SetCardViewModeCommand}" ToolTip="عرض بوكسات الأصناف (3D Boxes)" Style="{StaticResource Axon3DSecondaryButtonStyle}" Padding="10,4" Height="32" Margin="0,0,4,0">
                                 <StackPanel Orientation="Horizontal">
@@ -213,14 +213,14 @@
                     </Border>
                     
                     <!-- Search Input Box -->
-                    <Border Grid.Column="3" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="8" Padding="10,6" Width="260">
+                    <Border Grid.Column="3" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,6" Width="260">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <materialDesign:PackIcon Grid.Column="0" Kind="Magnify" Width="18" Height="18" Foreground="#8E8E93" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                            <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Foreground="White" BorderThickness="0" VerticalAlignment="Center" FontSize="12" materialDesign:HintAssist.Hint="بحث باسم المنتج أو الموقع..."/>
+                            <materialDesign:PackIcon Grid.Column="0" Kind="Magnify" Width="18" Height="18" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" VerticalAlignment="Center" FontSize="12" materialDesign:HintAssist.Hint="بحث باسم المنتج أو الموقع..."/>
                         </Grid>
                     </Border>
                 </Grid>
@@ -261,10 +261,10 @@
                                             <Border Style="{StaticResource StatusBadgeStyle}" HorizontalAlignment="Left">
                                                 <TextBlock Text="{Binding Status}" Style="{StaticResource StatusTextStyle}"/>
                                             </Border>
-                                            <Border Background="#222222" BorderBrush="#333333" BorderThickness="1" CornerRadius="6" Padding="8,3" HorizontalAlignment="Right">
+                                            <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8,3" HorizontalAlignment="Right">
                                                 <StackPanel Orientation="Horizontal">
-                                                    <materialDesign:PackIcon Kind="MapMarkerOutline" Width="12" Height="12" Foreground="#B3B3B3" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                                                    <TextBlock Text="{Binding Location}" Foreground="#B3B3B3" FontSize="11" FontWeight="SemiBold"/>
+                                                    <materialDesign:PackIcon Kind="MapMarkerOutline" Width="12" Height="12" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                                    <TextBlock Text="{Binding Location}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold"/>
                                                 </StackPanel>
                                             </Border>
                                         </Grid>
@@ -275,10 +275,10 @@
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <Border Grid.Column="0" Width="48" Height="48" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Margin="0,0,12,0" ClipToBounds="True">
+                                            <Border Grid.Column="0" Width="48" Height="48" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Margin="0,0,12,0" ClipToBounds="True">
                                                 <Grid>
                                                     <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
-                                                    <materialDesign:PackIcon Kind="PackageVariant" Width="24" Height="24" Foreground="#8E8E93" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <materialDesign:PackIcon Kind="PackageVariant" Width="24" Height="24" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                         <materialDesign:PackIcon.Style>
                                                             <Style TargetType="materialDesign:PackIcon">
                                                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -296,14 +296,14 @@
                                                 </Grid>
                                             </Border>
                                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="Bold" Foreground="White" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/>
+                                                <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/>
                                             </StackPanel>
                                         </Grid>
 
                                         <!-- Row 2: Stock Fill Level & Counter -->
-                                        <Border Grid.Row="2" Background="#111111" BorderBrush="#222222" BorderThickness="1" CornerRadius="10" Padding="14,10" Margin="0,0,0,14">
+                                        <Border Grid.Row="2" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="14,10" Margin="0,0,0,14">
                                             <Grid>
-                                                <TextBlock Text="كمية المخزون الحالي" FontSize="11" Foreground="#8E8E93" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                <TextBlock Text="كمية المخزون الحالي" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold" VerticalAlignment="Center"/>
                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                                                     <TextBlock Text="{Binding CurrentStock}" FontSize="16" FontWeight="ExtraBold" Foreground="#4AE176"/>
                                                     <TextBlock Text=" قطعة" FontSize="12" Foreground="#4AE176" FontWeight="Bold" VerticalAlignment="Center" Margin="4,0,0,0"/>
@@ -352,8 +352,8 @@
                 <!-- ==================== 2. INVENTORY DATA TABLE VIEW (SKU REMOVED) ==================== -->
                 <DataGrid Grid.Row="1" ItemsSource="{Binding InventoryItems}" AutoGenerateColumns="False" 
                           CanUserAddRows="False" Background="Transparent" BorderThickness="0"
-                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#222222"
-                          HeadersVisibility="Column" RowBackground="#161616" AlternatingRowBackground="#1A1A1A" SelectionMode="Single" RowHeight="48"
+                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="{DynamicResource GridLineBrush}"
+                          HeadersVisibility="Column" RowBackground="{DynamicResource CardBgBrush}" AlternatingRowBackground="{DynamicResource TableAltRowBrush}" SelectionMode="Single" RowHeight="48"
                           ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                     <DataGrid.Style>
                         <Style TargetType="DataGrid">
@@ -389,10 +389,10 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Border Width="34" Height="34" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="6" Margin="0,0,12,0" ClipToBounds="True">
+                                        <Border Width="34" Height="34" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="6" Margin="0,0,12,0" ClipToBounds="True">
                                             <Grid>
                                                 <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
-                                                <materialDesign:PackIcon Kind="{Binding Icon}" Foreground="#8E8E93" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <materialDesign:PackIcon Kind="{Binding Icon}" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                     <materialDesign:PackIcon.Style>
                                                         <Style TargetType="materialDesign:PackIcon">
                                                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -409,14 +409,14 @@
                                                 </materialDesign:PackIcon>
                                             </Grid>
                                         </Border>
-                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontWeight="Bold" Foreground="White"/>
+                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         
                         <!-- Location -->
-                        <DataGridTextColumn Header="{DynamicResource HeaderLocation}" Binding="{Binding Location}" Foreground="#B3B3B3" Width="160" />
+                        <DataGridTextColumn Header="{DynamicResource HeaderLocation}" Binding="{Binding Location}" Foreground="{DynamicResource TextSecondaryBrush}" Width="160" />
                         
                         <!-- Current Stock -->
                         <DataGridTemplateColumn Header="{DynamicResource HeaderCurrent}" Width="120">
