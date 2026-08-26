@@ -10,9 +10,9 @@
 
         <!-- Toolbar Button Style -->
         <Style x:Key="ReportToolbarBtn" TargetType="Button">
-            <Setter Property="Background" Value="#1E1E1E"/>
-            <Setter Property="Foreground" Value="#CCCCCC"/>
-            <Setter Property="BorderBrush" Value="#333333"/>
+            <Setter Property="Background" Value="{DynamicResource CardInnerBgBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="10,4"/>
             <Setter Property="Height" Value="32"/>
@@ -25,9 +25,9 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#2A2A2A"/>
+                                <Setter TargetName="bd" Property="Background" Value="#FEE2E2"/>
                                 <Setter TargetName="bd" Property="BorderBrush" Value="#D90429"/>
-                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Foreground" Value="#D90429"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -37,7 +37,7 @@
 
         <!-- Tab Selector RadioButton Style -->
         <Style x:Key="ReportTabRadio" TargetType="RadioButton">
-            <Setter Property="Foreground" Value="#8E8E93"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Padding" Value="16,8"/>
             <Setter Property="FontSize" Value="13"/>
@@ -51,11 +51,11 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#2b0005"/>
-                                <Setter Property="Foreground" Value="#ffb3af"/>
+                                <Setter TargetName="bd" Property="Background" Value="#D90429"/>
+                                <Setter Property="Foreground" Value="White"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Foreground" Value="#D90429"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -188,14 +188,14 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="16,12" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16,12">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                            <TextBlock Text="إجمالي النقدي (مبيعات)" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock Text="إجمالي النقدي (مبيعات)" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
                             <TextBlock Text="{Binding ClosedBoxCashTotal, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="20" FontWeight="Bold" Foreground="#4ae176"/>
                         </StackPanel>
                         <Border Grid.Column="1" Background="#162D1C" CornerRadius="8" Padding="8" VerticalAlignment="Center">
@@ -203,14 +203,14 @@
                         </Border>
                     </Grid>
                 </Border>
-                <Border Grid.Column="2" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="16,12" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="2" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16,12">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                            <TextBlock Text="إجمالي المرتجع (مستردات)" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock Text="إجمالي المرتجع (مستردات)" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
                             <TextBlock Text="{Binding ClosedBoxReturnTotal, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="20" FontWeight="Bold" Foreground="#EF4444"/>
                         </StackPanel>
                         <Border Grid.Column="1" Background="#2D1616" CornerRadius="8" Padding="8" VerticalAlignment="Center">
@@ -218,29 +218,29 @@
                         </Border>
                     </Grid>
                 </Border>
-                <Border Grid.Column="4" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="16,12" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="4" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16,12">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                            <TextBlock Text="صافي البيع (النقدي - المرتجع)" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                            <TextBlock Text="{Binding ClosedBoxNetTotal, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="20" FontWeight="Bold" Foreground="White"/>
+                            <TextBlock Text="صافي البيع (النقدي - المرتجع)" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding ClosedBoxNetTotal, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         </StackPanel>
                         <Border Grid.Column="1" Background="#16202D" CornerRadius="8" Padding="8" VerticalAlignment="Center">
                             <materialDesign:PackIcon Kind="ScaleBalance" Foreground="#60A5FA" Width="20" Height="20"/>
                         </Border>
                     </Grid>
                 </Border>
-                <Border Grid.Column="6" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="16,12" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="6" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16,12">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                            <TextBlock Text="عدد التقفيلات المسجلة" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock Text="عدد التقفيلات المسجلة" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
                             <TextBlock Text="{Binding ClosedBoxClosuresCount, StringFormat='{}{0} تقفيلة'}" FontSize="20" FontWeight="Bold" Foreground="#FBBF24"/>
                         </StackPanel>
                         <Border Grid.Column="1" Background="#2D2416" CornerRadius="8" Padding="8" VerticalAlignment="Center">
@@ -272,28 +272,28 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="16,12" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16,12">
                     <StackPanel>
-                        <TextBlock Text="إجمالي مبيعات الأقسام" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="إجمالي مبيعات الأقسام" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding CategoryReportTotalSales, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="20" FontWeight="Bold" Foreground="#4ae176"/>
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="2" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="16,12" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="2" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16,12">
                     <StackPanel>
-                        <TextBlock Text="إجمالي الكميات المباعة" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="إجمالي الكميات المباعة" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding CategoryReportTotalQty, StringFormat='{}{0} قطعة'}" FontSize="20" FontWeight="Bold" Foreground="#60A5FA"/>
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="4" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="16,12" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="4" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16,12">
                     <StackPanel>
-                        <TextBlock Text="القسم الأكثر مبيعاً" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="القسم الأكثر مبيعاً" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding CategoryReportTopCategory}" FontSize="18" FontWeight="Bold" Foreground="#FBBF24" TextTrimming="CharacterEllipsis"/>
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="6" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="16,12" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="6" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16,12">
                     <StackPanel>
-                        <TextBlock Text="عدد الأقسام النشطة" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                        <TextBlock Text="{Binding CategoryReportActiveCount, StringFormat='{}{0} أقسام'}" FontSize="20" FontWeight="Bold" Foreground="#ffb3af"/>
+                        <TextBlock Text="عدد الأقسام النشطة" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="{Binding CategoryReportActiveCount, StringFormat='{}{0} أقسام'}" FontSize="20" FontWeight="Bold" Foreground="#D90429"/>
                     </StackPanel>
                 </Border>
             </Grid>
@@ -320,31 +320,31 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="16,12" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16,12">
                     <StackPanel>
-                        <TextBlock Text="إجمالي مبيعات الصنف" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="إجمالي مبيعات الصنف" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding ProductReportTotalSales, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="20" FontWeight="Bold" Foreground="#4ae176"/>
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="2" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="16,12" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="2" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16,12">
                     <StackPanel>
-                        <TextBlock Text="إجمالي الكميات المباعة" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="إجمالي الكميات المباعة" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding ProductReportTotalQty, StringFormat='{}{0} قطعة'}" FontSize="20" FontWeight="Bold" Foreground="#60A5FA"/>
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="4" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="16,12" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="4" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16,12">
                     <StackPanel>
-                        <TextBlock Text="سعر البيع / المخزون" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="سعر البيع / المخزون" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding SingleProductPrice, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="18" FontWeight="Bold" Foreground="#FBBF24"/>
-                            <TextBlock Text="{Binding SingleProductCurrentStock, StringFormat=' (مخزون: {0})'}" FontSize="11" Foreground="#8E8E93" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                            <TextBlock Text="{Binding SingleProductCurrentStock, StringFormat=' (مخزون: {0})'}" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="4,0,0,0"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="6" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="16,12" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="6" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16,12">
                     <StackPanel>
-                        <TextBlock Text="عدد حركات البيع والفواتير" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                        <TextBlock Text="{Binding ProductReportActiveCount, StringFormat='{}{0} حركة بيع'}" FontSize="20" FontWeight="Bold" Foreground="#ffb3af"/>
+                        <TextBlock Text="عدد حركات البيع والفواتير" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="{Binding ProductReportActiveCount, StringFormat='{}{0} حركة بيع'}" FontSize="20" FontWeight="Bold" Foreground="#D90429"/>
                     </StackPanel>
                 </Border>
             </Grid>
@@ -371,35 +371,35 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="16,12" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16,12">
                     <StackPanel>
-                        <TextBlock Text="إجمالي الإيرادات (المبيعات)" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="إجمالي الإيرادات (المبيعات)" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding TotalRevenue, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="20" FontWeight="Bold" Foreground="#4ae176"/>
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="2" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="16,12" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="2" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16,12">
                     <StackPanel>
-                        <TextBlock Text="المصروفات الخارجية (النفقات)" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="المصروفات الخارجية (النفقات)" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding TotalExpenses, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="20" FontWeight="Bold" Foreground="#EF4444"/>
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="4" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="16,12" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="4" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16,12">
                     <StackPanel>
-                        <TextBlock Text="إجمالي المرتجعات (المستردات)" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="إجمالي المرتجعات (المستردات)" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding TotalReturns, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="20" FontWeight="Bold" Foreground="#F59E0B"/>
                     </StackPanel>
                 </Border>
-                <Border Grid.Column="6" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="16,12" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="6" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16,12">
                     <StackPanel>
-                        <TextBlock Text="صافي الأرباح التشغيلية" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                        <TextBlock Text="{Binding NetProfit, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="20" FontWeight="Bold" Foreground="#ffb3af"/>
+                        <TextBlock Text="صافي الأرباح التشغيلية" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="{Binding NetProfit, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="20" FontWeight="Bold" Foreground="#D90429"/>
                     </StackPanel>
                 </Border>
             </Grid>
         </Grid>
 
         <!-- ==================== 4. REPORT & PRINT TOOLBAR ==================== -->
-        <Border Grid.Row="3" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="12,8" Margin="0,0,0,12" Effect="{DynamicResource Axon3DCardShadow}">
+        <Border Grid.Row="3" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="12,8" Margin="0,0,0,12">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -417,11 +417,11 @@
                         <materialDesign:PackIcon Kind="ChevronRight" Width="16" Height="16"/>
                     </Button>
 
-                    <Border Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="6" Padding="12,4" Margin="0,0,6,0" VerticalAlignment="Center">
+                    <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="12,4" Margin="0,0,6,0" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding CurrentPage}" Foreground="White" FontWeight="Bold" FontSize="11"/>
-                            <TextBlock Text=" / " Foreground="#8E8E93" FontSize="11"/>
-                            <TextBlock Text="{Binding TotalPages}" Foreground="#8E8E93" FontSize="11"/>
+                            <TextBlock Text="{Binding CurrentPage}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="Bold" FontSize="11"/>
+                            <TextBlock Text=" / " Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11"/>
+                            <TextBlock Text="{Binding TotalPages}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11"/>
                         </StackPanel>
                     </Border>
 
@@ -432,14 +432,14 @@
                         <materialDesign:PackIcon Kind="PageLast" Width="16" Height="16"/>
                     </Button>
 
-                    <Rectangle Width="1" Height="20" Fill="#2C2C2C" Margin="0,0,14,0"/>
+                    <Rectangle Width="1" Height="20" Fill="{DynamicResource CardBorderBrush}" Margin="0,0,14,0"/>
 
                     <!-- Zoom Controls -->
                     <Button Command="{Binding ZoomOutCommand}" Style="{StaticResource ReportToolbarBtn}" Width="32" ToolTip="تصغير التقرير" Margin="0,0,4,0">
                         <materialDesign:PackIcon Kind="MagnifyMinusOutline" Width="16" Height="16"/>
                     </Button>
-                    <Border Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,4,0" Width="55" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding ZoomText}" Foreground="White" FontWeight="Bold" FontSize="11" TextAlignment="Center"/>
+                    <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,4,0" Width="55" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding ZoomText}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="Bold" FontSize="11" TextAlignment="Center"/>
                     </Border>
                     <Button Command="{Binding ZoomInCommand}" Style="{StaticResource ReportToolbarBtn}" Width="32" ToolTip="تكبير التقرير" Margin="0,0,4,0">
                         <materialDesign:PackIcon Kind="MagnifyPlusOutline" Width="16" Height="16"/>
