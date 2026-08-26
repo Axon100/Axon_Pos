@@ -885,25 +885,33 @@ namespace Axon.UI.ViewModels
                     }
                     else
                     {
-                        // Default / Tab 0: Closed Box
+                        // Default / Tab 0: Closed Box Sheet
                         var ws = wb.Worksheets.Add("الصندوق المغلق");
                         ws.RightToLeft = true;
 
-                        ws.Cell(1, 1).Value = "تقرير الصندوق المغلق — Axon POS";
+                        ws.Cell(1, 1).Value = "VELOURA — تقرير تقفيل الشيفت والصندوق المغلق التفصيلي";
                         ws.Cell(1, 1).Style.Font.Bold = true;
                         ws.Cell(1, 1).Style.Font.FontSize = 16;
-                        ws.Range(1, 1, 1, 7).Merge();
+                        ws.Cell(1, 1).Style.Font.FontColor = XLColor.FromHtml("#1E3A8A");
+                        ws.Range(1, 1, 1, 8).Merge();
 
-                        ws.Cell(2, 1).Value = $"الفترة: من {StartDate:yyyy/MM/dd} إلى {EndDate:yyyy/MM/dd}";
-                        ws.Range(2, 1, 2, 7).Merge();
+                        ws.Cell(2, 1).Value = $"الفترة: من {StartDate:yyyy/MM/dd} إلى {EndDate:yyyy/MM/dd} | إجمالي الفواتير: {ClosedBoxInvoicesCount} | صافي الدرج: {ClosedBoxNetTotal:N2} ج.م";
+                        ws.Range(2, 1, 2, 8).Merge();
 
+                        // Table 1: Shift Closures Summary Table
                         int r = 4;
-                        var hdrs = new[] { "رقم التقفيلة", "الكاشير / النقطة", "الفترة الزمنية", "نقدي (ج.م)", "مرتجع (ج.م)", "صافي البيع (ج.م)", "الحالة" };
-                        for (int c = 0; c < hdrs.Length; c++)
+                        ws.Cell(r, 1).Value = "أولاً: ملخص تقفيلات الوردية والشيفتات المسجلة:";
+                        ws.Cell(r, 1).Style.Font.Bold = true;
+                        ws.Cell(r, 1).Style.Font.FontSize = 12;
+                        ws.Range(r, 1, r, 8).Merge();
+
+                        r++;
+                        var hdrs1 = new[] { "رمز التقفيلة", "الكاشير المسؤول", "توقيت بداية ونهاية الوردية", "عدد الفواتير", "مبيعات الكاش (ج.م)", "المرتجعات (ج.م)", "صافي التقفيلة (ج.م)", "الحالة" };
+                        for (int c = 0; c < hdrs1.Length; c++)
                         {
-                            ws.Cell(r, c + 1).Value = hdrs[c];
+                            ws.Cell(r, c + 1).Value = hdrs1[c];
                             ws.Cell(r, c + 1).Style.Font.Bold = true;
-                            ws.Cell(r, c + 1).Style.Fill.BackgroundColor = XLColor.FromHtml("#D90429");
+                            ws.Cell(r, c + 1).Style.Fill.BackgroundColor = XLColor.FromHtml("#1E3A8A");
                             ws.Cell(r, c + 1).Style.Font.FontColor = XLColor.White;
                         }
 
@@ -911,28 +919,71 @@ namespace Axon.UI.ViewModels
                         foreach (var i in ClosedRegisterReport)
                         {
                             ws.Cell(r, 1).Value = i.ClosureCode;
-                            ws.Cell(r, 2).Value = $"{i.CashierName} ({i.TerminalName})";
+                            ws.Cell(r, 2).Value = i.CashierName;
                             ws.Cell(r, 3).Value = i.PeriodDisplay;
-                            ws.Cell(r, 4).Value = i.CashSales;
-                            ws.Cell(r, 4).Style.NumberFormat.Format = "#,##0.00";
-                            ws.Cell(r, 5).Value = i.ReturnsAmount;
+                            ws.Cell(r, 4).Value = i.InvoicesCount;
+                            ws.Cell(r, 5).Value = i.CashSales;
                             ws.Cell(r, 5).Style.NumberFormat.Format = "#,##0.00";
-                            ws.Cell(r, 6).Value = i.NetSales;
+                            ws.Cell(r, 6).Value = i.ReturnsAmount;
                             ws.Cell(r, 6).Style.NumberFormat.Format = "#,##0.00";
-                            ws.Cell(r, 6).Style.Font.Bold = true;
-                            ws.Cell(r, 7).Value = i.Status;
+                            ws.Cell(r, 7).Value = i.NetSales;
+                            ws.Cell(r, 7).Style.NumberFormat.Format = "#,##0.00";
+                            ws.Cell(r, 7).Style.Font.Bold = true;
+                            ws.Cell(r, 8).Value = i.Status;
                             r++;
                         }
 
                         ws.Cell(r, 3).Value = "الإجمالي العام:";
                         ws.Cell(r, 3).Style.Font.Bold = true;
-                        ws.Cell(r, 4).Value = ClosedBoxCashTotal;
+                        ws.Cell(r, 4).Value = ClosedBoxInvoicesCount;
                         ws.Cell(r, 4).Style.Font.Bold = true;
-                        ws.Cell(r, 5).Value = ClosedBoxReturnTotal;
+                        ws.Cell(r, 5).Value = ClosedBoxCashTotal;
                         ws.Cell(r, 5).Style.Font.Bold = true;
-                        ws.Cell(r, 6).Value = ClosedBoxNetTotal;
+                        ws.Cell(r, 6).Value = ClosedBoxReturnTotal;
                         ws.Cell(r, 6).Style.Font.Bold = true;
-                        ws.Cell(r, 6).Style.Fill.BackgroundColor = XLColor.FromHtml("#FFD700");
+                        ws.Cell(r, 7).Value = ClosedBoxNetTotal;
+                        ws.Cell(r, 7).Style.Font.Bold = true;
+                        ws.Cell(r, 7).Style.Fill.BackgroundColor = XLColor.FromHtml("#FFD700");
+
+                        // Table 2: Detailed Shift Invoices & Sold Items Breakdown
+                        r += 3;
+                        ws.Cell(r, 1).Value = "ثانياً: بيانات الفواتير والأصناف المباعة المندرجة تحت التقرير:";
+                        ws.Cell(r, 1).Style.Font.Bold = true;
+                        ws.Cell(r, 1).Style.Font.FontSize = 12;
+                        ws.Range(r, 1, r, 7).Merge();
+
+                        r++;
+                        var hdrs2 = new[] { "رقم الفاتورة", "تاريخ ووقت الفاتورة", "الأصناف والقطع المباعة", "الكاشير", "العدد", "طريقة الدفع", "إجمالي الفاتورة (ج.م)" };
+                        for (int c = 0; c < hdrs2.Length; c++)
+                        {
+                            ws.Cell(r, c + 1).Value = hdrs2[c];
+                            ws.Cell(r, c + 1).Style.Font.Bold = true;
+                            ws.Cell(r, c + 1).Style.Fill.BackgroundColor = XLColor.FromHtml("#1E3A8A");
+                            ws.Cell(r, c + 1).Style.Font.FontColor = XLColor.White;
+                        }
+
+                        r++;
+                        foreach (var i in SalesInvoicesReport)
+                        {
+                            ws.Cell(r, 1).Value = i.ReceiptNumber;
+                            ws.Cell(r, 2).Value = i.DateDisplay;
+                            ws.Cell(r, 3).Value = i.ItemsSummary;
+                            ws.Cell(r, 4).Value = i.CashierName;
+                            ws.Cell(r, 5).Value = i.ItemsCount;
+                            ws.Cell(r, 6).Value = i.PaymentMethod;
+                            ws.Cell(r, 7).Value = i.Total;
+                            ws.Cell(r, 7).Style.NumberFormat.Format = "#,##0.00";
+                            ws.Cell(r, 7).Style.Font.Bold = true;
+                            r++;
+                        }
+
+                        ws.Cell(r, 4).Value = "إجمالي الفواتير:";
+                        ws.Cell(r, 4).Style.Font.Bold = true;
+                        ws.Cell(r, 5).Value = SalesInvoicesReport.Sum(x => x.ItemsCount);
+                        ws.Cell(r, 5).Style.Font.Bold = true;
+                        ws.Cell(r, 7).Value = ClosedBoxCashTotal;
+                        ws.Cell(r, 7).Style.Font.Bold = true;
+                        ws.Cell(r, 7).Style.Fill.BackgroundColor = XLColor.FromHtml("#FFD700");
 
                         ws.Columns().AdjustToContents();
                     }
@@ -944,7 +995,7 @@ namespace Axon.UI.ViewModels
                     else if (ext == ".csv" || ext == ".txt")
                     {
                         var sb = new StringBuilder();
-                        sb.AppendLine($"تقرير Axon POS — الفترة من {StartDate:yyyy/MM/dd} إلى {EndDate:yyyy/MM/dd}");
+                        sb.AppendLine($"تقرير VELOURA — الفترة من {StartDate:yyyy/MM/dd} إلى {EndDate:yyyy/MM/dd}");
                         sb.AppendLine();
 
                         if (SelectedReportTab == 1)
@@ -980,10 +1031,13 @@ namespace Axon.UI.ViewModels
                         }
                         else
                         {
-                            sb.AppendLine("رقم التقفيلة,الكاشير / النقطة,الفترة الزمنية,نقدي (ج.م),مرتجع (ج.م),صافي البيع (ج.م),الحالة");
+                            sb.AppendLine("رقم التقفيلة,الكاشير المسؤول,توقيت بداية ونهاية الوردية,مبيعات الكاش (ج.م),المرتجعات (ج.م),صافي التقفيلة (ج.م),الحالة");
                             foreach (var i in ClosedRegisterReport)
-                                sb.AppendLine($"\"{i.ClosureCode}\",\"{i.CashierName} ({i.TerminalName})\",\"{i.PeriodDisplay}\",{i.CashSales},{i.ReturnsAmount},{i.NetSales},\"{i.Status}\"");
-                            sb.AppendLine($",,الإجمالي العام,{ClosedBoxCashTotal},{ClosedBoxReturnTotal},{ClosedBoxNetTotal},");
+                                sb.AppendLine($"\"{i.ClosureCode}\",\"{i.CashierName}\",\"{i.PeriodDisplay}\",{i.CashSales},{i.ReturnsAmount},{i.NetSales},\"{i.Status}\"");
+                            sb.AppendLine();
+                            sb.AppendLine("رقم الفاتورة,التاريخ والوقت,الأصناف والقطع المباعة,الكاشير,عدد القطع,طريقة الدفع,إجمالي الفاتورة (ج.م)");
+                            foreach (var i in SalesInvoicesReport)
+                                sb.AppendLine($"\"{i.ReceiptNumber}\",\"{i.DateDisplay}\",\"{i.ItemsSummary}\",\"{i.CashierName}\",{i.ItemsCount},\"{i.PaymentMethod}\",{i.Total}");
                         }
 
                         File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
@@ -1076,12 +1130,21 @@ namespace Axon.UI.ViewModels
                     }
                     else
                     {
-                        // Word DOCX, HTML, or any other web format
+                        // PDF, HTML, Word DOCX, or web formats
                         var sb = new StringBuilder();
-                        sb.AppendLine("<!DOCTYPE html><html dir='rtl' lang='ar'><head><meta charset='utf-8'><title>تقرير Axon POS</title>");
-                        sb.AppendLine("<style>body{font-family:'Segoe UI',Tahoma,sans-serif;padding:25px;background:#fff;color:#111;} h1{color:#d90429;margin-bottom:6px;} h2{color:#333;} table{width:100%;border-collapse:collapse;margin-top:16px;} th,td{border:1px solid #ccc;padding:10px 14px;text-align:right;} th{background:#d90429;color:#fff;font-weight:bold;} tr:nth-child(even){background:#f8f9fa;} .total-row{font-weight:bold;background:#fff3cd;}</style></head><body>");
-                        sb.AppendLine($"<h1>تقرير Axon POS — التقارير والتحليلات المالية</h1>");
-                        sb.AppendLine($"<p><b>الفترة الزمنية:</b> من {StartDate:yyyy/MM/dd} إلى {EndDate:yyyy/MM/dd}</p><hr/>");
+                        sb.AppendLine("<!DOCTYPE html><html dir='rtl' lang='ar'><head><meta charset='utf-8'><title>تقرير VELOURA POS</title>");
+                        sb.AppendLine("<style>");
+                        sb.AppendLine("body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;padding:30px;background:#fff;color:#0f172a;line-height:1.5;}");
+                        sb.AppendLine(".brand{font-size:24px;font-weight:900;color:#1e3a8a;} .subtitle{color:#64748b;font-size:12px;margin-bottom:20px;}");
+                        sb.AppendLine(".kpi-container{display:flex;gap:12px;margin-bottom:20px;} .kpi-card{flex:1;border:1px solid #e2e8f0;border-radius:8px;padding:12px;background:#f8fafc;}");
+                        sb.AppendLine(".kpi-title{font-size:11px;font-weight:bold;color:#64748b;} .kpi-val{font-size:18px;font-weight:900;color:#0f172a;}");
+                        sb.AppendLine("table{width:100%;border-collapse:collapse;margin-top:10px;margin-bottom:24px;} th,td{border:1px solid #cbd5e1;padding:8px 12px;text-align:right;}");
+                        sb.AppendLine("th{background:#1e3a8a;color:#fff;font-weight:bold;font-size:12px;} tr:nth-child(even){background:#f8fafc;} .total-row{font-weight:bold;background:#fef3c7;color:#92400e;}");
+                        sb.AppendLine(".sig-box{margin-top:40px;display:flex;justify-content:space-between;text-align:center;}");
+                        sb.AppendLine("</style></head><body>");
+
+                        sb.AppendLine("<div class='brand'>VELOURA • POS SYSTEM</div>");
+                        sb.AppendLine($"<div class='subtitle'>تقرير مالي معتمد — الفترة من {StartDate:yyyy/MM/dd} إلى {EndDate:yyyy/MM/dd}</div><hr/>");
 
                         if (SelectedReportTab == 1)
                         {
@@ -1120,11 +1183,26 @@ namespace Axon.UI.ViewModels
                         }
                         else
                         {
-                            sb.AppendLine("<h2>تقرير الصندوق المغلق (تقفيلات الشيفت)</h2>");
-                            sb.AppendLine("<table><thead><tr><th>رقم التقفيلة</th><th>الكاشير / النقطة</th><th>الفترة الزمنية</th><th>نقدي (ج.م)</th><th>مرتجع (ج.م)</th><th>صافي البيع (ج.م)</th><th>الحالة</th></tr></thead><tbody>");
+                            sb.AppendLine("<div class='kpi-container'>");
+                            sb.AppendLine($"<div class='kpi-card'><div class='kpi-title'>إجمالي مبيعات النقدي</div><div class='kpi-val'>{ClosedBoxCashTotal:N2} ج.م</div></div>");
+                            sb.AppendLine($"<div class='kpi-card'><div class='kpi-title'>إجمالي المرتجعات</div><div class='kpi-val' style='color:#dc2626;'>{ClosedBoxReturnTotal:N2} ج.م</div></div>");
+                            sb.AppendLine($"<div class='kpi-card'><div class='kpi-title'>عدد الفواتير الصادرة</div><div class='kpi-val' style='color:#2563eb;'>{ClosedBoxInvoicesCount} فاتورة</div></div>");
+                            sb.AppendLine($"<div class='kpi-card'><div class='kpi-title'>صافي الدرج والصندوق</div><div class='kpi-val' style='color:#059669;'>{ClosedBoxNetTotal:N2} ج.م</div></div>");
+                            sb.AppendLine("</div>");
+
+                            sb.AppendLine("<h3>أولاً: ملخص تقفيلات الوردية والشيفتات المسجلة</h3>");
+                            sb.AppendLine("<table><thead><tr><th>كود التقفيلة</th><th>الكاشير المسؤول</th><th>توقيت بداية ونهاية الوردية</th><th>الفواتير</th><th>مبيعات الكاش (ج.م)</th><th>المرتجعات (ج.م)</th><th>صافي التقفيلة (ج.م)</th><th>الحالة</th></tr></thead><tbody>");
                             foreach (var i in ClosedRegisterReport)
-                                sb.AppendLine($"<tr><td>{i.ClosureCode}</td><td>{i.CashierName} ({i.TerminalName})</td><td>{i.PeriodDisplay}</td><td>{i.CashSales:N2}</td><td>{i.ReturnsAmount:N2}</td><td>{i.NetSales:N2}</td><td>{i.Status}</td></tr>");
-                            sb.AppendLine($"<tr class='total-row'><td colspan='3'>الإجمالي العام</td><td>{ClosedBoxCashTotal:N2}</td><td>{ClosedBoxReturnTotal:N2}</td><td>{ClosedBoxNetTotal:N2}</td><td></td></tr></tbody></table>");
+                                sb.AppendLine($"<tr><td>{i.ClosureCode}</td><td>{i.CashierName}</td><td>{i.PeriodDisplay}</td><td>{i.InvoicesCount}</td><td>{i.CashSales:N2}</td><td>{i.ReturnsAmount:N2}</td><td><b>{i.NetSales:N2}</b></td><td>{i.Status}</td></tr>");
+                            sb.AppendLine($"<tr class='total-row'><td colspan='3'>الإجمالي العام</td><td>{ClosedBoxInvoicesCount}</td><td>{ClosedBoxCashTotal:N2}</td><td>{ClosedBoxReturnTotal:N2}</td><td>{ClosedBoxNetTotal:N2}</td><td></td></tr></tbody></table>");
+
+                            sb.AppendLine("<h3>ثانياً: بيانات الفواتير والأصناف المباعة المندرجة تحت التقرير</h3>");
+                            sb.AppendLine("<table><thead><tr><th>رقم الفاتورة</th><th>تاريخ ووقت الفاتورة</th><th>الأصناف والقطع المباعة</th><th>الكاشير</th><th>العدد</th><th>طريقة الدفع</th><th>إجمالي الفاتورة (ج.م)</th></tr></thead><tbody>");
+                            foreach (var i in SalesInvoicesReport)
+                                sb.AppendLine($"<tr><td><b>{i.ReceiptNumber}</b></td><td>{i.DateDisplay}</td><td><b>{i.ItemsSummary}</b></td><td>{i.CashierName}</td><td>{i.ItemsCount}</td><td>{i.PaymentMethod}</td><td><b>{i.Total:N2}</b></td></tr>");
+                            sb.AppendLine($"<tr class='total-row'><td colspan='4'>إجمالي القطع والفواتير</td><td>{SalesInvoicesReport.Sum(x=>x.ItemsCount)}</td><td></td><td>{ClosedBoxCashTotal:N2}</td></tr></tbody></table>");
+
+                            sb.AppendLine("<div class='sig-box'><div>توقيع الكاشير المسؤول:<br/><br/>.........................................</div><div>توقيع إدارة المحل:<br/><br/>.........................................</div></div>");
                         }
 
                         sb.AppendLine("</body></html>");
