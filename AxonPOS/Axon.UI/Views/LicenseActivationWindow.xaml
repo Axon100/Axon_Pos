@@ -1,0 +1,111 @@
+<Window x:Class="Axon.UI.Views.LicenseActivationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="تفعيل نظام Axon POS" Height="620" Width="480"
+        WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True"
+        Background="Transparent" FlowDirection="RightToLeft">
+
+    <Border Background="#111111" BorderBrush="#d90429" BorderThickness="1.5" CornerRadius="16" Padding="32" Effect="{DynamicResource Axon3DCardShadow}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Window Controls -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-16,-16,16">
+                <Button Click="CloseButton_Click" Style="{StaticResource MaterialDesignFlatButton}" Foreground="#EF4444" Padding="0" Height="32" Width="36" ToolTip="إغلاق">
+                    <materialDesign:PackIcon Kind="Close" Width="18" Height="18"/>
+                </Button>
+            </StackPanel>
+
+            <!-- Logo & Title Header -->
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,24">
+                <Border Width="70" Height="70" CornerRadius="35" Background="#161616" BorderBrush="#d90429" BorderThickness="1.5" HorizontalAlignment="Center" Margin="0,0,0,14" Effect="{DynamicResource Axon3DCardShadow}">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="/Assets/logo.png" Height="42" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </Grid>
+                </Border>
+                <TextBlock Text="تفعيل ترخيص النظام" FontSize="22" FontWeight="Black" Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock Text="يتطلب تفعيل النظام إدخال المفتاح المخصص لجهازك" FontSize="12" Foreground="#8E8E93" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+            </StackPanel>
+
+            <!-- Main Body: Hardware Code & Key Input -->
+            <StackPanel Grid.Row="2" VerticalAlignment="Center">
+                <!-- Hardware ID Display Box -->
+                <Border Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="12" Padding="16" Margin="0,0,0,20">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <materialDesign:PackIcon Kind="KeyChain" Foreground="#D90429" Width="18" Height="18" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="معرف الجهاز الخاص بك (Hardware ID):" FontSize="12" FontWeight="Bold" Foreground="#CCCCCC" VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0" Background="#0D0D0D" BorderBrush="#333333" BorderThickness="1" CornerRadius="8" Padding="12,8" Margin="0,0,10,0">
+                                <TextBlock Text="{Binding HardwareId}" FontSize="18" FontWeight="Black" Foreground="#22C55E" FontFamily="Consolas" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+
+                            <Button Grid.Column="1" Command="{Binding CopyHardwareIdCommand}" Background="#1A2536" BorderBrush="#3B82F6" BorderThickness="1" Foreground="#60A5FA" Height="42" Padding="14,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="ContentCopy" Foreground="#60A5FA" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="نسخ الكود" FontSize="12" FontWeight="Bold" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+
+                        <TextBlock Text="💡 قم بنسخ هذا الكود وإرساله للمطور للحصول على رمز التفعيل." FontSize="11" Foreground="#8E8E93" Margin="0,10,0,0" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- License Key Input Box -->
+                <StackPanel Margin="0,0,0,16">
+                    <TextBlock Text="رمز / مفتاح التفعيل (License Key)" FontSize="12" FontWeight="Bold" Foreground="#CCCCCC" Margin="0,0,0,8"/>
+                    <Border Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="12,0" Height="48">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Kind="ShieldKey" Width="20" Height="20" Foreground="#d90429" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBox Grid.Column="1" Text="{Binding LicenseKey, UpdateSourceTrigger=PropertyChanged}" 
+                                     BorderThickness="0" Background="Transparent"
+                                     Foreground="White" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"
+                                     materialDesign:HintAssist.Hint="أدخل رمز التفعيل هنا..."/>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <!-- Error Message -->
+                <Border Visibility="{Binding IsErrorVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Background="#2B0005" BorderBrush="#D90429" BorderThickness="1" CornerRadius="8" Padding="12,10" Margin="0,0,0,16">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="AlertCircle" Foreground="#FF4D6D" Width="18" Height="18" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding ActivationStatusMessage}" Foreground="#FF4D6D" FontSize="12" FontWeight="SemiBold" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Activate Button -->
+                <Button Command="{Binding ActivateCommand}" Style="{StaticResource Axon3DPrimaryButtonStyle}" Height="48" FontSize="15" FontWeight="Bold">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="CheckDecagram" Width="20" Height="20" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="تفعيل الترخيص الآن" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <!-- Footer Note -->
+            <TextBlock Grid.Row="3" Text="Axon POS Enterprise v2.0 • جميع الحقوق محفوظة" FontSize="11" Foreground="#555555" HorizontalAlignment="Center" Margin="0,16,0,0"/>
+        </Grid>
+    </Border>
+</Window>

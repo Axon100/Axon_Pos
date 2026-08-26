@@ -52,6 +52,7 @@ namespace Axon.UI
                     services.AddTransient<Axon.UI.Views.InventoryControlView>();
                     services.AddTransient<Axon.UI.Views.ExpensesView>();
                     services.AddTransient<Axon.UI.Views.DatabaseSetupWindow>();
+                    services.AddTransient<Axon.UI.Views.LicenseActivationWindow>();
 
                     // Add ViewModels
                     services.AddTransient<Axon.UI.ViewModels.MainWindowViewModel>();
@@ -65,6 +66,7 @@ namespace Axon.UI
                     services.AddTransient<Axon.UI.ViewModels.SettingsViewModel>();
                     services.AddTransient<Axon.UI.ViewModels.DatabaseSetupViewModel>();
                     services.AddTransient<Axon.UI.ViewModels.BarcodeManagementViewModel>();
+                    services.AddTransient<Axon.UI.ViewModels.LicenseActivationViewModel>();
                     
                     // Add Repositories & Business Services
                     services.AddScoped(typeof(Axon.Application.Interfaces.Repositories.IRepository<>), typeof(Axon.Infrastructure.Data.Repositories.Repository<>));
@@ -75,6 +77,7 @@ namespace Axon.UI
                     services.AddScoped<Axon.Application.Interfaces.Services.IBarcodeService, Axon.Infrastructure.Services.BarcodeService>();
                     services.AddScoped<Axon.Application.Interfaces.Services.IBackupService, Axon.Infrastructure.Services.BackupService>();
                     services.AddScoped<Axon.Application.Interfaces.Services.IPermissionService, Axon.Infrastructure.Services.PermissionService>();
+                    services.AddSingleton<Axon.Application.Interfaces.Services.ILicenseService, Axon.Infrastructure.Services.LicenseService>();
                 })
                 .Build();
         }
@@ -118,6 +121,20 @@ namespace Axon.UI
             }));
 
             await AppHost!.StartAsync();
+
+            // Hardware License Verification Check before launching System
+            var licenseService = AppHost.Services.GetRequiredService<Axon.Application.Interfaces.Services.ILicenseService>();
+            if (!licenseService.IsLicenseValid())
+            {
+                var activationVm = AppHost.Services.GetRequiredService<Axon.UI.ViewModels.LicenseActivationViewModel>();
+                var activationWindow = new Axon.UI.Views.LicenseActivationWindow(activationVm);
+                var isActivated = activationWindow.ShowDialog();
+                if (isActivated != true && !licenseService.IsLicenseValid())
+                {
+                    Shutdown();
+                    return;
+                }
+            }
 
             var configService = AppHost.Services.GetRequiredService<IDatabaseConfigService>();
             var connStr = configService.GetConnectionString();
