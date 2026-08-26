@@ -72,12 +72,12 @@ namespace Axon.UI.Services
 
             var mainPanel = new StackPanel();
 
-            // 1. CIRCULAR LOGO BRANDING (VELOURA + BUTTERFLY + CONTACTS)
+            // 1. CIRCULAR LOGO BRANDING (VELOURA + BUTTERFLY)
             var logoBorder = new Border
             {
-                Width = 170,
-                Height = 170,
-                CornerRadius = new CornerRadius(85),
+                Width = 140,
+                Height = 140,
+                CornerRadius = new CornerRadius(70),
                 BorderBrush = Brushes.Black,
                 BorderThickness = new Thickness(1.5),
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -95,7 +95,7 @@ namespace Axon.UI.Services
             var brandHeaderGrid = new Grid
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
-                Margin = new Thickness(0, 0, 0, 4)
+                Margin = new Thickness(0, 0, 0, 0)
             };
             brandHeaderGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             brandHeaderGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -103,7 +103,7 @@ namespace Axon.UI.Services
             var txtBrand = new TextBlock
             {
                 Text = "VELOURA",
-                FontSize = 20,
+                FontSize = 19,
                 FontWeight = FontWeights.Bold,
                 FontFamily = new FontFamily("Georgia, Times New Roman, Segoe UI"),
                 Foreground = Brushes.Black,
@@ -117,8 +117,8 @@ namespace Axon.UI.Services
             {
                 Data = Geometry.Parse("M 12,2 C 10,2 8,4 8,7 C 6,4 4,4 2,6 C 0,8 1,12 4,13 C 1,15 0,18 2,20 C 4,22 8,20 10,17 C 10,19 11,21 12,21 C 13,21 14,19 14,17 C 16,20 20,22 22,20 C 24,18 23,15 20,13 C 23,12 24,8 22,6 C 20,4 18,4 16,7 C 16,4 14,2 12,2 Z"),
                 Fill = Brushes.Black,
-                Width = 20,
-                Height = 20,
+                Width = 18,
+                Height = 18,
                 Stretch = Stretch.Uniform,
                 Margin = new Thickness(6, 0, 0, 0),
                 VerticalAlignment = VerticalAlignment.Center
@@ -127,26 +127,6 @@ namespace Axon.UI.Services
             brandHeaderGrid.Children.Add(butterflyPath);
 
             logoPanel.Children.Add(brandHeaderGrid);
-
-            // Contacts inside Circle
-            var txtPhone = new TextBlock
-            {
-                Text = "📞 01509922025   💬 01509922025",
-                FontSize = 9,
-                Foreground = Brushes.Black,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Margin = new Thickness(0, 2, 0, 2)
-            };
-            logoPanel.Children.Add(txtPhone);
-
-            var txtTiktok = new TextBlock
-            {
-                Text = "🎵 Veloura.clothing",
-                FontSize = 9,
-                Foreground = Brushes.Black,
-                HorizontalAlignment = HorizontalAlignment.Center
-            };
-            logoPanel.Children.Add(txtTiktok);
 
             logoBorder.Child = logoPanel;
             mainPanel.Children.Add(logoBorder);
@@ -173,9 +153,31 @@ namespace Axon.UI.Services
                 TextAlignment = TextAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 FlowDirection = FlowDirection.RightToLeft,
-                Margin = new Thickness(0, 2, 0, 8)
+                Margin = new Thickness(0, 2, 0, 4)
             };
             mainPanel.Children.Add(txtAddress2);
+
+            // Phone & Social Contacts below Address
+            var txtPhone = new TextBlock
+            {
+                Text = "📞 01509922025   💬 01509922025",
+                FontSize = 10,
+                FontWeight = FontWeights.SemiBold,
+                Foreground = Brushes.Black,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(0, 2, 0, 2)
+            };
+            mainPanel.Children.Add(txtPhone);
+
+            var txtTiktok = new TextBlock
+            {
+                Text = "🎵 Veloura.clothing",
+                FontSize = 10,
+                Foreground = Brushes.Black,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(0, 0, 0, 8)
+            };
+            mainPanel.Children.Add(txtTiktok);
 
             // Dotted Separator 1
             mainPanel.Children.Add(CreateDottedLine());
@@ -330,6 +332,26 @@ namespace Axon.UI.Services
             mainPanel.Children.Add(CreateMetaRow("Cash", finalTotal.ToString("0.00")));
             mainPanel.Children.Add(CreateMetaRow("Tendered:", finalTotal.ToString("0.00")));
             mainPanel.Children.Add(CreateMetaRow("Change:", "0.00"));
+
+            // 5 Small Bottom Circles
+            var circlesStack = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(0, 14, 0, 4)
+            };
+            for (int i = 0; i < 5; i++)
+            {
+                var circle = new Ellipse
+                {
+                    Width = 8,
+                    Height = 8,
+                    Fill = Brushes.Black,
+                    Margin = new Thickness(4, 0, 4, 0)
+                };
+                circlesStack.Children.Add(circle);
+            }
+            mainPanel.Children.Add(circlesStack);
 
             container.Child = mainPanel;
             return container;
