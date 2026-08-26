@@ -58,14 +58,16 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <!-- Logo Area -->
-                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,24,0">
-                    <Image Source="/Assets/logo.png" Height="32" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality"/>
-                </StackPanel>
+                <!-- Sidebar Header / Logo Area -->
+                <Border Grid.Row="0" Margin="14,14,14,10" Background="#161616" BorderBrush="#2A2A2A" BorderThickness="1" CornerRadius="12" Padding="12,10">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="/Assets/logo.png" Height="26" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </StackPanel>
+                </Border>
 
                 <!-- Navigation Links -->
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,10,0,0">
-                    <StackPanel>
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Focusable="False">
+                    <StackPanel Margin="4,4,4,4">
                         <!-- Dashboard Link -->
                         <Button Command="{Binding NavigateCommand}" CommandParameter="Dashboard">
                             <Button.Style>
@@ -75,11 +77,27 @@
                                         <DataTrigger Binding="{Binding IsDashboardVisible}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding ActiveViewName}" Value="Dashboard">
+                                            <Setter Property="Background" Value="#2A0E12"/>
+                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <materialDesign:PackIcon Kind="ViewDashboard" Width="22" Height="22" Margin="0,0,14,0" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="ViewDashboard" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon.Style>
+                                        <Style TargetType="materialDesign:PackIcon">
+                                            <Setter Property="Foreground" Value="#8E8E93"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ActiveViewName}" Value="Dashboard">
+                                                    <Setter Property="Foreground" Value="#D90429"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </materialDesign:PackIcon.Style>
+                                </materialDesign:PackIcon>
                                 <TextBlock Text="{DynamicResource Dashboard}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
                             </StackPanel>
                         </Button>
@@ -93,11 +111,27 @@
                                         <DataTrigger Binding="{Binding IsPosVisible}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding ActiveViewName}" Value="PosTerminal">
+                                            <Setter Property="Background" Value="#2A0E12"/>
+                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <materialDesign:PackIcon Kind="CashRegister" Width="22" Height="22" Margin="0,0,14,0" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="CashRegister" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon.Style>
+                                        <Style TargetType="materialDesign:PackIcon">
+                                            <Setter Property="Foreground" Value="#8E8E93"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ActiveViewName}" Value="PosTerminal">
+                                                    <Setter Property="Foreground" Value="#D90429"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </materialDesign:PackIcon.Style>
+                                </materialDesign:PackIcon>
                                 <TextBlock Text="{DynamicResource PosTerminal}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
                             </StackPanel>
                         </Button>
@@ -111,11 +145,27 @@
                                         <DataTrigger Binding="{Binding IsInventoryVisible}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding ActiveViewName}" Value="Inventory">
+                                            <Setter Property="Background" Value="#2A0E12"/>
+                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <materialDesign:PackIcon Kind="PackageVariantClosed" Width="22" Height="22" Margin="0,0,14,0" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="PackageVariantClosed" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon.Style>
+                                        <Style TargetType="materialDesign:PackIcon">
+                                            <Setter Property="Foreground" Value="#8E8E93"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ActiveViewName}" Value="Inventory">
+                                                    <Setter Property="Foreground" Value="#D90429"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </materialDesign:PackIcon.Style>
+                                </materialDesign:PackIcon>
                                 <TextBlock Text="{DynamicResource Inventory}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
                             </StackPanel>
                         </Button>
@@ -129,11 +179,27 @@
                                         <DataTrigger Binding="{Binding IsProductsVisible}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding ActiveViewName}" Value="Products">
+                                            <Setter Property="Background" Value="#2A0E12"/>
+                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <materialDesign:PackIcon Kind="Tags" Width="22" Height="22" Margin="0,0,14,0" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="Tags" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon.Style>
+                                        <Style TargetType="materialDesign:PackIcon">
+                                            <Setter Property="Foreground" Value="#8E8E93"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ActiveViewName}" Value="Products">
+                                                    <Setter Property="Foreground" Value="#D90429"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </materialDesign:PackIcon.Style>
+                                </materialDesign:PackIcon>
                                 <TextBlock Text="{DynamicResource Products}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
                             </StackPanel>
                         </Button>
@@ -147,11 +213,27 @@
                                         <DataTrigger Binding="{Binding IsBarcodeVisible}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding ActiveViewName}" Value="Barcodes">
+                                            <Setter Property="Background" Value="#2A0E12"/>
+                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <materialDesign:PackIcon Kind="Barcode" Width="22" Height="22" Margin="0,0,14,0" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="Barcode" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon.Style>
+                                        <Style TargetType="materialDesign:PackIcon">
+                                            <Setter Property="Foreground" Value="#8E8E93"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ActiveViewName}" Value="Barcodes">
+                                                    <Setter Property="Foreground" Value="#D90429"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </materialDesign:PackIcon.Style>
+                                </materialDesign:PackIcon>
                                 <TextBlock Text="{DynamicResource Barcodes}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
                             </StackPanel>
                         </Button>
@@ -165,11 +247,27 @@
                                         <DataTrigger Binding="{Binding IsExpensesVisible}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding ActiveViewName}" Value="Expenses">
+                                            <Setter Property="Background" Value="#2A0E12"/>
+                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <materialDesign:PackIcon Kind="CashMinus" Width="22" Height="22" Margin="0,0,14,0" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="CashMinus" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon.Style>
+                                        <Style TargetType="materialDesign:PackIcon">
+                                            <Setter Property="Foreground" Value="#8E8E93"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ActiveViewName}" Value="Expenses">
+                                                    <Setter Property="Foreground" Value="#D90429"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </materialDesign:PackIcon.Style>
+                                </materialDesign:PackIcon>
                                 <TextBlock Text="{DynamicResource ExternalExpenses}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
                             </StackPanel>
                         </Button>
@@ -183,17 +281,33 @@
                                         <DataTrigger Binding="{Binding IsReportsVisible}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding ActiveViewName}" Value="Reports">
+                                            <Setter Property="Background" Value="#2A0E12"/>
+                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <materialDesign:PackIcon Kind="ChartBar" Width="22" Height="22" Margin="0,0,14,0" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="ChartBar" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon.Style>
+                                        <Style TargetType="materialDesign:PackIcon">
+                                            <Setter Property="Foreground" Value="#8E8E93"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ActiveViewName}" Value="Reports">
+                                                    <Setter Property="Foreground" Value="#D90429"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </materialDesign:PackIcon.Style>
+                                </materialDesign:PackIcon>
                                 <TextBlock Text="{DynamicResource Reports}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
                             </StackPanel>
                         </Button>
 
                         <!-- Settings Link -->
-                        <Button Margin="8,2,8,16" Command="{Binding NavigateCommand}" CommandParameter="Settings">
+                        <Button Command="{Binding NavigateCommand}" CommandParameter="Settings">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -201,11 +315,27 @@
                                         <DataTrigger Binding="{Binding IsSettingsVisible}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding ActiveViewName}" Value="Settings">
+                                            <Setter Property="Background" Value="#2A0E12"/>
+                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <materialDesign:PackIcon Kind="CogOutline" Width="22" Height="22" Margin="0,0,14,0" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="CogOutline" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon.Style>
+                                        <Style TargetType="materialDesign:PackIcon">
+                                            <Setter Property="Foreground" Value="#8E8E93"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ActiveViewName}" Value="Settings">
+                                                    <Setter Property="Foreground" Value="#D90429"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </materialDesign:PackIcon.Style>
+                                </materialDesign:PackIcon>
                                 <TextBlock Text="{DynamicResource Settings}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
                             </StackPanel>
                         </Button>
@@ -213,12 +343,13 @@
                 </ScrollViewer>
 
                 <!-- Bottom Logout Action -->
-                <StackPanel Grid.Row="2" Margin="0,0,0,16">
-                    <Separator Background="#222222" Margin="20,0,20,12"/>
-                    <Button Style="{StaticResource SidebarButtonStyle}" Command="{Binding LogoutCommand}" Padding="16,10">
+                <StackPanel Grid.Row="2" Margin="10,0,10,14">
+                    <Separator Background="#222222" Margin="10,0,10,10"/>
+                    <Button Style="{StaticResource SidebarButtonStyle}" Command="{Binding LogoutCommand}" 
+                            Background="#1F1113" BorderBrush="#4E161C" BorderThickness="1" Padding="14,10" Height="44" Cursor="Hand" ToolTip="تسجيل الخروج من النظام">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <materialDesign:PackIcon Kind="Logout" Width="22" Height="22" Margin="0,0,14,0" Foreground="#d90429" VerticalAlignment="Center"/>
-                            <TextBlock Text="{DynamicResource Logout}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="#d90429"/>
+                            <materialDesign:PackIcon Kind="Logout" Width="20" Height="20" Margin="0,0,12,0" Foreground="#EF4444" VerticalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Logout}" Foreground="#EF4444" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>

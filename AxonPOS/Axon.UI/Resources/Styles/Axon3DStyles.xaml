@@ -133,39 +133,48 @@
         </Style.Triggers>
     </Style>
 
-    <!-- 3D Sidebar Button Style -->
-    <Style x:Key="Axon3DSidebarButtonStyle" TargetType="Button">
+    <!-- Modern 3D Sidebar Button Style -->
+    <Style x:Key="SidebarButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource AxonSecondaryTextBrush}"/>
-        <Setter Property="Padding" Value="16,10"/>
-        <Setter Property="Margin" Value="8,3"/>
-        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Foreground" Value="#8E8E93"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="14,10"/>
+        <Setter Property="Margin" Value="10,3"/>
+        <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="MinHeight" Value="48"/>
+        <Setter Property="Height" Value="44"/>
         <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="HorizontalContentAlignment" Value="{DynamicResource AppStartAlignment}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Right"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="border" 
-                            Background="{TemplateBinding Background}" 
-                            CornerRadius="8" 
-                            Padding="{TemplateBinding Padding}">
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center"/>
-                    </Border>
+                    <Grid x:Name="btnGrid">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="10" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#222222"/>
+                            <Setter TargetName="border" Property="Background" Value="#1E1618"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="#44181E"/>
                             <Setter Property="Foreground" Value="White"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#2A2A2A"/>
+                            <Setter TargetName="border" Property="Background" Value="#2B1216"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="Axon3DSidebarButtonStyle" TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}"/>
 
     <!-- 3D Enterprise DataGrid Style -->
     <Style x:Key="Axon3DDataGridStyle" TargetType="DataGrid">

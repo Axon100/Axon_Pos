@@ -28,18 +28,33 @@ namespace Axon.UI.ViewModels
         public bool IsReportsVisible => UserSessionService.HasPermission("Reports.View");
         public bool IsSettingsVisible => UserSessionService.HasPermission("Settings.View");
 
+        [ObservableProperty]
+        private string _activeViewName = "Dashboard";
+
         public MainWindowViewModel()
         {
             Title = "Axon-POS";
             // Set default view based on highest permission
             if (IsDashboardVisible)
+            {
                 _currentViewModel = App.AppHost!.Services.GetRequiredService<DashboardViewModel>();
+                ActiveViewName = "Dashboard";
+            }
             else if (IsPosVisible)
+            {
                 _currentViewModel = App.AppHost!.Services.GetRequiredService<PosTerminalViewModel>();
+                ActiveViewName = "PosTerminal";
+            }
             else if (IsInventoryVisible)
+            {
                 _currentViewModel = App.AppHost!.Services.GetRequiredService<InventoryControlViewModel>();
+                ActiveViewName = "Inventory";
+            }
             else
+            {
                 _currentViewModel = App.AppHost!.Services.GetRequiredService<DashboardViewModel>();
+                ActiveViewName = "Dashboard";
+            }
         }
 
         public void RefreshPermissions()
@@ -105,6 +120,8 @@ namespace Axon.UI.ViewModels
                 AxonMessageBox.Show("ليس لديك صلاحية للوصول إلى هذه الصفحة!", "تنبيه الصلاحيات (RBAC)", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+
+            ActiveViewName = viewName;
 
             switch (viewName)
             {
