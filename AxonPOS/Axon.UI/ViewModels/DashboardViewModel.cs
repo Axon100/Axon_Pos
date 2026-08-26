@@ -168,6 +168,24 @@ namespace Axon.UI.ViewModels
             });
         }
 
+        [RelayCommand]
+        private void NavigateToPos()
+        {
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (System.Windows.Application.Current.MainWindow?.DataContext is MainWindowViewModel mainVm)
+                {
+                    mainVm.NavigateCommand.Execute("PosTerminal");
+                }
+            });
+        }
+
+        [RelayCommand]
+        private async Task RefreshDataAsync()
+        {
+            await LoadDataAsync();
+        }
+
         private async Task LoadDataAsync()
         {
             IsBusy = true;
