@@ -86,9 +86,9 @@
                     <Border Background="#22D90429" BorderBrush="#44D90429" BorderThickness="1" CornerRadius="8" Padding="8" Margin="0,0,12,0">
                         <materialDesign:PackIcon Kind="ChartBoxOutline" Width="24" Height="24" Foreground="#d90429" VerticalAlignment="Center"/>
                     </Border>
-                    <TextBlock Text="التقارير والتحليلات المالية" FontSize="22" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                    <TextBlock Text="التقارير والتحليلات المالية" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                 </StackPanel>
-                <TextBlock Text="استخراج وتصدير تقارير الصندوق المغلق، مبيعات الأصناف، ودورة مبيعات المنتجات، وسجل الفواتير." Foreground="#8E8E93" FontSize="12" Margin="44,4,0,0"/>
+                <TextBlock Text="استخراج وتصدير تقارير الصندوق المغلق، مبيعات الأصناف، ودورة مبيعات المنتجات، وسجل الفواتير." Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" Margin="44,4,0,0"/>
             </StackPanel>
 
             <!-- Filters Bar (Date Range + Category Filter + Product Filter) -->
@@ -1129,7 +1129,7 @@
             </ScrollViewer>
 
             <!-- Placeholder when report not generated yet -->
-            <Border HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,80,0,80" Padding="40,30" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="16" Effect="{DynamicResource Axon3DCardShadow}">
+            <Border HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,80,0,80" Padding="40,30" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="16">
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -1144,8 +1144,8 @@
                     <Border Width="72" Height="72" Background="#22D90429" BorderBrush="#44D90429" BorderThickness="1" CornerRadius="36" HorizontalAlignment="Center" Margin="0,0,0,16">
                         <materialDesign:PackIcon Kind="ChartBar" Width="36" Height="36" Foreground="#d90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
-                    <TextBlock Text="جاهز لاستخراج التقارير والتحليلات المالية" Foreground="White" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,6"/>
-                    <TextBlock Text="اختر نوع التقرير والفترة الزمنية المطلوب استخراجها من الشريط العلوي، ثم اضغط على زر [ إنشاء التقرير ]" Foreground="#A0A0A0" FontSize="12" HorizontalAlignment="Center"/>
+                    <TextBlock Text="جاهز لاستخراج التقارير والتحليلات المالية" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,6"/>
+                    <TextBlock Text="اختر نوع التقرير والفترة الزمنية المطلوب استخراجها من الشريط العلوي، ثم اضغط على زر [ إنشاء التقرير ]" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Border>
         </Grid>

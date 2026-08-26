@@ -26,7 +26,7 @@
 
                 <!-- Header Section -->
                 <StackPanel Grid.Row="0" Margin="0,0,0,24">
-                    <TextBlock Text="{Binding Title}" FontSize="30" FontWeight="Bold" Foreground="White" Margin="0,0,0,6" />
+                    <TextBlock Text="{Binding Title}" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,6" />
                     <TextBlock Text="{DynamicResource SettingsDesc}" FontSize="14" Foreground="{DynamicResource AxonSecondaryTextBrush}" />
                 </StackPanel>
 
@@ -44,7 +44,7 @@
                                 <Border BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,12" Margin="0,0,0,20">
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="Storefront" Width="22" Height="22" Foreground="{DynamicResource AxonPrimaryBrush}" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                        <TextBlock Text="{DynamicResource GeneralInformationLabel}" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{DynamicResource GeneralInformationLabel}" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </Border>
 
@@ -699,7 +699,7 @@
         </ScrollViewer>
 
         <!-- Sticky Action Bar (Bottom) -->
-        <Border Grid.Row="1" Background="#161616" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="0,1,0,0" Padding="24,16" Effect="{DynamicResource Axon3DCardShadow}">
+        <Border Grid.Row="1" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="0,1,0,0" Padding="24,16">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="{DynamicResource DiscardChangesLabel}" Style="{StaticResource Axon3DSecondaryButtonStyle}" Margin="0,0,16,0" Padding="24,8" Height="42"/>
                 <Button Command="{Binding SaveSettingsCommand}" Style="{StaticResource Axon3DPrimaryButtonStyle}" Padding="24,8" Height="42">
@@ -713,28 +713,28 @@
 
         <!-- Modal Overlay for Add New User -->
         <Grid Visibility="{Binding IsAddUserDialogOpen, Converter={StaticResource BooleanToVisibilityConverter}}" Background="#90000000" Grid.RowSpan="2" Panel.ZIndex="1000">
-            <Border Style="{StaticResource Axon3DCardStyle}" Width="440" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="28" Effect="{DynamicResource Axon3DDialogShadow}">
+            <Border Style="{StaticResource Axon3DCardStyle}" Width="440" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="28">
                 <StackPanel>
                     <Grid Margin="0,0,0,20">
-                        <TextBlock Text="إضافة مستخدم جديد وتحديد الصلاحية" FontSize="18" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="إضافة مستخدم جديد وتحديد الصلاحية" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         <Button Command="{Binding CloseAddUserDialogCommand}" Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource AxonSecondaryTextBrush}" Padding="0" Height="28" Width="28" HorizontalAlignment="Right">
                             <materialDesign:PackIcon Kind="Close" Width="18" Height="18"/>
                         </Button>
                     </Grid>
 
                     <TextBlock Text="اسم المستخدم (Username)" Foreground="{DynamicResource AxonSecondaryTextBrush}" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,6"/>
-                    <Border Background="#111111" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="44" Margin="0,0,0,16">
-                        <TextBox Text="{Binding NewUsername, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                    <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="44" Margin="0,0,0,16">
+                        <TextBox Text="{Binding NewUsername, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14" VerticalAlignment="Center"/>
                     </Border>
 
                     <TextBlock Text="كلمة المرور (Password)" Foreground="{DynamicResource AxonSecondaryTextBrush}" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,6"/>
-                    <Border Background="#111111" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="44" Margin="0,0,0,16">
-                        <TextBox Text="{Binding NewUserPassword, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                    <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="44" Margin="0,0,0,16">
+                        <TextBox Text="{Binding NewUserPassword, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14" VerticalAlignment="Center"/>
                     </Border>
 
                     <TextBlock Text="حدد الدور / الصلاحية (Role)" Foreground="{DynamicResource AxonSecondaryTextBrush}" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,6"/>
-                    <Border Background="#111111" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="8,2" Margin="0,0,0,24">
-                        <ComboBox ItemsSource="{Binding Roles}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedRole}" Background="Transparent" Foreground="White" BorderThickness="0" FontSize="13" Height="38"/>
+                    <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="8,2" Margin="0,0,0,24">
+                        <ComboBox ItemsSource="{Binding Roles}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedRole}" Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" FontSize="13" Height="38"/>
                     </Border>
 
                     <Grid>
@@ -747,18 +747,18 @@
 
         <!-- Modal Overlay for Add New Role -->
         <Grid Visibility="{Binding IsAddRoleDialogOpen, Converter={StaticResource BooleanToVisibilityConverter}}" Background="#90000000" Grid.RowSpan="2" Panel.ZIndex="1001">
-            <Border Style="{StaticResource Axon3DCardStyle}" Width="440" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="28" Effect="{DynamicResource Axon3DDialogShadow}">
+            <Border Style="{StaticResource Axon3DCardStyle}" Width="440" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="28">
                 <StackPanel>
                     <Grid Margin="0,0,0,20">
-                        <TextBlock Text="إضافة مسمى وظيفي / دور جديد" FontSize="18" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="إضافة مسمى وظيفي / دور جديد" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         <Button Command="{Binding CloseAddRoleDialogCommand}" Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource AxonSecondaryTextBrush}" Padding="0" Height="28" Width="28" HorizontalAlignment="Right">
                             <materialDesign:PackIcon Kind="Close" Width="18" Height="18"/>
                         </Button>
                     </Grid>
 
                     <TextBlock Text="اسم الرتبة أو المسمى الوظيفي (مثال: كاشير مسائي، مشرف صالة، محاسب)" Foreground="{DynamicResource AxonSecondaryTextBrush}" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,6"/>
-                    <Border Background="#111111" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="44" Margin="0,0,0,24">
-                        <TextBox Text="{Binding NewCustomRoleName, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                    <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="44" Margin="0,0,0,24">
+                        <TextBox Text="{Binding NewCustomRoleName, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14" VerticalAlignment="Center"/>
                     </Border>
 
                     <Grid>

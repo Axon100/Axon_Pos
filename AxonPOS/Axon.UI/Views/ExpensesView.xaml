@@ -27,24 +27,24 @@
             <StackPanel Grid.Column="0" VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="CashMinus" Width="28" Height="28" Foreground="#d90429" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <TextBlock Text="المصروفات الخارجية والنفقات" FontSize="24" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                    <TextBlock Text="المصروفات الخارجية والنفقات" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                 </StackPanel>
-                <TextBlock Text="تسجيل وتتبع المصروفات الإدارية، الصيانة، النثريات، والمدفوعات التشغيلية للمتجر." Foreground="#8E8E93" FontSize="13" Margin="38,4,0,0"/>
+                <TextBlock Text="تسجيل وتتبع المصروفات الإدارية، الصيانة، النثريات، والمدفوعات التشغيلية للمتجر." Foreground="{DynamicResource TextSecondaryBrush}" FontSize="13" Margin="38,4,0,0"/>
             </StackPanel>
 
             <!-- Filters Bar (Date Range + Add Button) -->
-            <Border Grid.Column="1" Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="14,8" VerticalAlignment="Center" Effect="{DynamicResource Axon3DCardShadow}">
+            <Border Grid.Column="1" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="14,8" VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <!-- From Date -->
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,12,0">
-                        <TextBlock Text="من:" Foreground="#B3B3B3" FontSize="12" VerticalAlignment="Center" Margin="0,0,6,0" FontWeight="SemiBold"/>
-                        <DatePicker SelectedDate="{Binding DateFrom}" Width="130" Height="34" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" FontSize="12" VerticalContentAlignment="Center"/>
+                        <TextBlock Text="من:" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" VerticalAlignment="Center" Margin="0,0,6,0" FontWeight="SemiBold"/>
+                        <DatePicker SelectedDate="{Binding DateFrom}" Width="130" Height="34" Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" FontSize="12" VerticalContentAlignment="Center"/>
                     </StackPanel>
 
                     <!-- To Date -->
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,16,0">
-                        <TextBlock Text="إلى:" Foreground="#B3B3B3" FontSize="12" VerticalAlignment="Center" Margin="0,0,6,0" FontWeight="SemiBold"/>
-                        <DatePicker SelectedDate="{Binding DateTo}" Width="130" Height="34" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" FontSize="12" VerticalContentAlignment="Center"/>
+                        <TextBlock Text="إلى:" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" VerticalAlignment="Center" Margin="0,0,6,0" FontWeight="SemiBold"/>
+                        <DatePicker SelectedDate="{Binding DateTo}" Width="130" Height="34" Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" FontSize="12" VerticalContentAlignment="Center"/>
                     </StackPanel>
 
                     <!-- Add Expense Button -->
@@ -76,7 +76,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                        <TextBlock Text="إجمالي المصروفات والنفقات" Foreground="#B3B3B3" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <TextBlock Text="إجمالي المصروفات والنفقات" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,6"/>
                         <TextBlock Text="{Binding TotalExpensesAmount, StringFormat='{}{0:N0} ج.م'}" FontSize="24" FontWeight="ExtraBold" Foreground="#EF4444"/>
                     </StackPanel>
                     <Border Grid.Column="1" Background="#22EF4444" Width="46" Height="46" CornerRadius="12" VerticalAlignment="Center">
@@ -93,7 +93,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                        <TextBlock Text="عدد عمليات وقيود الصرف" Foreground="#B3B3B3" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <TextBlock Text="عدد عمليات وقيود الصرف" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,6"/>
                         <TextBlock Text="{Binding TotalExpensesCount, StringFormat='{}{0} قيد'}" FontSize="24" FontWeight="ExtraBold" Foreground="#60A5FA"/>
                     </StackPanel>
                     <Border Grid.Column="1" Background="#2260A5FA" Width="46" Height="46" CornerRadius="12" VerticalAlignment="Center">
@@ -110,7 +110,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                        <TextBlock Text="أعلى بند مصروفات استهلاكاً" Foreground="#B3B3B3" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <TextBlock Text="أعلى بند مصروفات استهلاكاً" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,6"/>
                         <TextBlock Text="{Binding TopExpenseCategory}" FontSize="20" FontWeight="ExtraBold" Foreground="#FBBF24" TextTrimming="CharacterEllipsis"/>
                     </StackPanel>
                     <Border Grid.Column="1" Background="#22FBBF24" Width="46" Height="46" CornerRadius="12" VerticalAlignment="Center">
@@ -121,7 +121,7 @@
         </Grid>
 
         <!-- ==================== 3. EXPENSES MAIN CONTENT AREA ==================== -->
-        <Border Grid.Row="2" Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="12" Padding="20" Effect="{DynamicResource Axon3DCardShadow}">
+        <Border Grid.Row="2" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="20">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -139,11 +139,11 @@
 
                     <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                         <materialDesign:PackIcon Kind="FormatListBulleted" Width="20" Height="20" Foreground="#d90429" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                        <TextBlock Text="سجل قيود ومصروفات المتجر" FontWeight="Bold" FontSize="15" Foreground="White" VerticalAlignment="Center"/>
+                        <TextBlock Text="سجل قيود ومصروفات المتجر" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                     </StackPanel>
 
                     <!-- View Switcher (3D Cards / Table) -->
-                    <Border Grid.Column="2" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="8" Padding="3" Margin="0,0,12,0">
+                    <Border Grid.Column="2" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="3" Margin="0,0,12,0">
                         <StackPanel Orientation="Horizontal">
                             <Button Command="{Binding SetCardViewModeCommand}" ToolTip="عرض كروت المصروفات (3D Boxes)" Style="{StaticResource Axon3DSecondaryButtonStyle}" Padding="10,4" Height="32" Margin="0,0,4,0">
                                 <StackPanel Orientation="Horizontal">
@@ -161,14 +161,14 @@
                     </Border>
 
                     <!-- Search Input Box -->
-                    <Border Grid.Column="3" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="8" Padding="10,6" Width="260">
+                    <Border Grid.Column="3" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,6" Width="260">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <materialDesign:PackIcon Grid.Column="0" Kind="Magnify" Width="18" Height="18" Foreground="#8E8E93" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                            <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Foreground="White" BorderThickness="0" VerticalAlignment="Center" FontSize="12" materialDesign:HintAssist.Hint="بحث في المصروفات أو البيان..."/>
+                            <materialDesign:PackIcon Grid.Column="0" Kind="Magnify" Width="18" Height="18" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" VerticalAlignment="Center" FontSize="12" materialDesign:HintAssist.Hint="بحث في المصروفات أو البيان..."/>
                         </Grid>
                     </Border>
                 </Grid>
@@ -212,29 +212,29 @@
                                                     <TextBlock Text="{Binding Category}" Foreground="#EF4444" FontSize="12" FontWeight="Bold"/>
                                                 </StackPanel>
                                             </Border>
-                                            <Border Background="#222222" BorderBrush="#333333" BorderThickness="1" CornerRadius="6" Padding="8,3" HorizontalAlignment="Right">
-                                                <TextBlock Text="{Binding DocNumber}" Foreground="#B3B3B3" FontSize="11" FontWeight="Bold"/>
+                                            <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8,3" HorizontalAlignment="Right">
+                                                <TextBlock Text="{Binding DocNumber}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="Bold"/>
                                             </Border>
                                         </Grid>
 
                                         <!-- Row 1: Description / Reason for Expense -->
                                         <StackPanel Grid.Row="1" Margin="0,0,0,14">
-                                            <TextBlock Text="{Binding Description}" FontSize="15" FontWeight="Bold" Foreground="White" TextTrimming="CharacterEllipsis" ToolTip="{Binding Description}"/>
+                                            <TextBlock Text="{Binding Description}" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Description}"/>
                                             <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                                                <materialDesign:PackIcon Kind="ClockOutline" Width="14" Height="14" Foreground="#737373" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                                                <TextBlock Text="{Binding Date}" FontSize="11" Foreground="#737373" VerticalAlignment="Center"/>
+                                                <materialDesign:PackIcon Kind="ClockOutline" Width="14" Height="14" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                                <TextBlock Text="{Binding Date}" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                                             </StackPanel>
                                         </StackPanel>
 
                                         <!-- Row 2: Expense Amount Box -->
-                                        <Border Grid.Row="2" Background="#111111" BorderBrush="#222222" BorderThickness="1" CornerRadius="10" Padding="12,10" Margin="0,0,0,12">
+                                        <Border Grid.Row="2" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="12,10" Margin="0,0,0,12">
                                             <Grid>
                                                 <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="المبلغ المصروف" FontSize="10" Foreground="#737373" FontWeight="SemiBold"/>
+                                                    <TextBlock Text="المبلغ المصروف" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold"/>
                                                     <TextBlock Text="{Binding Amount, StringFormat='{}{0:N0} ج.م'}" FontSize="20" FontWeight="ExtraBold" Foreground="#EF4444"/>
                                                 </StackPanel>
-                                                <Border Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="6" Padding="8,3" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                                    <TextBlock Text="{Binding PaymentMethod}" FontSize="11" Foreground="#B3B3B3" FontWeight="SemiBold"/>
+                                                <Border Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8,3" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding PaymentMethod}" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold"/>
                                                 </Border>
                                             </Grid>
                                         </Border>
@@ -248,8 +248,8 @@
                 <!-- ==================== 2. EXPENSES DATA TABLE VIEW ==================== -->
                 <DataGrid Grid.Row="1" ItemsSource="{Binding FilteredExpenses}" AutoGenerateColumns="False" 
                           CanUserAddRows="False" Background="Transparent" BorderThickness="0"
-                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#222222"
-                          HeadersVisibility="Column" RowBackground="#161616" AlternatingRowBackground="#1A1A1A" SelectionMode="Single" RowHeight="48"
+                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="{DynamicResource GridLineBrush}"
+                          HeadersVisibility="Column" RowBackground="{DynamicResource CardBgBrush}" AlternatingRowBackground="{DynamicResource TableAltRowBrush}" SelectionMode="Single" RowHeight="48"
                           ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                     <DataGrid.Style>
                         <Style TargetType="DataGrid">
@@ -287,7 +287,7 @@
                         <DataGridTemplateColumn Header="بيان وسبب الصرف" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Description}" FontWeight="Bold" Foreground="White" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="{Binding Description}" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -304,10 +304,10 @@
                         </DataGridTemplateColumn>
 
                         <!-- طريقة الدفع -->
-                        <DataGridTextColumn Header="طريقة الدفع" Binding="{Binding PaymentMethod}" Width="130" Foreground="#B3B3B3"/>
+                        <DataGridTextColumn Header="طريقة الدفع" Binding="{Binding PaymentMethod}" Width="130" Foreground="{DynamicResource TextSecondaryBrush}"/>
 
                         <!-- التاريخ -->
-                        <DataGridTextColumn Header="التاريخ والوقت" Binding="{Binding Date}" Width="150" Foreground="#B3B3B3"/>
+                        <DataGridTextColumn Header="التاريخ والوقت" Binding="{Binding Date}" Width="150" Foreground="{DynamicResource TextSecondaryBrush}"/>
 
                         <!-- المبلغ -->
                         <DataGridTemplateColumn Header="المبلغ المصروف" Width="140">
