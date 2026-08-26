@@ -22,7 +22,9 @@ namespace Axon.UI.Services
                 
                 appResources["AppBgBrush"] = new SolidColorBrush(Color.FromRgb(17, 17, 17));             // #111111
                 appResources["SidebarBgBrush"] = new SolidColorBrush(Color.FromRgb(18, 18, 19));        // #121213
+                appResources["SidebarBorderBrush"] = new SolidColorBrush(Color.FromRgb(44, 44, 44));    // #2C2C2C
                 appResources["HeaderBgBrush"] = new SolidColorBrush(Color.FromRgb(19, 19, 19));         // #131313
+                appResources["HeaderBorderBrush"] = new SolidColorBrush(Color.FromRgb(53, 53, 52));     // #353534
                 appResources["CardBgBrush"] = new SolidColorBrush(Color.FromRgb(22, 22, 22));           // #161616
                 appResources["CardInnerBgBrush"] = new SolidColorBrush(Color.FromRgb(26, 26, 26));      // #1A1A1A
                 appResources["CardBorderBrush"] = new SolidColorBrush(Color.FromRgb(44, 44, 44));       // #2C2C2C
@@ -35,14 +37,22 @@ namespace Axon.UI.Services
                 appResources["TableAltRowBrush"] = new SolidColorBrush(Color.FromRgb(18, 18, 18));      // #121212
                 appResources["InputBgBrush"] = new SolidColorBrush(Color.FromRgb(22, 22, 22));          // #161616
                 appResources["InputBorderBrush"] = new SolidColorBrush(Color.FromRgb(44, 44, 44));       // #2C2C2C
+                appResources["SidebarTextPrimaryBrush"] = new SolidColorBrush(Color.FromRgb(255, 255, 255)); // White
+                appResources["SidebarIconBrush"] = new SolidColorBrush(Color.FromRgb(180, 181, 181));   // Gray/White
+                appResources["SidebarLogoutBgBrush"] = new SolidColorBrush(Color.FromRgb(31, 17, 19));   // #1F1F13
+                appResources["SidebarLogoutBorderBrush"] = new SolidColorBrush(Color.FromRgb(78, 22, 28));// #4E161C
+                appResources["PosBrandTextBrush"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));   // White
+                appResources["TopControlIconBrush"] = new SolidColorBrush(Color.FromRgb(180, 181, 181)); // Gray
             }
             else
             {
                 theme.SetBaseTheme(BaseTheme.Light);
 
                 appResources["AppBgBrush"] = new SolidColorBrush(Color.FromRgb(248, 249, 250));         // #F8F9FA Clean Light
-                appResources["SidebarBgBrush"] = new SolidColorBrush(Color.FromRgb(18, 18, 19));        // Sidebar stays dark/sleek
+                appResources["SidebarBgBrush"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));      // Pure White Sidebar
+                appResources["SidebarBorderBrush"] = new SolidColorBrush(Color.FromRgb(229, 231, 235));  // #E5E7EB Light Border
                 appResources["HeaderBgBrush"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));      // Pure White Header
+                appResources["HeaderBorderBrush"] = new SolidColorBrush(Color.FromRgb(229, 231, 235));  // #E5E7EB Light Border
                 appResources["CardBgBrush"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));        // Pure White Cards
                 appResources["CardInnerBgBrush"] = new SolidColorBrush(Color.FromRgb(244, 245, 247));   // Soft Light Inner
                 appResources["CardBorderBrush"] = new SolidColorBrush(Color.FromRgb(229, 231, 235));    // #E5E7EB Light Border
@@ -55,6 +65,12 @@ namespace Axon.UI.Services
                 appResources["TableAltRowBrush"] = new SolidColorBrush(Color.FromRgb(250, 250, 250));   // #FAFAFA Alt Row
                 appResources["InputBgBrush"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));       // Pure White Input
                 appResources["InputBorderBrush"] = new SolidColorBrush(Color.FromRgb(229, 231, 235));    // #E5E7EB Input Border
+                appResources["SidebarTextPrimaryBrush"] = new SolidColorBrush(Color.FromRgb(31, 41, 55)); // #1F2937 Dark Slate Text
+                appResources["SidebarIconBrush"] = new SolidColorBrush(Color.FromRgb(75, 85, 99));      // #4B5563 Dark Icon
+                appResources["SidebarLogoutBgBrush"] = new SolidColorBrush(Color.FromRgb(254, 242, 242)); // Soft red tint
+                appResources["SidebarLogoutBorderBrush"] = new SolidColorBrush(Color.FromRgb(252, 165, 165));
+                appResources["PosBrandTextBrush"] = new SolidColorBrush(Color.FromRgb(30, 30, 30));     // #1E1E1E Dark POS Text
+                appResources["TopControlIconBrush"] = new SolidColorBrush(Color.FromRgb(75, 85, 99));   // #4B5563
             }
 
             paletteHelper.SetTheme(theme);

@@ -43,14 +43,14 @@
         </Style>
     </Window.Resources>
 
-    <Grid Background="{DynamicResource AxonBackgroundBrush}">
+    <Grid Background="{DynamicResource AppBgBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <!-- 3D Elevated Sidebar -->
-        <Border Grid.Column="0" Background="#141415" BorderBrush="#222222" BorderThickness="0,0,1,0">
+        <Border Grid.Column="0" Background="{DynamicResource SidebarBgBrush}" BorderBrush="{DynamicResource SidebarBorderBrush}" BorderThickness="0,0,1,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70" />
@@ -59,10 +59,10 @@
                 </Grid.RowDefinitions>
 
                 <!-- Sidebar Header / Logo Area -->
-                <Border Grid.Row="0" Margin="14,14,14,8" Background="#161616" BorderBrush="#D90429" BorderThickness="1" CornerRadius="12" Padding="14,10" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Row="0" Margin="14,14,14,8" Background="{DynamicResource CardBgBrush}" BorderBrush="#D90429" BorderThickness="1" CornerRadius="12" Padding="14,10" Effect="{DynamicResource Axon3DCardShadow}">
                     <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="AXON" FontSize="20" FontWeight="Black" Foreground="#D90429" VerticalAlignment="Center"/>
-                        <TextBlock Text=" POS" FontSize="20" FontWeight="Black" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                        <TextBlock Text=" POS" FontSize="20" FontWeight="Black" Foreground="{DynamicResource PosBrandTextBrush}" Margin="4,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Border>
 
@@ -73,14 +73,15 @@
                         <Button Command="{Binding NavigateCommand}" CommandParameter="Dashboard">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
+                                    <Setter Property="Foreground" Value="{DynamicResource SidebarTextPrimaryBrush}"/>
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsDashboardVisible}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding ActiveViewName}" Value="Dashboard">
-                                            <Setter Property="Background" Value="#2A0E12"/>
-                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                            <Setter Property="Background" Value="#D90429"/>
+                                            <Setter Property="BorderBrush" Value="#B90323"/>
                                             <Setter Property="Foreground" Value="White"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -90,10 +91,10 @@
                                 <materialDesign:PackIcon Kind="ViewDashboard" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
                                     <materialDesign:PackIcon.Style>
                                         <Style TargetType="materialDesign:PackIcon">
-                                            <Setter Property="Foreground" Value="#8E8E93"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource SidebarIconBrush}"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ActiveViewName}" Value="Dashboard">
-                                                    <Setter Property="Foreground" Value="#D90429"/>
+                                                    <Setter Property="Foreground" Value="White"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -107,14 +108,15 @@
                         <Button Command="{Binding NavigateCommand}" CommandParameter="PosTerminal">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
+                                    <Setter Property="Foreground" Value="{DynamicResource SidebarTextPrimaryBrush}"/>
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsPosVisible}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding ActiveViewName}" Value="PosTerminal">
-                                            <Setter Property="Background" Value="#2A0E12"/>
-                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                            <Setter Property="Background" Value="#D90429"/>
+                                            <Setter Property="BorderBrush" Value="#B90323"/>
                                             <Setter Property="Foreground" Value="White"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -124,10 +126,10 @@
                                 <materialDesign:PackIcon Kind="CashRegister" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
                                     <materialDesign:PackIcon.Style>
                                         <Style TargetType="materialDesign:PackIcon">
-                                            <Setter Property="Foreground" Value="#8E8E93"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource SidebarIconBrush}"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ActiveViewName}" Value="PosTerminal">
-                                                    <Setter Property="Foreground" Value="#D90429"/>
+                                                    <Setter Property="Foreground" Value="White"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -141,14 +143,15 @@
                         <Button Command="{Binding NavigateCommand}" CommandParameter="Inventory">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
+                                    <Setter Property="Foreground" Value="{DynamicResource SidebarTextPrimaryBrush}"/>
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsInventoryVisible}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding ActiveViewName}" Value="Inventory">
-                                            <Setter Property="Background" Value="#2A0E12"/>
-                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                            <Setter Property="Background" Value="#D90429"/>
+                                            <Setter Property="BorderBrush" Value="#B90323"/>
                                             <Setter Property="Foreground" Value="White"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -158,10 +161,10 @@
                                 <materialDesign:PackIcon Kind="PackageVariantClosed" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
                                     <materialDesign:PackIcon.Style>
                                         <Style TargetType="materialDesign:PackIcon">
-                                            <Setter Property="Foreground" Value="#8E8E93"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource SidebarIconBrush}"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ActiveViewName}" Value="Inventory">
-                                                    <Setter Property="Foreground" Value="#D90429"/>
+                                                    <Setter Property="Foreground" Value="White"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -175,14 +178,15 @@
                         <Button Command="{Binding NavigateCommand}" CommandParameter="Products">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
+                                    <Setter Property="Foreground" Value="{DynamicResource SidebarTextPrimaryBrush}"/>
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsProductsVisible}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding ActiveViewName}" Value="Products">
-                                            <Setter Property="Background" Value="#2A0E12"/>
-                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                            <Setter Property="Background" Value="#D90429"/>
+                                            <Setter Property="BorderBrush" Value="#B90323"/>
                                             <Setter Property="Foreground" Value="White"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -192,10 +196,10 @@
                                 <materialDesign:PackIcon Kind="Tags" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
                                     <materialDesign:PackIcon.Style>
                                         <Style TargetType="materialDesign:PackIcon">
-                                            <Setter Property="Foreground" Value="#8E8E93"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource SidebarIconBrush}"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ActiveViewName}" Value="Products">
-                                                    <Setter Property="Foreground" Value="#D90429"/>
+                                                    <Setter Property="Foreground" Value="White"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -209,14 +213,15 @@
                         <Button Command="{Binding NavigateCommand}" CommandParameter="Barcodes">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
+                                    <Setter Property="Foreground" Value="{DynamicResource SidebarTextPrimaryBrush}"/>
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsBarcodeVisible}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding ActiveViewName}" Value="Barcodes">
-                                            <Setter Property="Background" Value="#2A0E12"/>
-                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                            <Setter Property="Background" Value="#D90429"/>
+                                            <Setter Property="BorderBrush" Value="#B90323"/>
                                             <Setter Property="Foreground" Value="White"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -226,10 +231,10 @@
                                 <materialDesign:PackIcon Kind="Barcode" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
                                     <materialDesign:PackIcon.Style>
                                         <Style TargetType="materialDesign:PackIcon">
-                                            <Setter Property="Foreground" Value="#8E8E93"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource SidebarIconBrush}"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ActiveViewName}" Value="Barcodes">
-                                                    <Setter Property="Foreground" Value="#D90429"/>
+                                                    <Setter Property="Foreground" Value="White"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -243,14 +248,15 @@
                         <Button Command="{Binding NavigateCommand}" CommandParameter="Expenses">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
+                                    <Setter Property="Foreground" Value="{DynamicResource SidebarTextPrimaryBrush}"/>
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsExpensesVisible}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding ActiveViewName}" Value="Expenses">
-                                            <Setter Property="Background" Value="#2A0E12"/>
-                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                            <Setter Property="Background" Value="#D90429"/>
+                                            <Setter Property="BorderBrush" Value="#B90323"/>
                                             <Setter Property="Foreground" Value="White"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -260,10 +266,10 @@
                                 <materialDesign:PackIcon Kind="CashMinus" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
                                     <materialDesign:PackIcon.Style>
                                         <Style TargetType="materialDesign:PackIcon">
-                                            <Setter Property="Foreground" Value="#8E8E93"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource SidebarIconBrush}"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ActiveViewName}" Value="Expenses">
-                                                    <Setter Property="Foreground" Value="#D90429"/>
+                                                    <Setter Property="Foreground" Value="White"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -277,14 +283,15 @@
                         <Button Command="{Binding NavigateCommand}" CommandParameter="Reports">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
+                                    <Setter Property="Foreground" Value="{DynamicResource SidebarTextPrimaryBrush}"/>
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsReportsVisible}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding ActiveViewName}" Value="Reports">
-                                            <Setter Property="Background" Value="#2A0E12"/>
-                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                            <Setter Property="Background" Value="#D90429"/>
+                                            <Setter Property="BorderBrush" Value="#B90323"/>
                                             <Setter Property="Foreground" Value="White"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -294,10 +301,10 @@
                                 <materialDesign:PackIcon Kind="ChartBar" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
                                     <materialDesign:PackIcon.Style>
                                         <Style TargetType="materialDesign:PackIcon">
-                                            <Setter Property="Foreground" Value="#8E8E93"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource SidebarIconBrush}"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ActiveViewName}" Value="Reports">
-                                                    <Setter Property="Foreground" Value="#D90429"/>
+                                                    <Setter Property="Foreground" Value="White"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -311,14 +318,15 @@
                         <Button Command="{Binding NavigateCommand}" CommandParameter="Settings">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource SidebarButtonStyle}">
+                                    <Setter Property="Foreground" Value="{DynamicResource SidebarTextPrimaryBrush}"/>
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsSettingsVisible}" Value="True">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding ActiveViewName}" Value="Settings">
-                                            <Setter Property="Background" Value="#2A0E12"/>
-                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                            <Setter Property="Background" Value="#D90429"/>
+                                            <Setter Property="BorderBrush" Value="#B90323"/>
                                             <Setter Property="Foreground" Value="White"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -328,10 +336,10 @@
                                 <materialDesign:PackIcon Kind="CogOutline" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
                                     <materialDesign:PackIcon.Style>
                                         <Style TargetType="materialDesign:PackIcon">
-                                            <Setter Property="Foreground" Value="#8E8E93"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource SidebarIconBrush}"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding ActiveViewName}" Value="Settings">
-                                                    <Setter Property="Foreground" Value="#D90429"/>
+                                                    <Setter Property="Foreground" Value="White"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -345,9 +353,9 @@
 
                 <!-- Bottom Logout Action -->
                 <StackPanel Grid.Row="2" Margin="10,0,10,14">
-                    <Separator Background="#222222" Margin="10,0,10,10"/>
+                    <Separator Background="{DynamicResource SidebarBorderBrush}" Margin="10,0,10,10"/>
                     <Button Style="{StaticResource SidebarButtonStyle}" Command="{Binding LogoutCommand}" 
-                            Background="#1F1113" BorderBrush="#4E161C" BorderThickness="1" Padding="14,10" Height="44" Cursor="Hand" ToolTip="تسجيل الخروج من النظام">
+                            Background="{DynamicResource SidebarLogoutBgBrush}" BorderBrush="{DynamicResource SidebarLogoutBorderBrush}" BorderThickness="1" Padding="14,10" Height="44" Cursor="Hand" ToolTip="تسجيل الخروج من النظام">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <materialDesign:PackIcon Kind="Logout" Width="20" Height="20" Margin="0,0,12,0" Foreground="#EF4444" VerticalAlignment="Center"/>
                             <TextBlock Text="{DynamicResource Logout}" Foreground="#EF4444" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
@@ -365,7 +373,7 @@
             </Grid.RowDefinitions>
 
             <!-- Top Bar -->
-            <Border Grid.Row="0" Background="#131313" BorderBrush="#353534" BorderThickness="0,0,0,1" MouseDown="TopBar_MouseDown">
+            <Border Grid.Row="0" Background="{DynamicResource HeaderBgBrush}" BorderBrush="{DynamicResource HeaderBorderBrush}" BorderThickness="0,0,0,1" MouseDown="TopBar_MouseDown">
                 <Grid Margin="24,0,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -377,17 +385,17 @@
                     <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="{DynamicResource SearchPlaceholder}" 
                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                              Width="400" HorizontalAlignment="Left" VerticalAlignment="Center"
-                             Foreground="White" BorderBrush="#353534" />
+                             Foreground="{DynamicResource TextPrimaryBrush}" Background="{DynamicResource InputBgBrush}" BorderBrush="{DynamicResource InputBorderBrush}" />
 
                     <!-- User Profile, Notifications & Theme Toggle -->
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,16,0">
                         <Button Click="ThemeToggleButton_Click" Style="{StaticResource MaterialDesignIconButton}" Foreground="#F59E0B" Margin="0,0,8,0" ToolTip="التبديل بين الوضع الفاتح والداكن (Light/Dark Theme)">
                             <materialDesign:PackIcon Kind="WeatherSunny" Width="22" Height="22" />
                         </Button>
-                        <Button Style="{StaticResource MaterialDesignIconButton}" Foreground="#b4b5b5" Margin="0,0,8,0">
+                        <Button Style="{StaticResource MaterialDesignIconButton}" Foreground="{DynamicResource TopControlIconBrush}" Margin="0,0,8,0">
                             <materialDesign:PackIcon Kind="BellOutline" Width="22" Height="22" />
                         </Button>
-                        <Button Style="{StaticResource MaterialDesignIconButton}" Foreground="#b4b5b5" Margin="0,0,14,0">
+                        <Button Style="{StaticResource MaterialDesignIconButton}" Foreground="{DynamicResource TopControlIconBrush}" Margin="0,0,14,0">
                             <materialDesign:PackIcon Kind="ViewGridOutline" Width="22" Height="22" />
                         </Button>
                         <Border Width="38" Height="38" CornerRadius="19" Background="#D90429" ToolTip="المسؤول - Admin">
@@ -397,13 +405,13 @@
 
                     <!-- Window Control Buttons (Minimize, Maximize, Close) -->
                     <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Stretch">
-                        <Button Click="MinimizeButton_Click" Style="{StaticResource MaterialDesignFlatButton}" Foreground="#b4b5b5" Padding="12,0" Height="64" ToolTip="ØªØµØºÙŠØ±">
+                        <Button Click="MinimizeButton_Click" Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource TopControlIconBrush}" Padding="12,0" Height="64" ToolTip="تصغير">
                             <materialDesign:PackIcon Kind="WindowMinimize" Width="16" Height="16"/>
                         </Button>
-                        <Button Click="MaximizeButton_Click" Style="{StaticResource MaterialDesignFlatButton}" Foreground="#b4b5b5" Padding="12,0" Height="64" ToolTip="ØªÙƒØ¨ÙŠØ±/Ø§Ø³ØªØ¹Ø§Ø¯Ø©">
+                        <Button Click="MaximizeButton_Click" Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource TopControlIconBrush}" Padding="12,0" Height="64" ToolTip="تكبير/استعادة">
                             <materialDesign:PackIcon Kind="WindowMaximize" Width="16" Height="16"/>
                         </Button>
-                        <Button Click="CloseButton_Click" Style="{StaticResource MaterialDesignFlatButton}" Foreground="#ffb4ab" Background="#2b0004" Padding="16,0" Height="64" ToolTip="Ø¥ØºÙ„Ø§Ù‚ Ø§Ù„ØªØ·Ø¨ÙŠÙ‚">
+                        <Button Click="CloseButton_Click" Style="{StaticResource MaterialDesignFlatButton}" Foreground="#ffb4ab" Background="#2b0004" Padding="16,0" Height="64" ToolTip="إغلاق التطبيق">
                             <materialDesign:PackIcon Kind="WindowClose" Width="18" Height="18"/>
                         </Button>
                     </StackPanel>
@@ -411,7 +419,7 @@
             </Border>
 
             <!-- Dynamic View Content -->
-            <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}" Margin="0" Background="#131313" />
+            <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}" Margin="0" Background="{DynamicResource AppBgBrush}" />
         </Grid>
     </Grid>
 </Window>
