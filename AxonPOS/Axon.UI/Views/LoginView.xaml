@@ -5,7 +5,7 @@
         Title="{Binding Title}" Height="600" Width="940"
         Icon="/Assets/app.ico"
         WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
-        Background="#141416" Foreground="White"
+        Background="#0A0A0C" Foreground="White"
         FontFamily="{DynamicResource AppFont}"
         FlowDirection="{DynamicResource AppFlowDirection}"
         AllowsTransparency="True">
@@ -14,8 +14,8 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
 
-    <!-- Outer Main Container Card (No outer margin or black frame border) -->
-    <Border BorderBrush="#28282E" BorderThickness="1" CornerRadius="14" Background="#161619" ClipToBounds="True" Effect="{DynamicResource Axon3DDialogShadow}">
+    <!-- Main Window Outer Border Container -->
+    <Border BorderBrush="#222226" BorderThickness="1" CornerRadius="14" Background="#111114" ClipToBounds="True" Effect="{DynamicResource Axon3DDialogShadow}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="36"/>
@@ -23,10 +23,10 @@
             </Grid.RowDefinitions>
 
             <!-- Window TitleBar -->
-            <Grid Grid.Row="0" Background="#161619" MouseDown="TitleBar_MouseDown">
-                <!-- Window control buttons on Left in RTL (top left of window) -->
+            <Grid Grid.Row="0" Background="#111114" MouseDown="TitleBar_MouseDown">
+                <!-- Window control buttons on Left in RTL -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,0,0">
-                    <Button Click="MinimizeButton_Click" Style="{StaticResource MaterialDesignFlatButton}" Foreground="#9999A5" Padding="0" Height="28" Width="32" ToolTip="تصغير">
+                    <Button Click="MinimizeButton_Click" Style="{StaticResource MaterialDesignFlatButton}" Foreground="#8E8E93" Padding="0" Height="28" Width="32" ToolTip="تصغير">
                         <materialDesign:PackIcon Kind="WindowMinimize" Width="14" Height="14"/>
                     </Button>
                     <Button Click="CloseButton_Click" Style="{StaticResource MaterialDesignFlatButton}" Foreground="#EF4444" Padding="0" Height="28" Width="32" ToolTip="إغلاق">
@@ -38,12 +38,12 @@
             <!-- Main Content 2-Column Split Grid -->
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1.05*"/>  <!-- Column 0 (Right side in RTL): AXON POS Branding Showcase -->
+                    <ColumnDefinition Width="1*"/>    <!-- Column 0 (Right side in RTL): ERP AXON Branding Showcase -->
                     <ColumnDefinition Width="1.15*"/> <!-- Column 1 (Left side in RTL): Login Form -->
                 </Grid.ColumnDefinitions>
 
-                <!-- ==================== COLUMN 0 (RIGHT SIDE IN RTL): AXON POS BRANDING SHOWCASE ==================== -->
-                <Border Grid.Column="0" Background="#111114" BorderBrush="#28282E" BorderThickness="0,0,1,0" Padding="36,28">
+                <!-- ==================== COLUMN 0 (RIGHT SIDE IN RTL): ERP AXON BRANDING SHOWCASE ==================== -->
+                <Border Grid.Column="0" Background="#0C0C0E" BorderBrush="#222226" BorderThickness="0,0,1,0" Padding="36,28">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/> <!-- Header Branding -->
@@ -51,56 +51,74 @@
                             <RowDefinition Height="Auto"/> <!-- Footer -->
                         </Grid.RowDefinitions>
 
-                        <!-- 1. Header Branding (Red Home Box on the Right, AXON POS on the Left) -->
-                        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
-                            <Border Width="40" Height="40" CornerRadius="10" Background="#2B0E14" BorderBrush="#4D151D" BorderThickness="1" Margin="0,0,12,0">
+                        <!-- 1. Header Branding (Red Home Box on the Right, ERP AXON on the Left) -->
+                        <Grid Grid.Row="0" FlowDirection="RightToLeft" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,12,0" HorizontalAlignment="Right">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" FlowDirection="LeftToRight">
+                                    <TextBlock Text="ERP " FontSize="18" FontWeight="Black" Foreground="#FF2B4A"/>
+                                    <TextBlock Text="AXON" FontSize="18" FontWeight="Black" Foreground="White"/>
+                                </StackPanel>
+                                <TextBlock Text="للتوريدات والمخازن" FontSize="10" Foreground="#8E8E93" HorizontalAlignment="Right" FontWeight="SemiBold"/>
+                            </StackPanel>
+
+                            <Border Grid.Column="1" Width="44" Height="44" CornerRadius="12" Background="#260C11" BorderBrush="#4D151D" BorderThickness="1" HorizontalAlignment="Right">
                                 <materialDesign:PackIcon Kind="HomeVariantOutline" Foreground="#FF2B4A" Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
-                            <StackPanel VerticalAlignment="Center">
-                                <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
-                                    <TextBlock Text="AXON " FontSize="17" FontWeight="Black" Foreground="White"/>
-                                    <TextBlock Text="POS" FontSize="17" FontWeight="Black" Foreground="#FF2B4A"/>
-                                </StackPanel>
-                                <TextBlock Text="للتوريدات والمخازن" FontSize="10" Foreground="#A0A0AB" HorizontalAlignment="Right" FontWeight="SemiBold"/>
-                            </StackPanel>
-                        </StackPanel>
+                        </Grid>
 
-                        <!-- 2. Hero Title & 3 Feature Showcase Cards (Red Icon Box on Right, Text on Left) -->
+                        <!-- 2. Hero Title & 3 Feature Showcase Cards -->
                         <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="0,20,0,20">
-                            <!-- Hero Title & Paragraph (Aligned to Right) -->
-                            <TextBlock Text="إدارة أعمالك باحترافية" FontSize="26" FontWeight="Black" Foreground="White" Margin="0,0,0,10" HorizontalAlignment="Right"/>
+                            <!-- Hero Title & Paragraph -->
+                            <TextBlock Text="إدارة أعمالك باحترافية" FontSize="26" FontWeight="Black" Foreground="White" Margin="0,0,0,12" HorizontalAlignment="Right"/>
                             <TextBlock Text="نظام سحابي ذكي لإدارة مخازنك، تتبع بضائعك، طباعة الباركود، وتحرير المبيعات والمشتريات بسرعة فائقة." 
-                                       FontSize="12" Foreground="#D1D1D8" TextWrapping="Wrap" LineHeight="20" Margin="0,0,0,36" HorizontalAlignment="Right" TextAlignment="Right"/>
+                                       FontSize="12" Foreground="#A0A0AB" TextWrapping="Wrap" LineHeight="22" Margin="0,0,0,36" HorizontalAlignment="Right" TextAlignment="Right"/>
 
                             <!-- Feature 1: إدارة الفروع والمستودعات -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,20">
-                                <Border Width="44" Height="44" CornerRadius="10" Background="#2B0E14" BorderBrush="#3D141C" BorderThickness="1" Margin="0,0,14,0">
+                            <Grid Margin="0,0,0,20" FlowDirection="RightToLeft">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="إدارة الفروع والمستودعات" FontSize="15" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,16,0"/>
+                                <Border Grid.Column="1" Width="46" Height="46" CornerRadius="12" Background="#1B1215" BorderBrush="#351820" BorderThickness="1" HorizontalAlignment="Right">
                                     <materialDesign:PackIcon Kind="GridLarge" Foreground="#FF2B4A" Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <TextBlock Text="إدارة الفروع والمستودعات" FontSize="14" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
-                            </StackPanel>
+                            </Grid>
 
                             <!-- Feature 2: ملصقات الباركود و QR مخصصة -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,20">
-                                <Border Width="44" Height="44" CornerRadius="10" Background="#2B0E14" BorderBrush="#3D141C" BorderThickness="1" Margin="0,0,14,0">
+                            <Grid Margin="0,0,0,20" FlowDirection="RightToLeft">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="ملصقات الباركود و QR مخصصة" FontSize="15" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,16,0"/>
+                                <Border Grid.Column="1" Width="46" Height="46" CornerRadius="12" Background="#1B1215" BorderBrush="#351820" BorderThickness="1" HorizontalAlignment="Right">
                                     <materialDesign:PackIcon Kind="QrcodeScan" Foreground="#FF2B4A" Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <TextBlock Text="ملصقات الباركود و QR مخصصة" FontSize="14" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
-                            </StackPanel>
+                            </Grid>
 
                             <!-- Feature 3: تقارير وتحليلات متطورة -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,0">
-                                <Border Width="44" Height="44" CornerRadius="10" Background="#2B0E14" BorderBrush="#3D141C" BorderThickness="1" Margin="0,0,14,0">
+                            <Grid Margin="0,0,0,0" FlowDirection="RightToLeft">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="تقارير وتحليلات متطورة" FontSize="15" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,16,0"/>
+                                <Border Grid.Column="1" Width="46" Height="46" CornerRadius="12" Background="#1B1215" BorderBrush="#351820" BorderThickness="1" HorizontalAlignment="Right">
                                     <materialDesign:PackIcon Kind="ChartBar" Foreground="#FF2B4A" Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <TextBlock Text="تقارير وتحليلات متطورة" FontSize="14" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
-                            </StackPanel>
+                            </Grid>
                         </StackPanel>
 
                         <!-- 3. Footer Section -->
-                        <Grid Grid.Row="2" VerticalAlignment="Bottom">
-                            <TextBlock Text="© 2026 حلول Axon" FontSize="11" Foreground="#6C6C75" HorizontalAlignment="Right" FontWeight="SemiBold"/>
-                            <TextBlock Text="إصدار 1.0" FontSize="11" Foreground="#6C6C75" HorizontalAlignment="Left" FontWeight="SemiBold"/>
+                        <Grid Grid.Row="2" VerticalAlignment="Bottom" FlowDirection="RightToLeft">
+                            <TextBlock Text="© 2026 حلول Axon" FontSize="11" Foreground="#55555C" HorizontalAlignment="Right" FontWeight="SemiBold"/>
+                            <TextBlock Text="إصدار 1.0" FontSize="11" Foreground="#55555C" HorizontalAlignment="Left" FontWeight="SemiBold"/>
                         </Grid>
                     </Grid>
                 </Border>
@@ -108,66 +126,66 @@
                 <!-- ==================== COLUMN 1 (LEFT SIDE IN RTL): LOGIN FORM ==================== -->
                 <Border Grid.Column="1" Padding="48,20,48,32" VerticalAlignment="Center">
                     <StackPanel>
-                        <!-- Header Greeting (Right Aligned) -->
-                        <TextBlock Text="أهلاً بك مجدداً!" FontSize="28" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right" Margin="0,0,0,6"/>
-                        <TextBlock Text="الرجاء إدخال بيانات حسابك للوصول إلى النظام" FontSize="12" Foreground="#A0A0AB" HorizontalAlignment="Right" Margin="0,0,0,32"/>
+                        <!-- Header Greeting -->
+                        <TextBlock Text="أهلاً بك مجدداً!" FontSize="28" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,6"/>
+                        <TextBlock Text="الرجاء إدخال بيانات حسابك للوصول إلى النظام" FontSize="12" Foreground="#8E8E93" HorizontalAlignment="Center" Margin="0,0,0,32"/>
 
                         <!-- Field 1: Username / Email -->
                         <StackPanel Margin="0,0,0,18">
-                            <TextBlock Text="البريد الإلكتروني" FontSize="12" FontWeight="Bold" Foreground="#E0E0E6" Margin="0,0,0,8" HorizontalAlignment="Right"/>
-                            <Border Background="#1E1E24" BorderBrush="#34343D" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="46">
-                                <Grid>
+                            <TextBlock Text="البريد الإلكتروني" FontSize="12" FontWeight="Bold" Foreground="#CCCCCC" Margin="0,0,0,8" HorizontalAlignment="Right"/>
+                            <Border Background="#1A1A1E" BorderBrush="#2D2D32" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="46">
+                                <Grid FlowDirection="RightToLeft">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <materialDesign:PackIcon Grid.Column="0" Kind="EmailOutline" Width="18" Height="18" Foreground="#9999A5" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                    <TextBox Grid.Column="1" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" 
+                                    <TextBox Grid.Column="0" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" 
                                              BorderThickness="0" Background="Transparent"
                                              Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalContentAlignment="Right"
                                              CaretBrush="#FF2B4A"/>
+                                    <materialDesign:PackIcon Grid.Column="1" Kind="EmailOutline" Width="18" Height="18" Foreground="#66666E" VerticalAlignment="Center" Margin="8,0,0,0"/>
                                 </Grid>
                             </Border>
                         </StackPanel>
 
                         <!-- Field 2: Password with Eye Toggle -->
                         <StackPanel Margin="0,0,0,16">
-                            <TextBlock Text="كلمة المرور" FontSize="12" FontWeight="Bold" Foreground="#E0E0E6" Margin="0,0,0,8" HorizontalAlignment="Right"/>
-                            <Border Background="#1E1E24" BorderBrush="#34343D" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="46">
-                                <Grid>
+                            <TextBlock Text="كلمة المرور" FontSize="12" FontWeight="Bold" Foreground="#CCCCCC" Margin="0,0,0,8" HorizontalAlignment="Right"/>
+                            <Border Background="#1A1A1E" BorderBrush="#2D2D32" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="46">
+                                <Grid FlowDirection="RightToLeft">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <materialDesign:PackIcon Grid.Column="0" Kind="LockOutline" Width="18" Height="18" Foreground="#9999A5" VerticalAlignment="Center" Margin="0,0,8,0"/>
-
-                                    <PasswordBox x:Name="SecretPasswordBox" Grid.Column="1"
+                                    <PasswordBox x:Name="SecretPasswordBox" Grid.Column="0"
                                                  BorderThickness="0" Background="Transparent"
                                                  Foreground="White" FontSize="13" VerticalAlignment="Center" HorizontalContentAlignment="Right"
                                                  PasswordChanged="PasswordBox_PasswordChanged"/>
 
-                                    <TextBox x:Name="PlainPasswordBox" Grid.Column="1"
+                                    <TextBox x:Name="PlainPasswordBox" Grid.Column="0"
                                              Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                              BorderThickness="0" Background="Transparent"
                                              Foreground="White" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalContentAlignment="Right"
                                              TextChanged="PlainPasswordBox_TextChanged"
                                              Visibility="Collapsed" CaretBrush="#FF2B4A"/>
 
-                                    <Button Grid.Column="2" Click="ToggleEye_Click" Command="{Binding TogglePasswordVisibilityCommand}"
+                                    <Button Grid.Column="1" Click="ToggleEye_Click" Command="{Binding TogglePasswordVisibilityCommand}"
                                             Style="{StaticResource MaterialDesignFlatButton}" 
                                             VerticalAlignment="Center" Margin="4,0,0,0" Padding="0" Height="28" Width="28" ToolTip="إظهار / إخفاء كلمة المرور">
-                                        <materialDesign:PackIcon x:Name="EyeIcon" Kind="Eye" Width="16" Height="16" Foreground="#9999A5"/>
+                                        <materialDesign:PackIcon x:Name="EyeIcon" Kind="Eye" Width="16" Height="16" Foreground="#66666E"/>
                                     </Button>
+
+                                    <materialDesign:PackIcon Grid.Column="2" Kind="LockOutline" Width="18" Height="18" Foreground="#66666E" VerticalAlignment="Center" Margin="8,0,0,0"/>
                                 </Grid>
                             </Border>
                         </StackPanel>
 
-                        <!-- Remember Me Checkbox (Right Aligned) -->
+                        <!-- Remember Me Checkbox -->
                         <CheckBox Content="تذكرني على هذا الجهاز" 
                                   IsChecked="{Binding KeepMeSignedIn}" 
-                                  Margin="0,4,0,24" Foreground="#A0A0AB" FontSize="12" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+                                  Margin="0,4,0,24" Foreground="#8E8E93" FontSize="12" FontWeight="SemiBold" HorizontalAlignment="Right"/>
 
                         <!-- Login Button (دخول النظام) -->
                         <Button Command="{Binding LoginCommand}" 
@@ -207,7 +225,7 @@
                                      Margin="0,12,0,0" Foreground="#FF2B4A" Height="3"/>
 
                         <TextBlock Margin="0,12,0,0" Text="{Binding ErrorMessage}" 
-                                   Foreground="#EF4444" HorizontalAlignment="Right" FontSize="12" FontWeight="SemiBold" TextWrapping="Wrap"
+                                   Foreground="#EF4444" HorizontalAlignment="Center" FontSize="12" FontWeight="SemiBold" TextWrapping="Wrap"
                                    Visibility="{Binding HasError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     </StackPanel>
                 </Border>
