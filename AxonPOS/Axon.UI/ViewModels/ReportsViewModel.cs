@@ -689,28 +689,19 @@ namespace Axon.UI.ViewModels
                                 AlignmentY = AlignmentY.Top
                             };
 
-                            var dv1 = new DrawingVisual();
-                            using (var dc1 = dv1.RenderOpen())
+                            var dv = new DrawingVisual();
+                            using (var dc = dv.RenderOpen())
                             {
-                                dc1.DrawRectangle(vb, null, new Rect(0, 0, w, h));
+                                // Un-mirror WPF RTL internal coordinate flip around exact center (w / 2.0)
+                                dc.PushTransform(new ScaleTransform(-1, 1, w / 2.0, 0));
+                                dc.DrawRectangle(vb, null, new Rect(0, 0, w, h));
                             }
 
-                            var rtb1 = new System.Windows.Media.Imaging.RenderTargetBitmap(pxW, pxH, 300, 300, System.Windows.Media.PixelFormats.Pbgra32);
-                            rtb1.Render(dv1);
-
-                            // Un-mirror WPF RTL RenderTargetBitmap flip horizontally
-                            var dv2 = new DrawingVisual();
-                            using (var dc2 = dv2.RenderOpen())
-                            {
-                                dc2.PushTransform(new ScaleTransform(-1, 1, pxW / 2.0, 0));
-                                dc2.DrawImage(rtb1, new Rect(0, 0, pxW, pxH));
-                            }
-
-                            var rtbFlipped = new System.Windows.Media.Imaging.RenderTargetBitmap(pxW, pxH, 300, 300, System.Windows.Media.PixelFormats.Pbgra32);
-                            rtbFlipped.Render(dv2);
+                            var rtb = new System.Windows.Media.Imaging.RenderTargetBitmap(pxW, pxH, 300, 300, System.Windows.Media.PixelFormats.Pbgra32);
+                            rtb.Render(dv);
 
                             var encoder = new System.Windows.Media.Imaging.PngBitmapEncoder();
-                            encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(rtbFlipped));
+                            encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(rtb));
 
                             imgStream = new MemoryStream();
                             encoder.Save(imgStream);
