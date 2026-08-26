@@ -20,29 +20,41 @@ namespace Axon.UI.Services
             {
                 theme.SetBaseTheme(BaseTheme.Dark);
                 
-                appResources["AppBgBrush"] = new SolidColorBrush(Color.FromRgb(9, 9, 13));             // #09090D
-                appResources["SidebarBgBrush"] = new SolidColorBrush(Color.FromRgb(12, 12, 16));        // #0C0C10
-                appResources["HeaderBgBrush"] = new SolidColorBrush(Color.FromRgb(14, 14, 18));         // #0E0E12
-                appResources["CardBgBrush"] = new SolidColorBrush(Color.FromRgb(18, 18, 26));           // #12121A
-                appResources["CardInnerBgBrush"] = new SolidColorBrush(Color.FromRgb(24, 24, 36));      // #181824
-                appResources["CardBorderBrush"] = new SolidColorBrush(Color.FromRgb(34, 34, 48));       // #222230
+                appResources["AppBgBrush"] = new SolidColorBrush(Color.FromRgb(17, 17, 17));             // #111111
+                appResources["SidebarBgBrush"] = new SolidColorBrush(Color.FromRgb(18, 18, 19));        // #121213
+                appResources["HeaderBgBrush"] = new SolidColorBrush(Color.FromRgb(19, 19, 19));         // #131313
+                appResources["CardBgBrush"] = new SolidColorBrush(Color.FromRgb(22, 22, 22));           // #161616
+                appResources["CardInnerBgBrush"] = new SolidColorBrush(Color.FromRgb(26, 26, 26));      // #1A1A1A
+                appResources["CardBorderBrush"] = new SolidColorBrush(Color.FromRgb(44, 44, 44));       // #2C2C2C
                 appResources["TextPrimaryBrush"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));    // White
-                appResources["TextSecondaryBrush"] = new SolidColorBrush(Color.FromRgb(156, 163, 175)); // #9CA3AF
-                appResources["HeaderPillBgBrush"] = new SolidColorBrush(Color.FromRgb(22, 22, 32));
+                appResources["TextSecondaryBrush"] = new SolidColorBrush(Color.FromRgb(142, 142, 147));  // #8E8E93
+                appResources["HeaderPillBgBrush"] = new SolidColorBrush(Color.FromRgb(22, 22, 22));
+                appResources["ChartTrackBgBrush"] = new SolidColorBrush(Color.FromRgb(31, 31, 31));     // #1F1F1F
+                appResources["GridLineBrush"] = new SolidColorBrush(Color.FromRgb(31, 31, 31));        // #1F1F1F
+                appResources["TableHeaderBgBrush"] = new SolidColorBrush(Color.FromRgb(24, 24, 24));    // #181818
+                appResources["TableAltRowBrush"] = new SolidColorBrush(Color.FromRgb(18, 18, 18));      // #121212
+                appResources["InputBgBrush"] = new SolidColorBrush(Color.FromRgb(22, 22, 22));          // #161616
+                appResources["InputBorderBrush"] = new SolidColorBrush(Color.FromRgb(44, 44, 44));       // #2C2C2C
             }
             else
             {
                 theme.SetBaseTheme(BaseTheme.Light);
 
-                appResources["AppBgBrush"] = new SolidColorBrush(Color.FromRgb(243, 244, 246));         // #F3F4F6 Soft Light Gray
-                appResources["SidebarBgBrush"] = new SolidColorBrush(Color.FromRgb(12, 12, 16));        // Sidebar stays dark/sleek
+                appResources["AppBgBrush"] = new SolidColorBrush(Color.FromRgb(248, 249, 250));         // #F8F9FA Clean Light
+                appResources["SidebarBgBrush"] = new SolidColorBrush(Color.FromRgb(18, 18, 19));        // Sidebar stays dark/sleek
                 appResources["HeaderBgBrush"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));      // Pure White Header
-                appResources["CardBgBrush"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));        // Crisp White Cards
-                appResources["CardInnerBgBrush"] = new SolidColorBrush(Color.FromRgb(248, 250, 252));   // Slate 50 Soft Inner
-                appResources["CardBorderBrush"] = new SolidColorBrush(Color.FromRgb(226, 232, 240));    // Slate 200 Border
-                appResources["TextPrimaryBrush"] = new SolidColorBrush(Color.FromRgb(15, 23, 42));      // Slate 900 Dark Text
-                appResources["TextSecondaryBrush"] = new SolidColorBrush(Color.FromRgb(100, 116, 139)); // Slate 500 Subtext
-                appResources["HeaderPillBgBrush"] = new SolidColorBrush(Color.FromRgb(241, 245, 249));
+                appResources["CardBgBrush"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));        // Pure White Cards
+                appResources["CardInnerBgBrush"] = new SolidColorBrush(Color.FromRgb(244, 245, 247));   // Soft Light Inner
+                appResources["CardBorderBrush"] = new SolidColorBrush(Color.FromRgb(229, 231, 235));    // #E5E7EB Light Border
+                appResources["TextPrimaryBrush"] = new SolidColorBrush(Color.FromRgb(30, 30, 30));      // #1E1E1E Dark Text
+                appResources["TextSecondaryBrush"] = new SolidColorBrush(Color.FromRgb(107, 114, 128)); // #6B7280 Subtext
+                appResources["HeaderPillBgBrush"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                appResources["ChartTrackBgBrush"] = new SolidColorBrush(Color.FromRgb(243, 244, 246));   // #F3F4F6 Light Track
+                appResources["GridLineBrush"] = new SolidColorBrush(Color.FromRgb(229, 231, 235));      // #E5E7EB Grid Lines
+                appResources["TableHeaderBgBrush"] = new SolidColorBrush(Color.FromRgb(248, 249, 250));  // #F8F9FA Table Header
+                appResources["TableAltRowBrush"] = new SolidColorBrush(Color.FromRgb(250, 250, 250));   // #FAFAFA Alt Row
+                appResources["InputBgBrush"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));       // Pure White Input
+                appResources["InputBorderBrush"] = new SolidColorBrush(Color.FromRgb(229, 231, 235));    // #E5E7EB Input Border
             }
 
             paletteHelper.SetTheme(theme);

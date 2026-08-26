@@ -379,16 +379,19 @@
                              Width="400" HorizontalAlignment="Left" VerticalAlignment="Center"
                              Foreground="White" BorderBrush="#353534" />
 
-                    <!-- User Profile & Notifications -->
+                    <!-- User Profile, Notifications & Theme Toggle -->
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,16,0">
+                        <Button Click="ThemeToggleButton_Click" Style="{StaticResource MaterialDesignIconButton}" Foreground="#F59E0B" Margin="0,0,8,0" ToolTip="التبديل بين الوضع الفاتح والداكن (Light/Dark Theme)">
+                            <materialDesign:PackIcon Kind="WeatherSunny" Width="22" Height="22" />
+                        </Button>
                         <Button Style="{StaticResource MaterialDesignIconButton}" Foreground="#b4b5b5" Margin="0,0,8,0">
-                            <materialDesign:PackIcon Kind="BellOutline" Width="24" Height="24" />
+                            <materialDesign:PackIcon Kind="BellOutline" Width="22" Height="22" />
                         </Button>
-                        <Button Style="{StaticResource MaterialDesignIconButton}" Foreground="#b4b5b5" Margin="0,0,16,0">
-                            <materialDesign:PackIcon Kind="ViewGridOutline" Width="24" Height="24" />
+                        <Button Style="{StaticResource MaterialDesignIconButton}" Foreground="#b4b5b5" Margin="0,0,14,0">
+                            <materialDesign:PackIcon Kind="ViewGridOutline" Width="22" Height="22" />
                         </Button>
-                        <Border Width="40" Height="40" CornerRadius="20" Background="#353534">
-                            <TextBlock Text="AD" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Foreground="White" />
+                        <Border Width="38" Height="38" CornerRadius="19" Background="#D90429" ToolTip="المسؤول - Admin">
+                            <TextBlock Text="admin" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="11" Foreground="White" />
                         </Border>
                     </StackPanel>
 

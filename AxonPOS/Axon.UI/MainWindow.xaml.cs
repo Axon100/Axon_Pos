@@ -44,4 +44,9 @@ public partial class MainWindow : Window
             DragMove();
         }
     }
+
+    private void ThemeToggleButton_Click(object sender, RoutedEventArgs e)
+    {
+        Axon.UI.Services.ThemeService.SetTheme(!Axon.UI.Services.ThemeService.IsDarkMode);
+    }
 }

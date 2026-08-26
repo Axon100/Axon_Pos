@@ -4,8 +4,8 @@
 
     <!-- 3D Elevated Card Border Style with Hover Lift & Red Shadow -->
     <Style x:Key="Axon3DCardStyle" TargetType="Border">
-        <Setter Property="Background" Value="#161616"/>
-        <Setter Property="BorderBrush" Value="#2C2C2C"/>
+        <Setter Property="Background" Value="{DynamicResource CardBgBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="14"/>
         <Setter Property="Padding" Value="20,18"/>
