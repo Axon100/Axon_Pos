@@ -43,6 +43,9 @@ namespace Axon.UI.Services
                 appResources["SidebarLogoutBorderBrush"] = new SolidColorBrush(Color.FromRgb(78, 22, 28));// #4E161C
                 appResources["PosBrandTextBrush"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));   // White
                 appResources["TopControlIconBrush"] = new SolidColorBrush(Color.FromRgb(180, 181, 181)); // Gray
+                appResources["TopCloseBtnBgBrush"] = new SolidColorBrush(Color.FromRgb(43, 20, 22));    // #2B1416
+                appResources["TopCloseBtnBorderBrush"] = new SolidColorBrush(Color.FromRgb(78, 22, 28));// #4E161C
+                appResources["TopCloseBtnTextBrush"] = new SolidColorBrush(Color.FromRgb(239, 68, 68));  // #EF4444
             }
             else
             {
@@ -71,6 +74,9 @@ namespace Axon.UI.Services
                 appResources["SidebarLogoutBorderBrush"] = new SolidColorBrush(Color.FromRgb(252, 165, 165));
                 appResources["PosBrandTextBrush"] = new SolidColorBrush(Color.FromRgb(30, 30, 30));     // #1E1E1E Dark POS Text
                 appResources["TopControlIconBrush"] = new SolidColorBrush(Color.FromRgb(75, 85, 99));   // #4B5563
+                appResources["TopCloseBtnBgBrush"] = new SolidColorBrush(Color.FromRgb(254, 242, 242));  // #FEE2E2
+                appResources["TopCloseBtnBorderBrush"] = new SolidColorBrush(Color.FromRgb(252, 165, 165));// #FCA5A5
+                appResources["TopCloseBtnTextBrush"] = new SolidColorBrush(Color.FromRgb(217, 4, 41));    // #D90429
             }
 
             paletteHelper.SetTheme(theme);
