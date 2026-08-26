@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             Background="#111111" Foreground="White"
+             Background="{DynamicResource AppBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
              FontFamily="{DynamicResource AppFont}">
 
     <UserControl.Resources>
@@ -10,7 +10,7 @@
 
         <!-- Product Card Template -->
         <DataTemplate x:Key="ProductCardTemplate">
-            <Border Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Margin="6" Padding="10" Cursor="Hand" Effect="{DynamicResource Axon3DCardShadow}">
+            <Border Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Margin="6" Padding="10" Cursor="Hand">
                 <Border.InputBindings>
                     <MouseBinding Gesture="LeftClick" Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
                 </Border.InputBindings>
@@ -18,9 +18,8 @@
                     <Style TargetType="Border">
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#222222" />
+                                <Setter Property="Background" Value="{DynamicResource ChartTrackBgBrush}" />
                                 <Setter Property="BorderBrush" Value="#d90429" />
-                                <Setter Property="Effect" Value="{DynamicResource Axon3DCardHoverShadow}" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -33,10 +32,10 @@
                     </Grid.RowDefinitions>
 
                     <!-- Product Image Container -->
-                    <Border Grid.Row="0" Background="#111111" CornerRadius="8" Height="130" Margin="0,0,0,10" ClipToBounds="True">
+                    <Border Grid.Row="0" Background="{DynamicResource CardInnerBgBrush}" CornerRadius="8" Height="130" Margin="0,0,0,10" ClipToBounds="True">
                         <Grid>
                             <Image Source="{Binding ImageUrl}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <materialDesign:PackIcon Kind="ImageOutline" Width="42" Height="42" Foreground="#353534" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="ImageOutline" Width="42" Height="42" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <materialDesign:PackIcon.Style>
                                     <Style TargetType="materialDesign:PackIcon">
                                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -78,13 +77,13 @@
                     </Border>
 
                     <!-- Product Name -->
-                    <TextBlock Grid.Row="1" Text="{Binding Name}" FontSize="14" FontWeight="Bold" Foreground="White" TextTrimming="CharacterEllipsis" Margin="2,0,2,6"/>
+                    <TextBlock Grid.Row="1" Text="{Binding Name}" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis" Margin="2,0,2,6"/>
 
                     <!-- Price & Quick Add Button -->
                     <Grid Grid.Row="2" Margin="2,2,2,0">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding Price, StringFormat='{}{0:#,##0.##}'}" FontSize="16" FontWeight="Black" Foreground="White" VerticalAlignment="Center"/>
-                            <TextBlock Text=" ج.م" FontSize="11" FontWeight="SemiBold" Foreground="#8E8E93" VerticalAlignment="Center" Margin="2,0,0,0"/>
+                            <TextBlock Text="{Binding Price, StringFormat='{}{0:#,##0.##}'}" FontSize="16" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                            <TextBlock Text=" ج.م" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="2,0,0,0"/>
                         </StackPanel>
                         <Button Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
                                 Style="{StaticResource MaterialDesignIconButton}" Background="#2b0005" Foreground="#d90429" BorderBrush="#d90429" BorderThickness="1" HorizontalAlignment="Right" Width="30" Height="30" Padding="0" ToolTip="إضافة إلى السلة">
@@ -97,7 +96,7 @@
 
         <!-- Cart Item Template -->
         <DataTemplate x:Key="CartItemTemplate">
-            <Border Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="8" Margin="0,0,0,6" Padding="10,8">
+            <Border Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Margin="0,0,0,6" Padding="10,8">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2.5*"/>
@@ -108,20 +107,20 @@
 
                     <!-- Item Name & Price Subtitle -->
                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0">
-                        <TextBlock Text="{Binding Name}" FontSize="13" FontWeight="Bold" Foreground="White" TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="{Binding Price, StringFormat='{}{0:#,##0.##} ج.م للقطعة'}" FontSize="10" Foreground="#8E8E93" Margin="0,2,0,0"/>
+                        <TextBlock Text="{Binding Name}" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Price, StringFormat='{}{0:#,##0.##} ج.م للقطعة'}" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,2,0,0"/>
                     </StackPanel>
 
                     <!-- Stepper [-] Qty [+] -->
-                    <Border Grid.Column="1" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="6" Padding="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Border Grid.Column="1" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="2" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <Button Command="{Binding DataContext.DecreaseQtyCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
-                                    Style="{StaticResource MaterialDesignIconButton}" Foreground="#8E8E93" Width="22" Height="22" Padding="0">
+                                    Style="{StaticResource MaterialDesignIconButton}" Foreground="{DynamicResource TextSecondaryBrush}" Width="22" Height="22" Padding="0">
                                 <materialDesign:PackIcon Kind="Minus" Width="14" Height="14"/>
                             </Button>
-                            <TextBlock Text="{Binding Quantity}" Foreground="White" FontSize="13" FontWeight="Bold" Margin="6,0" VerticalAlignment="Center" MinWidth="16" TextAlignment="Center"/>
+                            <TextBlock Text="{Binding Quantity}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="13" FontWeight="Bold" Margin="6,0" VerticalAlignment="Center" MinWidth="16" TextAlignment="Center"/>
                             <Button Command="{Binding DataContext.IncreaseQtyCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
-                                    Style="{StaticResource MaterialDesignIconButton}" Foreground="#8E8E93" Width="22" Height="22" Padding="0">
+                                    Style="{StaticResource MaterialDesignIconButton}" Foreground="{DynamicResource TextSecondaryBrush}" Width="22" Height="22" Padding="0">
                                 <materialDesign:PackIcon Kind="Plus" Width="14" Height="14"/>
                             </Button>
                         </StackPanel>
@@ -129,12 +128,12 @@
 
                     <!-- Line Total Price -->
                     <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0">
-                        <TextBlock Text="{Binding TotalPrice, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
+                        <TextBlock Text="{Binding TotalPrice, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" HorizontalAlignment="Right"/>
                     </StackPanel>
 
                     <!-- Remove Item Button -->
                     <Button Grid.Column="3" Command="{Binding DataContext.DecreaseQtyCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
-                            Style="{StaticResource MaterialDesignIconButton}" Foreground="#8E8E93" Width="24" Height="24" Padding="0" VerticalAlignment="Center" ToolTip="حذف">
+                            Style="{StaticResource MaterialDesignIconButton}" Foreground="{DynamicResource TextSecondaryBrush}" Width="24" Height="24" Padding="0" VerticalAlignment="Center" ToolTip="حذف">
                         <materialDesign:PackIcon Kind="Close" Width="14" Height="14"/>
                     </Button>
                 </Grid>
@@ -159,7 +158,7 @@
 
             <!-- Top Search & Barcode Scan Bar with Live Feedback -->
             <StackPanel Grid.Row="0" Margin="0,0,0,12">
-                <Border Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="12" Padding="4" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="4">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -181,7 +180,7 @@
                                  x:Name="TxtBarcodeInput"
                                  Text="{Binding BarcodeInput, UpdateSourceTrigger=PropertyChanged}"
                                  materialDesign:HintAssist.Hint="امسح باركود المنتج بالـ Scanner هنا أو اكتب الكود للبحث المباشر..."
-                                 Background="Transparent" Foreground="White" BorderThickness="0"
+                                 Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0"
                                  CaretBrush="#d90429" Padding="8,10" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center">
                             <TextBox.InputBindings>
                                 <KeyBinding Key="Return" Command="{Binding ProcessBarcodeInputCommand}"/>
@@ -192,7 +191,7 @@
                         <Button Grid.Column="2" 
                                 Command="{Binding ClearBarcodeInputCommand}" 
                                 Visibility="{Binding BarcodeInput.Length, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                Style="{StaticResource MaterialDesignIconButton}" Width="26" Height="26" Padding="0" Foreground="#8E8E93" VerticalAlignment="Center">
+                                Style="{StaticResource MaterialDesignIconButton}" Width="26" Height="26" Padding="0" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center">
                             <materialDesign:PackIcon Kind="CloseCircle" Width="16" Height="16"/>
                         </Button>
 
@@ -250,7 +249,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- 1. Categories Side Panel -->
-                <Border Grid.Column="0" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="12" Margin="0,0,12,0" Padding="8" Effect="{DynamicResource Axon3DCardShadow}">
+                <Border Grid.Column="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Margin="0,0,12,0" Padding="8">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -259,7 +258,7 @@
 
                         <!-- Header -->
                         <Grid Grid.Row="0" Margin="6,4,6,10">
-                            <TextBlock Text="الأقسام والتصنيفات" FontSize="13" FontWeight="Bold" Foreground="#8E8E93" VerticalAlignment="Center"/>
+                            <TextBlock Text="الأقسام والتصنيفات" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                         </Grid>
 
                         <!-- Vertical Categories List -->
@@ -278,8 +277,8 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ListBoxItem">
                                                 <Border x:Name="CatBorder"
-                                                        Background="#1A1A1A"
-                                                        BorderBrush="#2C2C2C"
+                                                        Background="{DynamicResource CardInnerBgBrush}"
+                                                        BorderBrush="{DynamicResource CardBorderBrush}"
                                                         BorderThickness="1"
                                                         CornerRadius="8"
                                                         Padding="10,8"
@@ -290,27 +289,27 @@
                                                             <ColumnDefinition Width="*"/>
                                                             <ColumnDefinition Width="Auto"/>
                                                         </Grid.ColumnDefinitions>
-                                                        <materialDesign:PackIcon x:Name="CatIcon" Grid.Column="0" Kind="{Binding IconKind}" Width="16" Height="16" Foreground="#8E8E93" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                                        <TextBlock x:Name="CatText" Grid.Column="1" Text="{Binding Name}" Foreground="#E0E0E0" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                                                        <Border x:Name="CountBadge" Grid.Column="2" Background="#242424" CornerRadius="6" Padding="6,1" VerticalAlignment="Center" Margin="4,0,0,0">
-                                                            <TextBlock x:Name="CountText" Text="{Binding ProductCount}" FontSize="10" FontWeight="Bold" Foreground="#8E8E93"/>
+                                                        <materialDesign:PackIcon x:Name="CatIcon" Grid.Column="0" Kind="{Binding IconKind}" Width="16" Height="16" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                                        <TextBlock x:Name="CatText" Grid.Column="1" Text="{Binding Name}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                                        <Border x:Name="CountBadge" Grid.Column="2" Background="{DynamicResource ChartTrackBgBrush}" CornerRadius="6" Padding="6,1" VerticalAlignment="Center" Margin="4,0,0,0">
+                                                            <TextBlock x:Name="CountText" Text="{Binding ProductCount}" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}"/>
                                                         </Border>
                                                     </Grid>
                                                 </Border>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsSelected" Value="True">
-                                                        <Setter TargetName="CatBorder" Property="Background" Value="#2b0005"/>
-                                                        <Setter TargetName="CatBorder" Property="BorderBrush" Value="#d90429"/>
-                                                        <Setter TargetName="CatIcon" Property="Foreground" Value="#d90429"/>
-                                                        <Setter TargetName="CatText" Property="Foreground" Value="#ffb3af"/>
+                                                        <Setter TargetName="CatBorder" Property="Background" Value="#D90429"/>
+                                                        <Setter TargetName="CatBorder" Property="BorderBrush" Value="#B90323"/>
+                                                        <Setter TargetName="CatIcon" Property="Foreground" Value="White"/>
+                                                        <Setter TargetName="CatText" Property="Foreground" Value="White"/>
                                                         <Setter TargetName="CatText" Property="FontWeight" Value="Bold"/>
                                                         <Setter TargetName="CountBadge" Property="Background" Value="#4d000a"/>
-                                                        <Setter TargetName="CountText" Property="Foreground" Value="#ff897d"/>
+                                                        <Setter TargetName="CountText" Property="Foreground" Value="White"/>
                                                     </Trigger>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="CatBorder" Property="Background" Value="#222222"/>
-                                                        <Setter TargetName="CatText" Property="Foreground" Value="White"/>
-                                                        <Setter TargetName="CatIcon" Property="Foreground" Value="White"/>
+                                                        <Setter TargetName="CatBorder" Property="Background" Value="{DynamicResource ChartTrackBgBrush}"/>
+                                                        <Setter TargetName="CatText" Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+                                                        <Setter TargetName="CatIcon" Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
@@ -332,9 +331,9 @@
                     <!-- Section Header Ribbon -->
                     <Grid Grid.Row="0" Margin="4,0,4,10">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding SelectedCategoryItem.Name, FallbackValue='جميع الأصناف'}" FontSize="15" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
-                            <Border Background="#242424" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="8" Padding="8,2" Margin="8,0,0,0" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Products.Count, StringFormat='{}{0} صنف'}" FontSize="11" FontWeight="Bold" Foreground="#8E8E93"/>
+                            <TextBlock Text="{Binding SelectedCategoryItem.Name, FallbackValue='جميع الأصناف'}" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                            <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="8,2" Margin="8,0,0,0" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Products.Count, StringFormat='{}{0} صنف'}" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}"/>
                             </Border>
                         </StackPanel>
                     </Grid>
@@ -362,11 +361,11 @@
                                         </Style.Triggers>
                                     </Style>
                                 </StackPanel.Style>
-                                <Border Width="72" Height="72" CornerRadius="36" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" HorizontalAlignment="Center" Margin="0,0,0,14">
-                                    <materialDesign:PackIcon Kind="PackageVariantClosed" Width="36" Height="36" Foreground="#353534" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Width="72" Height="72" CornerRadius="36" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" HorizontalAlignment="Center" Margin="0,0,0,14">
+                                    <materialDesign:PackIcon Kind="PackageVariantClosed" Width="36" Height="36" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <TextBlock Text="لا توجد منتجات في هذا القسم" Foreground="#8E8E93" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                <TextBlock Text="جرب اختيار قسم آخر أو امسح الباركود مباشرة" Foreground="#666666" FontSize="12" Margin="0,4,0,0" HorizontalAlignment="Center"/>
+                                <TextBlock Text="لا توجد منتجات في هذا القسم" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock Text="جرب اختيار قسم آخر أو امسح الباركود مباشرة" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" Margin="0,4,0,0" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Grid>
                     </ScrollViewer>
@@ -375,7 +374,7 @@
         </Grid>
 
         <!-- ==================== RIGHT PANE: CART & CHECKOUT ==================== -->
-        <Border Grid.Column="1" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1,0,0,0">
+        <Border Grid.Column="1" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1,0,0,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/> <!-- Multi-Invoice Tabs Bar -->
@@ -385,7 +384,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- Multi-Invoice Tab Switcher Bar (فاتورة 1 | فاتورة 2 | فاتورة 3) -->
-                <Border Grid.Row="0" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="0,0,0,1" Padding="10,8">
+                <Border Grid.Row="0" Background="{DynamicResource AppBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="10,8">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -399,14 +398,14 @@
                         <Button Grid.Column="0" Command="{Binding SwitchOrderTabCommand}" CommandParameter="1" Height="36" Padding="4,0" ToolTip="فاتورة الزبون الأول">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
-                                    <Setter Property="Background" Value="#1A1A1A"/>
-                                    <Setter Property="BorderBrush" Value="#2C2C2C"/>
-                                    <Setter Property="Foreground" Value="#8E8E93"/>
+                                    <Setter Property="Background" Value="{DynamicResource CardInnerBgBrush}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsTab1Active}" Value="True">
-                                            <Setter Property="Background" Value="#2b0005"/>
-                                            <Setter Property="BorderBrush" Value="#d90429"/>
-                                            <Setter Property="Foreground" Value="#ffb3af"/>
+                                            <Setter Property="Background" Value="#D90429"/>
+                                            <Setter Property="BorderBrush" Value="#B90323"/>
+                                            <Setter Property="Foreground" Value="White"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -422,14 +421,14 @@
                         <Button Grid.Column="2" Command="{Binding SwitchOrderTabCommand}" CommandParameter="2" Height="36" Padding="4,0" ToolTip="فاتورة الزبون الثاني">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
-                                    <Setter Property="Background" Value="#1A1A1A"/>
-                                    <Setter Property="BorderBrush" Value="#2C2C2C"/>
-                                    <Setter Property="Foreground" Value="#8E8E93"/>
+                                    <Setter Property="Background" Value="{DynamicResource CardInnerBgBrush}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsTab2Active}" Value="True">
-                                            <Setter Property="Background" Value="#2b0005"/>
-                                            <Setter Property="BorderBrush" Value="#d90429"/>
-                                            <Setter Property="Foreground" Value="#ffb3af"/>
+                                            <Setter Property="Background" Value="#D90429"/>
+                                            <Setter Property="BorderBrush" Value="#B90323"/>
+                                            <Setter Property="Foreground" Value="White"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -445,14 +444,14 @@
                         <Button Grid.Column="4" Command="{Binding SwitchOrderTabCommand}" CommandParameter="3" Height="36" Padding="4,0" ToolTip="فاتورة الزبون الثالث">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
-                                    <Setter Property="Background" Value="#1A1A1A"/>
-                                    <Setter Property="BorderBrush" Value="#2C2C2C"/>
-                                    <Setter Property="Foreground" Value="#8E8E93"/>
+                                    <Setter Property="Background" Value="{DynamicResource CardInnerBgBrush}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsTab3Active}" Value="True">
-                                            <Setter Property="Background" Value="#2b0005"/>
-                                            <Setter Property="BorderBrush" Value="#d90429"/>
-                                            <Setter Property="Foreground" Value="#ffb3af"/>
+                                            <Setter Property="Background" Value="#D90429"/>
+                                            <Setter Property="BorderBrush" Value="#B90323"/>
+                                            <Setter Property="Foreground" Value="White"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -467,7 +466,7 @@
                 </Border>
 
                 <!-- Customer Header -->
-                <Border Grid.Row="1" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="0,0,0,1" Padding="14,12">
+                <Border Grid.Row="1" Background="{DynamicResource AppBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="14,12">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -476,14 +475,14 @@
                         </Grid.ColumnDefinitions>
                         
                         <!-- Customer Avatar Icon -->
-                        <Border Grid.Column="0" Width="36" Height="36" CornerRadius="18" Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" Margin="0,0,10,0">
-                            <materialDesign:PackIcon Kind="Account" Foreground="#8E8E93" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border Grid.Column="0" Width="36" Height="36" CornerRadius="18" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" Margin="0,0,10,0">
+                            <materialDesign:PackIcon Kind="Account" Foreground="{DynamicResource TextSecondaryBrush}" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
                                 <Ellipse Width="6" Height="6" Fill="#4ae176" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                                <TextBlock Text="{DynamicResource WalkInCustomer}" FontSize="14" FontWeight="Bold" Foreground="White"/>
+                                <TextBlock Text="{DynamicResource WalkInCustomer}" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
                             </StackPanel>
                             <TextBlock Text="{DynamicResource AssignProfile}" FontSize="11" Foreground="#d90429" Cursor="Hand" Margin="12,2,0,0"/>
                         </StackPanel>
@@ -491,7 +490,7 @@
                         <!-- Top Toolbar Actions -->
                         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
                             <!-- Return / Refund Button -->
-                            <Button Command="{Binding OpenReturnDialogCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#d90429" Foreground="#ffb3af" Background="#1a2b0005" Padding="8,4" Height="32" Margin="0,0,6,0" ToolTip="طلب مرتجع / استرجاع مبيعات">
+                            <Button Command="{Binding OpenReturnDialogCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#d90429" Foreground="#d90429" Background="#1a2b0005" Padding="8,4" Height="32" Margin="0,0,6,0" ToolTip="طلب مرتجع / استرجاع مبيعات">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="CashRefund" Width="16" Height="16" Margin="0,0,4,0" VerticalAlignment="Center" Foreground="#d90429"/>
                                     <TextBlock Text="مرتجع" FontWeight="Bold" VerticalAlignment="Center" FontSize="11"/>
@@ -499,12 +498,12 @@
                             </Button>
                             
                             <!-- Hold / Pause Cart -->
-                            <Button Style="{StaticResource MaterialDesignIconButton}" Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" Foreground="#8E8E93" Width="32" Height="32" Padding="0" Margin="0,0,6,0" ToolTip="تعليق الطلب">
+                            <Button Style="{StaticResource MaterialDesignIconButton}" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" Foreground="{DynamicResource TextSecondaryBrush}" Width="32" Height="32" Padding="0" Margin="0,0,6,0" ToolTip="تعليق الطلب">
                                 <materialDesign:PackIcon Kind="Pause" Width="16" Height="16"/>
                             </Button>
                             
                             <!-- Clear Cart Button -->
-                            <Button Command="{Binding ClearCartCommand}" Style="{StaticResource MaterialDesignIconButton}" Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" Foreground="#EF4444" Width="32" Height="32" Padding="0" ToolTip="مسح السلة بالكامل">
+                            <Button Command="{Binding ClearCartCommand}" Style="{StaticResource MaterialDesignIconButton}" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" Foreground="#EF4444" Width="32" Height="32" Padding="0" ToolTip="مسح السلة بالكامل">
                                 <materialDesign:PackIcon Kind="DeleteSweep" Width="16" Height="16"/>
                             </Button>
                         </StackPanel>
@@ -526,9 +525,9 @@
                             <ColumnDefinition Width="1.5*"/>
                             <ColumnDefinition Width="24"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{DynamicResource HeaderItem}" FontSize="11" Foreground="#8E8E93" FontWeight="Bold"/>
-                        <TextBlock Grid.Column="1" Text="{DynamicResource HeaderQty}" FontSize="11" Foreground="#8E8E93" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="2" Text="{DynamicResource HeaderPrice}" FontSize="11" Foreground="#8E8E93" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,0,8,0"/>
+                        <TextBlock Grid.Column="0" Text="{DynamicResource HeaderItem}" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold"/>
+                        <TextBlock Grid.Column="1" Text="{DynamicResource HeaderQty}" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Text="{DynamicResource HeaderPrice}" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,0,8,0"/>
                     </Grid>
                     
                     <!-- Items / Empty State -->
@@ -548,18 +547,18 @@
                                         </Style.Triggers>
                                     </Style>
                                 </StackPanel.Style>
-                                <Border Width="64" Height="64" CornerRadius="32" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" HorizontalAlignment="Center" Margin="0,0,0,12">
-                                    <materialDesign:PackIcon Kind="CartOutline" Width="30" Height="30" Foreground="#353534" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Width="64" Height="64" CornerRadius="32" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" HorizontalAlignment="Center" Margin="0,0,0,12">
+                                    <materialDesign:PackIcon Kind="CartOutline" Width="30" Height="30" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <TextBlock Text="سلة المشتريات فارغة" Foreground="#8E8E93" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                <TextBlock Text="امسح باركود أو انقر على صنف لإضافته" Foreground="#666666" FontSize="11" Margin="0,4,0,0" HorizontalAlignment="Center"/>
+                                <TextBlock Text="سلة المشتريات فارغة" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock Text="امسح باركود أو انقر على صنف لإضافته" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" Margin="0,4,0,0" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Grid>
                     </ScrollViewer>
                 </Grid>
 
                 <!-- Order Summary & Checkout Footer -->
-                <Border Grid.Row="3" Background="#111111" BorderBrush="#2C2C2C" BorderThickness="0,1,0,0" Padding="16,14">
+                <Border Grid.Row="3" Background="{DynamicResource AppBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,1,0,0" Padding="16,14">
                     <StackPanel>
                         <!-- Payment Method & Discount Action Buttons Row -->
                         <Grid Margin="0,0,0,12">
@@ -570,7 +569,7 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Discount Trigger Button -->
-                            <Button Grid.Column="0" Command="{Binding OpenDiscountDialogCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Background="#1A1A1A" Foreground="#E0E0E0" Height="38" Padding="6,0" ToolTip="تطبيق خصم على الفاتورة">
+                            <Button Grid.Column="0" Command="{Binding OpenDiscountDialogCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="{DynamicResource CardBorderBrush}" Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}" Height="38" Padding="6,0" ToolTip="تطبيق خصم على الفاتورة">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="TicketPercentOutline" Width="16" Height="16" Foreground="#d90429" Margin="0,0,6,0" VerticalAlignment="Center"/>
                                     <TextBlock Text="{DynamicResource BtnDiscount}" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"/>
@@ -578,10 +577,10 @@
                             </Button>
 
                             <!-- Other Payment Button ("دفع آخر") -->
-                            <Button Grid.Column="2" Command="{Binding OpenPaymentMethodDialogCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#d90429" Background="#2b0005" Foreground="#ffb3af" Height="38" Padding="6,0" ToolTip="اختر طريقة الدفع (فيزا، فودافون كاش، إنستاباي...)">
+                            <Button Grid.Column="2" Command="{Binding OpenPaymentMethodDialogCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#d90429" Background="#1ad90429" Foreground="#d90429" Height="38" Padding="6,0" ToolTip="اختر طريقة الدفع (فيزا، فودافون كاش، إنستاباي...)">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="CreditCardOutline" Width="16" Height="16" Foreground="#d90429" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding SelectedPaymentMethod, FallbackValue='دفع آخر'}" FontSize="11" FontWeight="Bold" Foreground="#ffb3af" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="{Binding SelectedPaymentMethod, FallbackValue='دفع آخر'}" FontSize="11" FontWeight="Bold" Foreground="#d90429" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
                                 </StackPanel>
                             </Button>
                         </Grid>
@@ -590,14 +589,14 @@
                         <StackPanel Margin="0,0,0,12">
                             <!-- Subtotal -->
                             <Grid Margin="0,0,0,6">
-                                <TextBlock Text="{DynamicResource Subtotal}" Foreground="#8E8E93" FontSize="12"/>
-                                <TextBlock Text="{Binding Subtotal, StringFormat='{}{0:#,##0.##} ج.م'}" Foreground="White" FontWeight="SemiBold" FontSize="12" HorizontalAlignment="Right"/>
+                                <TextBlock Text="{DynamicResource Subtotal}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12"/>
+                                <TextBlock Text="{Binding Subtotal, StringFormat='{}{0:#,##0.##} ج.م'}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="SemiBold" FontSize="12" HorizontalAlignment="Right"/>
                             </Grid>
                             
                             <!-- Tax (if applicable) -->
                             <Grid Margin="0,0,0,6" Visibility="{Binding IsTaxVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <TextBlock Text="{DynamicResource TaxLabel}" Foreground="#8E8E93" FontSize="12"/>
-                                <TextBlock Text="{Binding Tax, StringFormat='{}{0:#,##0.##} ج.م'}" Foreground="White" FontWeight="SemiBold" FontSize="12" HorizontalAlignment="Right"/>
+                                <TextBlock Text="{DynamicResource TaxLabel}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12"/>
+                                <TextBlock Text="{Binding Tax, StringFormat='{}{0:#,##0.##} ج.م'}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="SemiBold" FontSize="12" HorizontalAlignment="Right"/>
                             </Grid>
                             
                             <!-- Discount Amount -->
@@ -608,14 +607,14 @@
                         </StackPanel>
 
                         <!-- Grand Total Highlight -->
-                        <Border Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="14,10" Margin="0,0,0,12">
+                        <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="14,10" Margin="0,0,0,12">
                             <Grid>
                                 <StackPanel VerticalAlignment="Center">
-                                    <TextBlock Text="{DynamicResource Total}" FontSize="13" FontWeight="Bold" Foreground="#8E8E93"/>
-                                    <TextBlock Text="شامل كافة الخصومات" FontSize="10" Foreground="#666666"/>
+                                    <TextBlock Text="{DynamicResource Total}" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                    <TextBlock Text="شامل كافة الخصومات" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Total, StringFormat='{}{0:#,##0.##}'}" FontSize="28" FontWeight="Black" Foreground="White"/>
+                                    <TextBlock Text="{Binding Total, StringFormat='{}{0:#,##0.##}'}" FontSize="28" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
                                     <TextBlock Text=" ج.م" FontSize="14" FontWeight="Bold" Foreground="#d90429" VerticalAlignment="Bottom" Margin="4,0,0,4"/>
                                 </StackPanel>
                             </Grid>
@@ -639,21 +638,21 @@
         </Border>
 
         <!-- ==================== DISCOUNT MODAL OVERLAY ==================== -->
-        <Grid Visibility="{Binding IsDiscountDialogOpen, Converter={StaticResource BooleanToVisibilityConverter}}" Background="#99000000" Grid.ColumnSpan="2" Panel.ZIndex="1000">
-            <Border Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="14" Width="380" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="20" Effect="{DynamicResource Axon3DDialogShadow}">
+        <Grid Visibility="{Binding IsDiscountDialogOpen, Converter={StaticResource BooleanToVisibilityConverter}}" Background="#66000000" Grid.ColumnSpan="2" Panel.ZIndex="1000">
+            <Border Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="14" Width="380" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="20">
                 <StackPanel>
                     <Grid Margin="0,0,0,14">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <materialDesign:PackIcon Kind="TicketPercentOutline" Width="20" Height="20" Foreground="#d90429" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="تطبيق خصم على الفاتورة" FontSize="16" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock Text="تطبيق خصم على الفاتورة" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                         </StackPanel>
-                        <Button Command="{Binding CloseDiscountDialogCommand}" Style="{StaticResource MaterialDesignIconButton}" Foreground="#8E8E93" Width="26" Height="26" Padding="0" HorizontalAlignment="Right">
+                        <Button Command="{Binding CloseDiscountDialogCommand}" Style="{StaticResource MaterialDesignIconButton}" Foreground="{DynamicResource TextSecondaryBrush}" Width="26" Height="26" Padding="0" HorizontalAlignment="Right">
                             <materialDesign:PackIcon Kind="Close" Width="18" Height="18"/>
                         </Button>
                     </Grid>
 
-                    <TextBlock Text="قيمة الخصم (بالجنيه / ج.م) *" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,6"/>
-                    <TextBox Text="{Binding DiscountInput, Converter={StaticResource ZeroToEmptyConverter}, UpdateSourceTrigger=PropertyChanged}" Background="#111111" Foreground="White" BorderBrush="#2C2C2C" BorderThickness="1" Padding="12,8" Margin="0,0,0,4" FontSize="15" FontWeight="Bold"/>
+                    <TextBlock Text="قيمة الخصم (بالجنيه / ج.م) *" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                    <TextBox Text="{Binding DiscountInput, Converter={StaticResource ZeroToEmptyConverter}, UpdateSourceTrigger=PropertyChanged}" Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" Padding="12,8" Margin="0,0,0,4" FontSize="15" FontWeight="Bold"/>
 
                     <!-- Red Validation Error Text -->
                     <TextBlock Text="{Binding DiscountValidationError}" Foreground="#EF4444" FontSize="11" FontWeight="Bold" Margin="0,4,0,12" Visibility="{Binding HasDiscountError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
@@ -667,75 +666,75 @@
         </Grid>
 
         <!-- ==================== PAYMENT METHOD SELECTION OVERLAY ==================== -->
-        <Grid Visibility="{Binding IsPaymentMethodDialogOpen, Converter={StaticResource BooleanToVisibilityConverter}}" Background="#99000000" Grid.ColumnSpan="2" Panel.ZIndex="1100">
-            <Border Background="#1A1A1A" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="14" Width="440" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="20" Effect="{DynamicResource Axon3DDialogShadow}">
+        <Grid Visibility="{Binding IsPaymentMethodDialogOpen, Converter={StaticResource BooleanToVisibilityConverter}}" Background="#66000000" Grid.ColumnSpan="2" Panel.ZIndex="1100">
+            <Border Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="14" Width="440" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="20">
                 <StackPanel>
                     <!-- Header -->
                     <Grid Margin="0,0,0,16">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <materialDesign:PackIcon Kind="CreditCardOutline" Width="22" Height="22" Foreground="#d90429" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="تحديد طريقة الدفع (دفع آخر)" FontSize="16" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock Text="تحديد طريقة الدفع (دفع آخر)" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                         </StackPanel>
-                        <Button Command="{Binding ClosePaymentMethodDialogCommand}" Style="{StaticResource MaterialDesignIconButton}" Foreground="#8E8E93" Width="26" Height="26" Padding="0" HorizontalAlignment="Right">
+                        <Button Command="{Binding ClosePaymentMethodDialogCommand}" Style="{StaticResource MaterialDesignIconButton}" Foreground="{DynamicResource TextSecondaryBrush}" Width="26" Height="26" Padding="0" HorizontalAlignment="Right">
                             <materialDesign:PackIcon Kind="Close" Width="18" Height="18"/>
                         </Button>
                     </Grid>
 
-                    <TextBlock Text="اختر طريقة دفع الفاتورة لتسجيلها بالسيستم وتضمينها بالتقارير:" Foreground="#8E8E93" FontSize="11" Margin="0,0,0,12"/>
+                    <TextBlock Text="اختر طريقة دفع الفاتورة لتسجيلها بالسيستم وتضمينها بالتقارير:" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" Margin="0,0,0,12"/>
 
                     <UniformGrid Columns="1">
                         <!-- 1. Cash -->
-                        <Button Command="{Binding SelectPaymentMethodCommand}" CommandParameter="نقداً (Cash)" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Background="#111111" Height="46" Margin="0,0,0,8" Padding="12,0" HorizontalContentAlignment="Stretch">
+                        <Button Command="{Binding SelectPaymentMethodCommand}" CommandParameter="نقداً (Cash)" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="{DynamicResource CardBorderBrush}" Background="{DynamicResource CardInnerBgBrush}" Height="46" Margin="0,0,0,8" Padding="12,0" HorizontalContentAlignment="Stretch">
                             <Grid Width="380">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="Cash" Width="20" Height="20" Foreground="#4ae176" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                    <TextBlock Text="نقداً (كاش / Cash)" FontSize="13" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                    <TextBlock Text="نقداً (كاش / Cash)" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                                 </StackPanel>
-                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18" Foreground="#8E8E93" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             </Grid>
                         </Button>
 
                         <!-- 2. Visa / Card -->
-                        <Button Command="{Binding SelectPaymentMethodCommand}" CommandParameter="فيزا / كارت (Visa)" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Background="#111111" Height="46" Margin="0,0,0,8" Padding="12,0" HorizontalContentAlignment="Stretch">
+                        <Button Command="{Binding SelectPaymentMethodCommand}" CommandParameter="فيزا / كارت (Visa)" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="{DynamicResource CardBorderBrush}" Background="{DynamicResource CardInnerBgBrush}" Height="46" Margin="0,0,0,8" Padding="12,0" HorizontalContentAlignment="Stretch">
                             <Grid Width="380">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="CreditCard" Width="20" Height="20" Foreground="#60A5FA" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                    <TextBlock Text="فيزا / شبكة (Visa / Card)" FontSize="13" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                    <TextBlock Text="فيزا / شبكة (Visa / Card)" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                                 </StackPanel>
-                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18" Foreground="#8E8E93" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             </Grid>
                         </Button>
 
                         <!-- 3. Vodafone Cash -->
-                        <Button Command="{Binding SelectPaymentMethodCommand}" CommandParameter="فودافون كاش (Vodafone)" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Background="#111111" Height="46" Margin="0,0,0,8" Padding="12,0" HorizontalContentAlignment="Stretch">
+                        <Button Command="{Binding SelectPaymentMethodCommand}" CommandParameter="فودافون كاش (Vodafone)" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="{DynamicResource CardBorderBrush}" Background="{DynamicResource CardInnerBgBrush}" Height="46" Margin="0,0,0,8" Padding="12,0" HorizontalContentAlignment="Stretch">
                             <Grid Width="380">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="CellphoneCog" Width="20" Height="20" Foreground="#EF4444" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                    <TextBlock Text="فودافون كاش (Vodafone Cash)" FontSize="13" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                    <TextBlock Text="فودافون كاش (Vodafone Cash)" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                                 </StackPanel>
-                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18" Foreground="#8E8E93" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             </Grid>
                         </Button>
 
                         <!-- 4. InstaPay -->
-                        <Button Command="{Binding SelectPaymentMethodCommand}" CommandParameter="إنستاباي (InstaPay)" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Background="#111111" Height="46" Margin="0,0,0,8" Padding="12,0" HorizontalContentAlignment="Stretch">
+                        <Button Command="{Binding SelectPaymentMethodCommand}" CommandParameter="إنستاباي (InstaPay)" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="{DynamicResource CardBorderBrush}" Background="{DynamicResource CardInnerBgBrush}" Height="46" Margin="0,0,0,8" Padding="12,0" HorizontalContentAlignment="Stretch">
                             <Grid Width="380">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="Flash" Width="20" Height="20" Foreground="#F59E0B" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                    <TextBlock Text="إنستاباي (InstaPay)" FontSize="13" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                    <TextBlock Text="إنستاباي (InstaPay)" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                                 </StackPanel>
-                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18" Foreground="#8E8E93" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             </Grid>
                         </Button>
 
                         <!-- 5. Credit / Account -->
-                        <Button Command="{Binding SelectPaymentMethodCommand}" CommandParameter="آجل / حساب (Credit)" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#2C2C2C" Background="#111111" Height="46" Margin="0,0,0,4" Padding="12,0" HorizontalContentAlignment="Stretch">
+                        <Button Command="{Binding SelectPaymentMethodCommand}" CommandParameter="آجل / حساب (Credit)" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="{DynamicResource CardBorderBrush}" Background="{DynamicResource CardInnerBgBrush}" Height="46" Margin="0,0,0,4" Padding="12,0" HorizontalContentAlignment="Stretch">
                             <Grid Width="380">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="AccountClock" Width="20" Height="20" Foreground="#A78BFA" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                                    <TextBlock Text="آجل / حساب عميل (On Credit)" FontSize="13" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                    <TextBlock Text="آجل / حساب عميل (On Credit)" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                                 </StackPanel>
-                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18" Foreground="#8E8E93" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             </Grid>
                         </Button>
                     </UniformGrid>
