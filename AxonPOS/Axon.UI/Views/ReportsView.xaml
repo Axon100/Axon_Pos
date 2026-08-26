@@ -453,7 +453,7 @@
                 <!-- Right Actions: Save/Export & Print -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
                     <!-- Export Report Button (Save Dialog) -->
-                    <Button Command="{Binding ExportExcelCommand}" CommandParameter="{Binding ElementName=ReportDocumentCanvas}"
+                    <Button Command="{Binding ExportExcelCommand}" CommandParameter="{Binding ElementName=ReportDocumentSheet}"
                             Background="#162D1C" Foreground="#4AE176" BorderBrush="#234D28" BorderThickness="1"
                             Style="{StaticResource MaterialDesignFlatButton}" Margin="0,0,10,0" Padding="14,0" Height="34"
                             ToolTip="حفظ وتصدير التقرير بملف خارجي (PDFمطابق تماماً للشاشة, Excel .xlsx, CSV)">
@@ -464,7 +464,7 @@
                     </Button>
 
                     <!-- Print Report Button -->
-                    <Button Command="{Binding PrintReportCommand}" CommandParameter="{Binding ElementName=ReportDocumentCanvas}"
+                    <Button Command="{Binding PrintReportCommand}" CommandParameter="{Binding ElementName=ReportDocumentSheet}"
                             Style="{StaticResource Axon3DPrimaryButtonStyle}" Height="34" Padding="16,0" ToolTip="طباعة التقرير مباشرة">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <materialDesign:PackIcon Kind="Printer" Margin="0,0,6,0" Width="18" Height="18" VerticalAlignment="Center"/>
@@ -487,7 +487,7 @@
                         </Grid.LayoutTransform>
 
                         <!-- Realistic White Document Sheet -->
-                        <Border Background="White" BorderBrush="#D0D0D0" BorderThickness="1" CornerRadius="4" Padding="32,28" Width="840" MinHeight="580" Effect="{DynamicResource Axon3DDialogShadow}">
+                        <Border x:Name="ReportDocumentSheet" Background="White" BorderBrush="#D0D0D0" BorderThickness="1" CornerRadius="4" Padding="32,28" Width="840" MinHeight="580" Effect="{DynamicResource Axon3DDialogShadow}">
                             <StackPanel>
                                 <!-- ==================== A. TAB 0: CLOSED BOX REPORT (تقرير الصندوق المغلق وتقفيل الشيفت) ==================== -->
                                 <StackPanel>

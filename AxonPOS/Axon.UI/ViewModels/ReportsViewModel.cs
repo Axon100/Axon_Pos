@@ -673,29 +673,33 @@ namespace Axon.UI.ViewModels
                     {
                         try
                         {
-                            double w = visualElement.ActualWidth > 0 ? visualElement.ActualWidth : 840;
-                            double h = visualElement.ActualHeight > 0 ? visualElement.ActualHeight : 1100;
+                            var targetElement = visualElement as FrameworkElement ?? visualElement;
+                            double w = targetElement.ActualWidth > 0 ? targetElement.ActualWidth : 840;
+                            double h = targetElement.ActualHeight > 0 ? targetElement.ActualHeight : 1000;
+                            if (w < 800) w = 840;
 
                             double scale = 300.0 / 96.0;
                             int pxW = (int)(w * scale);
                             int pxH = (int)(h * scale);
 
-                            var rtb = new System.Windows.Media.Imaging.RenderTargetBitmap(pxW, pxH, 300, 300, System.Windows.Media.PixelFormats.Pbgra32);
-                            rtb.Render(visualElement);
+                            var vb = new VisualBrush(targetElement)
+                            {
+                                Stretch = Stretch.None,
+                                AlignmentX = AlignmentX.Left,
+                                AlignmentY = AlignmentY.Top
+                            };
 
-                            // Correct WPF RTL mirroring by drawing onto a DrawingVisual with ScaleX = -1
                             var dv = new DrawingVisual();
                             using (var dc = dv.RenderOpen())
                             {
-                                dc.PushTransform(new ScaleTransform(-1, 1, pxW / 2.0, 0));
-                                dc.DrawImage(rtb, new Rect(0, 0, pxW, pxH));
+                                dc.DrawRectangle(vb, null, new Rect(0, 0, w, h));
                             }
 
-                            var rtbFlipped = new System.Windows.Media.Imaging.RenderTargetBitmap(pxW, pxH, 300, 300, System.Windows.Media.PixelFormats.Pbgra32);
-                            rtbFlipped.Render(dv);
+                            var rtb = new System.Windows.Media.Imaging.RenderTargetBitmap(pxW, pxH, 300, 300, System.Windows.Media.PixelFormats.Pbgra32);
+                            rtb.Render(dv);
 
                             var encoder = new System.Windows.Media.Imaging.PngBitmapEncoder();
-                            encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(rtbFlipped));
+                            encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(rtb));
 
                             imgStream = new MemoryStream();
                             encoder.Save(imgStream);
