@@ -68,7 +68,7 @@
 
                 <!-- Username Input -->
                 <StackPanel Grid.Row="1" Margin="0,0,0,16">
-                    <TextBlock Text="رقم المستخدم / اسم الحساب" FontSize="12" FontWeight="Bold" Foreground="#CCCCCC" Margin="0,0,0,6"/>
+                    <TextBlock Text="رقم المستخدم / اسم الحساب" FontSize="12" FontWeight="Bold" Foreground="#CCCCCC" Margin="0,0,0,18"/>
                     <Border Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="12,0" Height="48">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -85,7 +85,7 @@
 
                 <!-- Password Input with Eye Toggle -->
                 <StackPanel Grid.Row="2" Margin="0,0,0,16">
-                    <TextBlock Text="كلمة المرور" FontSize="12" FontWeight="Bold" Foreground="#CCCCCC" Margin="0,0,0,6"/>
+                    <TextBlock Text="كلمة المرور" FontSize="12" FontWeight="Bold" Foreground="#CCCCCC" Margin="0,0,0,18"/>
                     <Border Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" Padding="12,0" Height="48">
                         <Grid>
                             <Grid.ColumnDefinitions>
