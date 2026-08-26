@@ -57,9 +57,9 @@
                 <!-- Hero Branding Badge -->
                 <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,0,0,24">
                     <!-- Circular Glowing Card -->
-                    <Border Width="72" Height="72" CornerRadius="36" Background="#161616" BorderBrush="#d90429" BorderThickness="1.5" HorizontalAlignment="Center" Margin="0,0,0,14" Effect="{DynamicResource Axon3DCardShadow}">
+                    <Border Width="80" Height="80" CornerRadius="40" Background="#161616" BorderBrush="#d90429" BorderThickness="1.5" HorizontalAlignment="Center" Margin="0,0,0,14" Padding="8" Effect="{DynamicResource Axon3DCardShadow}">
                         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Image Source="/Assets/logo.png" Height="40" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <Image Source="/Assets/logo.png" Height="48" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Grid>
                     </Border>
                     <TextBlock Text="تسجيل الدخول للنظام" FontSize="20" FontWeight="Black" Foreground="White" HorizontalAlignment="Center"/>
