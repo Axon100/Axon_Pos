@@ -60,10 +60,9 @@
 
                 <!-- Sidebar Header / Logo Area -->
                 <Border Grid.Row="0" Margin="14,14,14,8" Background="#161616" BorderBrush="#D90429" BorderThickness="1" CornerRadius="12" Padding="14,10" Effect="{DynamicResource Axon3DCardShadow}">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image Source="/Assets/logo.png" Height="22" Margin="0,0,10,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="AXON" FontSize="20" FontWeight="Black" Foreground="#D90429" VerticalAlignment="Center"/>
-                        <TextBlock Text=" POS" FontSize="20" FontWeight="Black" Foreground="White" VerticalAlignment="Center"/>
+                        <TextBlock Text=" POS" FontSize="20" FontWeight="Black" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Border>
 
