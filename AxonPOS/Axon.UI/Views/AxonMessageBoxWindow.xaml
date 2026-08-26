@@ -8,8 +8,7 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
-        FontFamily="Segoe UI"
-        FlowDirection="RightToLeft">
+        FontFamily="{DynamicResource AppFont}" FlowDirection="RightToLeft">
 
     <!-- Solid High-End Axon 3D Dark Card -->
     <Border CornerRadius="16" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" Margin="12">

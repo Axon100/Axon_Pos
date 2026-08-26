@@ -4,6 +4,23 @@
 
     <!-- AXON SHARED VIEW STYLES - All use DynamicResource for Light/Dark theme support -->
 
+    <!-- Global Implicit Font Application across the entire System -->
+    <Style TargetType="Window">
+        <Setter Property="FontFamily" Value="{DynamicResource AppFont}"/>
+    </Style>
+
+    <Style TargetType="UserControl">
+        <Setter Property="FontFamily" Value="{DynamicResource AppFont}"/>
+    </Style>
+
+    <Style TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{DynamicResource AppFont}"/>
+    </Style>
+
+    <Style TargetType="Control">
+        <Setter Property="FontFamily" Value="{DynamicResource AppFont}"/>
+    </Style>
+
     <Style x:Key="AxonDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
         <Setter Property="Background" Value="{DynamicResource AxonSecondarySurfaceBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource AxonSecondaryTextBrush}"/>

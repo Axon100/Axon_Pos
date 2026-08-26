@@ -8,7 +8,7 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
-        FontFamily="Segoe UI"
+        FontFamily="{DynamicResource AppFont}"
         FlowDirection="RightToLeft">
 
     <Window.Resources>

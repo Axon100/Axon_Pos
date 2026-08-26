@@ -4,7 +4,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              Background="{DynamicResource AppBgBrush}"
              Foreground="{DynamicResource TextPrimaryBrush}"
-             FontFamily="Segoe UI"
+             FontFamily="{DynamicResource AppFont}"
              FlowDirection="RightToLeft">
 
     <UserControl.Resources>

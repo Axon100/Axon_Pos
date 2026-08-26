@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              Background="{DynamicResource AppBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
-             FontFamily="Segoe UI" FlowDirection="RightToLeft">
+             FontFamily="{DynamicResource AppFont}" FlowDirection="RightToLeft">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
