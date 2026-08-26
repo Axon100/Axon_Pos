@@ -347,26 +347,30 @@
                                 <TextBlock Text="أحدث عمليات البيع" FontSize="16" FontWeight="Black" Foreground="White" VerticalAlignment="Center"/>
                             </StackPanel>
 
-                            <Button Grid.Column="1" Command="{Binding ViewAllSalesCommand}" Content="عرض الكل بالتقارير 📊" Style="{StaticResource MaterialDesignOutlinedButton}" Foreground="#D90429" BorderBrush="#D90429" FontWeight="Bold" FontSize="12" Height="32" Padding="12,0"/>
+                            <Button Grid.Column="1" Command="{Binding ViewAllSalesCommand}" Style="{StaticResource MaterialDesignFlatButton}" Foreground="#D90429" FontWeight="Bold" Height="32" Padding="8,0" Cursor="Hand" ToolTip="الانتقال لتقرير الفواتير التفصيلي">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Text="عرض الكل بالتقارير" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                    <materialDesign:PackIcon Kind="ArrowLeft" Width="16" Height="16" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
                         </Grid>
                         
                         <DataGrid x:Name="recentSalesGrid" ItemsSource="{Binding RecentSales}" AutoGenerateColumns="False" 
                                   CanUserAddRows="False" Background="Transparent" BorderThickness="0"
-                                  GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#222222"
-                                  HeadersVisibility="Column" RowBackground="Transparent">
+                                  GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#1F1F1F"
+                                  HeadersVisibility="Column" RowBackground="Transparent" AlternatingRowBackground="#121212">
                             <DataGrid.Resources>
                                 <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="Background" Value="#1A1A1A"/>
+                                    <Setter Property="Background" Value="#181818"/>
                                     <Setter Property="Foreground" Value="#8E8E93"/>
                                     <Setter Property="FontWeight" Value="Bold"/>
                                     <Setter Property="FontSize" Value="12"/>
                                     <Setter Property="Padding" Value="12,10"/>
-                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Right"/>
                                     <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                                    <Setter Property="BorderBrush" Value="#2C2C2C"/>
+                                    <Setter Property="BorderBrush" Value="#2A2A2A"/>
                                 </Style>
                                 <Style TargetType="DataGridRow">
-                                    <Setter Property="Background" Value="Transparent"/>
                                     <Setter Property="Foreground" Value="White"/>
                                     <Setter Property="BorderThickness" Value="0"/>
                                     <Style.Triggers>
@@ -378,23 +382,24 @@
                                 <Style TargetType="DataGridCell">
                                     <Setter Property="Padding" Value="12,10"/>
                                     <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
                                 </Style>
                             </DataGrid.Resources>
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="رقم الفاتورة" Binding="{Binding TxId}" Foreground="#D90429" FontWeight="Bold" Width="170"/>
-                                <DataGridTextColumn Header="العميل" Binding="{Binding Customer}" Width="*"/>
+                                <DataGridTextColumn Header="العميل" Binding="{Binding Customer}" Foreground="White" FontWeight="SemiBold" Width="*"/>
                                 <DataGridTextColumn Header="القيمة" Binding="{Binding AmountDisplay}" Foreground="#4AE176" FontWeight="Bold" Width="110"/>
                                 <DataGridTemplateColumn Header="الحالة" Width="90">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Border Background="#142B1A" BorderBrush="#4AE176" BorderThickness="1" CornerRadius="4" Padding="8,3" HorizontalAlignment="Left">
+                                            <Border Background="#142B1A" BorderBrush="#234D28" BorderThickness="1" CornerRadius="4" Padding="8,3" HorizontalAlignment="Right" VerticalAlignment="Center">
                                                 <TextBlock Text="{Binding Status}" FontSize="10" FontWeight="Bold" Foreground="#4AE176"/>
                                             </Border>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="التاريخ والوقت" Binding="{Binding Time}" Foreground="#8E8E93" FontSize="11" Width="150"/>
+                                <DataGridTextColumn Header="التاريخ والوقت" Binding="{Binding Time}" Foreground="#8E8E93" FontSize="11" FontWeight="SemiBold" Width="150"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
