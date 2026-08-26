@@ -752,14 +752,14 @@
                     <ScrollViewer MaxHeight="520" VerticalScrollBarVisibility="Auto">
                         <StackPanel TextElement.Foreground="Black">
                             <!-- 1. CIRCULAR LOGO BRANDING -->
-                            <Border Width="130" Height="130" CornerRadius="65" BorderBrush="Black" BorderThickness="1.5" HorizontalAlignment="Center" Margin="0,0,0,10" Padding="8">
-                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <TextBlock Text="VELOURA" FontSize="18" FontWeight="Bold" FontFamily="Georgia, Times New Roman, Segoe UI" Foreground="Black" VerticalAlignment="Center"/>
+                            <Border Width="150" Height="150" CornerRadius="75" BorderBrush="Black" BorderThickness="1.5" HorizontalAlignment="Center" Margin="0,0,0,10">
+                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <Path Data="M 12,2 C 10,2 8,4 8,7 C 6,4 4,4 2,6 C 0,8 1,12 4,13 C 1,15 0,18 2,20 C 4,22 8,20 10,17 C 10,19 11,21 12,21 C 13,21 14,19 14,17 C 16,20 20,22 22,20 C 24,18 23,15 20,13 C 23,12 24,8 22,6 C 20,4 18,4 16,7 C 16,4 14,2 12,2 Z"
-                                              Fill="Black" Width="16" Height="16" Stretch="Uniform" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                                              Fill="Black" Width="16" Height="16" Stretch="Uniform" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="VELOURA" FontSize="16" FontWeight="Bold" FontFamily="Georgia, Times New Roman, Segoe UI" Foreground="Black" VerticalAlignment="Center"/>
                                     </StackPanel>
-                                </StackPanel>
+                                </Grid>
                             </Border>
 
                             <TextBlock Text="العاشر من رمضان - مجاورة الخامسة" FontSize="11" FontWeight="Bold" Foreground="Black" TextAlignment="Center" HorizontalAlignment="Center"/>
@@ -835,13 +835,13 @@
                             <Grid Margin="0,2"><TextBlock Text="Tendered:" FontSize="11" Foreground="Black"/><TextBlock Text="{Binding ReceiptTotal, StringFormat='{}{0:N2}'}" FontSize="11" Foreground="Black" HorizontalAlignment="Right"/></Grid>
                             <Grid Margin="0,2"><TextBlock Text="Change:" FontSize="11" Foreground="Black"/><TextBlock Text="0.00" FontSize="11" Foreground="Black" HorizontalAlignment="Right"/></Grid>
 
-                            <!-- 5 Small Bottom Circles -->
+                            <!-- 5 Small Bottom Hollow Circles -->
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,14,0,4">
-                                <Ellipse Width="8" Height="8" Fill="Black" Margin="4,0"/>
-                                <Ellipse Width="8" Height="8" Fill="Black" Margin="4,0"/>
-                                <Ellipse Width="8" Height="8" Fill="Black" Margin="4,0"/>
-                                <Ellipse Width="8" Height="8" Fill="Black" Margin="4,0"/>
-                                <Ellipse Width="8" Height="8" Fill="Black" Margin="4,0"/>
+                                <Ellipse Width="9" Height="9" Fill="Transparent" Stroke="Black" StrokeThickness="1.5" Margin="4,0"/>
+                                <Ellipse Width="9" Height="9" Fill="Transparent" Stroke="Black" StrokeThickness="1.5" Margin="4,0"/>
+                                <Ellipse Width="9" Height="9" Fill="Transparent" Stroke="Black" StrokeThickness="1.5" Margin="4,0"/>
+                                <Ellipse Width="9" Height="9" Fill="Transparent" Stroke="Black" StrokeThickness="1.5" Margin="4,0"/>
+                                <Ellipse Width="9" Height="9" Fill="Transparent" Stroke="Black" StrokeThickness="1.5" Margin="4,0"/>
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
