@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="{Binding Title}" Height="600" Width="440"
+        Title="{Binding Title}" Height="660" Width="440"
         Icon="/Assets/app.ico"
         AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         Background="Transparent" Foreground="White"
@@ -149,9 +149,42 @@
                     </Border>
                 </StackPanel>
 
-                <!-- Footer Signature -->
-                <TextBlock Grid.Row="6" Text="Axon POS Enterprise v2.0 • جميع الحقوق محفوظة" 
-                           FontSize="10" Foreground="#555555" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,12,0,0"/>
+                <!-- Footer Signature & Contact Me Support Card -->
+                <StackPanel Grid.Row="6" VerticalAlignment="Bottom" Margin="0,16,0,0">
+                    <Border Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="12" Padding="12,10" Effect="{DynamicResource Axon3DCardShadow}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Support Icon -->
+                            <Border Grid.Column="0" Width="36" Height="36" CornerRadius="18" Background="#1FD90429" BorderBrush="#4DD90429" BorderThickness="1" VerticalAlignment="Center" Margin="0,0,10,0">
+                                <materialDesign:PackIcon Kind="Headset" Width="18" Height="18" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+
+                            <!-- Text & Info -->
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="الدعم الفني والتواصل مع المطور" FontSize="11" FontWeight="Bold" Foreground="#DDDDDD"/>
+                                <TextBlock Text="للاستفسارات والترخيص: 01509922025" FontSize="10" Foreground="#8E8E93" Margin="0,2,0,0"/>
+                            </StackPanel>
+
+                            <!-- WhatsApp / Phone Badges -->
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                <Border Background="#152E22" BorderBrush="#4D4ADE80" BorderThickness="1" CornerRadius="6" Padding="6,3" ToolTip="تواصل عبر الواتساب">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Whatsapp" Width="14" Height="14" Foreground="#4ADE80" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                        <TextBlock Text="واتساب" FontSize="10" FontWeight="Bold" Foreground="#4ADE80" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <TextBlock Text="Axon POS Enterprise v2.0 • جميع الحقوق محفوظة" 
+                               FontSize="10" Foreground="#555555" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                </StackPanel>
             </Grid>
         </Grid>
     </Border>
