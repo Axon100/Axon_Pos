@@ -961,7 +961,7 @@ namespace Axon.UI.ViewModels
         [RelayCommand]
         private async Task CheckoutAsync()
         {
-            if (Cart.Count == 0) return;
+            if (IsBusy || Cart.Count == 0) return;
 
             if (!UserSessionService.HasPermission("POS.Sell"))
             {

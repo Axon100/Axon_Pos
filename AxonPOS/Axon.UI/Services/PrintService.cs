@@ -54,6 +54,7 @@ namespace Axon.UI.Services
                 catch (Exception ex)
                 {
                     Debug.WriteLine($"Printing failed: {ex.Message}");
+                    Axon.UI.Views.AxonMessageBox.Show($"تعذر التوصيل بالطابعة أو حدث خطأ أثناء إرسال أمر الطباعة:\n{ex.Message}", "تنبيه الطباعة", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 }
             });
         }
