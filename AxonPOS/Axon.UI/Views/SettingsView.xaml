@@ -52,8 +52,8 @@
                                     <!-- Store Name -->
                                     <StackPanel>
                                         <TextBlock Text="اسم المتجر" FontSize="13" Foreground="{DynamicResource AxonSecondaryTextBrush}" Margin="0,0,0,6"/>
-                                        <Border Background="#111111" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="44">
-                                            <TextBox Text="{Binding LegalStoreName}" BorderThickness="0" Background="Transparent" Foreground="White" FontSize="14" VerticalAlignment="Center"/>
+                                        <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource AxonBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12,0" Height="44">
+                                            <TextBox Text="{Binding LegalStoreName}" BorderThickness="0" Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14" VerticalAlignment="Center"/>
                                         </Border>
                                     </StackPanel>
                                 </Grid>
@@ -63,7 +63,7 @@
                         <!-- Users Management Card (جدول حسابات المستخدمين) -->
                         <Border Style="{StaticResource Axon3DCardStyle}" Margin="0,0,0,24">
                             <StackPanel>
-                                <Border BorderBrush="#2C2C2C" BorderThickness="0,0,0,1" Padding="0,0,0,16" Margin="0,0,0,20">
+                                <Border BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,16" Margin="0,0,0,20">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -75,8 +75,8 @@
                                                 <materialDesign:PackIcon Kind="AccountGroup" Width="22" Height="22" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Border>
                                             <StackPanel VerticalAlignment="Center">
-                                                <TextBlock Text="إدارة حسابات مستخدمي النظام (System Users Manager)" FontSize="18" FontWeight="Bold" Foreground="White"/>
-                                                <TextBlock Text="إضافة وتعديل حسابات الكاشير والمشرفين وإمكانية تعليق أو حذف الحسابات" FontSize="12" Foreground="#A0A0A0" Margin="0,2,0,0"/>
+                                                <TextBlock Text="إدارة حسابات مستخدمي النظام (System Users Manager)" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                                <TextBlock Text="إضافة وتعديل حسابات الكاشير والمشرفين وإمكانية تعليق أو حذف الحسابات" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,2,0,0"/>
                                             </StackPanel>
                                         </StackPanel>
 
@@ -90,10 +90,10 @@
                                 </Border>
 
                                 <!-- Enhanced Users DataGrid -->
-                                <Border Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="10" ClipToBounds="True">
+                                <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" ClipToBounds="True">
                                     <DataGrid ItemsSource="{Binding Users}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" 
-                                              Background="#111111" RowBackground="#161616" AlternatingRowBackground="#111111"
-                                              Foreground="White" HeadersVisibility="Column" GridLinesVisibility="None" RowHeight="52">
+                                              Background="Transparent" RowBackground="{DynamicResource CardBgBrush}" AlternatingRowBackground="{DynamicResource TableAltRowBrush}"
+                                              Foreground="{DynamicResource TextPrimaryBrush}" HeadersVisibility="Column" GridLinesVisibility="None" RowHeight="52">
                                         <DataGrid.ColumnHeaderStyle>
                                             <Style TargetType="DataGridColumnHeader">
                                                 <Setter Property="Background" Value="#1E1E1E"/>

@@ -12,13 +12,13 @@
 
         <!-- Input Field Style -->
         <Style x:Key="BarcodeFilterInput" TargetType="TextBox">
-            <Setter Property="Background" Value="#111111"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#2C2C2C"/>
+            <Setter Property="Background" Value="{DynamicResource CardInnerBgBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="10,6"/>
             <Setter Property="FontSize" Value="12"/>
-            <Setter Property="CaretBrush" Value="White"/>
+            <Setter Property="CaretBrush" Value="{DynamicResource TextPrimaryBrush}"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -40,15 +40,15 @@
         <Style x:Key="BarcodeFieldLabel" TargetType="TextBlock">
             <Setter Property="FontSize" Value="11"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="#b4b5b5"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
             <Setter Property="Margin" Value="0,0,0,4"/>
         </Style>
 
         <!-- Toolbar Button Style -->
         <Style x:Key="ToolbarBtn" TargetType="Button">
-            <Setter Property="Background" Value="#1A1A1A"/>
-            <Setter Property="Foreground" Value="#b4b5b5"/>
-            <Setter Property="BorderBrush" Value="#2C2C2C"/>
+            <Setter Property="Background" Value="{DynamicResource CardBgBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="8,4"/>
             <Setter Property="Height" Value="32"/>
@@ -61,8 +61,8 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#252525"/>
-                                <Setter Property="Foreground" Value="White"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource CardInnerBgBrush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -96,7 +96,7 @@
         </Grid.RowDefinitions>
 
         <!-- ==================== 1. CRITERIA & FILTERS CARD ==================== -->
-        <Border Grid.Row="0" Background="#161616" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="12" Padding="18,14" Margin="0,0,0,12" Effect="{DynamicResource Axon3DCardShadow}">
+        <Border Grid.Row="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="18,14" Margin="0,0,0,12">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/> <!-- Header Title -->
@@ -108,7 +108,7 @@
                 <Grid Grid.Row="0" Margin="0,0,0,12">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <materialDesign:PackIcon Kind="BarcodeScan" Width="22" Height="22" Foreground="#d90429" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                        <TextBlock Text="طباعة وتصميم ملصقات الباركود" FontSize="16" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                        <TextBlock Text="طباعة وتصميم ملصقات الباركود" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                         <Border Background="#1f2b0005" BorderBrush="#33d90429" BorderThickness="1" CornerRadius="6" Padding="8,2" Margin="14,0,0,0">
                             <TextBlock Text="باركود المنتجات والأسعار" FontSize="11" Foreground="#ffb3af" FontWeight="SemiBold"/>
                         </Border>
@@ -143,8 +143,8 @@
                         <ComboBox ItemsSource="{Binding Categories}"
                                   SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
                                   DisplayMemberPath="Name"
-                                  Background="#111111" Foreground="White"
-                                  BorderBrush="#2C2C2C" BorderThickness="1"
+                                  Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                  BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
                                   Padding="10,6" Height="34"/>
                     </StackPanel>
 
@@ -154,8 +154,8 @@
                         <ComboBox ItemsSource="{Binding Products}"
                                   SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
                                   DisplayMemberPath="Name"
-                                  Background="#111111" Foreground="White"
-                                  BorderBrush="#2C2C2C" BorderThickness="1"
+                                  Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                  BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
                                   Padding="10,6" Height="34"/>
                     </StackPanel>
 
@@ -186,21 +186,21 @@
 
                     <!-- Label Size -->
                     <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="مقاس الملصق:" Foreground="#8E8E93" FontSize="11" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="مقاس الملصق:" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" VerticalAlignment="Center" Margin="0,0,8,0"/>
                         <ComboBox ItemsSource="{Binding LabelSizes}"
                                   SelectedItem="{Binding LabelSize, Mode=TwoWay}"
-                                  Background="#111111" Foreground="White"
-                                  BorderBrush="#2C2C2C" BorderThickness="1"
+                                  Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                  BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
                                   Padding="8,4" Height="32" Width="190" FontSize="11"/>
                     </StackPanel>
 
                     <!-- Options Checkboxes -->
                     <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0,0,0">
-                        <CheckBox IsChecked="{Binding ShowStoreName, Mode=TwoWay}" Content="اسم المتجر" Foreground="#E0E0E0" FontSize="11" Margin="0,0,12,0"/>
-                        <CheckBox IsChecked="{Binding ShowProductName, Mode=TwoWay}" Content="اسم المنتج" Foreground="#E0E0E0" FontSize="11" Margin="0,0,12,0"/>
-                        <CheckBox IsChecked="{Binding ShowPrice, Mode=TwoWay}" Content="سعر البيع" Foreground="#E0E0E0" FontSize="11" Margin="0,0,12,0"/>
-                        <CheckBox IsChecked="{Binding ShowBarcodeNumber, Mode=TwoWay}" Content="رقم الباركود" Foreground="#E0E0E0" FontSize="11" Margin="0,0,12,0"/>
-                        <CheckBox IsChecked="{Binding ShowCategoryName, Mode=TwoWay}" Content="القسم" Foreground="#E0E0E0" FontSize="11"/>
+                        <CheckBox IsChecked="{Binding ShowStoreName, Mode=TwoWay}" Content="اسم المتجر" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="11" Margin="0,0,12,0"/>
+                        <CheckBox IsChecked="{Binding ShowProductName, Mode=TwoWay}" Content="اسم المنتج" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="11" Margin="0,0,12,0"/>
+                        <CheckBox IsChecked="{Binding ShowPrice, Mode=TwoWay}" Content="سعر البيع" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="11" Margin="0,0,12,0"/>
+                        <CheckBox IsChecked="{Binding ShowBarcodeNumber, Mode=TwoWay}" Content="رقم الباركود" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="11" Margin="0,0,12,0"/>
+                        <CheckBox IsChecked="{Binding ShowCategoryName, Mode=TwoWay}" Content="القسم" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="11"/>
                     </StackPanel>
 
                     <!-- Execute Button (تنفيذ التقرير) -->
@@ -221,7 +221,7 @@
         </Border>
 
         <!-- ==================== 2. PRINT & NAVIGATION TOOLBAR ==================== -->
-        <Border Grid.Row="1" Background="#181818" BorderBrush="#282828" BorderThickness="1" CornerRadius="8" Padding="10,6" Margin="0,0,0,10">
+        <Border Grid.Row="1" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,6" Margin="0,0,0,10">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <!-- Left: Navigation & Zoom -->
@@ -241,11 +241,11 @@
                         <materialDesign:PackIcon Kind="ChevronRight" Width="16" Height="16"/>
                     </Button>
                     
-                    <Border Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="6" Padding="10,4" Margin="0,0,4,0" VerticalAlignment="Center">
+                    <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="10,4" Margin="0,0,4,0" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding CurrentPage}" Foreground="White" FontWeight="Bold" FontSize="11"/>
-                            <TextBlock Text=" / " Foreground="#8E8E93" FontSize="11"/>
-                            <TextBlock Text="{Binding TotalPages}" Foreground="#8E8E93" FontSize="11"/>
+                            <TextBlock Text="{Binding CurrentPage}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="Bold" FontSize="11"/>
+                            <TextBlock Text=" / " Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11"/>
+                            <TextBlock Text="{Binding TotalPages}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11"/>
                         </StackPanel>
                     </Border>
 
@@ -257,14 +257,14 @@
                     </Button>
 
                     <!-- Divider -->
-                    <Rectangle Width="1" Height="20" Fill="#2C2C2C" Margin="0,0,14,0"/>
+                    <Rectangle Width="1" Height="20" Fill="{DynamicResource CardBorderBrush}" Margin="0,0,14,0"/>
 
                     <!-- Zoom Controls -->
                     <Button Command="{Binding ZoomOutCommand}" Style="{StaticResource ToolbarBtn}" Width="30" ToolTip="تصغير" Margin="0,0,4,0">
                         <materialDesign:PackIcon Kind="MagnifyMinusOutline" Width="16" Height="16"/>
                     </Button>
-                    <Border Background="#111111" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,4,0" Width="55" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding ZoomText}" Foreground="White" FontWeight="Bold" FontSize="11" TextAlignment="Center"/>
+                    <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,4,0" Width="55" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding ZoomText}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="Bold" FontSize="11" TextAlignment="Center"/>
                     </Border>
                     <Button Command="{Binding ZoomInCommand}" Style="{StaticResource ToolbarBtn}" Width="30" ToolTip="تكبير" Margin="0,0,4,0">
                         <materialDesign:PackIcon Kind="MagnifyPlusOutline" Width="16" Height="16"/>
@@ -273,7 +273,7 @@
                 </StackPanel>
 
                 <!-- Status text in center -->
-                <TextBlock Grid.Column="1" Text="{Binding StatusInfo}" Foreground="#8E8E93" FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="{Binding StatusInfo}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
                 <!-- Right Print Actions -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
@@ -299,7 +299,7 @@
         </Border>
 
         <!-- ==================== 3. PRINT PREVIEW CANVAS ==================== -->
-        <Border Grid.Row="2" Background="#111111" BorderBrush="#222222" BorderThickness="1" CornerRadius="10" Padding="16">
+        <Border Grid.Row="2" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16">
             <Grid>
                 <!-- Generated Labels Sheet -->
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
