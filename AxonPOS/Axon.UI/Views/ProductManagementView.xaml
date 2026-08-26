@@ -519,10 +519,11 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Top Bar: Summary Text & Search Input -->
+                    <!-- Top Bar: Summary Text, View Switcher & Search Input -->
                     <Grid Grid.Row="0" Margin="0,0,0,16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
@@ -530,21 +531,145 @@
                             <TextBlock Text="عرض وإدارة الأقسام المتاحة بالنظام" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="13"/>
                         </StackPanel>
 
+                        <!-- View Mode Switcher: 3D Cards / Table -->
+                        <Border Grid.Column="1" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="3" Margin="0,0,12,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Button Command="{Binding SetCategoryCardViewModeCommand}" ToolTip="عرض كروت الأقسام (3D Boxes)" Style="{StaticResource Axon3DSecondaryButtonStyle}" Padding="10,4" Height="32" Margin="0,0,4,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ViewGrid" Width="18" Height="18" Foreground="{DynamicResource AxonPrimaryBrush}" Margin="0,0,6,0"/>
+                                        <TextBlock Text="بوكسات" FontSize="12" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Command="{Binding SetCategoryTableViewModeCommand}" ToolTip="عرض الجدول القياسي للأقسام" Style="{StaticResource Axon3DSecondaryButtonStyle}" Padding="10,4" Height="32">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Table" Width="18" Height="18" Foreground="{DynamicResource AxonSecondaryTextBrush}" Margin="0,0,6,0"/>
+                                        <TextBlock Text="جدول" FontSize="12" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Border>
+
                         <!-- Search Bar -->
-                        <Border Grid.Column="1" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,6" Width="280">
+                        <Border Grid.Column="2" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,6" Width="260">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <materialDesign:PackIcon Grid.Column="0" Kind="Magnify" Width="18" Height="18" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                <TextBox Grid.Column="1" Text="{Binding CategorySearchText, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" VerticalAlignment="Center" FontSize="13" materialDesign:HintAssist.Hint="البحث في الأقسام..."/>
+                                <TextBox Grid.Column="1" Text="{Binding CategorySearchText, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" VerticalAlignment="Center" FontSize="12" materialDesign:HintAssist.Hint="البحث في الأقسام..."/>
                             </Grid>
                         </Border>
                     </Grid>
 
-                    <!-- Categories DataGrid -->
+                    <!-- ==================== 1. 3D CARDS BOX CATEGORIES CATALOG VIEW ==================== -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ScrollViewer.Style>
+                            <Style TargetType="ScrollViewer">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsCategoryCardViewMode}" Value="False">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ScrollViewer.Style>
+                        <ItemsControl ItemsSource="{Binding CategoryItems}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <!-- 3D Card Box Container for Category -->
+                                    <Border Style="{StaticResource Axon3DCardStyle}" Width="270" Margin="0,0,16,16" Padding="16">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="90"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Row 0: Category ID & Status Badge -->
+                                            <Grid Grid.Row="0" Margin="0,0,0,10">
+                                                <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8,3" HorizontalAlignment="Left">
+                                                    <TextBlock Text="{Binding Id, StringFormat='قسم #{0}'}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="Bold"/>
+                                                </Border>
+                                                <Border Background="#104ae176" BorderBrush="#4d4ae176" BorderThickness="1" CornerRadius="12" Padding="8,2" HorizontalAlignment="Right">
+                                                    <TextBlock Text="نشط 🟢" Foreground="#22C55E" FontSize="11" FontWeight="SemiBold"/>
+                                                </Border>
+                                            </Grid>
+
+                                            <!-- Row 1: Category Icon Container Box -->
+                                            <Border Grid.Row="1" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Margin="0,0,0,12">
+                                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <materialDesign:PackIcon Kind="FolderKey" Width="44" Height="44" Foreground="#D90429"/>
+                                                </Grid>
+                                            </Border>
+
+                                            <!-- Row 2: Category Name & Description -->
+                                            <StackPanel Grid.Row="2" Margin="0,0,0,10">
+                                                <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/>
+                                                <TextBlock Text="{Binding Description}" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,2,0,0" TextTrimming="CharacterEllipsis" ToolTip="{Binding Description}"/>
+                                            </StackPanel>
+
+                                            <!-- Row 3: Linked Products Count Badge -->
+                                            <Border Grid.Row="3" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,8" Margin="0,0,0,12">
+                                                <Grid>
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                        <materialDesign:PackIcon Kind="PackageVariantClosed" Width="16" Height="16" Foreground="#D90429" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                                        <TextBlock Text="المنتجات المرتبطة:" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                                        <TextBlock Text="{Binding ProductsCount, StringFormat='{}{0} منتج'}" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+
+                                            <!-- Row 4: Action Buttons (Edit & Delete) -->
+                                            <Grid Grid.Row="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="8"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Button Grid.Column="0" Command="{Binding DataContext.OpenEditCategoryDialogCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
+                                                        Background="#1A2536" BorderBrush="#3B82F6" BorderThickness="1" Foreground="#60A5FA" Style="{StaticResource MaterialDesignFlatButton}" Height="34" Padding="0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <materialDesign:PackIcon Kind="PencilOutline" Foreground="#60A5FA" Width="14" Height="14" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                                        <TextBlock Text="تعديل" FontSize="12" FontWeight="Bold" VerticalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </Button>
+
+                                                <Button Grid.Column="2" Command="{Binding DataContext.DeleteCategoryCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
+                                                        Background="#2B0005" BorderBrush="#D90429" BorderThickness="1" Foreground="#FF4D6D" Style="{StaticResource MaterialDesignFlatButton}" Height="34" Padding="0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <materialDesign:PackIcon Kind="TrashCanOutline" Foreground="#FF4D6D" Width="14" Height="14" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                                        <TextBlock Text="حذف" FontSize="12" FontWeight="Bold" VerticalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <!-- ==================== 2. CATEGORIES DATA TABLE VIEW ==================== -->
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer.Style>
+                            <Style TargetType="ScrollViewer">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsCategoryCardViewMode}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ScrollViewer.Style>
                         <DataGrid ItemsSource="{Binding CategoryItems}" AutoGenerateColumns="False" CanUserAddRows="False"
                                   Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0"
                                   GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="{DynamicResource GridLineBrush}"

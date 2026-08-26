@@ -31,6 +31,15 @@ namespace Axon.UI.ViewModels
         private void SetTableViewMode() => IsCardViewMode = false;
 
         [ObservableProperty]
+        private bool _isCategoryCardViewMode = true; // Default to 3D Cards Box View for Categories
+
+        [RelayCommand]
+        private void SetCategoryCardViewMode() => IsCategoryCardViewMode = true;
+
+        [RelayCommand]
+        private void SetCategoryTableViewMode() => IsCategoryCardViewMode = false;
+
+        [ObservableProperty]
         private string _showingProductsCountDisplay = string.Empty;
 
         [ObservableProperty]
