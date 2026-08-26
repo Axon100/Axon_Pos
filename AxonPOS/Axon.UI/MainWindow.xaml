@@ -244,8 +244,8 @@
                     <!-- Search Bar -->
                     <TextBox Grid.Column="0" materialDesign:HintAssist.Hint="{DynamicResource SearchPlaceholder}" 
                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                             MaxWidth="340" HorizontalAlignment="Left" VerticalAlignment="Center"
-                             Foreground="White" BorderBrush="#353534" Margin="0,0,16,0"/>
+                             Width="400" HorizontalAlignment="Left" VerticalAlignment="Center"
+                             Foreground="White" BorderBrush="#353534" />
 
                     <!-- User Profile & Notifications -->
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,16,0">
