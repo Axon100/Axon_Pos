@@ -477,13 +477,13 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Total Categories Card -->
-                <Border Grid.Column="0" Style="{StaticResource HoverCardStyle}" Padding="18">
+                <Border Grid.Column="0" Style="{StaticResource Axon3DCardStyle}" Padding="18">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Width="44" Height="44" CornerRadius="10" Background="#1E293B" VerticalAlignment="Center" Margin="0,0,14,0">
+                        <Border Grid.Column="0" Width="44" Height="44" CornerRadius="10" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" VerticalAlignment="Center" Margin="0,0,14,0">
                             <materialDesign:PackIcon Kind="ViewList" Width="22" Height="22" Foreground="#3B82F6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
@@ -494,14 +494,14 @@
                 </Border>
 
                 <!-- Active Categories Card -->
-                <Border Grid.Column="2" Style="{StaticResource HoverCardStyle}" Padding="18">
+                <Border Grid.Column="2" Style="{StaticResource Axon3DCardStyle}" Padding="18">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Width="44" Height="44" CornerRadius="10" Background="#152E22" VerticalAlignment="Center" Margin="0,0,14,0">
-                            <materialDesign:PackIcon Kind="CheckCircle" Width="22" Height="22" Foreground="#4ADE80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border Grid.Column="0" Width="44" Height="44" CornerRadius="10" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" VerticalAlignment="Center" Margin="0,0,14,0">
+                            <materialDesign:PackIcon Kind="CheckCircle" Width="22" Height="22" Foreground="#22C55E" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Text="الأقسام النشطة" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,4"/>
@@ -519,17 +519,29 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Search Bar -->
-                    <Border Grid.Row="0" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,6" Margin="0,0,0,16" HorizontalAlignment="Left" Width="320">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <materialDesign:PackIcon Grid.Column="0" Kind="Magnify" Width="18" Height="18" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                            <TextBox Grid.Column="1" Text="{Binding CategorySearchText, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" VerticalAlignment="Center" FontSize="13" materialDesign:HintAssist.Hint="البحث في الأقسام..."/>
-                        </Grid>
-                    </Border>
+                    <!-- Top Bar: Summary Text & Search Input -->
+                    <Grid Grid.Row="0" Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="عرض وإدارة الأقسام المتاحة بالنظام" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="13"/>
+                        </StackPanel>
+
+                        <!-- Search Bar -->
+                        <Border Grid.Column="1" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,6" Width="280">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Grid.Column="0" Kind="Magnify" Width="18" Height="18" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <TextBox Grid.Column="1" Text="{Binding CategorySearchText, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" VerticalAlignment="Center" FontSize="13" materialDesign:HintAssist.Hint="البحث في الأقسام..."/>
+                            </Grid>
+                        </Border>
+                    </Grid>
 
                     <!-- Categories DataGrid -->
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
@@ -537,23 +549,17 @@
                                   Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0"
                                   GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="{DynamicResource GridLineBrush}"
                                   RowBackground="{DynamicResource CardBgBrush}" AlternatingRowBackground="{DynamicResource TableAltRowBrush}" HeadersVisibility="Column" SelectionMode="Single">
-                            <DataGrid.Resources>
-                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource AxonDataGridColumnHeaderStyle}"/>
-                                <Style TargetType="DataGridRow" BasedOn="{StaticResource AxonDataGridRowStyle}"/>
-                                <Style TargetType="DataGridCell">
-                                    <Setter Property="Padding" Value="14,10" />
-                                    <Setter Property="BorderThickness" Value="0" />
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="DataGridCell">
-                                                <Border Padding="{TemplateBinding Padding}" Background="Transparent">
-                                                    <ContentPresenter VerticalAlignment="Center" />
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
+                            <DataGrid.ColumnHeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="{DynamicResource CardInnerBgBrush}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="FontSize" Value="13"/>
+                                    <Setter Property="Padding" Value="14,12"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
                                 </Style>
-                            </DataGrid.Resources>
+                            </DataGrid.ColumnHeaderStyle>
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="#" Binding="{Binding Id}" Width="60" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}"/>
@@ -579,7 +585,7 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Border Background="#104ae176" BorderBrush="#4d4ae176" BorderThickness="1" CornerRadius="12" Padding="8,2" HorizontalAlignment="Left">
-                                                <TextBlock Text="نشط" Foreground="#4ae176" FontSize="11" FontWeight="SemiBold"/>
+                                                <TextBlock Text="نشط 🟢" Foreground="#22C55E" FontSize="11" FontWeight="SemiBold"/>
                                             </Border>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
