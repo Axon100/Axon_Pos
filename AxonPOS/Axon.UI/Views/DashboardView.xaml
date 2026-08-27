@@ -159,14 +159,14 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="صافي الأرباح" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Width="36" Height="36">
-                                <materialDesign:PackIcon Kind="TrendingUp" Foreground="#D90429" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="0" Text="صافي الأرباح" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,8,0"/>
+                            <Border Grid.Column="1" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Width="32" Height="32">
+                                <materialDesign:PackIcon Kind="TrendingUp" Foreground="#D90429" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </Grid>
                         
                         <Border Grid.Row="1" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,4,0,8" Margin="0,4,0,8">
-                            <TextBlock Text="{Binding TotalProfit, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="22" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="{Binding TotalProfit, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="20" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis"/>
                         </Border>
                         
                         <TextBlock Grid.Row="2" Text="الفواتير المؤكدة للفترة" Foreground="#D90429" FontSize="10" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
@@ -187,14 +187,14 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="إجمالي المصروفات" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Width="36" Height="36">
-                                <materialDesign:PackIcon Kind="TruckDelivery" Foreground="#D90429" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="0" Text="إجمالي المصروفات" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,8,0"/>
+                            <Border Grid.Column="1" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Width="32" Height="32">
+                                <materialDesign:PackIcon Kind="TruckDelivery" Foreground="#D90429" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </Grid>
                         
                         <Border Grid.Row="1" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,4,0,8" Margin="0,4,0,8">
-                            <TextBlock Text="{Binding TotalExpenses, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="22" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="{Binding TotalExpenses, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="20" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis"/>
                         </Border>
                         
                         <TextBlock Grid.Row="2" Text="المستلمة من الموردين والتشغيل" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
@@ -215,14 +215,14 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="إجمالي المنتجات والأصناف" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Width="36" Height="36">
-                                <materialDesign:PackIcon Kind="Coins" Foreground="#D90429" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="0" Text="إجمالي المنتجات والأصناف" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,8,0"/>
+                            <Border Grid.Column="1" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Width="32" Height="32">
+                                <materialDesign:PackIcon Kind="Coins" Foreground="#D90429" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </Grid>
                         
                         <Border Grid.Row="1" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,4,0,8" Margin="0,4,0,8">
-                            <TextBlock Text="{Binding TotalProducts, StringFormat='{}{0} صنف'}" FontSize="22" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="{Binding TotalProducts, StringFormat='{}{0} صنف'}" FontSize="20" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis"/>
                         </Border>
                         
                         <TextBlock Grid.Row="2" Text="# ربح تشغيلي موجب" Foreground="#D90429" FontSize="10" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
@@ -243,14 +243,14 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="أصناف ناقصة بالمستودع" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Width="36" Height="36">
-                                <materialDesign:PackIcon Kind="Alert" Foreground="#D90429" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="0" Text="أصناف ناقصة بالمستودع" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,8,0"/>
+                            <Border Grid.Column="1" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Width="32" Height="32">
+                                <materialDesign:PackIcon Kind="Alert" Foreground="#D90429" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </Grid>
                         
                         <Border Grid.Row="1" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,4,0,8" Margin="0,4,0,8">
-                            <TextBlock Text="{Binding LowStockCount, StringFormat='{}{0} أصناف'}" FontSize="22" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                            <TextBlock Text="{Binding LowStockCount, StringFormat='{}{0} أصناف'}" FontSize="20" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis"/>
                         </Border>
                         
                         <TextBlock Grid.Row="2" Text="تحتاج إلى إعادة طلب" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
@@ -281,13 +281,13 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,12,0">
                                 <Border Width="32" Height="32" CornerRadius="8" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" Margin="0,0,10,0">
                                     <materialDesign:PackIcon Kind="ChartBar" Width="18" Height="18" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                                 <StackPanel VerticalAlignment="Center">
-                                    <TextBlock Text="تقرير حركة المبيعات اليومية" FontSize="15" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                    <TextBlock Text="تحليل ومقارنة إجمالي مبيعات الأيام بشكل مباشر ومبسط" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                    <TextBlock Text="تقرير حركة المبيعات اليومية" FontSize="15" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="تحليل ومقارنة إجمالي مبيعات الأيام بشكل مباشر ومبسط" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" TextTrimming="CharacterEllipsis"/>
                                 </StackPanel>
                             </StackPanel>
 
