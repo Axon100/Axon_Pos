@@ -266,16 +266,15 @@
                     <ColumnDefinition Width="1.2*" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Sleek Modern Hybrid Analytics Hub (Glow Wave Line + Pillar Indicators) -->
+                <!-- Executive Daily Sales Ledger (Modern Financial Cards Container) -->
                 <Border Grid.Column="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14" MinHeight="310">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <!-- Chart Header & Performance Summary -->
+                        <!-- Ledger Header & Insight Summary -->
                         <Grid Grid.Row="0" Margin="0,0,0,14">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -284,123 +283,93 @@
 
                             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,12,0">
                                 <Border Width="36" Height="36" CornerRadius="10" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" Margin="0,0,10,0">
-                                    <materialDesign:PackIcon Kind="ChartTimelineVariant" Width="20" Height="20" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <materialDesign:PackIcon Kind="TableChart" Width="20" Height="20" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                                 <StackPanel VerticalAlignment="Center">
-                                    <TextBlock Text="مركز التحليلات المالي وتدفق المبيعات" FontSize="15" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis"/>
-                                    <TextBlock Text="تحليل اتجاه الإيرادات اليومية وتوزيع الأداء المالي" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="السجل الإحصائي اليومي للمبيعات" FontSize="15" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="بطاقات تحليلات المبيعات اليومية، الفواتير، ونسبة المساهمة المالية" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" TextTrimming="CharacterEllipsis"/>
                                 </StackPanel>
                             </StackPanel>
 
-                            <!-- Insight Pill Badges -->
-                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                                <Border Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Padding="10,4" Margin="0,0,6,0">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="TrendingUp" Width="14" Height="14" Foreground="#D90429" Margin="0,0,4,0" VerticalAlignment="Center"/>
-                                        <TextBlock Text="{Binding TotalSales, StringFormat='المبيعات: {0:#,##0.##} ج.م'}" FontSize="11" FontWeight="Black" Foreground="#D90429" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </Border>
-                                <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,4">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="Crown" Width="14" Height="14" Foreground="#F59E0B" Margin="0,0,4,0" VerticalAlignment="Center"/>
-                                        <TextBlock Text="{Binding ChartYAxisLabelMax, StringFormat='أعلى يوم: {0}'}" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </Border>
-                            </StackPanel>
+                            <!-- Total Sales Badge -->
+                            <Border Grid.Column="1" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Padding="12,6" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="CashMultiple" Width="15" Height="15" Foreground="#D90429" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding TotalSales, StringFormat='إجمالي الفترة: {0:#,##0.##} ج.م'}" FontSize="11" FontWeight="Black" Foreground="#D90429" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
                         </Grid>
 
-                        <!-- Glowing Spline Wave & Area Graph Canvas -->
-                        <Border Grid.Row="1" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="8" Margin="0,0,0,10">
-                            <Viewbox Stretch="Fill" Height="145">
-                                <Canvas Width="560" Height="155">
-                                    <!-- Horizontal Reference Gridlines -->
-                                    <Line X1="10" Y1="30" X2="550" Y2="30" Stroke="{DynamicResource GridLineBrush}" StrokeThickness="0.8" StrokeDashArray="3 3"/>
-                                    <Line X1="10" Y1="75" X2="550" Y2="75" Stroke="{DynamicResource GridLineBrush}" StrokeThickness="0.8" StrokeDashArray="3 3"/>
-                                    <Line X1="10" Y1="120" X2="550" Y2="120" Stroke="{DynamicResource GridLineBrush}" StrokeThickness="0.8" StrokeDashArray="3 3"/>
-
-                                    <!-- Smooth Crimson Gradient Area Fill -->
-                                    <Path Data="{Binding SalesAreaPathData}">
-                                        <Path.Fill>
-                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                <GradientStop Color="#50D90429" Offset="0.0"/>
-                                                <GradientStop Color="#15D90429" Offset="0.6"/>
-                                                <GradientStop Color="#00D90429" Offset="1.0"/>
-                                            </LinearGradientBrush>
-                                        </Path.Fill>
-                                    </Path>
-
-                                    <!-- Glowing Wave Spline Line -->
-                                    <Path Data="{Binding SalesLinePathData}" Stroke="#D90429" StrokeThickness="3" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
-                                        <Path.Effect>
-                                            <DropShadowEffect Color="#D90429" BlurRadius="12" ShadowDepth="2" Opacity="0.6"/>
-                                        </Path.Effect>
-                                    </Path>
-
-                                    <!-- Glowing Data Node Dots with Amount Tooltips -->
-                                    <ItemsControl ItemsSource="{Binding DailySalesChartData}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <Canvas IsItemsHost="True"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemContainerStyle>
-                                            <Style TargetType="ContentPresenter">
-                                                <Setter Property="Canvas.Left" Value="{Binding PointX}"/>
-                                                <Setter Property="Canvas.Top" Value="{Binding PointY}"/>
-                                            </Style>
-                                        </ItemsControl.ItemContainerStyle>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid Margin="-6,-6,0,0" ToolTip="{Binding AmountDisplay}">
-                                                    <Ellipse Width="12" Height="12" Fill="#D90429">
-                                                        <Ellipse.Effect>
-                                                            <DropShadowEffect Color="#D90429" BlurRadius="10" ShadowDepth="0" Opacity="0.9"/>
-                                                        </Ellipse.Effect>
-                                                    </Ellipse>
-                                                    <Ellipse Width="6" Height="6" Fill="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </Canvas>
-                            </Viewbox>
-                        </Border>
-
-                        <!-- Bottom Timeline Strip with Amounts and Dates -->
-                        <ItemsControl Grid.Row="2" ItemsSource="{Binding DailySalesChartData}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Rows="1"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Margin="2,0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        
-                                        <!-- Amount Badge -->
-                                        <Border Grid.Row="0" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="4" Padding="4,1" HorizontalAlignment="Center">
+                        <!-- Daily Sales Cards List -->
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                            <ItemsControl ItemsSource="{Binding DailySalesLedgerItems}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="12,10" Margin="0,0,0,8">
                                             <Border.Style>
                                                 <Style TargetType="Border">
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Amount}" Value="0">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <DataTrigger Binding="{Binding IsTopDay}" Value="True">
+                                                            <Setter Property="BorderBrush" Value="#D90429"/>
+                                                            <Setter Property="Background" Value="#12D90429"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </Border.Style>
-                                            <TextBlock Text="{Binding AmountDisplay}" FontSize="9" FontWeight="Black" Foreground="#D90429" HorizontalAlignment="Center"/>
-                                        </Border>
+                                            
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1.5*"/> <!-- Date & Day -->
+                                                    <ColumnDefinition Width="1.2*"/> <!-- Invoices Count -->
+                                                    <ColumnDefinition Width="1.8*"/> <!-- Contribution Progress -->
+                                                    <ColumnDefinition Width="1.5*"/> <!-- Total Sales Amount -->
+                                                    <ColumnDefinition Width="Auto"/> <!-- Performance Badge -->
+                                                </Grid.ColumnDefinitions>
 
-                                        <!-- Date Label -->
-                                        <TextBlock Grid.Row="1" Text="{Binding DayLabel}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,3,0,0"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                                                <!-- Date & Day -->
+                                                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <Border Width="30" Height="30" CornerRadius="8" Background="#18D90429" Margin="0,0,8,0">
+                                                        <materialDesign:PackIcon Kind="CalendarMonth" Width="15" Height="15" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <StackPanel VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding DayName}" FontSize="12" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                                        <TextBlock Text="{Binding DateLabel}" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+
+                                                <!-- Invoices Count -->
+                                                <Border Grid.Column="1" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="8,3" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                        <materialDesign:PackIcon Kind="ReceiptText" Width="13" Height="13" Foreground="#D90429" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                                        <TextBlock Text="{Binding InvoiceCountDisplay}" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </Border>
+
+                                                <!-- Contribution Progress Bar -->
+                                                <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="0,0,12,0">
+                                                    <Grid Margin="0,0,0,3">
+                                                        <TextBlock Text="نسبة الإيراد" FontSize="9" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                                        <TextBlock Text="{Binding PercentageDisplay}" FontSize="10" FontWeight="Black" Foreground="#D90429" HorizontalAlignment="Right"/>
+                                                    </Grid>
+                                                    <ProgressBar Value="{Binding Percentage}" Maximum="100" Height="6" Foreground="#D90429" Background="{DynamicResource ChartTrackBgBrush}" BorderThickness="0"/>
+                                                </StackPanel>
+
+                                                <!-- Total Sales Amount -->
+                                                <StackPanel Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,12,0">
+                                                    <TextBlock Text="إجمالي مبيعات اليوم" FontSize="9" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                                    <TextBlock Text="{Binding AmountDisplay}" FontSize="13" FontWeight="Black" Foreground="#D90429"/>
+                                                </StackPanel>
+
+                                                <!-- Performance Status Badge -->
+                                                <Border Grid.Column="4" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="6" Padding="10,4" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding StatusBadge}" FontSize="10" FontWeight="Black" Foreground="#D90429"/>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
                     </Grid>
                 </Border>
 

@@ -16,6 +16,7 @@ namespace Axon.UI.ViewModels
 {
     public partial class DashboardViewModel : BaseViewModel
     {
+        public ObservableCollection<DailySalesLedgerItem> DailySalesLedgerItems { get; } = new();
         [ObservableProperty]
         private decimal _totalSales;
         
@@ -272,6 +273,55 @@ namespace Axon.UI.ViewModels
                 var lowStockProducts = allProducts.Where(p => p.CurrentStock < lowStockThreshold).ToList();
                 LowStockCount = lowStockProducts.Count;
 
+                // ==================== 0. EXECUTIVE DAILY SALES LEDGER ====================
+                DailySalesLedgerItems.Clear();
+
+                var dailyGroups = filteredSales
+                    .GroupBy(s => s.Date.Date)
+                    .Select(g => new
+                    {
+                        Date = g.Key,
+                        InvoiceCount = g.Count(),
+                        TotalAmount = g.Sum(s => s.Total)
+                    })
+                    .OrderByDescending(g => g.Date)
+                    .ToList();
+
+                decimal highestDaySale = dailyGroups.Count > 0 ? dailyGroups.Max(g => g.TotalAmount) : 0m;
+
+                if (dailyGroups.Count == 0)
+                {
+                    DailySalesLedgerItems.Add(new DailySalesLedgerItem
+                    {
+                        DateLabel = DateTime.Today.ToString("yyyy/MM/dd"),
+                        DayName = DateTime.Today.ToString("dddd", arCulture),
+                        InvoiceCount = 0,
+                        TotalAmount = 0m,
+                        Percentage = 0,
+                        StatusBadge = "لا توجد مبيعات بالفترة",
+                        IsTopDay = false
+                    });
+                }
+                else
+                {
+                    foreach (var dg in dailyGroups)
+                    {
+                        double pct = TotalSales > 0 ? (double)(dg.TotalAmount / TotalSales * 100) : 0;
+                        bool isTop = dg.TotalAmount == highestDaySale && highestDaySale > 0;
+
+                        DailySalesLedgerItems.Add(new DailySalesLedgerItem
+                        {
+                            DateLabel = dg.Date.ToString("yyyy/MM/dd"),
+                            DayName = dg.Date.ToString("dddd", arCulture),
+                            InvoiceCount = dg.InvoiceCount,
+                            TotalAmount = dg.TotalAmount,
+                            Percentage = pct,
+                            StatusBadge = isTop ? "أعلى مبيعات 🏆" : "نشط ⚡",
+                            IsTopDay = isTop
+                        });
+                    }
+                }
+
                 // ==================== 1. DAILY / MONTHLY SALES CHART DATA ====================
                 DailySalesChartData.Clear();
 
@@ -452,6 +502,20 @@ namespace Axon.UI.ViewModels
                 IsBusy = false;
             }
         }
+    }
+
+    public class DailySalesLedgerItem
+    {
+        public string DateLabel { get; set; } = string.Empty;
+        public string DayName { get; set; } = string.Empty;
+        public int InvoiceCount { get; set; }
+        public string InvoiceCountDisplay => $"{InvoiceCount} فاتورة";
+        public decimal TotalAmount { get; set; }
+        public string AmountDisplay => $"{TotalAmount:#,##0.##} ج.م";
+        public double Percentage { get; set; }
+        public string PercentageDisplay => $"{Percentage:F1}%";
+        public string StatusBadge { get; set; } = "نشط ⚡";
+        public bool IsTopDay { get; set; }
     }
 
     public class DailySalesBarItem
