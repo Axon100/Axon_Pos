@@ -939,18 +939,30 @@
                                                                     <RowDefinition Height="Auto"/>
                                                                     <RowDefinition Height="Auto"/>
                                                                 </Grid.RowDefinitions>
-                                                                <Grid Grid.Row="0" Margin="0,0,0,4">
-                                                                    <TextBlock Text="{Binding ReceiptNumber}" Foreground="White" FontWeight="Bold" FontSize="11" TextTrimming="CharacterEllipsis"/>
-                                                                    <Border Background="#104ae176" BorderBrush="#4d4ae176" BorderThickness="1" CornerRadius="4" Padding="4,1" HorizontalAlignment="Left">
+                                                                
+                                                                <!-- Row 0: Invoice Number (Right) & Status (Left) -->
+                                                                <Grid Grid.Row="0" Margin="0,0,0,6">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Grid.Column="0" Text="{Binding ReceiptNumber}" Foreground="White" FontWeight="Bold" FontSize="11" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                                                    <Border Grid.Column="1" Background="#104ae176" BorderBrush="#4d4ae176" BorderThickness="1" CornerRadius="4" Padding="6,2" VerticalAlignment="Center">
                                                                         <TextBlock Text="{Binding Status}" Foreground="#4ae176" FontSize="9" FontWeight="Bold"/>
                                                                     </Border>
                                                                 </Grid>
+                                                                
+                                                                <!-- Row 1: Date (Right) & Total (Left) -->
                                                                 <Grid Grid.Row="1">
-                                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                                                                         <materialDesign:PackIcon Kind="ClockOutline" Width="11" Height="11" Foreground="#8E8E93" VerticalAlignment="Center" Margin="0,0,4,0"/>
                                                                         <TextBlock Text="{Binding Date, StringFormat='{}{0:MM/dd HH:mm}'}" Foreground="#8E8E93" FontSize="10" VerticalAlignment="Center"/>
                                                                     </StackPanel>
-                                                                    <TextBlock Text="{Binding Total, StringFormat='{}{0:N2} ج.م'}" Foreground="#ffb3af" FontWeight="Bold" FontSize="11" HorizontalAlignment="Left"/>
+                                                                    <TextBlock Grid.Column="1" Text="{Binding Total, StringFormat='{}{0:N2} ج.م'}" Foreground="#ffb3af" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
                                                                 </Grid>
                                                             </Grid>
                                                         </Border>
@@ -1019,14 +1031,18 @@
                                         <!-- Invoice Summary Ribbon -->
                                         <Border Grid.Row="0" Background="#181818" BorderBrush="#2C2C2C" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,0,6">
                                             <Grid>
-                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                    <TextBlock Text="الفاتورة: " Foreground="#8E8E93" FontSize="11"/>
-                                                    <TextBlock Text="{Binding SelectedSaleForReturn.ReceiptNumber}" Foreground="White" FontWeight="Bold" FontSize="11" Margin="0,0,12,0"/>
-                                                    <TextBlock Text="التاريخ: " Foreground="#8E8E93" FontSize="11"/>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <TextBlock Text="الفاتورة المختارة: " Foreground="#8E8E93" FontSize="11"/>
+                                                    <TextBlock Text="{Binding SelectedSaleForReturn.ReceiptNumber}" Foreground="White" FontWeight="Bold" FontSize="11" Margin="0,0,14,0"/>
+                                                    <TextBlock Text="التاريخ والوقت: " Foreground="#8E8E93" FontSize="11"/>
                                                     <TextBlock Text="{Binding SelectedSaleForReturn.Date, StringFormat='{}{0:yyyy/MM/dd HH:mm}'}" Foreground="White" FontSize="11"/>
                                                 </StackPanel>
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                                    <TextBlock Text="القيمة الأصلية: " Foreground="#8E8E93" FontSize="11"/>
+                                                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <TextBlock Text="إجمالي الفاتورة الأصلية: " Foreground="#8E8E93" FontSize="11"/>
                                                     <TextBlock Text="{Binding SelectedSaleForReturn.Total, StringFormat='{}{0:N2} ج.م'}" Foreground="#ffb3af" FontWeight="Bold" FontSize="11"/>
                                                 </StackPanel>
                                             </Grid>
@@ -1119,10 +1135,14 @@
                                     <CheckBox Grid.Column="2" IsChecked="{Binding ReturnRestockToInventory, Mode=TwoWay}" Content="إعادة الأصناف للمخزون (+ المخزون)" Foreground="#4ae176" FontWeight="SemiBold" VerticalAlignment="Bottom" Margin="0,0,0,2" FontSize="10"/>
                                 </Grid>
 
-                                <Border Background="#2b0005" BorderBrush="#d90429" BorderThickness="1" CornerRadius="6" Padding="10,6" Margin="0,0,0,8">
+                                <Border Background="#2b0005" BorderBrush="#d90429" BorderThickness="1" CornerRadius="6" Padding="12,8" Margin="0,0,0,8">
                                     <Grid>
-                                        <TextBlock Text="إجمالي المبلغ المسترد للعميل:" FontSize="12" FontWeight="Bold" Foreground="#ffb3af" VerticalAlignment="Center"/>
-                                        <TextBlock Text="{Binding TotalRefundAmount, StringFormat='{}{0:N2} ج.م'}" FontSize="16" FontWeight="Black" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="إجمالي المبلغ المسترد للعميل:" FontSize="13" FontWeight="Bold" Foreground="#ffb3af" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding TotalRefundAmount, StringFormat='{}{0:N2} ج.م'}" FontSize="18" FontWeight="Black" Foreground="White" VerticalAlignment="Center"/>
                                     </Grid>
                                 </Border>
 
