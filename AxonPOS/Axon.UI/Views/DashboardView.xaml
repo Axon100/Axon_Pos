@@ -69,8 +69,8 @@
                         <StackPanel VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
-                                <Border Background="#142B1A" BorderBrush="#4AE176" BorderThickness="1" CornerRadius="6" Padding="6,1" Margin="8,0,0,0" VerticalAlignment="Center">
-                                    <TextBlock Text="مباشر" FontSize="10" FontWeight="Bold" Foreground="#4AE176"/>
+                                <Border Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="6" Padding="6,1" Margin="8,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock Text="مباشر" FontSize="10" FontWeight="Bold" Foreground="#D90429"/>
                                 </Border>
                             </StackPanel>
                             <TextBlock Text="{Binding DateRange}" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,2,0,0"/>
@@ -94,7 +94,7 @@
                         <Button Command="{Binding RefreshDataCommand}" 
                                 Style="{StaticResource MaterialDesignOutlinedButton}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" 
                                 Height="38" Padding="10,0" Margin="0,0,8,0" ToolTip="تحديث كافة البيانات الحية">
-                            <materialDesign:PackIcon Kind="Refresh" Width="18" Height="18" Foreground="#4AE176"/>
+                            <materialDesign:PackIcon Kind="Refresh" Width="18" Height="18" Foreground="#D90429"/>
                         </Button>
 
                         <!-- Year Selector Dropdown -->
@@ -291,10 +291,10 @@
                                 </StackPanel>
                             </StackPanel>
 
-                            <Border Grid.Column="1" Background="#142B1A" BorderBrush="#4AE176" BorderThickness="1" CornerRadius="8" Padding="12,6" VerticalAlignment="Center">
+                            <Border Grid.Column="1" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Padding="12,6" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="CashMultiple" Width="15" Height="15" Foreground="#4AE176" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding TotalSales, StringFormat='إجمالي المبيعات: {0:#,##0.##} ج.م'}" FontSize="12" FontWeight="Black" Foreground="#4AE176" VerticalAlignment="Center"/>
+                                    <materialDesign:PackIcon Kind="CashMultiple" Width="15" Height="15" Foreground="#D90429" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding TotalSales, StringFormat='إجمالي المبيعات: {0:#,##0.##} ج.م'}" FontSize="12" FontWeight="Black" Foreground="#D90429" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Border>
                         </Grid>
@@ -398,8 +398,8 @@
                                                 <TextBlock Grid.Column="0" Text="{Binding CategoryName}" FontWeight="Bold" FontSize="12" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
                                                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                                                     <TextBlock Text="{Binding TotalSales, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                                                    <Border Background="#142B1A" CornerRadius="6" Padding="6,2">
-                                                        <TextBlock Text="{Binding PercentageDisplay}" FontWeight="Black" FontSize="11" Foreground="#4AE176"/>
+                                                    <Border Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="6" Padding="6,2">
+                                                        <TextBlock Text="{Binding PercentageDisplay}" FontWeight="Black" FontSize="11" Foreground="#D90429"/>
                                                     </Border>
                                                 </StackPanel>
                                             </Grid>
@@ -485,12 +485,12 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="رقم الفاتورة" Binding="{Binding TxId}" Foreground="#D90429" FontWeight="Bold" Width="170"/>
                                 <DataGridTextColumn Header="العميل" Binding="{Binding Customer}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="SemiBold" Width="*"/>
-                                <DataGridTextColumn Header="القيمة" Binding="{Binding AmountDisplay}" Foreground="#4AE176" FontWeight="Bold" Width="110"/>
+                                <DataGridTextColumn Header="القيمة" Binding="{Binding AmountDisplay}" Foreground="#D90429" FontWeight="Bold" Width="110"/>
                                 <DataGridTemplateColumn Header="الحالة" Width="90">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Border Background="#142B1A" BorderBrush="#234D28" BorderThickness="1" CornerRadius="6" Padding="8,3" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding Status}" FontSize="10" FontWeight="Bold" Foreground="#4AE176"/>
+                                            <Border Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="6" Padding="8,3" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Status}" FontSize="10" FontWeight="Bold" Foreground="#D90429"/>
                                             </Border>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
