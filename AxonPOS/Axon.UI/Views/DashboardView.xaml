@@ -98,7 +98,7 @@
                 </Grid>
             </Border>
 
-            <!-- ==================== 2. HERO KPI METRIC CARDS ==================== -->
+            <!-- ==================== 2. HERO KPI METRIC CARDS (LIGHT & DARK THEME SUPPORT) ==================== -->
             <Grid Grid.Row="1" Margin="0,0,0,16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -110,8 +110,8 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <!-- 1. Net Profit Card (صافي الأرباح / صافي المبيعات) -->
-                <Border Grid.Column="0" Background="#121212" BorderBrush="#262626" BorderThickness="1" CornerRadius="10" Padding="14,12">
+                <!-- 1. Net Profit Card -->
+                <Border Grid.Column="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="14,12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -119,30 +119,27 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         
-                        <!-- Header: Title (Right in RTL) & Crimson Red Icon Box (Left in RTL) -->
                         <Grid Grid.Row="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="صافي الأرباح" FontSize="11" Foreground="#94A3B8" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#261014" BorderBrush="#3D141C" BorderThickness="1" CornerRadius="8" Width="36" Height="36">
+                            <TextBlock Grid.Column="0" Text="صافي الأرباح" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <Border Grid.Column="1" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Width="36" Height="36">
                                 <materialDesign:PackIcon Kind="TrendingUp" Foreground="#D90429" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </Grid>
                         
-                        <!-- Middle: Big White Numeric Value -->
-                        <Border Grid.Row="1" BorderBrush="#1F1F1F" BorderThickness="0,0,0,1" Padding="0,4,0,8" Margin="0,4,0,8">
-                            <TextBlock Text="{Binding TotalProfit, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="22" FontWeight="Black" Foreground="White"/>
+                        <Border Grid.Row="1" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,4,0,8" Margin="0,4,0,8">
+                            <TextBlock Text="{Binding TotalProfit, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="22" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         </Border>
                         
-                        <!-- Footer: Red Accent Subtitle -->
                         <TextBlock Grid.Row="2" Text="الفواتير المؤكدة للفترة" Foreground="#D90429" FontSize="10" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
                     </Grid>
                 </Border>
 
-                <!-- 2. Expenses Card (إجمالي المصروفات / توريدات المشتريات) -->
-                <Border Grid.Column="2" Background="#121212" BorderBrush="#262626" BorderThickness="1" CornerRadius="10" Padding="14,12">
+                <!-- 2. Expenses Card -->
+                <Border Grid.Column="2" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="14,12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -155,22 +152,22 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="إجمالي المصروفات" FontSize="11" Foreground="#94A3B8" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#261014" BorderBrush="#3D141C" BorderThickness="1" CornerRadius="8" Width="36" Height="36">
+                            <TextBlock Grid.Column="0" Text="إجمالي المصروفات" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <Border Grid.Column="1" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Width="36" Height="36">
                                 <materialDesign:PackIcon Kind="TruckDelivery" Foreground="#D90429" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </Grid>
                         
-                        <Border Grid.Row="1" BorderBrush="#1F1F1F" BorderThickness="0,0,0,1" Padding="0,4,0,8" Margin="0,4,0,8">
-                            <TextBlock Text="{Binding TotalExpenses, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="22" FontWeight="Black" Foreground="White"/>
+                        <Border Grid.Row="1" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,4,0,8" Margin="0,4,0,8">
+                            <TextBlock Text="{Binding TotalExpenses, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="22" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         </Border>
                         
-                        <TextBlock Grid.Row="2" Text="المستلمة من الموردين والتشغيل" Foreground="#8E8E93" FontSize="10" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Grid.Row="2" Text="المستلمة من الموردين والتشغيل" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
                     </Grid>
                 </Border>
 
-                <!-- 3. Products Card (إجمالي المنتجات والأصناف / الأرباح التشغيلية) -->
-                <Border Grid.Column="4" Background="#121212" BorderBrush="#262626" BorderThickness="1" CornerRadius="10" Padding="14,12">
+                <!-- 3. Products Card -->
+                <Border Grid.Column="4" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="14,12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -183,22 +180,22 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="إجمالي المنتجات والأصناف" FontSize="11" Foreground="#94A3B8" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#261014" BorderBrush="#3D141C" BorderThickness="1" CornerRadius="8" Width="36" Height="36">
+                            <TextBlock Grid.Column="0" Text="إجمالي المنتجات والأصناف" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <Border Grid.Column="1" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Width="36" Height="36">
                                 <materialDesign:PackIcon Kind="Coins" Foreground="#D90429" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </Grid>
                         
-                        <Border Grid.Row="1" BorderBrush="#1F1F1F" BorderThickness="0,0,0,1" Padding="0,4,0,8" Margin="0,4,0,8">
-                            <TextBlock Text="{Binding TotalProducts, StringFormat='{}{0} صنف'}" FontSize="22" FontWeight="Black" Foreground="White"/>
+                        <Border Grid.Row="1" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,4,0,8" Margin="0,4,0,8">
+                            <TextBlock Text="{Binding TotalProducts, StringFormat='{}{0} صنف'}" FontSize="22" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         </Border>
                         
                         <TextBlock Grid.Row="2" Text="# ربح تشغيلي موجب" Foreground="#D90429" FontSize="10" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
                     </Grid>
                 </Border>
 
-                <!-- 4. Low Stock Card (أصناف ناقصة بالمستودع) -->
-                <Border Grid.Column="6" Background="#121212" BorderBrush="#262626" BorderThickness="1" CornerRadius="10" Padding="14,12">
+                <!-- 4. Low Stock Card -->
+                <Border Grid.Column="6" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="14,12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -211,17 +208,17 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="أصناف ناقصة بالمستودع" FontSize="11" Foreground="#94A3B8" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#261014" BorderBrush="#3D141C" BorderThickness="1" CornerRadius="8" Width="36" Height="36">
+                            <TextBlock Grid.Column="0" Text="أصناف ناقصة بالمستودع" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <Border Grid.Column="1" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Width="36" Height="36">
                                 <materialDesign:PackIcon Kind="Alert" Foreground="#D90429" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </Grid>
                         
-                        <Border Grid.Row="1" BorderBrush="#1F1F1F" BorderThickness="0,0,0,1" Padding="0,4,0,8" Margin="0,4,0,8">
-                            <TextBlock Text="{Binding LowStockCount, StringFormat='{}{0} أصناف'}" FontSize="22" FontWeight="Black" Foreground="White"/>
+                        <Border Grid.Row="1" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="0,0,0,1" Padding="0,4,0,8" Margin="0,4,0,8">
+                            <TextBlock Text="{Binding LowStockCount, StringFormat='{}{0} أصناف'}" FontSize="22" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
                         </Border>
                         
-                        <TextBlock Grid.Row="2" Text="تحتاج إلى إعادة طلب" Foreground="#8E8E93" FontSize="10" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Grid.Row="2" Text="تحتاج إلى إعادة طلب" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
                     </Grid>
                 </Border>
             </Grid>
