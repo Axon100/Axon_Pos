@@ -68,7 +68,7 @@
                         </StackPanel>
 
                         <!-- Subtitle Line: لإدارة مبيعاتك بسهولة -->
-                        <TextBlock Text="لإدارة مبيعاتك بسهولة" FontSize="13" FontWeight="Bold" Foreground="#E2E8F0" HorizontalAlignment="Right" Margin="0,4,0,0"/>
+                        <TextBlock Text="لإدارة مبيعاتك بسهولة" FontSize="13" FontWeight="Bold" Foreground="#E2E8F0" HorizontalAlignment="Right" Margin="0,-4,0,0"/>
                     </StackPanel>
                 </Border>
 
