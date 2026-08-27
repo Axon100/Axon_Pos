@@ -67,8 +67,8 @@
                             <TextBlock Text=" POS" FontSize="22" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" Margin="4,0,0,0"/>
                         </StackPanel>
 
-                        <!-- Subtitle Line: لوحة التحكم الإدارية -->
-                        <TextBlock Text="لوحة التحكم الإدارية" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Right" Margin="0,3,0,0"/>
+                        <!-- Subtitle Line: لإدارة مبيعاتك بسهولة -->
+                        <TextBlock Text="لإدارة مبيعاتك بسهولة" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Right" Margin="0,3,0,0"/>
                     </StackPanel>
                 </Border>
 
