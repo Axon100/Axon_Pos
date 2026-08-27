@@ -892,10 +892,14 @@
                                         <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding TotalCOGS, StringFormat='-{0:N2} ج.م'}" FontSize="12" FontWeight="Bold" Foreground="#2563EB" Padding="0,4"/>
 
                                         <!-- Gross Profit Row -->
-                                        <Border Grid.Row="5" Grid.ColumnSpan="2" Background="#EFF6FF" BorderBrush="#BFDBFE" BorderThickness="1" CornerRadius="4" Padding="10,6" Margin="0,4">
+                                        <Border Grid.Row="5" Grid.ColumnSpan="2" Background="#EFF6FF" BorderBrush="#BFDBFE" BorderThickness="1" CornerRadius="4" Padding="12,8" Margin="0,4">
                                             <Grid>
-                                                <TextBlock Text="(=) إجمالي أرباح النشاط قبل المصروفات (Gross Profit Margin)" FontSize="12" FontWeight="Bold" Foreground="#1E40AF" VerticalAlignment="Center"/>
-                                                <TextBlock Text="{Binding GrossProfit, StringFormat='{}{0:N2} ج.م'}" FontSize="14" FontWeight="Black" Foreground="#1E40AF" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="(=) إجمالي أرباح النشاط قبل المصروفات (Gross Profit Margin)" FontSize="12" FontWeight="Bold" Foreground="#1E40AF" VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding GrossProfit, StringFormat='{}{0:N2} ج.م'}" FontSize="14" FontWeight="Black" Foreground="#1E40AF" VerticalAlignment="Center"/>
                                             </Grid>
                                         </Border>
 
@@ -906,11 +910,15 @@
                                         <!-- Final Net Profit / Loss Row -->
                                         <Border Grid.Row="7" Grid.ColumnSpan="2" Background="#FEF3C7" BorderBrush="#FCD34D" BorderThickness="1" CornerRadius="4" Padding="12,8" Margin="0,6,0,0">
                                             <Grid>
-                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                                                     <TextBlock Text="(=) صافي الأرباح / الخسائر النهائي (Net Profit / Loss): " FontSize="13" FontWeight="Bold" Foreground="#92400E"/>
                                                     <TextBlock Text="{Binding NetProfitMarginPct, StringFormat='(نسبة الصافي: {0:F1}%)'}" FontSize="11" FontWeight="SemiBold" Foreground="#B45309" VerticalAlignment="Center" Margin="6,0,0,0"/>
                                                 </StackPanel>
-                                                <TextBlock Text="{Binding NetProfit, StringFormat='{}{0:N2} ج.م'}" FontSize="16" FontWeight="Black" Foreground="#059669" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding NetProfit, StringFormat='{}{0:N2} ج.م'}" FontSize="16" FontWeight="Black" Foreground="#059669" VerticalAlignment="Center"/>
                                             </Grid>
                                         </Border>
                                     </Grid>
@@ -1005,6 +1013,7 @@
                                     </Grid>
                                 </Border>
 
+                                <!-- Expenses Rows -->
                                 <ItemsControl ItemsSource="{Binding ExpensesReport}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
@@ -1031,17 +1040,44 @@
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
 
+                                <!-- Empty State when no expenses recorded -->
+                                <Border BorderBrush="#E2E8F0" BorderThickness="1,0,1,1" Padding="12,10" Background="#F8FAFC">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ExpensesReport.Count}" Value="0">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <TextBlock Text="لا توجد مصروفات تشغيلية أو نثريات مسجلة للنظام خلال هذه الفترة المحدد (0.00 ج.م)" FontSize="11" Foreground="#64748B" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+                                </Border>
+
+                                <!-- Expenses Total Summary Footer Row -->
+                                <Border Background="#FEF2F2" BorderBrush="#FCA5A5" BorderThickness="1,0,1,1" Padding="10,8">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="إجمالي المصروفات التشغيلية والنثريات خلال الفترة:" FontSize="11" FontWeight="Bold" Foreground="#991B1B" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding TotalExpenses, StringFormat='{}{0:N2} ج.م'}" FontSize="12" FontWeight="Black" Foreground="#DC2626" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+
                                 <!-- Signatures -->
                                 <Grid Margin="0,30,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0" HorizontalAlignment="Right">
+                                    <StackPanel Grid.Column="0" HorizontalAlignment="Left">
                                         <TextBlock Text="مسؤول الحسابات / المالي:" FontSize="11" FontWeight="Bold" Foreground="#1E3A8A"/>
                                         <TextBlock Text="التوقيع: ......................................." FontSize="10" Foreground="#64748B" Margin="0,10,0,0"/>
                                     </StackPanel>
-                                    <StackPanel Grid.Column="1" HorizontalAlignment="Left">
+                                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
                                         <TextBlock Text="توقيع واعتماد الإدارة:" FontSize="11" FontWeight="Bold" Foreground="#1E3A8A"/>
                                         <TextBlock Text="التوقيع: ......................................." FontSize="10" Foreground="#64748B" Margin="0,10,0,0"/>
                                     </StackPanel>
