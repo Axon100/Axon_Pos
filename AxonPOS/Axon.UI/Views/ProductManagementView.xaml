@@ -327,7 +327,7 @@
                                                     </StackPanel>
                                                 </Button>
 
-                                                <Button Grid.Column="2" Command="{Binding DataContext.PrintBarcodeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Style="{StaticResource Axon3DSecondaryButtonStyle}" Padding="8,4" Height="32" ToolTip="طباعة باركود">
+                                                <Button Grid.Column="2" Command="{Binding DataContext.OpenBarcodeScreenCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Style="{StaticResource Axon3DSecondaryButtonStyle}" Padding="8,4" Height="32" ToolTip="طباعة باركود">
                                                     <materialDesign:PackIcon Kind="BarcodeScan" Width="16" Height="16" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                                                 </Button>
 
@@ -424,12 +424,15 @@
                             <DataGridTextColumn Header="السعر" Binding="{Binding Price, StringFormat='{}{0:#,##0.##} ج.م'}" Width="1*" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
 
                             <!-- Actions -->
-                            <DataGridTemplateColumn Header="إجراءات" Width="100">
+                            <DataGridTemplateColumn Header="إجراءات" Width="130">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <Button Command="{Binding DataContext.OpenEditProductDialogCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Style="{StaticResource MaterialDesignFlatButton}" Foreground="#3B82F6" Padding="4" Height="28" Width="28" ToolTip="تعديل">
                                                 <materialDesign:PackIcon Kind="PencilOutline" Width="16" Height="16"/>
+                                            </Button>
+                                            <Button Command="{Binding DataContext.OpenBarcodeScreenCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Style="{StaticResource MaterialDesignFlatButton}" Foreground="#10B981" Padding="4" Height="28" Width="28" ToolTip="طباعة وتصميم الباركود">
+                                                <materialDesign:PackIcon Kind="BarcodeScan" Width="16" Height="16"/>
                                             </Button>
                                             <Button Command="{Binding DataContext.DeleteProductCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Style="{StaticResource MaterialDesignFlatButton}" Foreground="#EF4444" Padding="4" Height="28" Width="28" ToolTip="حذف">
                                                 <materialDesign:PackIcon Kind="DeleteOutline" Width="16" Height="16"/>

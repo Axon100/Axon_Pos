@@ -98,6 +98,17 @@ namespace Axon.UI.ViewModels
 
         private bool _isInitializing = false;
 
+        
+        public void SelectProductById(int productId)
+        {
+            var match = _allProducts.FirstOrDefault(p => p.Id == productId);
+            if (match != null)
+            {
+                SelectedProduct = match;
+                _ = ExecuteGenerateCommand.ExecuteAsync(null);
+            }
+        }
+
         public BarcodeManagementViewModel(
             IBarcodeService barcodeService,
             IRepository<Product> productRepository,

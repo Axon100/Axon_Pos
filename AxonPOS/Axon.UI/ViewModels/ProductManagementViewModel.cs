@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using Axon.UI.Helpers;
 using Axon.UI.ViewModels.Base;
 using Axon.Application.Interfaces.Services;
@@ -17,6 +18,21 @@ namespace Axon.UI.ViewModels
 {
     public partial class ProductManagementViewModel : BaseViewModel
     {
+        [RelayCommand]
+        private void OpenBarcodeScreen(ProductManagementItemModel? product)
+        {
+            var barcodeVm = App.AppHost!.Services.GetRequiredService<BarcodeManagementViewModel>();
+            
+            if (System.Windows.Application.Current?.MainWindow?.DataContext is MainWindowViewModel mainVm)
+            {
+                mainVm.NavigateCommand.Execute("Barcodes");
+                if (product != null)
+                {
+                    barcodeVm.SelectProductById(product.Id);
+                }
+            }
+        }
+
         // 0 = Products, 1 = Categories
         [ObservableProperty]
         private int _selectedTab = 0;
