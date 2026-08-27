@@ -266,41 +266,108 @@
                     <ColumnDefinition Width="1.2*" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Clear Admin Sales Bar Chart -->
-                <Border Grid.Column="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14" MinHeight="280">
+                <!-- Sleek Modern Hybrid Analytics Hub (Glow Wave Line + Pillar Indicators) -->
+                <Border Grid.Column="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14" MinHeight="310">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <!-- Chart Header -->
-                        <Grid Grid.Row="0" Margin="0,0,0,12">
+                        <!-- Chart Header & Performance Summary -->
+                        <Grid Grid.Row="0" Margin="0,0,0,14">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,12,0">
-                                <Border Width="32" Height="32" CornerRadius="8" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" Margin="0,0,10,0">
-                                    <materialDesign:PackIcon Kind="ChartBar" Width="18" Height="18" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Width="36" Height="36" CornerRadius="10" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" Margin="0,0,10,0">
+                                    <materialDesign:PackIcon Kind="ChartTimelineVariant" Width="20" Height="20" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                                 <StackPanel VerticalAlignment="Center">
-                                    <TextBlock Text="تقرير حركة المبيعات اليومية" FontSize="15" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis"/>
-                                    <TextBlock Text="تحليل ومقارنة إجمالي مبيعات الأيام بشكل مباشر ومبسط" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="مركز التحليلات المالي وتدفق المبيعات" FontSize="15" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="تحليل اتجاه الإيرادات اليومية وتوزيع الأداء المالي" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" TextTrimming="CharacterEllipsis"/>
                                 </StackPanel>
                             </StackPanel>
 
-                            <Border Grid.Column="1" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Padding="12,6" VerticalAlignment="Center">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="CashMultiple" Width="15" Height="15" Foreground="#D90429" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding TotalSales, StringFormat='إجمالي المبيعات: {0:#,##0.##} ج.م'}" FontSize="12" FontWeight="Black" Foreground="#D90429" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </Border>
+                            <!-- Insight Pill Badges -->
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                <Border Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Padding="10,4" Margin="0,0,6,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="TrendingUp" Width="14" Height="14" Foreground="#D90429" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding TotalSales, StringFormat='المبيعات: {0:#,##0.##} ج.م'}" FontSize="11" FontWeight="Black" Foreground="#D90429" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,4">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="Crown" Width="14" Height="14" Foreground="#F59E0B" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding ChartYAxisLabelMax, StringFormat='أعلى يوم: {0}'}" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
                         </Grid>
 
-                        <!-- Visual Admin Bar Graph with Direct Amount Indicators -->
-                        <ItemsControl Grid.Row="1" ItemsSource="{Binding DailySalesChartData}" VerticalAlignment="Bottom" Margin="0,8,0,0">
+                        <!-- Glowing Spline Wave & Area Graph Canvas -->
+                        <Border Grid.Row="1" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="8" Margin="0,0,0,10">
+                            <Viewbox Stretch="Fill" Height="145">
+                                <Canvas Width="560" Height="155">
+                                    <!-- Horizontal Reference Gridlines -->
+                                    <Line X1="10" Y1="30" X2="550" Y2="30" Stroke="{DynamicResource GridLineBrush}" StrokeThickness="0.8" StrokeDashArray="3 3"/>
+                                    <Line X1="10" Y1="75" X2="550" Y2="75" Stroke="{DynamicResource GridLineBrush}" StrokeThickness="0.8" StrokeDashArray="3 3"/>
+                                    <Line X1="10" Y1="120" X2="550" Y2="120" Stroke="{DynamicResource GridLineBrush}" StrokeThickness="0.8" StrokeDashArray="3 3"/>
+
+                                    <!-- Smooth Crimson Gradient Area Fill -->
+                                    <Path Data="{Binding SalesAreaPathData}">
+                                        <Path.Fill>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Color="#50D90429" Offset="0.0"/>
+                                                <GradientStop Color="#15D90429" Offset="0.6"/>
+                                                <GradientStop Color="#00D90429" Offset="1.0"/>
+                                            </LinearGradientBrush>
+                                        </Path.Fill>
+                                    </Path>
+
+                                    <!-- Glowing Wave Spline Line -->
+                                    <Path Data="{Binding SalesLinePathData}" Stroke="#D90429" StrokeThickness="3" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                                        <Path.Effect>
+                                            <DropShadowEffect Color="#D90429" BlurRadius="12" ShadowDepth="2" Opacity="0.6"/>
+                                        </Path.Effect>
+                                    </Path>
+
+                                    <!-- Glowing Data Node Dots with Amount Tooltips -->
+                                    <ItemsControl ItemsSource="{Binding DailySalesChartData}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <Canvas IsItemsHost="True"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemContainerStyle>
+                                            <Style TargetType="ContentPresenter">
+                                                <Setter Property="Canvas.Left" Value="{Binding PointX}"/>
+                                                <Setter Property="Canvas.Top" Value="{Binding PointY}"/>
+                                            </Style>
+                                        </ItemsControl.ItemContainerStyle>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="-6,-6,0,0" ToolTip="{Binding AmountDisplay}">
+                                                    <Ellipse Width="12" Height="12" Fill="#D90429">
+                                                        <Ellipse.Effect>
+                                                            <DropShadowEffect Color="#D90429" BlurRadius="10" ShadowDepth="0" Opacity="0.9"/>
+                                                        </Ellipse.Effect>
+                                                    </Ellipse>
+                                                    <Ellipse Width="6" Height="6" Fill="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+
+                        <!-- Bottom Timeline Strip with Amounts and Dates -->
+                        <ItemsControl Grid.Row="2" ItemsSource="{Binding DailySalesChartData}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <UniformGrid Rows="1"/>
@@ -308,57 +375,28 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Margin="3,0" VerticalAlignment="Bottom" Height="200" ToolTip="{Binding AmountDisplay}">
+                                    <Grid Margin="2,0">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
+                                        
+                                        <!-- Amount Badge -->
+                                        <Border Grid.Row="0" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="4" Padding="4,1" HorizontalAlignment="Center">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Amount}" Value="0">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock Text="{Binding AmountDisplay}" FontSize="9" FontWeight="Black" Foreground="#D90429" HorizontalAlignment="Center"/>
+                                        </Border>
 
-                                        <!-- Pillar Container -->
-                                        <Grid Grid.Row="0" VerticalAlignment="Bottom">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-
-                                            <!-- Direct Amount Tag Above Active Pillars -->
-                                            <Border Grid.Row="0" Background="#18D90429" BorderBrush="#D90429" BorderThickness="1" CornerRadius="4" Padding="4,2" HorizontalAlignment="Center" Margin="0,0,0,4">
-                                                <Border.Style>
-                                                    <Style TargetType="Border">
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Amount}" Value="0">
-                                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Border.Style>
-                                                <TextBlock Text="{Binding AmountDisplay}" FontSize="9" FontWeight="Black" Foreground="#D90429" HorizontalAlignment="Center"/>
-                                            </Border>
-
-                                            <!-- Dynamic Proportional Bar -->
-                                            <Grid Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                                                <!-- Track Background -->
-                                                <Border Background="{DynamicResource ChartTrackBgBrush}" CornerRadius="6" Height="140" Width="20" Opacity="0.5"/>
-                                                
-                                                <!-- Active Bar -->
-                                                <Border Background="#D90429" CornerRadius="6" Width="20" VerticalAlignment="Bottom" Height="{Binding BarHeight}">
-                                                    <Border.Style>
-                                                        <Style TargetType="Border">
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Amount}" Value="0">
-                                                                    <Setter Property="Background" Value="#2A2A2A"/>
-                                                                    <Setter Property="Height" Value="6"/>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Border.Style>
-                                                </Border>
-                                            </Grid>
-                                        </Grid>
-
-                                        <!-- Day/Date Label Below Bar -->
-                                        <TextBlock Grid.Row="1" Text="{Binding DayLabel}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                                        <!-- Date Label -->
+                                        <TextBlock Grid.Row="1" Text="{Binding DayLabel}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,3,0,0"/>
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
