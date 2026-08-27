@@ -48,12 +48,12 @@ namespace Axon.UI.Helpers
             if (sender is ScrollViewer scrollViewer && scrollViewer.ScrollableHeight > 0)
             {
                 double currentTarget = GetCurrentVerticalOffset(scrollViewer);
-                if (Math.Abs(currentTarget - scrollViewer.VerticalOffset) > 140 || currentTarget == 0)
+                if (Math.Abs(currentTarget - scrollViewer.VerticalOffset) > 300 || currentTarget == 0)
                 {
                     currentTarget = scrollViewer.VerticalOffset;
                 }
 
-                double newTarget = currentTarget - (e.Delta * 0.85);
+                double newTarget = currentTarget - (e.Delta * 2.6);
                 newTarget = Math.Max(0, Math.Min(scrollViewer.ScrollableHeight, newTarget));
 
                 SetCurrentVerticalOffset(scrollViewer, newTarget);
@@ -62,7 +62,7 @@ namespace Axon.UI.Helpers
                 {
                     From = scrollViewer.VerticalOffset,
                     To = newTarget,
-                    Duration = TimeSpan.FromMilliseconds(220),
+                    Duration = TimeSpan.FromMilliseconds(100),
                     EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
                 };
 
