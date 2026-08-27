@@ -71,13 +71,17 @@
         </Setter>
     </Style>
 
-    <!-- ==================== ANIMATED SCROLLVIEWER ==================== -->
-    <Style x:Key="SmoothScrollViewer" TargetType="ScrollViewer">
+    <!-- ==================== ANIMATED SCROLLVIEWER SYSTEM-WIDE ==================== -->
+    <Style TargetType="ScrollViewer" xmlns:helpers="clr-namespace:Axon.UI.Helpers">
         <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="CanContentScroll" Value="True"/>
-        <Setter Property="PanningMode" Value="VerticalOnly"/>
+        <Setter Property="CanContentScroll" Value="False"/>
+        <Setter Property="PanningMode" Value="Both"/>
+        <Setter Property="PanningDeceleration" Value="0.001"/>
         <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+        <Setter Property="helpers:SmoothScrollHelper.IsSmoothScrollEnabled" Value="True"/>
     </Style>
+
+    <Style x:Key="SmoothScrollViewer" TargetType="ScrollViewer" BasedOn="{StaticResource {x:Type ScrollViewer}}"/>
 
     <!-- ==================== NAV BUTTON ANIMATED STYLE ==================== -->
     <Style x:Key="AnimatedNavButtonStyle" TargetType="Button">
