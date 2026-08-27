@@ -466,8 +466,34 @@
                 </Grid>
             </Border>
 
-            <!-- Dynamic View Content -->
-            <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}" Margin="0" Background="{DynamicResource AppBgBrush}" />
+            <!-- Dynamic View Content with Silky Smooth Screen Transition Animation -->
+            <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel, NotifyOnTargetUpdated=True}" Margin="0" Background="{DynamicResource AppBgBrush}">
+                <ContentControl.RenderTransform>
+                    <TranslateTransform Y="0"/>
+                </ContentControl.RenderTransform>
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.15" To="1.0" Duration="0:0:0.22">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" From="14" To="0" Duration="0:0:0.22">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
         </Grid>
     </Grid>
 </Window>
