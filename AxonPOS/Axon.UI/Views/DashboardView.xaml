@@ -375,8 +375,8 @@
                         </Grid.RowDefinitions>
 
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,14" VerticalAlignment="Center">
-                            <Border Width="32" Height="32" CornerRadius="8" Background="#101C2B" BorderBrush="#3B82F6" BorderThickness="1" Margin="0,0,10,0">
-                                <materialDesign:PackIcon Kind="ChartDonut" Width="18" Height="18" Foreground="#3B82F6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Border Width="32" Height="32" CornerRadius="8" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" Margin="0,0,10,0">
+                                <materialDesign:PackIcon Kind="ChartDonut" Width="18" Height="18" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <StackPanel VerticalAlignment="Center">
                                 <TextBlock Text="توزيع الإيرادات للأقسام" FontSize="15" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
@@ -505,8 +505,8 @@
                 <Border Grid.Column="2" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,14" VerticalAlignment="Center">
-                            <Border Width="32" Height="32" CornerRadius="8" Background="#291F11" BorderBrush="#F59E0B" BorderThickness="1" Margin="0,0,10,0">
-                                <materialDesign:PackIcon Kind="AlertCircle" Foreground="#F59E0B" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Border Width="32" Height="32" CornerRadius="8" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" Margin="0,0,10,0">
+                                <materialDesign:PackIcon Kind="AlertCircle" Foreground="#D90429" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <StackPanel VerticalAlignment="Center">
                                 <TextBlock Text="تنبيهات المخزون الحرج" FontSize="16" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
@@ -525,8 +525,8 @@
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="Auto"/>
                                                 </Grid.ColumnDefinitions>
-                                                <Border Width="34" Height="34" Background="#261C14" BorderBrush="#F59E0B" BorderThickness="1" CornerRadius="8" Grid.Column="0" Margin="0,0,10,0">
-                                                    <materialDesign:PackIcon Kind="PackageVariant" Foreground="#F59E0B" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Border Width="34" Height="34" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" CornerRadius="8" Grid.Column="0" Margin="0,0,10,0">
+                                                    <materialDesign:PackIcon Kind="PackageVariant" Foreground="#D90429" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                                     <TextBlock Text="{Binding ProductName}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="Bold" FontSize="12" TextTrimming="CharacterEllipsis"/>

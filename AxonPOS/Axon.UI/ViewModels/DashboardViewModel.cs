@@ -387,7 +387,7 @@ namespace Axon.UI.ViewModels
                     return 0;
                 }).OrderByDescending(g => g.Sum(li => li.LineTotal)).Take(4).ToList();
 
-                var colors = new[] { "#D90429", "#2563EB", "#10B981", "#F59E0B", "#8B5CF6" };
+                var colors = new[] { "#D90429", "#EF233C", "#B90320", "#FF4D6D", "#C9184A" };
                 int cIdx = 0;
 
                 foreach (var cg in catGroups)
