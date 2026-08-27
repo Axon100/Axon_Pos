@@ -819,7 +819,10 @@
 
                                                         <TextBlock Grid.Column="0" Text="{Binding CategoryCode}" FontWeight="Bold" FontSize="11" Foreground="#1E3A8A" VerticalAlignment="Center"/>
                                                         <TextBlock Grid.Column="1" Text="{Binding CategoryName}" FontWeight="Bold" FontSize="11" Foreground="#0F172A" VerticalAlignment="Center"/>
-                                                        <Border Grid.Column="5" Background="#FEF3C7" CornerRadius="4" Padding="6,2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        <TextBlock Grid.Column="2" Text="{Binding DistinctProductsCount, StringFormat='{}{0} أصناف'}" FontSize="11" Foreground="#475569" TextAlignment="Center" VerticalAlignment="Center"/>
+                                                         <TextBlock Grid.Column="3" Text="{Binding QuantitySold, StringFormat='{}{0} قطعة'}" FontWeight="SemiBold" FontSize="11" Foreground="#2563EB" TextAlignment="Center" VerticalAlignment="Center"/>
+                                                         <TextBlock Grid.Column="4" Text="{Binding TotalSales, StringFormat='{}{0:N2} ج.م'}" FontWeight="Black" FontSize="12" Foreground="#059669" TextAlignment="Center" VerticalAlignment="Center"/>
+                                                         <Border Grid.Column="5" Background="#FEF3C7" CornerRadius="4" Padding="6,2" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                             <TextBlock Text="{Binding PercentageDisplay}" FontSize="10" FontWeight="Bold" Foreground="#B45309"/>
                                                         </Border>
                                                     </Grid>
