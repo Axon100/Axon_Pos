@@ -64,7 +64,8 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Margin="20,16,20,20">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <Grid Margin="16,12,16,16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/> <!-- 1. Header & Date/Filter -->
             <RowDefinition Height="Auto"/> <!-- 2. Tabs Selector -->
@@ -129,10 +130,32 @@
                     </StackPanel>
 
                     <!-- Generate Button -->
-                    <Button Command="{Binding GenerateReportCommand}" Style="{StaticResource Axon3DPrimaryButtonStyle}" Height="34" Padding="16,0" ToolTip="تطبيق الفلترة وإنشاء التقرير">
+                    <Button Command="{Binding GenerateReportCommand}" Style="{StaticResource Axon3DPrimaryButtonStyle}" Height="34" Padding="14,0" ToolTip="تطبيق الفلترة وإنشاء التقرير" Margin="0,0,8,0">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <materialDesign:PackIcon Kind="ChartBar" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
                             <TextBlock Text="إنشاء التقرير" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Top Export Report Button -->
+                    <Button Command="{Binding ExportExcelCommand}" CommandParameter="{Binding ElementName=ReportDocumentSheet}"
+                            Background="#162D1C" Foreground="#4AE176" BorderBrush="#234D28" BorderThickness="1"
+                            Style="{StaticResource MaterialDesignFlatButton}" Height="34" Padding="14,0" Margin="0,0,8,0"
+                            ToolTip="حفظ وتصدير التقرير (Word, Excel, PDF, CSV)">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="FileDownload" Foreground="#4AE176" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="تصدير التقرير" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Top Print Report Button -->
+                    <Button Command="{Binding PrintReportCommand}" CommandParameter="{Binding ElementName=ReportDocumentSheet}"
+                            Background="#1E3A8A" Foreground="White" BorderBrush="#3B82F6" BorderThickness="1"
+                            Style="{StaticResource MaterialDesignFlatButton}" Height="34" Padding="14,0"
+                            ToolTip="طباعة التقرير مباشرة">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="Printer" Foreground="White" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="طباعة التقرير" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>
@@ -1594,6 +1617,7 @@
     </Border>
 </Grid>
     </Grid>
+</ScrollViewer>
 </UserControl>
 
 

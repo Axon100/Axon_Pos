@@ -650,7 +650,88 @@ namespace Axon.UI.ViewModels
                 TotalTax = filteredSales.Sum(s => s.TaxAmount);
                 NetProfit = TotalRevenue - TotalReturns - TotalExpenses;
 
-                HasReportData = ClosedRegisterReport.Count > 0 || SalesClassificationReport.Count > 0 || ProductSalesReport.Count > 0 || SingleProductCycleReport.Count > 0 || SalesInvoicesReport.Count > 0;
+                                // ==================== 5. الأرباح والخسائر (PROFIT & LOSS - TAB 4) ====================
+                ProductProfitabilityReport.Clear();
+                ExpensesReport.Clear();
+
+                var lineItemsGroupedByProd = filteredLineItems.GroupBy(li => li.ProductId).ToList();
+
+                decimal totalCogsSum = 0;
+                decimal grossSalesSum = filteredLineItems.Sum(li => li.LineTotal);
+
+                foreach (var g in lineItemsGroupedByProd)
+                {
+                    var prod = productMap.TryGetValue(g.Key, out var p) ? p : null;
+                    var name = prod != null ? (string.IsNullOrEmpty(prod.NameAR) ? prod.NameEN : prod.NameAR) : $"منتج #{g.Key}";
+                    var sku = prod?.SKU ?? string.Empty;
+                    var catId = prod?.CategoryId ?? 0;
+                    var catName = catMap.TryGetValue(catId, out var cn) ? cn : "عام";
+                    var costPrice = prod?.CostPrice ?? 0;
+
+                    var qty = (int)g.Sum(li => li.Quantity);
+                    var totSales = g.Sum(li => li.LineTotal);
+                    var avgSellingPrice = qty > 0 ? Math.Round(totSales / qty, 2) : (prod?.SellingPrice ?? 0);
+
+                    var itemCogs = costPrice * qty;
+                    totalCogsSum += itemCogs;
+
+                    ProductProfitabilityReport.Add(new ProductProfitabilityItem
+                    {
+                        ProductId = g.Key,
+                        SKU = sku,
+                        ProductName = name,
+                        CategoryName = catName,
+                        CostPrice = costPrice,
+                        SellingPrice = avgSellingPrice,
+                        QuantitySold = qty,
+                        TotalSales = totSales
+                    });
+                }
+
+                var orderedProfitability = ProductProfitabilityReport
+                    .OrderByDescending(p => p.NetProfit)
+                    .ThenBy(p => p.ProductName)
+                    .ToList();
+
+                ProductProfitabilityReport.Clear();
+                foreach (var item in orderedProfitability)
+                {
+                    ProductProfitabilityReport.Add(item);
+                }
+
+                int expSeq = 1;
+                decimal totalExpensesSum = 0;
+                foreach (var e in filteredExpenses.OrderByDescending(e => e.ExpenseDate))
+                {
+                    var userName = userMap.TryGetValue(e.UserId, out var un) ? un : "المسؤول";
+                    totalExpensesSum += e.Amount;
+                    ExpensesReport.Add(new ExpenseReportItem
+                    {
+                        SequenceNumber = expSeq++,
+                        ExpenseId = e.Id,
+                        ReferenceNumber = e.ReferenceNumber,
+                        ExpenseDate = e.ExpenseDate.DateTime,
+                        Category = string.IsNullOrEmpty(e.Category) ? "مصروفات عامة" : e.Category,
+                        Description = e.Description,
+                        Amount = e.Amount,
+                        UserName = userName
+                    });
+                }
+
+                TotalRevenue = grossSalesSum;
+                TotalReturns = filteredReturns.Sum(r => r.TotalRefundAmount);
+                TotalDiscounts = filteredSales.Sum(s => s.DiscountAmount);
+                TotalExpenses = totalExpensesSum;
+                TotalCOGS = totalCogsSum;
+
+                var netSalesRev = TotalRevenue - TotalReturns - TotalDiscounts;
+                GrossProfit = netSalesRev - TotalCOGS;
+                NetProfit = GrossProfit - TotalExpenses;
+
+                GrossProfitMarginPct = netSalesRev > 0 ? (double)(GrossProfit / netSalesRev * 100) : 0;
+                NetProfitMarginPct = netSalesRev > 0 ? (double)(NetProfit / netSalesRev * 100) : 0;
+
+                HasReportData = ClosedRegisterReport.Count > 0 || SalesClassificationReport.Count > 0 || ProductSalesReport.Count > 0 || SingleProductCycleReport.Count > 0 || SalesInvoicesReport.Count > 0 || ProductProfitabilityReport.Count > 0 || ExpensesReport.Count > 0 || TotalRevenue > 0;
                 CurrentPage = 1;
                 TotalPages = 1;
 
