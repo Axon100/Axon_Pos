@@ -177,10 +177,10 @@
                     <Border Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="16" Margin="0,0,0,16">
                         <StackPanel>
                             <TextBlock Text="{DynamicResource StockStatusFilter}" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,14"/>
-                            <RadioButton Content="{DynamicResource FilterAllProducts}" GroupName="StockFilter" Foreground="{DynamicResource TextPrimaryBrush}" IsChecked="True" Margin="0,0,0,8"/>
-                            <RadioButton Content="{DynamicResource FilterInStock}" GroupName="StockFilter" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,8"/>
-                            <RadioButton Content="{DynamicResource FilterLowStock}" GroupName="StockFilter" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,8"/>
-                            <RadioButton Content="{DynamicResource FilterOutOfStock}" GroupName="StockFilter" Foreground="{DynamicResource TextPrimaryBrush}" Margin="0,0,0,8"/>
+                            <RadioButton Content="{DynamicResource FilterAllProducts}" GroupName="StockFilter" Foreground="{DynamicResource TextPrimaryBrush}" IsChecked="{Binding IsStockFilterAll, Mode=TwoWay}" Margin="0,0,0,8"/>
+                            <RadioButton Content="{DynamicResource FilterInStock}" GroupName="StockFilter" Foreground="{DynamicResource TextPrimaryBrush}" IsChecked="{Binding IsStockFilterInStock, Mode=TwoWay}" Margin="0,0,0,8"/>
+                            <RadioButton Content="{DynamicResource FilterLowStock}" GroupName="StockFilter" Foreground="{DynamicResource TextPrimaryBrush}" IsChecked="{Binding IsStockFilterLowStock, Mode=TwoWay}" Margin="0,0,0,8"/>
+                            <RadioButton Content="{DynamicResource FilterOutOfStock}" GroupName="StockFilter" Foreground="{DynamicResource TextPrimaryBrush}" IsChecked="{Binding IsStockFilterOutOfStock, Mode=TwoWay}" Margin="0,0,0,8"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>

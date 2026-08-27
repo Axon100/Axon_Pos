@@ -18,6 +18,43 @@ namespace Axon.UI.ViewModels
 {
     public partial class ProductManagementViewModel : BaseViewModel
     {
+        // Stock Status Filter Properties (0 = All, 1 = InStock, 2 = LowStock, 3 = OutOfStock)
+        [ObservableProperty]
+        private int _selectedStockFilter = 0;
+
+        public bool IsStockFilterAll
+        {
+            get => SelectedStockFilter == 0;
+            set { if (value) SelectedStockFilter = 0; }
+        }
+
+        public bool IsStockFilterInStock
+        {
+            get => SelectedStockFilter == 1;
+            set { if (value) SelectedStockFilter = 1; }
+        }
+
+        public bool IsStockFilterLowStock
+        {
+            get => SelectedStockFilter == 2;
+            set { if (value) SelectedStockFilter = 2; }
+        }
+
+        public bool IsStockFilterOutOfStock
+        {
+            get => SelectedStockFilter == 3;
+            set { if (value) SelectedStockFilter = 3; }
+        }
+
+        partial void OnSelectedStockFilterChanged(int value)
+        {
+            OnPropertyChanged(nameof(IsStockFilterAll));
+            OnPropertyChanged(nameof(IsStockFilterInStock));
+            OnPropertyChanged(nameof(IsStockFilterLowStock));
+            OnPropertyChanged(nameof(IsStockFilterOutOfStock));
+            ApplyProductFilters();
+        }
+
         [RelayCommand]
         private void OpenBarcodeScreen(ProductManagementItemModel? product)
         {
@@ -616,6 +653,20 @@ namespace Axon.UI.ViewModels
                 {
                     filtered = filtered.Where(p => checkedCategories.Contains(p.Category));
                 }
+            }
+
+            // Stock status filter
+            if (SelectedStockFilter == 1) // In Stock (متوفر)
+            {
+                filtered = filtered.Where(p => p.Stock >= 10);
+            }
+            else if (SelectedStockFilter == 2) // Low Stock (مخزون منخفض)
+            {
+                filtered = filtered.Where(p => p.Stock > 0 && p.Stock < 10);
+            }
+            else if (SelectedStockFilter == 3) // Out of Stock (نفذت الكمية)
+            {
+                filtered = filtered.Where(p => p.Stock <= 0);
             }
 
             // Search filter
