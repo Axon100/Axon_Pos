@@ -283,7 +283,7 @@
 
                             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,12,0">
                                 <Border Width="36" Height="36" CornerRadius="10" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" Margin="0,0,10,0">
-                                    <materialDesign:PackIcon Kind="TableChart" Width="20" Height="20" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <materialDesign:PackIcon Kind="Table" Width="20" Height="20" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                                 <StackPanel VerticalAlignment="Center">
                                     <TextBlock Text="السجل الإحصائي اليومي للمبيعات" FontSize="15" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" TextTrimming="CharacterEllipsis"/>
