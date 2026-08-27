@@ -194,6 +194,9 @@ namespace Axon.UI.ViewModels
         {
             try
             {
+                var currentCatId = SelectedFilterCategory?.Id ?? 0;
+                var currentProdId = SelectedFilterProduct?.Id ?? 0;
+
                 var cats = await _categoryRepository.GetAllAsync();
                 _productsEntityCache = (await _productRepository.GetAllAsync()).ToList();
 
@@ -207,7 +210,8 @@ namespace Axon.UI.ViewModels
                         Name = string.IsNullOrEmpty(c.NameAR) ? c.NameEN : c.NameAR
                     });
                 }
-                SelectedFilterCategory = FilterCategories.FirstOrDefault();
+                SelectedFilterCategory = FilterCategories.FirstOrDefault(c => c.Id == currentCatId) 
+                                         ?? FilterCategories.FirstOrDefault();
 
                 _allProductsCache = _productsEntityCache.Select(p => new ProductFilterOptionModel
                 {
@@ -218,6 +222,12 @@ namespace Axon.UI.ViewModels
                 }).ToList();
 
                 RefreshProductsFilter();
+
+                if (currentProdId > 0)
+                {
+                    SelectedFilterProduct = FilterProducts.FirstOrDefault(p => p.Id == currentProdId) 
+                                            ?? FilterProducts.FirstOrDefault();
+                }
             }
             catch { }
         }
@@ -267,6 +277,9 @@ namespace Axon.UI.ViewModels
 
             try
             {
+                // Refresh categories and products filters live from database
+                await LoadFiltersAsync();
+
                 var allSales = await _saleRepository.GetAllAsync();
                 var allReturns = await _returnRepository.GetAllAsync();
                 var allLineItems = await _lineItemRepository.GetAllAsync();
@@ -386,22 +399,35 @@ namespace Axon.UI.ViewModels
 
                 var grandCategorySales = filteredLineItems.Sum(li => li.LineTotal);
 
-                var categoryGroups = filteredLineItems.GroupBy(li =>
+                // Group all line items by Category ID
+                var lineItemsByCatId = filteredLineItems.GroupBy(li =>
                 {
                     if (productMap.TryGetValue(li.ProductId, out var p))
                     {
                         return p.CategoryId;
                     }
                     return 0;
-                }).ToList();
+                }).ToDictionary(g => g.Key, g => g.ToList());
 
-                foreach (var g in categoryGroups)
+                List<Category> categoriesToReport;
+                if (selectedCatId > 0)
                 {
-                    var catId = g.Key;
-                    var catName = catMap.TryGetValue(catId, out var cn) ? cn : (catId == 0 ? "بدون قسم" : $"قسم #{catId}");
-                    var distinctProducts = g.Select(li => li.ProductId).Distinct().Count();
-                    var qtySold = (int)g.Sum(li => li.Quantity);
-                    var totalSales = g.Sum(li => li.LineTotal);
+                    categoriesToReport = allCategories.Where(c => c.Id == selectedCatId).ToList();
+                }
+                else
+                {
+                    categoriesToReport = allCategories.ToList();
+                }
+
+                foreach (var cat in categoriesToReport)
+                {
+                    var catId = cat.Id;
+                    var catName = string.IsNullOrEmpty(cat.NameAR) ? cat.NameEN : cat.NameAR;
+                    var distinctProducts = allProducts.Count(p => p.CategoryId == catId);
+                    
+                    var groupItems = lineItemsByCatId.TryGetValue(catId, out var items) ? items : new List<SaleLineItem>();
+                    var qtySold = (int)groupItems.Sum(li => li.Quantity);
+                    var totalSales = groupItems.Sum(li => li.LineTotal);
                     var pct = grandCategorySales > 0 ? (double)(totalSales / grandCategorySales * 100) : 0;
 
                     SalesClassificationReport.Add(new SalesClassificationReportItem
@@ -415,7 +441,29 @@ namespace Axon.UI.ViewModels
                     });
                 }
 
-                var orderedClassifications = SalesClassificationReport.OrderByDescending(c => c.TotalSales).ToList();
+                // Check if there are unmapped items/products with CategoryId == 0
+                if (selectedCatId == 0 && lineItemsByCatId.TryGetValue(0, out var unmappedItems) && unmappedItems.Count > 0)
+                {
+                    var qtySold = (int)unmappedItems.Sum(li => li.Quantity);
+                    var totalSales = unmappedItems.Sum(li => li.LineTotal);
+                    var pct = grandCategorySales > 0 ? (double)(totalSales / grandCategorySales * 100) : 0;
+
+                    SalesClassificationReport.Add(new SalesClassificationReportItem
+                    {
+                        CategoryId = 0,
+                        CategoryName = "بدون قسم",
+                        DistinctProductsCount = unmappedItems.Select(li => li.ProductId).Distinct().Count(),
+                        QuantitySold = qtySold,
+                        TotalSales = totalSales,
+                        Percentage = pct
+                    });
+                }
+
+                var orderedClassifications = SalesClassificationReport
+                    .OrderByDescending(c => c.TotalSales)
+                    .ThenBy(c => c.CategoryName)
+                    .ToList();
+
                 SalesClassificationReport.Clear();
                 foreach (var item in orderedClassifications)
                 {
@@ -425,7 +473,8 @@ namespace Axon.UI.ViewModels
                 CategoryReportTotalSales = grandCategorySales;
                 CategoryReportTotalQty = SalesClassificationReport.Sum(c => c.QuantitySold);
                 CategoryReportActiveCount = SalesClassificationReport.Count;
-                CategoryReportTopCategory = SalesClassificationReport.Count > 0 ? SalesClassificationReport[0].CategoryName : "—";
+                CategoryReportTopCategory = SalesClassificationReport.FirstOrDefault(c => c.TotalSales > 0)?.CategoryName 
+                                             ?? (SalesClassificationReport.Count > 0 ? SalesClassificationReport[0].CategoryName : "—");
 
                 // ==================== 3. مبيعات منتج موسع (EXTENDED PRODUCT SALES - TAB 2) ====================
                 ProductSalesReport.Clear();
@@ -482,24 +531,38 @@ namespace Axon.UI.ViewModels
                     IsSingleProductMode = false;
                     var grandProductSales = filteredLineItems.Sum(li => li.LineTotal);
 
-                    var prodGroups = filteredLineItems.GroupBy(li => li.ProductId).ToList();
-                    foreach (var g in prodGroups)
+                    List<Product> productsToReport;
+                    if (selectedCatId > 0)
                     {
-                        var p = productMap.TryGetValue(g.Key, out var pp) ? pp : null;
-                        var name = p != null ? (string.IsNullOrEmpty(p.NameAR) ? p.NameEN : p.NameAR) : $"صنف #{g.Key}";
-                        var sku = p?.SKU ?? string.Empty;
-                        var barcode = p?.Barcode ?? string.Empty;
-                        var catId = p?.CategoryId ?? 0;
+                        productsToReport = allProducts.Where(p => p.CategoryId == selectedCatId).ToList();
+                    }
+                    else
+                    {
+                        var soldProductIds = filteredLineItems.Select(li => li.ProductId).ToHashSet();
+                        productsToReport = soldProductIds.Count > 0 
+                            ? allProducts.Where(p => soldProductIds.Contains(p.Id)).ToList()
+                            : allProducts.ToList();
+                    }
+
+                    var lineItemsByProdId = filteredLineItems.GroupBy(li => li.ProductId).ToDictionary(g => g.Key, g => g.ToList());
+
+                    foreach (var p in productsToReport)
+                    {
+                        var name = string.IsNullOrEmpty(p.NameAR) ? p.NameEN : p.NameAR;
+                        var sku = p.SKU ?? string.Empty;
+                        var barcode = p.Barcode ?? string.Empty;
+                        var catId = p.CategoryId;
                         var catName = catMap.TryGetValue(catId, out var cn) ? cn : "عام";
-                        
-                        var qty = (int)g.Sum(li => li.Quantity);
-                        var tot = g.Sum(li => li.LineTotal);
-                        var unitPrice = qty > 0 ? Math.Round(tot / qty, 2) : (p?.SellingPrice ?? 0);
+
+                        var groupItems = lineItemsByProdId.TryGetValue(p.Id, out var items) ? items : new List<SaleLineItem>();
+                        var qty = (int)groupItems.Sum(li => li.Quantity);
+                        var tot = groupItems.Sum(li => li.LineTotal);
+                        var unitPrice = qty > 0 ? Math.Round(tot / qty, 2) : p.SellingPrice;
                         var pct = grandProductSales > 0 ? (double)(tot / grandProductSales * 100) : 0;
 
                         ProductSalesReport.Add(new ProductSalesReportItem
                         {
-                            ProductId = g.Key,
+                            ProductId = p.Id,
                             ProductName = name,
                             SKU = sku,
                             Barcode = barcode,
@@ -511,7 +574,7 @@ namespace Axon.UI.ViewModels
                         });
                     }
 
-                    var orderedProducts = ProductSalesReport.OrderByDescending(p => p.TotalSales).ToList();
+                    var orderedProducts = ProductSalesReport.OrderByDescending(p => p.TotalSales).ThenBy(p => p.ProductName).ToList();
                     ProductSalesReport.Clear();
                     foreach (var item in orderedProducts)
                     {
@@ -521,7 +584,8 @@ namespace Axon.UI.ViewModels
                     ProductReportTotalSales = grandProductSales;
                     ProductReportTotalQty = ProductSalesReport.Sum(p => p.QuantitySold);
                     ProductReportActiveCount = ProductSalesReport.Count;
-                    ProductReportTopProduct = ProductSalesReport.Count > 0 ? ProductSalesReport[0].ProductName : "—";
+                    ProductReportTopProduct = ProductSalesReport.FirstOrDefault(p => p.TotalSales > 0)?.ProductName 
+                                               ?? (ProductSalesReport.Count > 0 ? ProductSalesReport[0].ProductName : "—");
                 }
 
                 // ==================== 4. سجل الفواتير (INVOICES - TAB 3) ====================
