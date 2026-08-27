@@ -168,6 +168,21 @@ namespace Axon.UI.ViewModels
         public ObservableCollection<ProductSalesReportItem> ProductSalesReport { get; } = new();
         public ObservableCollection<ProductCycleTransactionItem> SingleProductCycleReport { get; } = new();
         public ObservableCollection<SalesClosingReportItem> SalesInvoicesReport { get; } = new();
+        // ===== Profit & Loss (الأرباح والخسائر - Tab 4) KPIs =====
+        [ObservableProperty]
+        private decimal _totalCOGS;
+
+        [ObservableProperty]
+        private decimal _grossProfit;
+
+        [ObservableProperty]
+        private double _grossProfitMarginPct;
+
+        [ObservableProperty]
+        private double _netProfitMarginPct;
+
+        public ObservableCollection<ProductProfitabilityItem> ProductProfitabilityReport { get; } = new();
+        public ObservableCollection<ExpenseReportItem> ExpensesReport { get; } = new();
 
         public ReportsViewModel(
             IRepository<Sale> saleRepository,
@@ -1491,6 +1506,38 @@ namespace Axon.UI.ViewModels
                         new[] { "—", "—", "الإجمالي العام", $"{SalesInvoicesReport.Sum(x=>x.ItemsCount)}", $"{SalesInvoicesReport.Sum(x=>x.SubTotal):N2} ج.م", $"{TotalDiscounts:N2} ج.م", $"{TotalTax:N2} ج.م", $"{TotalRevenue:N2} ج.م", "—" }
                     ));
                 }
+                else if (SelectedReportTab == 4)
+                {
+                    sb.Append(BuildDocxTable(
+                        "تقرير قائمة الأرباح والخسائر والتحليل المالي",
+                        new[] { "البند المالي", "المبلغ (ج.م)" },
+                        new List<string[]>
+                        {
+                            new[] { "1. إجمالي إيرادات المبيعات (Gross Sales)", $"{TotalRevenue:N2} ج.م" },
+                            new[] { "2. إجمالي المرتجعات (Returns)", $"-{TotalReturns:N2} ج.م" },
+                            new[] { "3. إجمالي الخصومات (Discounts)", $"-{TotalDiscounts:N2} ج.م" },
+                            new[] { "4. تكلفة البضاعة المباعة (COGS)", $"-{TotalCOGS:N2} ج.م" },
+                            new[] { "(=) إجمالي أرباح البضاعة المباعة (Gross Profit)", $"{GrossProfit:N2} ج.م" },
+                            new[] { "5. إجمالي المصروفات والنثريات (Expenses)", $"-{TotalExpenses:N2} ج.م" },
+                            new[] { "(=) صافي الأرباح / الخسائر النهائي (Net Profit)", $"{NetProfit:N2} ج.م" }
+                        },
+                        null
+                    ));
+
+                    sb.Append(BuildDocxTable(
+                        "تحليل ربحية الأصناف والمنتجات التفصيلي",
+                        new[] { "كود الصنف", "اسم المنتج", "القسم", "الكمية المباعة", "التكلفة", "سعر البيع", "إجمالي المبيعات", "إجمالي التكلفة", "صافي ربح الصنف", "الهامش %" },
+                        ProductProfitabilityReport.Select(i => new[] { i.DisplayCode, i.ProductName, i.CategoryName, $"{i.QuantitySold} قطعة", $"{i.CostPrice:N2} ج.م", $"{i.SellingPrice:N2} ج.م", $"{i.TotalSales:N2} ج.م", $"{i.TotalCost:N2} ج.م", $"{i.NetProfit:N2} ج.م", i.MarginDisplay }).ToList(),
+                        new[] { "—", "—", "الإجمالي الكلي", $"{ProductProfitabilityReport.Sum(x=>x.QuantitySold)} قطعة", "—", "—", $"{TotalRevenue:N2} ج.م", $"{TotalCOGS:N2} ج.م", $"{GrossProfit:N2} ج.م", $"{GrossProfitMarginPct:F1}%" }
+                    ));
+
+                    sb.Append(BuildDocxTable(
+                        "سجل المصروفات التشغيلية والنثريات خلال الفترة",
+                        new[] { "م", "رمز المصروف", "التاريخ والوقت", "بند المصروف", "البيان والوصف", "المسؤول / المستلم", "المبلغ (ج.م)" },
+                        ExpensesReport.Select(i => new[] { i.SequenceNumber.ToString(), i.ExpenseCode, i.DateDisplay, i.Category, i.Description, i.UserName, $"{i.Amount:N2} ج.م" }).ToList(),
+                        new[] { "—", "—", "—", "إجمالي المصروفات", "—", "—", $"{TotalExpenses:N2} ج.م" }
+                    ));
+                }
                 else
                 {
                     sb.Append(BuildDocxTable(
@@ -1632,6 +1679,37 @@ namespace Axon.UI.ViewModels
         public decimal Total { get; set; }
         public string PaymentMethod { get; set; } = "نقدي (Cash)";
         public string Status { get; set; } = "مكتمل";
+    }
+
+        public class ProductProfitabilityItem
+    {
+        public int ProductId { get; set; }
+        public string SKU { get; set; } = string.Empty;
+        public string DisplayCode => !string.IsNullOrEmpty(SKU) ? SKU : $"PRD-{ProductId:D4}";
+        public string ProductName { get; set; } = string.Empty;
+        public string CategoryName { get; set; } = "عام";
+        public decimal CostPrice { get; set; }
+        public decimal SellingPrice { get; set; }
+        public int QuantitySold { get; set; }
+        public decimal TotalSales { get; set; }
+        public decimal TotalCost => Math.Round(CostPrice * QuantitySold, 2);
+        public decimal NetProfit => TotalSales - TotalCost;
+        public double MarginPercentage => TotalSales > 0 ? (double)(NetProfit / TotalSales * 100) : 0;
+        public string MarginDisplay => $"{MarginPercentage:F1}%";
+    }
+
+    public class ExpenseReportItem
+    {
+        public int SequenceNumber { get; set; }
+        public int ExpenseId { get; set; }
+        public string ReferenceNumber { get; set; } = string.Empty;
+        public string ExpenseCode => !string.IsNullOrEmpty(ReferenceNumber) ? ReferenceNumber : $"EXP-{ExpenseId:D4}";
+        public DateTime ExpenseDate { get; set; }
+        public string DateDisplay => ExpenseDate.ToString("yyyy/MM/dd HH:mm");
+        public string Category { get; set; } = "مصروفات عامة";
+        public string Description { get; set; } = string.Empty;
+        public decimal Amount { get; set; }
+        public string UserName { get; set; } = "الإدارة";
     }
 
     public class AxonPdfFontResolver : PdfSharp.Fonts.IFontResolver
