@@ -1,4 +1,5 @@
 using Axon.Application.Interfaces.Repositories;
+using Axon.UI.Views;
 using Axon.Application.Interfaces.Services;
 using Axon.Domain.Entities;
 using Axon.UI.ViewModels.Base;
@@ -252,7 +253,7 @@ namespace Axon.UI.ViewModels
         {
             if (SelectedProduct == null && _allProducts.Count == 0 && string.IsNullOrWhiteSpace(SearchBarcodeOrCode))
             {
-                MessageBox.Show("يرجى اختيار صنف أو إدخال كود الباركود أولاً لإنشاء الملصقات!", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AxonMessageBox.Show("يرجى اختيار صنف أو إدخال كود الباركود أولاً لإنشاء الملصقات!", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -327,7 +328,7 @@ namespace Axon.UI.ViewModels
             catch (Exception ex)
             {
                 StatusInfo = $"فشل إنشاء الباركود: {ex.Message}";
-                MessageBox.Show($"حدث خطأ أثناء توليد الباركود: {ex.Message}", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
+                AxonMessageBox.Show($"حدث خطأ أثناء توليد الباركود: {ex.Message}", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -336,7 +337,7 @@ namespace Axon.UI.ViewModels
         {
             if (GeneratedLabels.Count == 0)
             {
-                MessageBox.Show("يرجى تنفيذ التقرير وتوليد الملصقات أولاً قبل إرسال أمر الطباعة!", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Information);
+                AxonMessageBox.Show("يرجى تنفيذ التقرير وتوليد الملصقات أولاً قبل إرسال أمر الطباعة!", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -351,13 +352,13 @@ namespace Axon.UI.ViewModels
                     }
                     else
                     {
-                        MessageBox.Show("تم إرسال أمر الطباعة إلى الطابعة المحددة بنجاح.", "تمت الطباعة", MessageBoxButton.OK, MessageBoxImage.Information);
+                        AxonMessageBox.Show("تم إرسال أمر الطباعة إلى الطابعة المحددة بنجاح.", "تمت الطباعة", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"تعذر إتمام عملية الطباعة: {ex.Message}", "خطأ في الطباعة", MessageBoxButton.OK, MessageBoxImage.Error);
+                AxonMessageBox.Show($"تعذر إتمام عملية الطباعة: {ex.Message}", "خطأ في الطباعة", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

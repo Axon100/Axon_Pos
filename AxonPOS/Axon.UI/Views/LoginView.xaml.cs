@@ -28,7 +28,7 @@ namespace Axon.UI.Views
             }
             catch (System.Exception ex)
             {
-                System.Windows.MessageBox.Show($"خطأ أثناء فتح الواجهة الرئيسية:\n{ex.Message}", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Error);
+                AxonMessageBox.Show($"خطأ أثناء فتح الواجهة الرئيسية:\n{ex.Message}", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

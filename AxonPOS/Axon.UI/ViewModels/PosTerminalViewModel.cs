@@ -1,4 +1,5 @@
 using Axon.UI.Helpers;
+using Axon.UI.Views;
 using Axon.UI.ViewModels.Base;
 using Axon.Application.Interfaces.Services;
 using Axon.Domain.Entities;
@@ -621,25 +622,25 @@ namespace Axon.UI.ViewModels
         {
             if (SelectedSaleForReturn == null)
             {
-                System.Windows.MessageBox.Show("يرجى اختيار الفاتورة المراد إرجاعها أولاً!", "تنبيه", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                AxonMessageBox.Show("يرجى اختيار الفاتورة المراد إرجاعها أولاً!", "تنبيه", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 return;
             }
 
             var itemsToReturn = ReturnLineItems.Where(x => x.QuantityToReturn > 0).ToList();
             if (itemsToReturn.Count == 0)
             {
-                System.Windows.MessageBox.Show("يرجى تحديد كمية أكبر من صفر للأصناف المراد إرجاعها!", "تنبيه", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                AxonMessageBox.Show("يرجى تحديد كمية أكبر من صفر للأصناف المراد إرجاعها!", "تنبيه", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 return;
             }
 
             if (!UserSessionService.HasPermission("POS.Sell"))
             {
-                System.Windows.MessageBox.Show("ليس لديك صلاحية لإجراء عمليات المرتجع في نقطة البيع!", "تنبيه الصلاحيات (RBAC)", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                AxonMessageBox.Show("ليس لديك صلاحية لإجراء عمليات المرتجع في نقطة البيع!", "تنبيه الصلاحيات (RBAC)", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 return;
             }
 
             var totalReturnedQty = itemsToReturn.Sum(x => x.QuantityToReturn);
-            var confirm = System.Windows.MessageBox.Show(
+            var confirm = AxonMessageBox.Show(
                 $"تأكيد إرجاع ({totalReturnedQty}) قطعة بقيمة إجمالية {TotalRefundAmount:N2} ج.م؟\nسيتم إضافة الكميات المرتجعة تلقائياً إلى المخزون.",
                 "تأكيد عملية المرتجع",
                 System.Windows.MessageBoxButton.YesNo,
@@ -673,7 +674,7 @@ namespace Axon.UI.ViewModels
 
                 IsReturnDialogOpen = false;
 
-                System.Windows.MessageBox.Show(
+                AxonMessageBox.Show(
                     $"تمت عملية المرتجع بنجاح! تم استرجاع {TotalRefundAmount:N2} ج.م وإعادة {totalReturnedQty} قطعة إلى المخزون.",
                     "نجاح المرتجع",
                     System.Windows.MessageBoxButton.OK,
@@ -681,7 +682,7 @@ namespace Axon.UI.ViewModels
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show($"فشل تنفيذ المرتجع: {ex.Message}", "خطأ", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                AxonMessageBox.Show($"فشل تنفيذ المرتجع: {ex.Message}", "خطأ", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
             finally
             {
@@ -708,7 +709,7 @@ namespace Axon.UI.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    System.Windows.MessageBox.Show($"تعذر إرسال أمر الطباعة: {ex.Message}", "تنبيه الطباعة", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                    AxonMessageBox.Show($"تعذر إرسال أمر الطباعة: {ex.Message}", "تنبيه الطباعة", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
                 }
             }
         }
@@ -873,7 +874,7 @@ namespace Axon.UI.ViewModels
                 }
                 else
                 {
-                    System.Windows.MessageBox.Show("لا توجد كمية كافية بالمخزون لهذا المنتج!", "تنبيه المخزون", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                    AxonMessageBox.Show("لا توجد كمية كافية بالمخزون لهذا المنتج!", "تنبيه المخزون", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 }
             }
             else
@@ -893,7 +894,7 @@ namespace Axon.UI.ViewModels
                 }
                 else
                 {
-                    System.Windows.MessageBox.Show("هذا المنتج غير متوفر حالياً بالمخزون!", "تنبيه المخزون", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                    AxonMessageBox.Show("هذا المنتج غير متوفر حالياً بالمخزون!", "تنبيه المخزون", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 }
             }
             RecalculateTotals();
@@ -911,7 +912,7 @@ namespace Axon.UI.ViewModels
             }
             else
             {
-                System.Windows.MessageBox.Show("وصلت إلى الحد الأقصى للكمية المتاحة في المخزون!", "تنبيه المخزون", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                AxonMessageBox.Show("وصلت إلى الحد الأقصى للكمية المتاحة في المخزون!", "تنبيه المخزون", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
             }
         }
 
@@ -965,7 +966,7 @@ namespace Axon.UI.ViewModels
 
             if (!UserSessionService.HasPermission("POS.Sell"))
             {
-                System.Windows.MessageBox.Show("ليس لديك صلاحية لإتمام وطباعة عمليات البيع!", "تنبيه الصلاحيات (RBAC)", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                AxonMessageBox.Show("ليس لديك صلاحية لإتمام وطباعة عمليات البيع!", "تنبيه الصلاحيات (RBAC)", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 return;
             }
 

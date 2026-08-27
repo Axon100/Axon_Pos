@@ -1,4 +1,5 @@
 using Axon.Application.Interfaces.Repositories;
+using Axon.UI.Views;
 using Axon.Domain.Entities;
 using Axon.UI.Helpers;
 using Axon.UI.ViewModels.Base;
@@ -756,7 +757,7 @@ namespace Axon.UI.ViewModels
         {
             if (!HasReportData && ClosedRegisterReport.Count == 0 && SalesClassificationReport.Count == 0 && ProductSalesReport.Count == 0 && SingleProductCycleReport.Count == 0 && SalesInvoicesReport.Count == 0)
             {
-                MessageBox.Show("يرجى إنشاء التقرير أولاً قبل الطباعة!", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Information);
+                AxonMessageBox.Show("يرجى إنشاء التقرير أولاً قبل الطباعة!", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -778,13 +779,13 @@ namespace Axon.UI.ViewModels
                     }
                     else
                     {
-                        MessageBox.Show("تم إرسال التقرير إلى الطابعة بنجاح.", "تمت الطباعة", MessageBoxButton.OK, MessageBoxImage.Information);
+                        AxonMessageBox.Show("تم إرسال التقرير إلى الطابعة بنجاح.", "تمت الطباعة", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"تعذر إتمام عملية الطباعة: {ex.Message}", "خطأ في الطباعة", MessageBoxButton.OK, MessageBoxImage.Error);
+                AxonMessageBox.Show($"تعذر إتمام عملية الطباعة: {ex.Message}", "خطأ في الطباعة", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -793,7 +794,7 @@ namespace Axon.UI.ViewModels
         {
             if (!HasReportData)
             {
-                MessageBox.Show("لا توجد بيانات. اضغط 'إنشاء التقرير' أولاً.", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AxonMessageBox.Show("لا توجد بيانات. اضغط 'إنشاء التقرير' أولاً.", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -824,7 +825,7 @@ namespace Axon.UI.ViewModels
                 if (ext == ".docx" || ext == ".doc")
                 {
                     SaveDocx(filePath);
-                    MessageBox.Show("تم تصدير التقرير كملف مستند وورد (Word Document) بنجاح!", "تم التصدير بنجاح", MessageBoxButton.OK, MessageBoxImage.Information);
+                    AxonMessageBox.Show("تم تصدير التقرير كملف مستند وورد (Word Document) بنجاح!", "تم التصدير بنجاح", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
 
@@ -907,7 +908,7 @@ namespace Axon.UI.ViewModels
                             pdf.Save(filePath);
                         });
 
-                        MessageBox.Show("تم تصدير التقرير كملف PDF بنفس الشكل المطابق تماماً للبرنامج بنجاح!", "تم التصدير بنجاح", MessageBoxButton.OK, MessageBoxImage.Information);
+                        AxonMessageBox.Show("تم تصدير التقرير كملف PDF بنفس الشكل المطابق تماماً للبرنامج بنجاح!", "تم التصدير بنجاح", MessageBoxButton.OK, MessageBoxImage.Information);
                         return;
                     }
                 }
@@ -1461,7 +1462,7 @@ namespace Axon.UI.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"فشل التصدير:\n{ex.Message}", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
+                AxonMessageBox.Show($"فشل التصدير:\n{ex.Message}", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

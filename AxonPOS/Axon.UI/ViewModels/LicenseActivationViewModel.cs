@@ -1,4 +1,5 @@
 using System;
+using Axon.UI.Views;
 using System.Windows;
 using Axon.Application.Interfaces.Services;
 using Axon.UI.ViewModels.Base;
@@ -40,11 +41,11 @@ namespace Axon.UI.ViewModels
             try
             {
                 Clipboard.SetText(HardwareId);
-                MessageBox.Show("تم نسخ كود الجهاز بنجاح! يمكنك الآن إرساله للمطور.", "تم النسخ", MessageBoxButton.OK, MessageBoxImage.Information);
+                AxonMessageBox.Show("تم نسخ كود الجهاز بنجاح! يمكنك الآن إرساله للمطور.", "تم النسخ", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"فشل في النسخ: {ex.Message}", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AxonMessageBox.Show($"فشل في النسخ: {ex.Message}", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -57,7 +58,7 @@ namespace Axon.UI.ViewModels
             if (_licenseService.ValidateAndActivate(LicenseKey, out var err))
             {
                 IsActivatedSuccessfully = true;
-                MessageBox.Show("تم تفعيل نظام Axon POS بنجاح! أهلاً بك.", "تفعيل ناجح 🎉", MessageBoxButton.OK, MessageBoxImage.Information);
+                AxonMessageBox.Show("تم تفعيل نظام Axon POS بنجاح! أهلاً بك.", "تفعيل ناجح 🎉", MessageBoxButton.OK, MessageBoxImage.Information);
                 OnActivated?.Invoke();
             }
             else

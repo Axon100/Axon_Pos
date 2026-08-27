@@ -1,4 +1,5 @@
 using Axon.Application.Interfaces.Repositories;
+using Axon.UI.Views;
 using Axon.Domain.Entities;
 using Axon.UI.Services;
 using Axon.UI.ViewModels.Base;
@@ -125,7 +126,7 @@ namespace Axon.UI.ViewModels
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show($"فشل فتح نافذة المصروفات: {ex.Message}", "خطأ في التشغيل", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                AxonMessageBox.Show($"فشل فتح نافذة المصروفات: {ex.Message}", "خطأ في التشغيل", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
         }
 

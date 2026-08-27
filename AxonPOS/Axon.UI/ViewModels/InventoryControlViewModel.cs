@@ -336,7 +336,7 @@ namespace Axon.UI.ViewModels
                     {
                         await _productRepository.DeleteAsync(product);
                         await LoadDataAsync();
-                        MessageBox.Show("تم حذف الصنف من المخزون بنجاح!", "حذف صنف", MessageBoxButton.OK, MessageBoxImage.Information);
+                        AxonMessageBox.Show("تم حذف الصنف من المخزون بنجاح!", "حذف صنف", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
                 finally
