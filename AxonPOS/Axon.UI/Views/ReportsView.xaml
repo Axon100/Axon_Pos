@@ -1067,6 +1067,136 @@
                                     </Grid>
                                 </Border>
 
+                                <!-- SECTION 4: FINAL P&L SUMMARY LEDGER TABLE -->
+                                <TextBlock Text="رابعاً: الجدول الختامي لتلخيص الأرباح والخسائر والنتيجة النهائية:" FontSize="12" FontWeight="Bold" Foreground="#0F172A" Margin="0,18,0,8"/>
+                                
+                                <Border Background="#1E3A8A" CornerRadius="4,4,0,0" Padding="10,8" Margin="0,0,0,0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.4*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="بيان بند الحساب المالي" FontWeight="Bold" FontSize="10" Foreground="White"/>
+                                        <TextBlock Grid.Column="1" Text="الإيرادات والأرباح (+)" FontWeight="Bold" FontSize="10" Foreground="White" TextAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="التكاليف والمصروفات (-)" FontWeight="Bold" FontSize="10" Foreground="White" TextAlignment="Center"/>
+                                        <TextBlock Grid.Column="3" Text="صافي النتيجة المالي" FontWeight="Bold" FontSize="10" Foreground="White" TextAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+
+                                <!-- Table Rows -->
+                                <Border BorderBrush="#E2E8F0" BorderThickness="1,0,1,1" Padding="8,6" Background="White">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.4*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="1. إجمالي إيرادات المبيعات (Gross Revenue)" FontWeight="SemiBold" FontSize="10" Foreground="#0F172A"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding TotalRevenue, StringFormat='{}{0:N2} ج.م'}" FontWeight="Bold" FontSize="10" Foreground="#059669" TextAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="—" FontSize="10" Foreground="#94A3B8" TextAlignment="Center"/>
+                                        <TextBlock Grid.Column="3" Text="{Binding TotalRevenue, StringFormat='{}{0:N2} ج.م'}" FontSize="10" Foreground="#475569" TextAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+
+                                <Border BorderBrush="#E2E8F0" BorderThickness="1,0,1,1" Padding="8,6" Background="#F8FAFC">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.4*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="2. الخصومات والتخفيضات والكتالوجات (-)" FontSize="10" Foreground="#475569"/>
+                                        <TextBlock Grid.Column="1" Text="—" FontSize="10" Foreground="#94A3B8" TextAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding TotalDiscounts, StringFormat='-{0:N2} ج.م'}" FontWeight="SemiBold" FontSize="10" Foreground="#D97706" TextAlignment="Center"/>
+                                        <TextBlock Grid.Column="3" Text="—" FontSize="10" Foreground="#94A3B8" TextAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+
+                                <Border BorderBrush="#E2E8F0" BorderThickness="1,0,1,1" Padding="8,6" Background="White">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.4*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="3. مرتجعات ومستردات الفواتير (-)" FontSize="10" Foreground="#475569"/>
+                                        <TextBlock Grid.Column="1" Text="—" FontSize="10" Foreground="#94A3B8" TextAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding TotalReturns, StringFormat='-{0:N2} ج.م'}" FontWeight="SemiBold" FontSize="10" Foreground="#DC2626" TextAlignment="Center"/>
+                                        <TextBlock Grid.Column="3" Text="—" FontSize="10" Foreground="#94A3B8" TextAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+
+                                <Border BorderBrush="#E2E8F0" BorderThickness="1,0,1,1" Padding="8,6" Background="#F8FAFC">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.4*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="4. تكلفة البضاعة المباعة (Cost of Goods Sold - COGS) (-)" FontSize="10" Foreground="#475569"/>
+                                        <TextBlock Grid.Column="1" Text="—" FontSize="10" Foreground="#94A3B8" TextAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding TotalCOGS, StringFormat='-{0:N2} ج.م'}" FontWeight="SemiBold" FontSize="10" Foreground="#2563EB" TextAlignment="Center"/>
+                                        <TextBlock Grid.Column="3" Text="—" FontSize="10" Foreground="#94A3B8" TextAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+
+                                <Border BorderBrush="#BFDBFE" BorderThickness="1,0,1,1" Padding="8,6" Background="#EFF6FF">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.4*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="(=) إجمالي أرباح البضاعة قبل المصروفات (Gross Profit)" FontWeight="Bold" FontSize="10" Foreground="#1E40AF"/>
+                                        <TextBlock Grid.Column="1" Text="—" FontSize="10" Foreground="#94A3B8" TextAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="—" FontSize="10" Foreground="#94A3B8" TextAlignment="Center"/>
+                                        <TextBlock Grid.Column="3" Text="{Binding GrossProfit, StringFormat='{}{0:N2} ج.م'}" FontWeight="Black" FontSize="11" Foreground="#1E40AF" TextAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+
+                                <Border BorderBrush="#E2E8F0" BorderThickness="1,0,1,1" Padding="8,6" Background="White">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.4*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="5. إجمالي المصروفات والنثريات التشغيلية (-)" FontSize="10" Foreground="#475569"/>
+                                        <TextBlock Grid.Column="1" Text="—" FontSize="10" Foreground="#94A3B8" TextAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding TotalExpenses, StringFormat='-{0:N2} ج.م'}" FontWeight="SemiBold" FontSize="10" Foreground="#DC2626" TextAlignment="Center"/>
+                                        <TextBlock Grid.Column="3" Text="—" FontSize="10" Foreground="#94A3B8" TextAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+
+                                <!-- Final Grand Net Profit/Loss Summary Row -->
+                                <Border Background="#FEF3C7" BorderBrush="#FCD34D" BorderThickness="1" CornerRadius="0,0,4,4" Padding="12,10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.4*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <TextBlock Text="(=) النتيجة الختامية الكلية (صافي الأرباح / الخسائر):" FontWeight="Black" FontSize="11" Foreground="#92400E"/>
+                                            <TextBlock Text="{Binding NetProfitMarginPct, StringFormat=' ({0:F1}%)'}" FontWeight="Bold" FontSize="10" Foreground="#B45309" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                                        </StackPanel>
+                                        <TextBlock Grid.Column="1" Text="{Binding TotalRevenue, StringFormat='{}{0:N2}'}" FontWeight="Bold" FontSize="10" Foreground="#059669" TextAlignment="Center" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding TotalExpenses, StringFormat='-{0:N2}'}" FontWeight="Bold" FontSize="10" Foreground="#DC2626" TextAlignment="Center" VerticalAlignment="Center"/>
+                                        <Border Grid.Column="3" Background="#ECFDF5" BorderBrush="#A7F3D0" BorderThickness="1" CornerRadius="4" Padding="6,3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding NetProfit, StringFormat='{}{0:N2} ج.م'}" FontWeight="Black" FontSize="12" Foreground="#059669" TextAlignment="Center"/>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+
                                 <!-- Signatures -->
                                 <Grid Margin="0,30,0,0">
                                     <Grid.ColumnDefinitions>

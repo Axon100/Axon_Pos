@@ -1618,6 +1618,22 @@ namespace Axon.UI.ViewModels
                         ExpensesReport.Select(i => new[] { i.SequenceNumber.ToString(), i.ExpenseCode, i.DateDisplay, i.Category, i.Description, i.UserName, $"{i.Amount:N2} ج.م" }).ToList(),
                         new[] { "—", "—", "—", "إجمالي المصروفات", "—", "—", $"{TotalExpenses:N2} ج.م" }
                     ));
+
+                    sb.Append(BuildDocxTable(
+                        "الجدول الختامي لتلخيص الأرباح والخسائر والنتيجة النهائية",
+                        new[] { "بيان بند الحساب المالي", "الإيرادات والأرباح (+)", "التكاليف والمصروفات (-)", "صافي النتيجة المالي" },
+                        new List<string[]>
+                        {
+                            new[] { "1. إجمالي إيرادات المبيعات (Gross Sales)", $"{TotalRevenue:N2} ج.م", "—", $"{TotalRevenue:N2} ج.م" },
+                            new[] { "2. الخصومات والتخفيضات (-)", "—", $"-{TotalDiscounts:N2} ج.م", "—" },
+                            new[] { "3. مرتجعات الفواتير (-)", "—", $"-{TotalReturns:N2} ج.م", "—" },
+                            new[] { "4. تكلفة البضاعة المباعة (COGS) (-)", "—", $"-{TotalCOGS:N2} ج.م", "—" },
+                            new[] { "(=) إجمالي أرباح البضاعة قبل المصروفات (Gross Profit)", "—", "—", $"{GrossProfit:N2} ج.م" },
+                            new[] { "5. إجمالي المصروفات والنثريات (-)", "—", $"-{TotalExpenses:N2} ج.م", "—" },
+                            new[] { "(=) النتيجة الختامية الكلية (صافي الأرباح / الخسائر)", $"{TotalRevenue:N2} ج.م", $"-{TotalExpenses:N2} ج.م", $"{NetProfit:N2} ج.م" }
+                        },
+                        new[] { "—", "إجمالي الإيرادات", "إجمالي المصروفات", "صافي الربح النهائي" }
+                    ));
                 }
                 else
                 {
