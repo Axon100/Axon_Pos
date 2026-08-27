@@ -729,6 +729,13 @@ namespace Axon.UI.ViewModels
                 var filePath = dialog.FileName;
                 var ext = Path.GetExtension(filePath).ToLowerInvariant();
 
+                if (ext == ".docx" || ext == ".doc")
+                {
+                    SaveDocx(filePath);
+                    MessageBox.Show("تم تصدير التقرير كملف مستند وورد (Word Document) بنجاح!", "تم التصدير بنجاح", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
                 if (ext == ".pdf" && visualElement != null)
                 {
                     MemoryStream? imgStream = null;
@@ -1399,29 +1406,173 @@ namespace Axon.UI.ViewModels
         [RelayCommand] private void PrevPage() { if (CurrentPage > 1) CurrentPage--; }
         [RelayCommand] private void NextPage() { if (CurrentPage < TotalPages) CurrentPage++; }
         [RelayCommand] private void LastPage() => CurrentPage = TotalPages;
-    }
 
-    public class ProductFilterOptionModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Sku { get; set; } = string.Empty;
-        public int CategoryId { get; set; }
-    }
+// ==================== WORD (.DOCX) NATIVE EXPORT HELPER ====================
+        private void SaveDocx(string filePath)
+        {
+            using var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            using var archive = new System.IO.Compression.ZipArchive(fs, System.IO.Compression.ZipArchiveMode.Create);
 
-    public class ProductCycleTransactionItem
-    {
-        public string ReceiptNumber { get; set; } = string.Empty;
-        public DateTime Date { get; set; }
-        public string DateDisplay => Date.ToString("yyyy/MM/dd  HH:mm");
-        public string CashierName { get; set; } = string.Empty;
-        public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
-        public decimal DiscountAmount { get; set; }
-        public decimal LineTotal { get; set; }
-    }
+            // 1. [Content_Types].xml
+            var entryTypes = archive.CreateEntry("[Content_Types].xml");
+            using (var writer = new StreamWriter(entryTypes.Open(), Encoding.UTF8))
+            {
+                writer.Write(@"<?xml version=""1.0"" encoding=""UTF-8"" standalone=""yes""?>
+<Types xmlns=""http://schemas.openxmlformats.org/package/2006/content-types"">
+  <Default Extension=""rels"" ContentType=""application/vnd.openxmlformats-package.relationships+xml""/>
+  <Default Extension=""xml"" ContentType=""application/xml""/>
+  <Override PartName=""/word/document.xml"" ContentType=""application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml""/>
+</Types>");
+            }
 
-    public class ClosedRegisterReportItem
+            // 2. _rels/.rels
+            var entryRels = archive.CreateEntry("_rels/.rels");
+            using (var writer = new StreamWriter(entryRels.Open(), Encoding.UTF8))
+            {
+                writer.Write(@"<?xml version=""1.0"" encoding=""UTF-8"" standalone=""yes""?>
+<Relationships xmlns=""http://schemas.openxmlformats.org/package/2006/relationships"">
+  <Relationship Id=""rId1"" Type=""http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument"" Target=""word/document.xml""/>
+</Relationships>");
+            }
+
+            // 3. word/document.xml
+            var entryDoc = archive.CreateEntry("word/document.xml");
+            using (var writer = new StreamWriter(entryDoc.Open(), Encoding.UTF8))
+            {
+                var sb = new StringBuilder();
+                sb.Append(@"<?xml version=""1.0"" encoding=""UTF-8"" standalone=""yes""?>
+<w:document xmlns:w=""http://schemas.openxmlformats.org/wordprocessingml/2006/main"">
+<w:body>");
+
+                // Header Title
+                sb.Append(@"<w:p><w:pPr><w:bidi/><w:jc w:val=""center""/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val=""36""/><w:color w:val=""1E3A8A""/></w:rPr><w:t>VELOURA • POS SYSTEM</w:t></w:r></w:p>");
+                
+                // Subtitle
+                var periodStr = System.Security.SecurityElement.Escape($"تقرير مالي معتمد — الفترة من {StartDate:yyyy/MM/dd} إلى {EndDate:yyyy/MM/dd}");
+                sb.Append($@"<w:p><w:pPr><w:bidi/><w:jc w:val=""center""/></w:pPr><w:r><w:rPr><w:sz w:val=""22""/><w:color w:val=""475569""/></w:rPr><w:t>{periodStr}</w:t></w:r></w:p>");
+
+                // Content Tables according to SelectedReportTab
+                if (SelectedReportTab == 1)
+                {
+                    sb.Append(BuildDocxTable(
+                        "تقرير تصنيف مبيعات الأقسام",
+                        new[] { "كود القسم", "اسم القسم / التصنيف", "عدد الأصناف", "الكمية المباعة", "إجمالي المبيعات (ج.م)", "النسبة %" },
+                        SalesClassificationReport.Select(i => new[] { i.CategoryCode, i.CategoryName, i.DistinctProductsCount.ToString(), $"{i.QuantitySold} قطعة", $"{i.TotalSales:N2} ج.م", i.PercentageDisplay }).ToList(),
+                        new[] { "—", "الإجمالي العام", "—", $"{CategoryReportTotalQty} قطعة", $"{CategoryReportTotalSales:N2} ج.م", "100%" }
+                    ));
+                }
+                else if (SelectedReportTab == 2)
+                {
+                    if (IsSingleProductMode)
+                    {
+                        sb.Append(BuildDocxTable(
+                            $"دورة مبيعات المنتج: {SingleProductName} ({SingleProductSku})",
+                            new[] { "رقم الفاتورة", "التاريخ والوقت", "الكاشير", "الكمية المباعة", "سعر الوحدة (ج.م)", "الخصم (ج.م)", "إجمالي البيع (ج.م)" },
+                            SingleProductCycleReport.Select(i => new[] { i.ReceiptNumber, i.DateDisplay, i.CashierName, $"{i.Quantity} قطعة", $"{i.UnitPrice:N2} ج.م", $"{i.DiscountAmount:N2} ج.م", $"{i.LineTotal:N2} ج.م" }).ToList(),
+                            new[] { "—", "—", "الإجمالي الشامل", $"{ProductReportTotalQty} قطعة", "—", "—", $"{ProductReportTotalSales:N2} ج.م" }
+                        ));
+                    }
+                    else
+                    {
+                        sb.Append(BuildDocxTable(
+                            "تقرير مبيعات منتج موسع",
+                            new[] { "كود الصنف (SKU)", "اسم المنتج", "القسم / التصنيف", "سعر الوحدة (ج.م)", "الكمية المباعة", "إجمالي المبيعات (ج.م)", "النسبة %" },
+                            ProductSalesReport.Select(i => new[] { i.DisplayCode, i.ProductName, i.CategoryName, $"{i.UnitPrice:N2} ج.م", $"{i.QuantitySold} قطعة", $"{i.TotalSales:N2} ج.م", i.PercentageDisplay }).ToList(),
+                            new[] { "—", "—", "الإجمالي الكلي", "—", $"{ProductReportTotalQty} قطعة", $"{ProductReportTotalSales:N2} ج.م", "100%" }
+                        ));
+                    }
+                }
+                else if (SelectedReportTab == 3)
+                {
+                    sb.Append(BuildDocxTable(
+                        "تقرير سجل الفواتير والمبيعات التفصيلي",
+                        new[] { "رقم الفاتورة", "التاريخ والوقت", "الكاشير", "عدد القطع", "المجموع الفرعي", "الخصم", "الضريبة", "الإجمالي النهائي (ج.م)", "الحالة" },
+                        SalesInvoicesReport.Select(i => new[] { i.ReceiptNumber, i.DateDisplay, i.CashierName, $"{i.ItemsCount}", $"{i.SubTotal:N2} ج.م", $"{i.DiscountAmount:N2} ج.م", $"{i.TaxAmount:N2} ج.م", $"{i.Total:N2} ج.م", i.Status }).ToList(),
+                        new[] { "—", "—", "الإجمالي العام", $"{SalesInvoicesReport.Sum(x=>x.ItemsCount)}", $"{SalesInvoicesReport.Sum(x=>x.SubTotal):N2} ج.م", $"{TotalDiscounts:N2} ج.م", $"{TotalTax:N2} ج.م", $"{TotalRevenue:N2} ج.م", "—" }
+                    ));
+                }
+                else
+                {
+                    sb.Append(BuildDocxTable(
+                        "تقرير تقفيل الشيفت والصندوق المغلق",
+                        new[] { "رمز التقفيلة", "الكاشير المسؤول", "توقيت بداية ونهاية الوردية", "عدد الفواتير", "مبيعات الكاش (ج.م)", "المرتجعات (ج.م)", "صافي التقفيلة (ج.م)", "الحالة" },
+                        ClosedRegisterReport.Select(i => new[] { i.ClosureCode, i.CashierName, i.PeriodDisplay, $"{i.InvoicesCount}", $"{i.CashSales:N2} ج.م", $"{i.ReturnsAmount:N2} ج.م", $"{i.NetSales:N2} ج.م", i.Status }).ToList(),
+                        new[] { "—", "الإجمالي العام", "—", $"{ClosedBoxInvoicesCount}", $"{ClosedBoxCashTotal:N2} ج.م", $"{ClosedBoxReturnTotal:N2} ج.م", $"{ClosedBoxNetTotal:N2} ج.م", "—" }
+                    ));
+                }
+
+                // Signatures section
+                sb.Append(@"<w:p><w:pPr><w:bidi/></w:pPr></w:p>
+<w:p><w:pPr><w:bidi/><w:jc w:val=""right""/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val=""20""/><w:color w:val=""1E3A8A""/></w:rPr><w:t>مسؤول المبيعات / الكاشير: .......................................            توقيع واعتماد الإدارة: .......................................</w:t></w:r></w:p>");
+
+                sb.Append(@"</w:body></w:document>");
+                writer.Write(sb.ToString());
+            }
+        }
+
+        private string BuildDocxTable(string sectionTitle, string[] headers, List<string[]> rows, string[]? totals)
+        {
+            var sb = new StringBuilder();
+            
+            // Section Title
+            var titleEsc = System.Security.SecurityElement.Escape(sectionTitle);
+            sb.Append($@"<w:p><w:pPr><w:bidi/><w:spacing w:before=""200"" w:after=""100""/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val=""24""/><w:color w:val=""1E3A8A""/></w:rPr><w:t>{titleEsc}</w:t></w:r></w:p>");
+
+            // Table start
+            sb.Append(@"<w:tbl>
+<w:tblPr>
+  <w:bidiVisual/>
+  <w:tblW w:w=""5000"" w:type=""pct""/>
+  <w:tblBorders>
+    <w:top w:val=""single"" w:sz=""4"" w:space=""0"" w:color=""CBD5E1""/>
+    <w:left w:val=""single"" w:sz=""4"" w:space=""0"" w:color=""CBD5E1""/>
+    <w:bottom w:val=""single"" w:sz=""4"" w:space=""0"" w:color=""CBD5E1""/>
+    <w:right w:val=""single"" w:sz=""4"" w:space=""0"" w:color=""CBD5E1""/>
+    <w:insideH w:val=""single"" w:sz=""4"" w:space=""0"" w:color=""CBD5E1""/>
+    <w:insideV w:val=""single"" w:sz=""4"" w:space=""0"" w:color=""CBD5E1""/>
+  </w:tblBorders>
+</w:tblPr>");
+
+            // Header Row
+            sb.Append("<w:tr>");
+            foreach (var h in headers)
+            {
+                var hEsc = System.Security.SecurityElement.Escape(h);
+                sb.Append($@"<w:tc><w:tcPr><w:shd w:val=""clear"" w:color=""auto"" w:fill=""1E3A8A""/></w:tcPr><w:p><w:pPr><w:bidi/><w:jc w:val=""center""/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val=""20""/><w:color w:val=""FFFFFF""/></w:rPr><w:t>{hEsc}</w:t></w:r></w:p></w:tc>");
+            }
+            sb.Append("</w:tr>");
+
+            // Data Rows
+            foreach (var row in rows)
+            {
+                sb.Append("<w:tr>");
+                foreach (var cell in row)
+                {
+                    var cellEsc = System.Security.SecurityElement.Escape(cell ?? string.Empty);
+                    sb.Append($@"<w:tc><w:tcPr><w:shd w:val=""clear"" w:color=""auto"" w:fill=""FFFFFF""/></w:tcPr><w:p><w:pPr><w:bidi/><w:jc w:val=""center""/></w:pPr><w:r><w:rPr><w:sz w:val=""19""/><w:color w:val=""0F172A""/></w:rPr><w:t>{cellEsc}</w:t></w:r></w:p></w:tc>");
+                }
+                sb.Append("</w:tr>");
+            }
+
+            // Totals Row if provided
+            if (totals != null && totals.Length == headers.Length)
+            {
+                sb.Append("<w:tr>");
+                foreach (var tot in totals)
+                {
+                    var totEsc = System.Security.SecurityElement.Escape(tot ?? string.Empty);
+                    sb.Append($@"<w:tc><w:tcPr><w:shd w:val=""clear"" w:color=""auto"" w:fill=""FEF3C7""/></w:tcPr><w:p><w:pPr><w:bidi/><w:jc w:val=""center""/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val=""20""/><w:color w:val=""92400E""/></w:rPr><w:t>{totEsc}</w:t></w:r></w:p></w:tc>");
+                }
+                sb.Append("</w:tr>");
+            }
+
+            sb.Append("</w:tbl>");
+            return sb.ToString();
+        }
+
+
+
+        public class ClosedRegisterReportItem
     {
         public int SequenceNumber { get; set; }
         public string ClosureCode => $"تقفيلة #{SequenceNumber}";
@@ -1520,4 +1671,28 @@ namespace Axon.UI.ViewModels
             return new PdfSharp.Fonts.FontResolverInfo("Arial" + suffix);
         }
     }
-}
+    }
+
+    }
+
+    public class ProductFilterOptionModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Sku { get; set; } = string.Empty;
+        public int CategoryId { get; set; }
+    }
+
+    public class ProductCycleTransactionItem
+    {
+        public string ReceiptNumber { get; set; } = string.Empty;
+        public DateTime Date { get; set; }
+        public string DateDisplay => Date.ToString("yyyy/MM/dd  HH:mm");
+        public string CashierName { get; set; } = string.Empty;
+        public int Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal DiscountAmount { get; set; }
+        public decimal LineTotal { get; set; }
+    }
+
+    
