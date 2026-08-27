@@ -53,16 +53,22 @@
         <Border Grid.Column="0" Background="{DynamicResource SidebarBgBrush}" BorderBrush="{DynamicResource SidebarBorderBrush}" BorderThickness="0,0,1,0">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="70" />
+                    <RowDefinition Height="76" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <!-- Sidebar Header / Logo Area -->
-                <Border Grid.Row="0" Margin="14,14,14,8" Background="{DynamicResource CardBgBrush}" BorderBrush="#D90429" BorderThickness="1" CornerRadius="12" Padding="14,10" Effect="{DynamicResource Axon3DCardShadow}">
-                    <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="AXON" FontSize="20" FontWeight="Black" Foreground="#D90429" VerticalAlignment="Center"/>
-                        <TextBlock Text=" POS" FontSize="20" FontWeight="Black" Foreground="{DynamicResource PosBrandTextBrush}" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                <!-- Sidebar Header / Logo Area (Exact Match to User Image) -->
+                <Border Grid.Row="0" Margin="12,10,12,6" Padding="8,6" VerticalAlignment="Center">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10,0,10,0">
+                        <!-- Main Logo Line: AXON POS -->
+                        <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <TextBlock Text="AXON" FontSize="22" FontWeight="Black" Foreground="#D90429"/>
+                            <TextBlock Text=" POS" FontSize="22" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" Margin="4,0,0,0"/>
+                        </StackPanel>
+
+                        <!-- Subtitle Line: لوحة التحكم الإدارية -->
+                        <TextBlock Text="لوحة التحكم الإدارية" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Right" Margin="0,3,0,0"/>
                     </StackPanel>
                 </Border>
 
