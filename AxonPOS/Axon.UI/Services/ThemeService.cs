@@ -20,21 +20,21 @@ namespace Axon.UI.Services
             {
                 theme.SetBaseTheme(BaseTheme.Dark);
                 
-                appResources["AppBgBrush"] = new SolidColorBrush(Color.FromRgb(17, 17, 17));             // #111111
-                appResources["SidebarBgBrush"] = new SolidColorBrush(Color.FromRgb(18, 18, 19));        // #121213
-                appResources["SidebarBorderBrush"] = new SolidColorBrush(Color.FromRgb(44, 44, 44));    // #2C2C2C
-                appResources["HeaderBgBrush"] = new SolidColorBrush(Color.FromRgb(19, 19, 19));         // #131313
-                appResources["HeaderBorderBrush"] = new SolidColorBrush(Color.FromRgb(53, 53, 52));     // #353534
-                appResources["CardBgBrush"] = new SolidColorBrush(Color.FromRgb(22, 22, 22));           // #161616
-                appResources["CardInnerBgBrush"] = new SolidColorBrush(Color.FromRgb(26, 26, 26));      // #1A1A1A
-                appResources["CardBorderBrush"] = new SolidColorBrush(Color.FromRgb(44, 44, 44));       // #2C2C2C
+                appResources["AppBgBrush"] = new SolidColorBrush(Color.FromRgb(15, 15, 15));             // #0F0F0F (Login Window Pure Deep Black)
+                appResources["SidebarBgBrush"] = new SolidColorBrush(Color.FromRgb(15, 15, 15));        // #0F0F0F
+                appResources["SidebarBorderBrush"] = new SolidColorBrush(Color.FromRgb(38, 38, 38));    // #262626
+                appResources["HeaderBgBrush"] = new SolidColorBrush(Color.FromRgb(20, 20, 20));         // #141414
+                appResources["HeaderBorderBrush"] = new SolidColorBrush(Color.FromRgb(38, 38, 38));     // #262626
+                appResources["CardBgBrush"] = new SolidColorBrush(Color.FromRgb(18, 18, 18));           // #121212
+                appResources["CardInnerBgBrush"] = new SolidColorBrush(Color.FromRgb(22, 22, 22));      // #161616
+                appResources["CardBorderBrush"] = new SolidColorBrush(Color.FromRgb(38, 38, 38));       // #262626
                 appResources["TextPrimaryBrush"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));    // White
                 appResources["TextSecondaryBrush"] = new SolidColorBrush(Color.FromRgb(142, 142, 147));  // #8E8E93
-                appResources["HeaderPillBgBrush"] = new SolidColorBrush(Color.FromRgb(22, 22, 22));
-                appResources["ChartTrackBgBrush"] = new SolidColorBrush(Color.FromRgb(31, 31, 31));     // #1F1F1F
-                appResources["GridLineBrush"] = new SolidColorBrush(Color.FromRgb(31, 31, 31));        // #1F1F1F
-                appResources["TableHeaderBgBrush"] = new SolidColorBrush(Color.FromRgb(24, 24, 24));    // #181818
-                appResources["TableAltRowBrush"] = new SolidColorBrush(Color.FromRgb(18, 18, 18));      // #121212
+                appResources["HeaderPillBgBrush"] = new SolidColorBrush(Color.FromRgb(18, 18, 18));
+                appResources["ChartTrackBgBrush"] = new SolidColorBrush(Color.FromRgb(26, 26, 26));     // #1A1A1A
+                appResources["GridLineBrush"] = new SolidColorBrush(Color.FromRgb(26, 26, 26));        // #1A1A1A
+                appResources["TableHeaderBgBrush"] = new SolidColorBrush(Color.FromRgb(20, 20, 20));    // #141414
+                appResources["TableAltRowBrush"] = new SolidColorBrush(Color.FromRgb(15, 15, 15));      // #0F0F0F
                 appResources["InputBgBrush"] = new SolidColorBrush(Color.FromRgb(22, 22, 22));          // #161616
                 appResources["InputBorderBrush"] = new SolidColorBrush(Color.FromRgb(44, 44, 44));       // #2C2C2C
                 appResources["SidebarTextPrimaryBrush"] = new SolidColorBrush(Color.FromRgb(255, 255, 255)); // White
