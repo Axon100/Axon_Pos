@@ -8,12 +8,12 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
-        <!-- Interactive KPI Card Style with Upward Lift & Red Glow Shadow on Hover -->
-        <Style x:Key="KpiCardStyle" TargetType="Border">
+        <!-- Universal Interactive Dashboard Card Style with Smooth Lift & Red Glow Shadow Animation -->
+        <Style x:Key="InteractiveDashboardCardStyle" TargetType="Border">
             <Setter Property="Background" Value="{DynamicResource CardBgBrush}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="CornerRadius" Value="12"/>
             <Setter Property="Padding" Value="14,12"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="RenderTransform">
@@ -23,23 +23,45 @@
             </Setter>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="Transparent" BlurRadius="0" ShadowDepth="0" Opacity="0"/>
+                    <DropShadowEffect Color="#D90429" BlurRadius="0" ShadowDepth="3" Opacity="0"/>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="BorderBrush" Value="#D90429"/>
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <TranslateTransform Y="-6"/>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter Property="Effect">
-                        <Setter.Value>
-                            <DropShadowEffect Color="#D90429" BlurRadius="20" ShadowDepth="4" Opacity="0.5"/>
-                        </Setter.Value>
-                    </Setter>
                 </Trigger>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                             To="-6" Duration="0:0:0.20">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
+                                             To="20" Duration="0:0:0.20"/>
+                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
+                                             To="0.45" Duration="0:0:0.20"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                             To="0" Duration="0:0:0.20">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)"
+                                             To="0" Duration="0:0:0.20"/>
+                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Opacity)"
+                                             To="0" Duration="0:0:0.20"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
@@ -146,7 +168,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- 1. Net Profit Card -->
-                <Border Grid.Column="0" Style="{StaticResource KpiCardStyle}">
+                <Border Grid.Column="0" Style="{StaticResource InteractiveDashboardCardStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -174,7 +196,7 @@
                 </Border>
 
                 <!-- 2. Expenses Card -->
-                <Border Grid.Column="2" Style="{StaticResource KpiCardStyle}">
+                <Border Grid.Column="2" Style="{StaticResource InteractiveDashboardCardStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -202,7 +224,7 @@
                 </Border>
 
                 <!-- 3. Products Card -->
-                <Border Grid.Column="4" Style="{StaticResource KpiCardStyle}">
+                <Border Grid.Column="4" Style="{StaticResource InteractiveDashboardCardStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -230,7 +252,7 @@
                 </Border>
 
                 <!-- 4. Low Stock Card -->
-                <Border Grid.Column="6" Style="{StaticResource KpiCardStyle}">
+                <Border Grid.Column="6" Style="{StaticResource InteractiveDashboardCardStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -267,7 +289,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Executive Daily Sales Ledger (Modern Financial Cards Container) -->
-                <Border Grid.Column="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14" MinHeight="310">
+                <Border Grid.Column="0" Style="{StaticResource InteractiveDashboardCardStyle}" Padding="16,14" MinHeight="310">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -374,7 +396,7 @@
                 </Border>
 
                 <!-- Category Revenue Distribution -->
-                <Border Grid.Column="2" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14" MinHeight="280">
+                <Border Grid.Column="2" Style="{StaticResource InteractiveDashboardCardStyle}" Padding="16,14" MinHeight="280">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -431,7 +453,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Recent Sales DataGrid -->
-                <Border Grid.Column="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14">
+                <Border Grid.Column="0" Style="{StaticResource InteractiveDashboardCardStyle}" Padding="16,14">
                     <StackPanel>
                         <!-- Table Header -->
                         <Grid Margin="0,0,0,14">
@@ -509,7 +531,7 @@
                 </Border>
 
                 <!-- Inventory Alerts -->
-                <Border Grid.Column="2" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14">
+                <Border Grid.Column="2" Style="{StaticResource InteractiveDashboardCardStyle}" Padding="16,14">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,14" VerticalAlignment="Center">
                             <Border Width="32" Height="32" CornerRadius="8" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" Margin="0,0,10,0">
