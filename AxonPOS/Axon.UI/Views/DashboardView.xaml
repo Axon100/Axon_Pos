@@ -7,6 +7,41 @@
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+        <!-- Interactive KPI Card Style with Upward Lift & Red Glow Shadow on Hover -->
+        <Style x:Key="KpiCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource CardBgBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="14,12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <TranslateTransform Y="0"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Transparent" BlurRadius="0" ShadowDepth="0" Opacity="0"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#D90429"/>
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <TranslateTransform Y="-6"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="#D90429" BlurRadius="20" ShadowDepth="4" Opacity="0.5"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False">
@@ -111,7 +146,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- 1. Net Profit Card -->
-                <Border Grid.Column="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="14,12">
+                <Border Grid.Column="0" Style="{StaticResource KpiCardStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -139,7 +174,7 @@
                 </Border>
 
                 <!-- 2. Expenses Card -->
-                <Border Grid.Column="2" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="14,12">
+                <Border Grid.Column="2" Style="{StaticResource KpiCardStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -167,7 +202,7 @@
                 </Border>
 
                 <!-- 3. Products Card -->
-                <Border Grid.Column="4" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="14,12">
+                <Border Grid.Column="4" Style="{StaticResource KpiCardStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -195,7 +230,7 @@
                 </Border>
 
                 <!-- 4. Low Stock Card -->
-                <Border Grid.Column="6" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="14,12">
+                <Border Grid.Column="6" Style="{StaticResource KpiCardStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -231,29 +266,28 @@
                     <ColumnDefinition Width="1.2*" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Modern Sales Line & Area Chart -->
+                <!-- Clear Admin Sales Bar Chart -->
                 <Border Grid.Column="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14" MinHeight="280">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <!-- Chart Header -->
-                        <Grid Grid.Row="0" Margin="0,0,0,10">
+                        <Grid Grid.Row="0" Margin="0,0,0,12">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                                <Border Width="32" Height="32" CornerRadius="8" Background="#2B1414" BorderBrush="#D90429" BorderThickness="1" Margin="0,0,10,0">
-                                    <materialDesign:PackIcon Kind="ChartAreaspline" Width="18" Height="18" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Width="32" Height="32" CornerRadius="8" Background="#18D90429" BorderBrush="#40D90429" BorderThickness="1" Margin="0,0,10,0">
+                                    <materialDesign:PackIcon Kind="ChartBar" Width="18" Height="18" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                                 <StackPanel VerticalAlignment="Center">
-                                    <TextBlock Text="المنحنى البياني للمبيعات اليومية" FontSize="15" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
-                                    <TextBlock Text="حركة المبيعات والتحليلات البيانية المتقدمة" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                    <TextBlock Text="تقرير حركة المبيعات اليومية" FontSize="15" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="تحليل ومقارنة إجمالي مبيعات الأيام بشكل مباشر ومبسط" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"/>
                                 </StackPanel>
                             </StackPanel>
 
@@ -265,74 +299,70 @@
                             </Border>
                         </Grid>
 
-                        <!-- Modern Area & Spline Line Chart Canvas -->
-                        <Grid Grid.Row="1" Margin="0,10,0,0">
-                            <!-- Background Subtle Grid Lines -->
-                            <Canvas Height="160" Width="560" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <!-- Top Grid Line -->
-                                <Line X1="20" Y1="20" X2="540" Y2="20" Stroke="#1E293B" StrokeThickness="1" StrokeDashArray="4 4"/>
-                                <TextBlock Text="{Binding ChartYAxisLabelMax}" Canvas.Left="5" Canvas.Top="12" Foreground="#64748B" FontSize="9" FontWeight="Bold"/>
+                        <!-- Visual Admin Bar Graph with Direct Amount Indicators -->
+                        <ItemsControl Grid.Row="1" ItemsSource="{Binding DailySalesChartData}" VerticalAlignment="Bottom" Margin="0,8,0,0">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="1"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="3,0" VerticalAlignment="Bottom" Height="200" ToolTip="{Binding AmountDisplay}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
 
-                                <!-- Mid Grid Line -->
-                                <Line X1="20" Y1="77" X2="540" Y2="77" Stroke="#1E293B" StrokeThickness="1" StrokeDashArray="4 4"/>
-                                <TextBlock Text="{Binding ChartYAxisLabelMid}" Canvas.Left="5" Canvas.Top="69" Foreground="#64748B" FontSize="9" FontWeight="Bold"/>
-
-                                <!-- Bottom Grid Line -->
-                                <Line X1="20" Y1="135" X2="540" Y2="135" Stroke="#1E293B" StrokeThickness="1"/>
-
-                                <!-- Area Gradient Fill under line curve -->
-                                <Path Data="{Binding SalesAreaPathData}">
-                                    <Path.Fill>
-                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                            <GradientStop Color="#55D90429" Offset="0.0"/>
-                                            <GradientStop Color="#10D90429" Offset="0.6"/>
-                                            <GradientStop Color="#00D90429" Offset="1.0"/>
-                                        </LinearGradientBrush>
-                                    </Path.Fill>
-                                </Path>
-
-                                <!-- Axon Red Line Curve -->
-                                <Path Data="{Binding SalesLinePathData}" Stroke="#EF4444" StrokeThickness="3.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
-                                    <Path.Effect>
-                                        <DropShadowEffect Color="#EF4444" BlurRadius="12" ShadowDepth="0" Opacity="0.8"/>
-                                    </Path.Effect>
-                                </Path>
-                            </Canvas>
-
-                            <!-- Node Points with Tooltips -->
-                            <ItemsControl ItemsSource="{Binding DailySalesChartData}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Rows="1"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Margin="2,0" ToolTip="{Binding AmountDisplay}">
+                                        <!-- Pillar Container -->
+                                        <Grid Grid.Row="0" VerticalAlignment="Bottom">
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
 
-                                            <!-- Glowing Circle Node -->
-                                            <Grid Grid.Row="0" VerticalAlignment="Bottom" Height="150" Margin="0,0,0,4">
-                                                <Ellipse Width="10" Height="10" Fill="#EF4444" Stroke="White" StrokeThickness="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,0">
-                                                    <Ellipse.RenderTransform>
-                                                        <TranslateTransform Y="{Binding BarHeightPercentage, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                                    </Ellipse.RenderTransform>
-                                                    <Ellipse.Effect>
-                                                        <DropShadowEffect Color="#EF4444" BlurRadius="8" ShadowDepth="0"/>
-                                                    </Ellipse.Effect>
-                                                </Ellipse>
-                                            </Grid>
+                                            <!-- Direct Amount Tag Above Active Pillars -->
+                                            <Border Grid.Row="0" Background="#18D90429" BorderBrush="#D90429" BorderThickness="1" CornerRadius="4" Padding="4,2" HorizontalAlignment="Center" Margin="0,0,0,4">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Amount}" Value="0">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <TextBlock Text="{Binding AmountDisplay}" FontSize="9" FontWeight="Black" Foreground="#D90429" HorizontalAlignment="Center"/>
+                                            </Border>
 
-                                            <!-- Day Label -->
-                                            <TextBlock Grid.Row="1" Text="{Binding DayLabel}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                                            <!-- Dynamic Proportional Bar -->
+                                            <Grid Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                                                <!-- Track Background -->
+                                                <Border Background="{DynamicResource ChartTrackBgBrush}" CornerRadius="6" Height="140" Width="20" Opacity="0.5"/>
+                                                
+                                                <!-- Active Bar -->
+                                                <Border Background="#D90429" CornerRadius="6" Width="20" VerticalAlignment="Bottom" Height="{Binding BarHeight}">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Amount}" Value="0">
+                                                                    <Setter Property="Background" Value="#2A2A2A"/>
+                                                                    <Setter Property="Height" Value="6"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                </Border>
+                                            </Grid>
                                         </Grid>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Grid>
+
+                                        <!-- Day/Date Label Below Bar -->
+                                        <TextBlock Grid.Row="1" Text="{Binding DayLabel}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </Grid>
                 </Border>
 
