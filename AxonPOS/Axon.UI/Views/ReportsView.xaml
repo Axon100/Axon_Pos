@@ -74,93 +74,106 @@
             <RowDefinition Height="*"/>    <!-- 5. Report Document Canvas -->
         </Grid.RowDefinitions>
 
-        <!-- ==================== 1. HEADER & DATE FILTER ==================== -->
-        <Grid Grid.Row="0" Margin="0,0,0,16">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <!-- ==================== 1. HEADER & FILTERS TOOLBAR ==================== -->
+        <Border Grid.Row="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14" Margin="0,0,0,16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <!-- Title -->
-            <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,20,0">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Background="#22D90429" BorderBrush="#44D90429" BorderThickness="1" CornerRadius="8" Padding="8" Margin="0,0,12,0">
-                        <materialDesign:PackIcon Kind="ChartBoxOutline" Width="24" Height="24" Foreground="#d90429" VerticalAlignment="Center"/>
-                    </Border>
-                    <TextBlock Text="التقارير والتحليلات المالية" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                </StackPanel>
-                <TextBlock Text="استخراج وتصدير تقارير الصندوق المغلق، مبيعات الأصناف، وسجل الفواتير." Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11.5" Margin="0,4,0,0" TextTrimming="CharacterEllipsis"/>
-            </StackPanel>
+                <!-- Row 0: Title on Right, Export & Print Actions on Left -->
+                <Grid Grid.Row="0" Margin="0,0,0,14">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-            <!-- Filters Bar (Date Range + Category Filter + Product Filter) -->
-            <Border Grid.Column="1" HorizontalAlignment="Left" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="14,10" VerticalAlignment="Center">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <!-- Category Selector (Optional filter) -->
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,12,0">
-                        <TextBlock Text="القسم:" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,6,0"/>
-                        <ComboBox ItemsSource="{Binding FilterCategories}"
-                                  SelectedItem="{Binding SelectedFilterCategory, Mode=TwoWay}"
-                                  DisplayMemberPath="Name"
-                                  Width="135" Height="32" Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
-                                  BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" FontSize="11" Padding="8,4"/>
-                    </StackPanel>
-
-                    <!-- Product Selector (Dropdown for all products in system) -->
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,12,0">
-                        <TextBlock Text="المنتج:" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,6,0"/>
-                        <ComboBox ItemsSource="{Binding FilterProducts}"
-                                  SelectedItem="{Binding SelectedFilterProduct, Mode=TwoWay}"
-                                  DisplayMemberPath="Name"
-                                  Width="150" Height="32" Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
-                                  BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" FontSize="11" Padding="8,4"/>
-                    </StackPanel>
-
-                    <!-- From Date -->
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,12,0">
-                        <materialDesign:PackIcon Kind="CalendarImport" Width="16" Height="16" Foreground="#D90429" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                        <TextBlock Text="من:" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,6,0"/>
-                        <DatePicker SelectedDate="{Binding StartDate}" Width="120" Height="32" Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" FontSize="12"/>
-                    </StackPanel>
-
-                    <!-- To Date -->
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,14,0">
-                        <materialDesign:PackIcon Kind="CalendarExport" Width="16" Height="16" Foreground="#D90429" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                        <TextBlock Text="إلى:" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,6,0"/>
-                        <DatePicker SelectedDate="{Binding EndDate}" Width="120" Height="32" Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" FontSize="12"/>
-                    </StackPanel>
-
-                    <!-- Generate Button -->
-                    <Button Command="{Binding GenerateReportCommand}" Style="{StaticResource Axon3DPrimaryButtonStyle}" Height="34" Padding="14,0" ToolTip="تطبيق الفلترة وإنشاء التقرير" Margin="0,0,8,0">
+                    <!-- Title & Subtitle (Right) -->
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,12,0">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <materialDesign:PackIcon Kind="ChartBar" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="إنشاء التقرير" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
+                            <Border Background="#22D90429" BorderBrush="#44D90429" BorderThickness="1" CornerRadius="8" Padding="8" Margin="0,0,10,0">
+                                <materialDesign:PackIcon Kind="ChartBoxOutline" Width="22" Height="22" Foreground="#d90429" VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="التقارير والتحليلات المالية" FontSize="20" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
                         </StackPanel>
-                    </Button>
+                        <TextBlock Text="استخراج وتصدير تقارير الصندوق المغلق، مبيعات الأصناف، وسجل الفواتير." Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" Margin="40,2,0,0" TextTrimming="CharacterEllipsis"/>
+                    </StackPanel>
 
-                    <!-- Top Export Report Button -->
-                    <Button Command="{Binding ExportExcelCommand}" CommandParameter="{Binding ElementName=ReportDocumentSheet}"
-                            Background="#162D1C" Foreground="#4AE176" BorderBrush="#234D28" BorderThickness="1"
-                            Style="{StaticResource MaterialDesignFlatButton}" Height="34" Padding="14,0" Margin="0,0,8,0"
-                            ToolTip="حفظ وتصدير التقرير (Word, Excel, PDF, CSV)">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <materialDesign:PackIcon Kind="FileDownload" Foreground="#4AE176" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="تصدير التقرير" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
+                    <!-- Export & Print Action Buttons (Left) -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <!-- Export Report Button -->
+                        <Button Command="{Binding ExportExcelCommand}" CommandParameter="{Binding ElementName=ReportDocumentSheet}"
+                                Background="#162D1C" Foreground="#4AE176" BorderBrush="#234D28" BorderThickness="1"
+                                Style="{StaticResource MaterialDesignFlatButton}" Height="36" Padding="14,0" Margin="0,0,10,0"
+                                ToolTip="حفظ وتصدير التقرير (Word, Excel, PDF)">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="FileDownload" Foreground="#4AE176" Width="18" Height="18" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="تصدير التقرير" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
 
-                    <!-- Top Print Report Button -->
-                    <Button Command="{Binding PrintReportCommand}" CommandParameter="{Binding ElementName=ReportDocumentSheet}"
-                            Background="#1E3A8A" Foreground="White" BorderBrush="#3B82F6" BorderThickness="1"
-                            Style="{StaticResource MaterialDesignFlatButton}" Height="34" Padding="14,0"
-                            ToolTip="طباعة التقرير مباشرة">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <materialDesign:PackIcon Kind="Printer" Foreground="White" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="طباعة التقرير" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
+                        <!-- Print Report Button -->
+                        <Button Command="{Binding PrintReportCommand}" CommandParameter="{Binding ElementName=ReportDocumentSheet}"
+                                Background="#1E3A8A" Foreground="White" BorderBrush="#3B82F6" BorderThickness="1"
+                                Style="{StaticResource MaterialDesignFlatButton}" Height="36" Padding="14,0"
+                                ToolTip="طباعة التقرير مباشرة">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Printer" Foreground="White" Width="18" Height="18" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="طباعة التقرير" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Row 1: Filter Bar Controls (Category, Product, Dates, Generate Button) -->
+                <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Focusable="False">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,4,0,2">
+                        <!-- Category Selector -->
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,14,0">
+                            <TextBlock Text="القسم:" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                            <ComboBox ItemsSource="{Binding FilterCategories}"
+                                      SelectedItem="{Binding SelectedFilterCategory, Mode=TwoWay}"
+                                      DisplayMemberPath="Name"
+                                      Width="135" Height="34" Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                      BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" FontSize="11" Padding="8,4"/>
                         </StackPanel>
-                    </Button>
-                </StackPanel>
-            </Border>
-        </Grid>
+
+                        <!-- Product Selector -->
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,14,0">
+                            <TextBlock Text="المنتج:" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                            <ComboBox ItemsSource="{Binding FilterProducts}"
+                                      SelectedItem="{Binding SelectedFilterProduct, Mode=TwoWay}"
+                                      DisplayMemberPath="Name"
+                                      Width="150" Height="34" Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                      BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" FontSize="11" Padding="8,4"/>
+                        </StackPanel>
+
+                        <!-- From Date -->
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,14,0">
+                            <materialDesign:PackIcon Kind="CalendarImport" Width="15" Height="15" Foreground="#D90429" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                            <TextBlock Text="من:" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                            <DatePicker SelectedDate="{Binding StartDate}" Width="120" Height="34" Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" FontSize="11" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- To Date -->
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,16,0">
+                            <materialDesign:PackIcon Kind="CalendarExport" Width="15" Height="15" Foreground="#D90429" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                            <TextBlock Text="إلى:" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                            <DatePicker SelectedDate="{Binding EndDate}" Width="120" Height="34" Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" FontSize="11" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Generate Button -->
+                        <Button Command="{Binding GenerateReportCommand}" Style="{StaticResource Axon3DPrimaryButtonStyle}" Height="34" Padding="14,0" ToolTip="تطبيق الفلترة وإنشاء التقرير" Margin="0,0,8,0">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="ChartBar" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="إنشاء التقرير" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Border>
 
         <!-- ==================== 2. 4 REPORT TABS ==================== -->
         <Border Grid.Row="1" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="4" Margin="0,0,0,14">
