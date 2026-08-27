@@ -53,7 +53,7 @@
         <Border Grid.Column="0" Background="{DynamicResource SidebarBgBrush}" BorderBrush="{DynamicResource SidebarBorderBrush}" BorderThickness="0,0,1,0">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="76" />
+                    <RowDefinition Height="84" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
@@ -68,7 +68,7 @@
                         </StackPanel>
 
                         <!-- Subtitle Line: لإدارة مبيعاتك بسهولة -->
-                        <TextBlock Text="لإدارة مبيعاتك بسهولة" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Right" Margin="0,3,0,0"/>
+                        <TextBlock Text="لإدارة مبيعاتك بسهولة" FontSize="13" FontWeight="Bold" Foreground="#E2E8F0" HorizontalAlignment="Right" Margin="0,4,0,0"/>
                     </StackPanel>
                 </Border>
 
