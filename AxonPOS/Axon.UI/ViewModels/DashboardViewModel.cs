@@ -38,6 +38,18 @@ namespace Axon.UI.ViewModels
         private int _totalTransactions;
 
         [ObservableProperty]
+        private string _salesLinePathData = "M 30,140 L 570,140";
+
+        [ObservableProperty]
+        private string _salesAreaPathData = "M 30,145 L 30,140 L 570,140 L 570,145 Z";
+
+        [ObservableProperty]
+        private string _chartYAxisLabelMax = "0.00 ج.م";
+
+        [ObservableProperty]
+        private string _chartYAxisLabelMid = "0.00 ج.م";
+
+        [ObservableProperty]
         private string _dateRange = string.Empty;
 
         [ObservableProperty]
@@ -263,9 +275,10 @@ namespace Axon.UI.ViewModels
                 // ==================== 1. DAILY / MONTHLY SALES CHART DATA ====================
                 DailySalesChartData.Clear();
 
+                var rawGroups = new List<(string Label, decimal Amount)>();
+
                 if (SelectedDateRange == "سنوي")
                 {
-                    var monthlyGroups = new List<(string Label, decimal Amount)>();
                     var monthNames = new[] { "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر" };
                     int year = startDate.Year;
 
@@ -274,24 +287,7 @@ namespace Axon.UI.ViewModels
                         var mSales = filteredSales
                             .Where(s => s.Date.Year == year && s.Date.Month == m)
                             .Sum(s => s.Total);
-                        monthlyGroups.Add((monthNames[m - 1], mSales));
-                    }
-
-                    decimal maxMSale = monthlyGroups.Max(g => g.Amount);
-                    if (maxMSale == 0) maxMSale = 1;
-
-                    foreach (var g in monthlyGroups)
-                    {
-                        double barH = (double)(g.Amount / maxMSale * 150.0m);
-                        if (g.Amount > 0 && barH < 18) barH = 18;
-                        if (g.Amount == 0) barH = 6;
-
-                        DailySalesChartData.Add(new DailySalesBarItem
-                        {
-                            DayLabel = g.Label,
-                            Amount = g.Amount,
-                            BarHeight = barH
-                        });
+                        rawGroups.Add((monthNames[m - 1], mSales));
                     }
                 }
                 else
@@ -305,7 +301,6 @@ namespace Axon.UI.ViewModels
                     };
 
                     var chartStartDate = SelectedDateRange == "اليوم" ? DateTime.Today : DateTime.Today.AddDays(-(daysCount - 1));
-                    var dailyGroups = new List<(string Label, decimal Amount)>();
 
                     for (int i = 0; i < daysCount; i++)
                     {
@@ -316,25 +311,64 @@ namespace Axon.UI.ViewModels
                         var label = SelectedDateRange == "اليوم" 
                             ? day.ToString("d MMMM", arCulture) 
                             : day.ToString("dd/MM");
-                        dailyGroups.Add((label, daySales));
+                        rawGroups.Add((label, daySales));
                     }
+                }
 
-                    decimal maxDailySale = dailyGroups.Max(g => g.Amount);
-                    if (maxDailySale == 0) maxDailySale = 1;
+                decimal maxSaleVal = rawGroups.Count > 0 ? rawGroups.Max(g => g.Amount) : 0m;
+                ChartYAxisLabelMax = $"{maxSaleVal:#,##0.##} ج.م";
+                ChartYAxisLabelMid = $"{(maxSaleVal / 2m):#,##0.##} ج.م";
 
-                    foreach (var g in dailyGroups)
+                decimal calcMax = maxSaleVal > 0 ? maxSaleVal : 1m;
+
+                int totalNodes = rawGroups.Count;
+                double canvasW = 560.0;
+                double canvasH = 150.0;
+                double topY = 20.0;
+                double bottomY = 135.0;
+                double availH = bottomY - topY;
+
+                var linePoints = new List<System.Windows.Point>();
+
+                for (int idx = 0; idx < totalNodes; idx++)
+                {
+                    var g = rawGroups[idx];
+                    double px = totalNodes == 1 ? 280.0 : 25.0 + (idx * ((canvasW - 50.0) / (totalNodes - 1)));
+                    double ratio = (double)(g.Amount / calcMax);
+                    double py = bottomY - (ratio * availH);
+
+                    linePoints.Add(new System.Windows.Point(px, py));
+
+                    DailySalesChartData.Add(new DailySalesBarItem
                     {
-                        double barH = (double)(g.Amount / maxDailySale * 150.0m);
-                        if (g.Amount > 0 && barH < 18) barH = 18;
-                        if (g.Amount == 0) barH = 6;
+                        DayLabel = g.Label,
+                        Amount = g.Amount,
+                        BarHeight = ratio * 120.0,
+                        BarHeightPercentage = ratio * 100.0,
+                        PointX = px,
+                        PointY = py
+                    });
+                }
 
-                        DailySalesChartData.Add(new DailySalesBarItem
-                        {
-                            DayLabel = g.Label,
-                            Amount = g.Amount,
-                            BarHeight = barH
-                        });
+                // Build Line and Area Path Geometries
+                if (linePoints.Count > 0)
+                {
+                    var lineSb = new System.Text.StringBuilder();
+                    var areaSb = new System.Text.StringBuilder();
+
+                    lineSb.Append(CultureInfo.InvariantCulture, $"M {linePoints[0].X:F1},{linePoints[0].Y:F1}");
+                    areaSb.Append(CultureInfo.InvariantCulture, $"M {linePoints[0].X:F1},{bottomY + 10:F1} L {linePoints[0].X:F1},{linePoints[0].Y:F1}");
+
+                    for (int i = 1; i < linePoints.Count; i++)
+                    {
+                        lineSb.Append(CultureInfo.InvariantCulture, $" L {linePoints[i].X:F1},{linePoints[i].Y:F1}");
+                        areaSb.Append(CultureInfo.InvariantCulture, $" L {linePoints[i].X:F1},{linePoints[i].Y:F1}");
                     }
+
+                    areaSb.Append(CultureInfo.InvariantCulture, $" L {linePoints[^1].X:F1},{bottomY + 10:F1} Z");
+
+                    SalesLinePathData = lineSb.ToString();
+                    SalesAreaPathData = areaSb.ToString();
                 }
 
                 // ==================== 2. CATEGORY REVENUE DISTRIBUTION ====================
@@ -427,6 +461,11 @@ namespace Axon.UI.ViewModels
         public double BarHeight { get; set; } = 8;
         public double BarHeightPercentage { get; set; }
         public string AmountDisplay => $"{Amount:#,##0.##} ج.م";
+        
+        public double PointX { get; set; } = 30;
+        public double PointY { get; set; } = 140;
+        public double CanvasLeft => PointX - 6;
+        public double CanvasTop => PointY - 6;
     }
 
     public class CategoryRevenueDistributionItem

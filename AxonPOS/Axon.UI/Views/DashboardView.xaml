@@ -4,13 +4,13 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              Background="{DynamicResource AppBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
              FontFamily="{DynamicResource AppFont}" FlowDirection="RightToLeft">
-    
+
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False">
-        <Grid Margin="16,14,16,16">
+        <Grid Margin="18,16,18,18">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -18,80 +18,87 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- ==================== 1. HEADER & QUICK ACTION BAR ==================== -->
-            <Grid Grid.Row="0" Margin="0,0,0,16">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+            <!-- ==================== 1. HEADER & CONTROL BAR ==================== -->
+            <Border Grid.Row="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="14,10" Margin="0,0,0,16">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <!-- Header Title & Badge -->
-                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Width="40" Height="40" CornerRadius="10" Background="{DynamicResource CardBgBrush}" BorderBrush="#d90429" BorderThickness="1.5" Margin="0,0,12,0" VerticalAlignment="Center" Effect="{DynamicResource Axon3DCardShadow}">
-                        <materialDesign:PackIcon Kind="ViewDashboard" Width="20" Height="20" Foreground="#d90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                    <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding DateRange}" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,2,0,0"/>
-                    </StackPanel>
-                </StackPanel>
-
-                <!-- Interactive Date Filter & Action Buttons -->
-                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-
-                    <!-- Quick POS Navigation Button -->
-                    <Button Command="{Binding NavigateToPosCommand}" 
-                            Style="{StaticResource Axon3DPrimaryButtonStyle}" 
-                            Height="36" Padding="12,0" Margin="0,0,8,0" ToolTip="فتح نقطة البيع للمبيعات المباشرة">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <materialDesign:PackIcon Kind="PointOfSale" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="نقطة البيع POS" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
+                    <!-- Title & Subtitle -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border Width="42" Height="42" CornerRadius="10" Background="#2B1414" BorderBrush="#D90429" BorderThickness="1.5" Margin="0,0,12,0" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="ViewDashboardVariant" Width="22" Height="22" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                                <Border Background="#142B1A" BorderBrush="#4AE176" BorderThickness="1" CornerRadius="6" Padding="6,1" Margin="8,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock Text="مباشر" FontSize="10" FontWeight="Bold" Foreground="#4AE176"/>
+                                </Border>
+                            </StackPanel>
+                            <TextBlock Text="{Binding DateRange}" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,2,0,0"/>
                         </StackPanel>
-                    </Button>
-
-                    <!-- Refresh Data Button -->
-                    <Button Command="{Binding RefreshDataCommand}" 
-                            Style="{StaticResource MaterialDesignOutlinedButton}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" 
-                            Height="36" Padding="8,0" Margin="0,0,8,0" ToolTip="تحديث كافة بيانات لوحة التحكم">
-                        <materialDesign:PackIcon Kind="Refresh" Width="16" Height="16" Foreground="#4AE176"/>
-                    </Button>
-
-                    <!-- Year Selector Dropdown (Appears when 'سنوي' is selected) -->
-                    <Border Background="{DynamicResource CardBgBrush}" BorderBrush="#d90429" BorderThickness="1" CornerRadius="8" Padding="8,2" Height="36" Margin="0,0,6,0"
-                            Visibility="{Binding IsYearSelectorVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <materialDesign:PackIcon Kind="CalendarRange" Foreground="#D90429" Width="14" Height="14" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="السنة:" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                            <ComboBox ItemsSource="{Binding AvailableYears}" SelectedItem="{Binding SelectedYear}"
-                                      Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- Custom Date Range Pickers (Appears when 'فترة مخصصة' is selected) -->
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding IsCustomDateVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,0,6,0" VerticalAlignment="Center">
-                        <DatePicker SelectedDate="{Binding CustomStartDate}" Width="110" Height="36" Background="{DynamicResource CardBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" Margin="0,0,4,0" Padding="4,2" VerticalContentAlignment="Center"/>
-                        <TextBlock Text="إلى" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                        <DatePicker SelectedDate="{Binding CustomEndDate}" Width="110" Height="36" Background="{DynamicResource CardBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" Margin="0,0,4,0" Padding="4,2" VerticalContentAlignment="Center"/>
                     </StackPanel>
 
-                    <!-- Main Filter Dropdown -->
-                    <Border Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,2" Height="36" VerticalAlignment="Center">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="CalendarToday" Foreground="#D90429" Width="14" Height="14" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                            <ComboBox ItemsSource="{Binding DateRanges}" SelectedItem="{Binding SelectedDateRange}"
-                                      Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="Bold" FontSize="12"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
-            </Grid>
+                    <!-- Interactive Actions & Filters -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
 
-            <!-- ==================== 2. KPI CARDS ==================== -->
+                        <!-- Quick POS Button -->
+                        <Button Command="{Binding NavigateToPosCommand}" 
+                                Style="{StaticResource Axon3DPrimaryButtonStyle}" 
+                                Height="38" Padding="14,0" Margin="0,0,8,0" ToolTip="فتح نقطة البيع للمبيعات المباشرة">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="PointOfSale" Width="18" Height="18" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="نقطة البيع POS" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Refresh Data Button -->
+                        <Button Command="{Binding RefreshDataCommand}" 
+                                Style="{StaticResource MaterialDesignOutlinedButton}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" 
+                                Height="38" Padding="10,0" Margin="0,0,8,0" ToolTip="تحديث كافة البيانات الحية">
+                            <materialDesign:PackIcon Kind="Refresh" Width="18" Height="18" Foreground="#4AE176"/>
+                        </Button>
+
+                        <!-- Year Selector Dropdown -->
+                        <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="#D90429" BorderThickness="1" CornerRadius="8" Padding="8,2" Height="38" Margin="0,0,6,0"
+                                Visibility="{Binding IsYearSelectorVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="CalendarRange" Foreground="#D90429" Width="14" Height="14" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="السنة:" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                <ComboBox ItemsSource="{Binding AvailableYears}" SelectedItem="{Binding SelectedYear}"
+                                          Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Custom Date Range Pickers -->
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding IsCustomDateVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,0,6,0" VerticalAlignment="Center">
+                            <DatePicker SelectedDate="{Binding CustomStartDate}" Width="110" Height="38" Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" Margin="0,0,4,0" Padding="4,2" VerticalContentAlignment="Center"/>
+                            <TextBlock Text="إلى" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                            <DatePicker SelectedDate="{Binding CustomEndDate}" Width="110" Height="38" Background="{DynamicResource CardInnerBgBrush}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" Margin="0,0,4,0" Padding="4,2" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+
+                        <!-- Main Filter Dropdown -->
+                        <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,2" Height="38" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="FilterVariant" Foreground="#D90429" Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <ComboBox ItemsSource="{Binding DateRanges}" SelectedItem="{Binding SelectedDateRange}"
+                                          Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="Bold" FontSize="12"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- ==================== 2. HERO KPI METRIC CARDS ==================== -->
             <Grid Grid.Row="1" Margin="0,0,0,16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -104,7 +111,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- 1. Net Profit Card -->
-                <Border Grid.Column="0" Style="{StaticResource Axon3DCardStyle}">
+                <Border Grid.Column="0" Background="#0E2419" BorderBrush="#10B981" BorderThickness="1" CornerRadius="12" Padding="14,12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -116,23 +123,23 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="صافي الأرباح" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#142B1A" BorderBrush="#4AE176" BorderThickness="1" CornerRadius="6" Padding="5">
-                                <materialDesign:PackIcon Kind="TrendingUp" Foreground="#4AE176" Width="18" Height="18"/>
+                            <TextBlock Grid.Column="0" Text="صافي الأرباح" FontSize="12" Foreground="#A7F3D0" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <Border Grid.Column="1" Background="#143825" BorderBrush="#34D399" BorderThickness="1" CornerRadius="8" Padding="6">
+                                <materialDesign:PackIcon Kind="TrendingUp" Foreground="#34D399" Width="18" Height="18"/>
                             </Border>
                         </Grid>
-                        <TextBlock Grid.Row="1" Text="{Binding TotalProfit, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="22" FontWeight="Black" Foreground="#4AE176" Margin="0,8,0,4"/>
+                        <TextBlock Grid.Row="1" Text="{Binding TotalProfit, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="22" FontWeight="Black" Foreground="#4AE176" Margin="0,10,0,6"/>
                         <StackPanel Grid.Row="2" Orientation="Horizontal">
-                            <Border Background="#142B1A" CornerRadius="4" Padding="5,2" Margin="0,0,4,0">
-                                <TextBlock Text="الأرباح الفعلية" Foreground="#4AE176" FontSize="10" FontWeight="Bold"/>
+                            <Border Background="#143825" CornerRadius="4" Padding="6,2" Margin="0,0,6,0">
+                                <TextBlock Text="الصافي الحقيقي" Foreground="#34D399" FontSize="10" FontWeight="Bold"/>
                             </Border>
-                            <TextBlock Text="المبيعات - المرتجعات - المصروفات" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="المبيعات - المرتجعات - المصروفات" Foreground="#6EE7B7" FontSize="9" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
                         </StackPanel>
                     </Grid>
                 </Border>
 
                 <!-- 2. Expenses Card -->
-                <Border Grid.Column="2" Style="{StaticResource Axon3DCardStyle}">
+                <Border Grid.Column="2" Background="#261215" BorderBrush="#EF4444" BorderThickness="1" CornerRadius="12" Padding="14,12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -144,18 +151,18 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="إجمالي المصروفات" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#2B1414" BorderBrush="#EF4444" BorderThickness="1" CornerRadius="6" Padding="5">
-                                <materialDesign:PackIcon Kind="CashMinus" Foreground="#EF4444" Width="18" Height="18"/>
+                            <TextBlock Grid.Column="0" Text="إجمالي المصروفات" FontSize="12" Foreground="#FCA5A5" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <Border Grid.Column="1" Background="#3D1A1F" BorderBrush="#F87171" BorderThickness="1" CornerRadius="8" Padding="6">
+                                <materialDesign:PackIcon Kind="CashMinus" Foreground="#F87171" Width="18" Height="18"/>
                             </Border>
                         </Grid>
-                        <TextBlock Grid.Row="1" Text="{Binding TotalExpenses, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="22" FontWeight="Black" Foreground="#EF4444" Margin="0,8,0,4"/>
-                        <TextBlock Grid.Row="2" Text="إجمالي النفقات في الفترة المحددة" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Grid.Row="1" Text="{Binding TotalExpenses, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="22" FontWeight="Black" Foreground="#EF4444" Margin="0,10,0,6"/>
+                        <TextBlock Grid.Row="2" Text="إجمالي النفقات في الفترة المحددة" Foreground="#FCA5A5" FontSize="10" TextTrimming="CharacterEllipsis"/>
                     </Grid>
                 </Border>
 
                 <!-- 3. Products Card -->
-                <Border Grid.Column="4" Style="{StaticResource Axon3DCardStyle}">
+                <Border Grid.Column="4" Background="#101C2B" BorderBrush="#3B82F6" BorderThickness="1" CornerRadius="12" Padding="14,12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -167,18 +174,18 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="إجمالي المنتجات والأصناف" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#14202B" BorderBrush="#60A5FA" BorderThickness="1" CornerRadius="6" Padding="5">
+                            <TextBlock Grid.Column="0" Text="إجمالي الأصناف" FontSize="12" Foreground="#93C5FD" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <Border Grid.Column="1" Background="#182E47" BorderBrush="#60A5FA" BorderThickness="1" CornerRadius="8" Padding="6">
                                 <materialDesign:PackIcon Kind="PackageVariantClosed" Foreground="#60A5FA" Width="18" Height="18"/>
                             </Border>
                         </Grid>
-                        <TextBlock Grid.Row="1" Text="{Binding TotalProducts, StringFormat='{}{0} صنف'}" FontSize="22" FontWeight="Black" Foreground="#60A5FA" Margin="0,8,0,4"/>
-                        <TextBlock Grid.Row="2" Text="إجمالي الأصناف المسجلة بالنظام" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Grid.Row="1" Text="{Binding TotalProducts, StringFormat='{}{0} صنف'}" FontSize="22" FontWeight="Black" Foreground="#60A5FA" Margin="0,10,0,6"/>
+                        <TextBlock Grid.Row="2" Text="إجمالي الكتالوج المسجل بالنظام" Foreground="#93C5FD" FontSize="10" TextTrimming="CharacterEllipsis"/>
                     </Grid>
                 </Border>
 
                 <!-- 4. Low Stock Card -->
-                <Border Grid.Column="6" Style="{StaticResource Axon3DCardStyle}">
+                <Border Grid.Column="6" Background="#291F11" BorderBrush="#F59E0B" BorderThickness="1" CornerRadius="12" Padding="14,12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -190,94 +197,132 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="تنبيهات نقص المخزون" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#2B2214" BorderBrush="#F59E0B" BorderThickness="1" CornerRadius="6" Padding="5">
-                                <materialDesign:PackIcon Kind="AlertOutline" Foreground="#F59E0B" Width="18" Height="18"/>
+                            <TextBlock Grid.Column="0" Text="نواقص المخزون" FontSize="12" Foreground="#FDE68A" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <Border Grid.Column="1" Background="#3D2D16" BorderBrush="#FBBF24" BorderThickness="1" CornerRadius="8" Padding="6">
+                                <materialDesign:PackIcon Kind="AlertCircleOutline" Foreground="#FBBF24" Width="18" Height="18"/>
                             </Border>
                         </Grid>
-                        <TextBlock Grid.Row="1" Text="{Binding LowStockCount, StringFormat='{}{0} أصناف'}" FontSize="22" FontWeight="Black" Foreground="#F59E0B" Margin="0,8,0,4"/>
-                        <TextBlock Grid.Row="2" Text="أصناف أقل من الحد الأدنى بالمخزن" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Grid.Row="1" Text="{Binding LowStockCount, StringFormat='{}{0} أصناف'}" FontSize="22" FontWeight="Black" Foreground="#F59E0B" Margin="0,10,0,6"/>
+                        <TextBlock Grid.Row="2" Text="أصناف أقل من حد الأمان للمخزون" Foreground="#FDE68A" FontSize="10" TextTrimming="CharacterEllipsis"/>
                     </Grid>
                 </Border>
             </Grid>
 
-            <!-- ==================== 3. CHARTS ROW ==================== -->
+            <!-- ==================== 3. CHARTS ROW (MODERN LINE GRAPH + DISTRIBUTION) ==================== -->
             <Grid Grid.Row="2" Margin="0,0,0,16">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="12" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2.2*" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="1.2*" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Daily Sales Overview Chart -->
-                <Border Grid.Column="0" Style="{StaticResource Axon3DCardStyle}" MinHeight="260">
+                <!-- Modern Sales Line & Area Chart -->
+                <Border Grid.Column="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14" MinHeight="280">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <!-- Chart Header -->
-                        <Grid Grid.Row="0" Margin="0,0,0,14">
+                        <Grid Grid.Row="0" Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                                <Border Width="28" Height="28" CornerRadius="6" Background="#2B1414" Margin="0,0,8,0">
-                                    <materialDesign:PackIcon Kind="ChartAreaspline" Width="16" Height="16" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Width="32" Height="32" CornerRadius="8" Background="#2B1414" BorderBrush="#D90429" BorderThickness="1" Margin="0,0,10,0">
+                                    <materialDesign:PackIcon Kind="ChartAreaspline" Width="18" Height="18" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <TextBlock Text="نظرة عامة على المبيعات اليومية" FontSize="15" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="المنحنى البياني للمبيعات اليومية" FontSize="15" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="حركة المبيعات والتحليلات البيانية المتقدمة" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                </StackPanel>
                             </StackPanel>
 
-                            <Border Grid.Column="1" Background="#142B1A" BorderBrush="#4AE176" BorderThickness="1" CornerRadius="6" Padding="10,4" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding TotalSales, StringFormat='إجمالي المبيعات: {0:#,##0.##} ج.م'}" FontSize="11" FontWeight="Bold" Foreground="#4AE176"/>
+                            <Border Grid.Column="1" Background="#142B1A" BorderBrush="#4AE176" BorderThickness="1" CornerRadius="8" Padding="12,6" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="CashMultiple" Width="15" Height="15" Foreground="#4AE176" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding TotalSales, StringFormat='إجمالي المبيعات: {0:#,##0.##} ج.م'}" FontSize="12" FontWeight="Black" Foreground="#4AE176" VerticalAlignment="Center"/>
+                                </StackPanel>
                             </Border>
                         </Grid>
 
-                        <!-- Dynamic Bar Graph -->
-                        <ItemsControl Grid.Row="1" ItemsSource="{Binding DailySalesChartData}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Rows="1"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Margin="3,0" VerticalAlignment="Bottom" Height="180" ToolTip="{Binding AmountDisplay}">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
+                        <!-- Modern Area & Spline Line Chart Canvas -->
+                        <Grid Grid.Row="1" Margin="0,10,0,0">
+                            <!-- Background Subtle Grid Lines -->
+                            <Canvas Height="160" Width="560" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <!-- Top Grid Line -->
+                                <Line X1="20" Y1="20" X2="540" Y2="20" Stroke="#1E293B" StrokeThickness="1" StrokeDashArray="4 4"/>
+                                <TextBlock Text="{Binding ChartYAxisLabelMax}" Canvas.Left="5" Canvas.Top="12" Foreground="#64748B" FontSize="9" FontWeight="Bold"/>
 
-                                        <!-- The Vertical Bar with proportional dynamic height -->
-                                        <Grid Grid.Row="0" VerticalAlignment="Bottom">
-                                            <Border Background="{DynamicResource ChartTrackBgBrush}" CornerRadius="4,4,0,0" Height="140" Width="18" Opacity="0.8"/>
-                                            <Border Background="#D90429" CornerRadius="4,4,0,0" Width="18" VerticalAlignment="Bottom" Height="{Binding BarHeight}">
-                                                <Border.Style>
-                                                    <Style TargetType="Border">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Amount}" Value="0">
-                                                                <Setter Property="Background" Value="#2A2A2A"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Border.Style>
-                                            </Border>
+                                <!-- Mid Grid Line -->
+                                <Line X1="20" Y1="77" X2="540" Y2="77" Stroke="#1E293B" StrokeThickness="1" StrokeDashArray="4 4"/>
+                                <TextBlock Text="{Binding ChartYAxisLabelMid}" Canvas.Left="5" Canvas.Top="69" Foreground="#64748B" FontSize="9" FontWeight="Bold"/>
+
+                                <!-- Bottom Grid Line -->
+                                <Line X1="20" Y1="135" X2="540" Y2="135" Stroke="#1E293B" StrokeThickness="1"/>
+
+                                <!-- Area Gradient Fill under line curve -->
+                                <Path Data="{Binding SalesAreaPathData}">
+                                    <Path.Fill>
+                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                            <GradientStop Color="#55D90429" Offset="0.0"/>
+                                            <GradientStop Color="#10D90429" Offset="0.6"/>
+                                            <GradientStop Color="#00D90429" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Path.Fill>
+                                </Path>
+
+                                <!-- Axon Red Line Curve -->
+                                <Path Data="{Binding SalesLinePathData}" Stroke="#EF4444" StrokeThickness="3.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round">
+                                    <Path.Effect>
+                                        <DropShadowEffect Color="#EF4444" BlurRadius="12" ShadowDepth="0" Opacity="0.8"/>
+                                    </Path.Effect>
+                                </Path>
+                            </Canvas>
+
+                            <!-- Node Points with Tooltips -->
+                            <ItemsControl ItemsSource="{Binding DailySalesChartData}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Rows="1"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="2,0" ToolTip="{Binding AmountDisplay}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Glowing Circle Node -->
+                                            <Grid Grid.Row="0" VerticalAlignment="Bottom" Height="150" Margin="0,0,0,4">
+                                                <Ellipse Width="10" Height="10" Fill="#EF4444" Stroke="White" StrokeThickness="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,0">
+                                                    <Ellipse.RenderTransform>
+                                                        <TranslateTransform Y="{Binding BarHeightPercentage, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                                    </Ellipse.RenderTransform>
+                                                    <Ellipse.Effect>
+                                                        <DropShadowEffect Color="#EF4444" BlurRadius="8" ShadowDepth="0"/>
+                                                    </Ellipse.Effect>
+                                                </Ellipse>
+                                            </Grid>
+
+                                            <!-- Day Label -->
+                                            <TextBlock Grid.Row="1" Text="{Binding DayLabel}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,6,0,0"/>
                                         </Grid>
-
-                                        <!-- Day Label -->
-                                        <TextBlock Grid.Row="1" Text="{Binding DayLabel}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,6,0,0"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
                     </Grid>
                 </Border>
-                
-                <!-- Revenue Distribution by Category -->
-                <Border Grid.Column="2" Style="{StaticResource Axon3DCardStyle}" MinHeight="260">
+
+                <!-- Category Revenue Distribution -->
+                <Border Grid.Column="2" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14" MinHeight="280">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -285,19 +330,22 @@
                         </Grid.RowDefinitions>
 
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,14" VerticalAlignment="Center">
-                            <Border Width="28" Height="28" CornerRadius="6" Background="#14202B" Margin="0,0,8,0">
-                                <materialDesign:PackIcon Kind="ChartDonut" Width="16" Height="16" Foreground="#60A5FA" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Border Width="32" Height="32" CornerRadius="8" Background="#101C2B" BorderBrush="#3B82F6" BorderThickness="1" Margin="0,0,10,0">
+                                <materialDesign:PackIcon Kind="ChartDonut" Width="18" Height="18" Foreground="#3B82F6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
-                            <TextBlock Text="توزيع الإيرادات حسب الأقسام" FontSize="15" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="توزيع الإيرادات للأقسام" FontSize="15" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                <TextBlock Text="نسبة المبيعات حسب قسم الصنف" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                            </StackPanel>
                         </StackPanel>
 
                         <!-- Category Distribution Bars -->
-                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" MaxHeight="200">
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                             <ItemsControl ItemsSource="{Binding CategoryDistributionData}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel Margin="0,0,0,12">
-                                            <Grid Margin="0,0,0,4">
+                                        <StackPanel Margin="0,0,0,14">
+                                            <Grid Margin="0,0,0,6">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="Auto"/>
@@ -305,13 +353,13 @@
                                                 <TextBlock Grid.Column="0" Text="{Binding CategoryName}" FontWeight="Bold" FontSize="12" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
                                                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                                                     <TextBlock Text="{Binding TotalSales, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                                                    <Border Background="#142B1A" CornerRadius="4" Padding="5,2">
-                                                        <TextBlock Text="{Binding PercentageDisplay}" FontWeight="Bold" FontSize="10" Foreground="#4AE176"/>
+                                                    <Border Background="#142B1A" CornerRadius="6" Padding="6,2">
+                                                        <TextBlock Text="{Binding PercentageDisplay}" FontWeight="Black" FontSize="11" Foreground="#4AE176"/>
                                                     </Border>
                                                 </StackPanel>
                                             </Grid>
-                                            <Border Background="{DynamicResource ChartTrackBgBrush}" Height="6" CornerRadius="3">
-                                                <ProgressBar Value="{Binding Percentage}" Maximum="100" Height="6" Foreground="{Binding ColorHex}" Background="Transparent" BorderThickness="0"/>
+                                            <Border Background="{DynamicResource ChartTrackBgBrush}" Height="8" CornerRadius="4">
+                                                <ProgressBar Value="{Binding Percentage}" Maximum="100" Height="8" Foreground="{Binding ColorHex}" Background="Transparent" BorderThickness="0"/>
                                             </Border>
                                         </StackPanel>
                                     </DataTemplate>
@@ -325,26 +373,29 @@
             <!-- ==================== 4. RECENT SALES & ALERTS ROW ==================== -->
             <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="12" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2.2*" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="1.2*" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Recent Sales Table -->
-                <Border Grid.Column="0" Style="{StaticResource Axon3DCardStyle}">
+                <!-- Recent Sales DataGrid -->
+                <Border Grid.Column="0" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14">
                     <StackPanel>
                         <!-- Table Header -->
-                        <Grid Margin="0,0,0,16">
+                        <Grid Margin="0,0,0,14">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             
                             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                                <Border Width="32" Height="32" CornerRadius="8" Background="#2B1414" Margin="0,0,10,0">
+                                <Border Width="32" Height="32" CornerRadius="8" Background="#2B1414" BorderBrush="#D90429" BorderThickness="1" Margin="0,0,10,0">
                                     <materialDesign:PackIcon Kind="History" Width="18" Height="18" Foreground="#D90429" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <TextBlock Text="أحدث عمليات البيع" FontSize="16" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="أحدث عمليات البيع" FontSize="16" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="سجل أحدث الفواتير المعالجة في النظام" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                </StackPanel>
                             </StackPanel>
 
                             <Button Grid.Column="1" Command="{Binding ViewAllSalesCommand}" Style="{StaticResource MaterialDesignFlatButton}" Foreground="#D90429" FontWeight="Bold" Height="32" Padding="8,0" Cursor="Hand" ToolTip="الانتقال لتقرير الفواتير التفصيلي">
@@ -364,8 +415,8 @@
                                     <Setter Property="Background" Value="{DynamicResource TableHeaderBgBrush}"/>
                                     <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
                                     <Setter Property="FontWeight" Value="Bold"/>
-                                    <Setter Property="FontSize" Value="12"/>
-                                    <Setter Property="Padding" Value="12,10"/>
+                                    <Setter Property="FontSize" Value="11"/>
+                                    <Setter Property="Padding" Value="10,8"/>
                                     <Setter Property="HorizontalContentAlignment" Value="Right"/>
                                     <Setter Property="BorderThickness" Value="0,0,0,1"/>
                                     <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
@@ -380,7 +431,7 @@
                                     </Style.Triggers>
                                 </Style>
                                 <Style TargetType="DataGridCell">
-                                    <Setter Property="Padding" Value="12,10"/>
+                                    <Setter Property="Padding" Value="10,8"/>
                                     <Setter Property="BorderThickness" Value="0"/>
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                 </Style>
@@ -393,7 +444,7 @@
                                 <DataGridTemplateColumn Header="الحالة" Width="90">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Border Background="#142B1A" BorderBrush="#234D28" BorderThickness="1" CornerRadius="4" Padding="8,3" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                            <Border Background="#142B1A" BorderBrush="#234D28" BorderThickness="1" CornerRadius="6" Padding="8,3" HorizontalAlignment="Right" VerticalAlignment="Center">
                                                 <TextBlock Text="{Binding Status}" FontSize="10" FontWeight="Bold" Foreground="#4AE176"/>
                                             </Border>
                                         </DataTemplate>
@@ -406,35 +457,38 @@
                 </Border>
 
                 <!-- Inventory Alerts -->
-                <Border Grid.Column="2" Style="{StaticResource Axon3DCardStyle}">
+                <Border Grid.Column="2" Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="16,14">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,16" VerticalAlignment="Center">
-                            <Border Width="32" Height="32" CornerRadius="8" Background="#2B2214" Margin="0,0,10,0">
-                                <materialDesign:PackIcon Kind="Alert" Foreground="#F59E0B" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,14" VerticalAlignment="Center">
+                            <Border Width="32" Height="32" CornerRadius="8" Background="#291F11" BorderBrush="#F59E0B" BorderThickness="1" Margin="0,0,10,0">
+                                <materialDesign:PackIcon Kind="AlertCircle" Foreground="#F59E0B" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
-                            <TextBlock Text="تنبيهات المخزون الحرج" FontSize="16" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="تنبيهات المخزون الحرج" FontSize="16" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                <TextBlock Text="أصناف قاربت على النفاذ بالمخزن" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                            </StackPanel>
                         </StackPanel>
 
                         <Grid>
                             <ItemsControl x:Name="alertsControl" ItemsSource="{Binding InventoryAlerts}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12" Margin="0,0,0,10">
+                                        <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="10,8" Margin="0,0,0,8">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="Auto"/>
                                                 </Grid.ColumnDefinitions>
-                                                <Border Width="36" Height="36" Background="#261C14" BorderBrush="#F59E0B" BorderThickness="1" CornerRadius="8" Grid.Column="0" Margin="0,0,12,0">
-                                                    <materialDesign:PackIcon Kind="PackageVariant" Foreground="#F59E0B" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Border Width="34" Height="34" Background="#261C14" BorderBrush="#F59E0B" BorderThickness="1" CornerRadius="8" Grid.Column="0" Margin="0,0,10,0">
+                                                    <materialDesign:PackIcon Kind="PackageVariant" Foreground="#F59E0B" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                    <TextBlock Text="{Binding ProductName}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="Bold" FontSize="13"/>
-                                                    <TextBlock Text="{Binding Alert}" Foreground="#D90429" FontSize="11" FontWeight="SemiBold" Margin="0,2,0,0"/>
+                                                    <TextBlock Text="{Binding ProductName}" Foreground="{DynamicResource TextPrimaryBrush}" FontWeight="Bold" FontSize="12" TextTrimming="CharacterEllipsis"/>
+                                                    <TextBlock Text="{Binding Alert}" Foreground="#D90429" FontSize="10" FontWeight="SemiBold" Margin="0,2,0,0"/>
                                                 </StackPanel>
                                                 <Button Grid.Column="2" Command="{Binding DataContext.NavigateToInventoryCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                        Content="المخزون" Style="{StaticResource MaterialDesignOutlinedButton}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" Height="30" FontSize="11" Padding="10,0"/>
+                                                        Content="المخزون" Style="{StaticResource MaterialDesignOutlinedButton}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" Height="28" FontSize="10" Padding="8,0"/>
                                             </Grid>
                                         </Border>
                                     </DataTemplate>
