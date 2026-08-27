@@ -13,19 +13,21 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
 
-    <Border CornerRadius="16" Background="#0F0F0F" BorderBrush="#262626" BorderThickness="1.5" Effect="{DynamicResource Axon3DWindowShadow}">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/> <!-- Custom Title Bar -->
-                <RowDefinition Height="Auto"/> <!-- Top Accent Line -->
-                <RowDefinition Height="*"/>    <!-- Content Container -->
-            </Grid.RowDefinitions>
+    <Border CornerRadius="20" Background="#0F0F0F" BorderBrush="#D90429" BorderThickness="1.5" Effect="{DynamicResource Axon3DWindowShadow}">
+        <Border CornerRadius="18.5" ClipToBounds="True">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> <!-- Custom Title Bar -->
+                    <RowDefinition Height="Auto"/> <!-- Top Accent Line -->
+                    <RowDefinition Height="*"/>    <!-- Content Container -->
+                </Grid.RowDefinitions>
 
-            <!-- 1. Top Red Accent Line -->
-            <Border Grid.Row="1" Height="3" Background="#D90429" VerticalAlignment="Top"/>
+                <!-- 1. Top Red Accent Line -->
+                <Border Grid.Row="1" Height="3" Background="#D90429" VerticalAlignment="Top"/>
 
-            <!-- 2. Custom Window Title Bar -->
-            <Grid Grid.Row="0" Height="40" Background="#141414" MouseDown="TitleBar_MouseDown">
+                <!-- 2. Custom Window Title Bar -->
+                <Border Grid.Row="0" Height="40" Background="#141414" MouseDown="TitleBar_MouseDown">
+                <Grid>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="16,0" VerticalAlignment="Center">
                     <Image Source="/Assets/logo.png" Height="18" VerticalAlignment="Center" Margin="0,0,8,0" RenderOptions.BitmapScalingMode="HighQuality"/>
                     <TextBlock Text="Axon POS — تسجيل الدخول" FontSize="12" FontWeight="Bold" Foreground="#8E8E93" VerticalAlignment="Center"/>
@@ -40,6 +42,7 @@
                     </Button>
                 </StackPanel>
             </Grid>
+            </Border>
 
             <!-- 3. Main Login Card Body -->
             <Grid Grid.Row="2" Margin="28,16,28,16">
@@ -186,5 +189,6 @@
                 </StackPanel>
             </Grid>
         </Grid>
+        </Border>
     </Border>
 </Window>
