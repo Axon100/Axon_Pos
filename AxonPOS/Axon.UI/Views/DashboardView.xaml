@@ -102,108 +102,126 @@
             <Grid Grid.Row="1" Margin="0,0,0,16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="10" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="10" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="10" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <!-- 1. Net Profit Card -->
-                <Border Grid.Column="0" Background="#0E2419" BorderBrush="#10B981" BorderThickness="1" CornerRadius="12" Padding="14,12">
+                <!-- 1. Net Profit Card (صافي الأرباح / صافي المبيعات) -->
+                <Border Grid.Column="0" Background="#121212" BorderBrush="#262626" BorderThickness="1" CornerRadius="10" Padding="14,12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
+                        
+                        <!-- Header: Title (Right in RTL) & Crimson Red Icon Box (Left in RTL) -->
                         <Grid Grid.Row="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="صافي الأرباح" FontSize="12" Foreground="#A7F3D0" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#143825" BorderBrush="#34D399" BorderThickness="1" CornerRadius="8" Padding="6">
-                                <materialDesign:PackIcon Kind="TrendingUp" Foreground="#34D399" Width="18" Height="18"/>
+                            <TextBlock Grid.Column="0" Text="صافي الأرباح" FontSize="11" Foreground="#94A3B8" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <Border Grid.Column="1" Background="#261014" BorderBrush="#3D141C" BorderThickness="1" CornerRadius="8" Width="36" Height="36">
+                                <materialDesign:PackIcon Kind="TrendingUp" Foreground="#D90429" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </Grid>
-                        <TextBlock Grid.Row="1" Text="{Binding TotalProfit, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="22" FontWeight="Black" Foreground="#4AE176" Margin="0,10,0,6"/>
-                        <StackPanel Grid.Row="2" Orientation="Horizontal">
-                            <Border Background="#143825" CornerRadius="4" Padding="6,2" Margin="0,0,6,0">
-                                <TextBlock Text="الصافي الحقيقي" Foreground="#34D399" FontSize="10" FontWeight="Bold"/>
-                            </Border>
-                            <TextBlock Text="المبيعات - المرتجعات - المصروفات" Foreground="#6EE7B7" FontSize="9" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                        </StackPanel>
+                        
+                        <!-- Middle: Big White Numeric Value -->
+                        <Border Grid.Row="1" BorderBrush="#1F1F1F" BorderThickness="0,0,0,1" Padding="0,4,0,8" Margin="0,4,0,8">
+                            <TextBlock Text="{Binding TotalProfit, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="22" FontWeight="Black" Foreground="White"/>
+                        </Border>
+                        
+                        <!-- Footer: Red Accent Subtitle -->
+                        <TextBlock Grid.Row="2" Text="الفواتير المؤكدة للفترة" Foreground="#D90429" FontSize="10" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
                     </Grid>
                 </Border>
 
-                <!-- 2. Expenses Card -->
-                <Border Grid.Column="2" Background="#261215" BorderBrush="#EF4444" BorderThickness="1" CornerRadius="12" Padding="14,12">
+                <!-- 2. Expenses Card (إجمالي المصروفات / توريدات المشتريات) -->
+                <Border Grid.Column="2" Background="#121212" BorderBrush="#262626" BorderThickness="1" CornerRadius="10" Padding="14,12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
+                        
                         <Grid Grid.Row="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="إجمالي المصروفات" FontSize="12" Foreground="#FCA5A5" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#3D1A1F" BorderBrush="#F87171" BorderThickness="1" CornerRadius="8" Padding="6">
-                                <materialDesign:PackIcon Kind="CashMinus" Foreground="#F87171" Width="18" Height="18"/>
+                            <TextBlock Grid.Column="0" Text="إجمالي المصروفات" FontSize="11" Foreground="#94A3B8" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <Border Grid.Column="1" Background="#261014" BorderBrush="#3D141C" BorderThickness="1" CornerRadius="8" Width="36" Height="36">
+                                <materialDesign:PackIcon Kind="TruckDelivery" Foreground="#D90429" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </Grid>
-                        <TextBlock Grid.Row="1" Text="{Binding TotalExpenses, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="22" FontWeight="Black" Foreground="#EF4444" Margin="0,10,0,6"/>
-                        <TextBlock Grid.Row="2" Text="إجمالي النفقات في الفترة المحددة" Foreground="#FCA5A5" FontSize="10" TextTrimming="CharacterEllipsis"/>
+                        
+                        <Border Grid.Row="1" BorderBrush="#1F1F1F" BorderThickness="0,0,0,1" Padding="0,4,0,8" Margin="0,4,0,8">
+                            <TextBlock Text="{Binding TotalExpenses, StringFormat='{}{0:#,##0.##} ج.م'}" FontSize="22" FontWeight="Black" Foreground="White"/>
+                        </Border>
+                        
+                        <TextBlock Grid.Row="2" Text="المستلمة من الموردين والتشغيل" Foreground="#8E8E93" FontSize="10" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
                     </Grid>
                 </Border>
 
-                <!-- 3. Products Card -->
-                <Border Grid.Column="4" Background="#101C2B" BorderBrush="#3B82F6" BorderThickness="1" CornerRadius="12" Padding="14,12">
+                <!-- 3. Products Card (إجمالي المنتجات والأصناف / الأرباح التشغيلية) -->
+                <Border Grid.Column="4" Background="#121212" BorderBrush="#262626" BorderThickness="1" CornerRadius="10" Padding="14,12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
+                        
                         <Grid Grid.Row="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="إجمالي الأصناف" FontSize="12" Foreground="#93C5FD" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#182E47" BorderBrush="#60A5FA" BorderThickness="1" CornerRadius="8" Padding="6">
-                                <materialDesign:PackIcon Kind="PackageVariantClosed" Foreground="#60A5FA" Width="18" Height="18"/>
+                            <TextBlock Grid.Column="0" Text="إجمالي المنتجات والأصناف" FontSize="11" Foreground="#94A3B8" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <Border Grid.Column="1" Background="#261014" BorderBrush="#3D141C" BorderThickness="1" CornerRadius="8" Width="36" Height="36">
+                                <materialDesign:PackIcon Kind="Coins" Foreground="#D90429" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </Grid>
-                        <TextBlock Grid.Row="1" Text="{Binding TotalProducts, StringFormat='{}{0} صنف'}" FontSize="22" FontWeight="Black" Foreground="#60A5FA" Margin="0,10,0,6"/>
-                        <TextBlock Grid.Row="2" Text="إجمالي الكتالوج المسجل بالنظام" Foreground="#93C5FD" FontSize="10" TextTrimming="CharacterEllipsis"/>
+                        
+                        <Border Grid.Row="1" BorderBrush="#1F1F1F" BorderThickness="0,0,0,1" Padding="0,4,0,8" Margin="0,4,0,8">
+                            <TextBlock Text="{Binding TotalProducts, StringFormat='{}{0} صنف'}" FontSize="22" FontWeight="Black" Foreground="White"/>
+                        </Border>
+                        
+                        <TextBlock Grid.Row="2" Text="# ربح تشغيلي موجب" Foreground="#D90429" FontSize="10" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
                     </Grid>
                 </Border>
 
-                <!-- 4. Low Stock Card -->
-                <Border Grid.Column="6" Background="#291F11" BorderBrush="#F59E0B" BorderThickness="1" CornerRadius="12" Padding="14,12">
+                <!-- 4. Low Stock Card (أصناف ناقصة بالمستودع) -->
+                <Border Grid.Column="6" Background="#121212" BorderBrush="#262626" BorderThickness="1" CornerRadius="10" Padding="14,12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
+                        
                         <Grid Grid.Row="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="نواقص المخزون" FontSize="12" Foreground="#FDE68A" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <Border Grid.Column="1" Background="#3D2D16" BorderBrush="#FBBF24" BorderThickness="1" CornerRadius="8" Padding="6">
-                                <materialDesign:PackIcon Kind="AlertCircleOutline" Foreground="#FBBF24" Width="18" Height="18"/>
+                            <TextBlock Grid.Column="0" Text="أصناف ناقصة بالمستودع" FontSize="11" Foreground="#94A3B8" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <Border Grid.Column="1" Background="#261014" BorderBrush="#3D141C" BorderThickness="1" CornerRadius="8" Width="36" Height="36">
+                                <materialDesign:PackIcon Kind="Alert" Foreground="#D90429" Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </Grid>
-                        <TextBlock Grid.Row="1" Text="{Binding LowStockCount, StringFormat='{}{0} أصناف'}" FontSize="22" FontWeight="Black" Foreground="#F59E0B" Margin="0,10,0,6"/>
-                        <TextBlock Grid.Row="2" Text="أصناف أقل من حد الأمان للمخزون" Foreground="#FDE68A" FontSize="10" TextTrimming="CharacterEllipsis"/>
+                        
+                        <Border Grid.Row="1" BorderBrush="#1F1F1F" BorderThickness="0,0,0,1" Padding="0,4,0,8" Margin="0,4,0,8">
+                            <TextBlock Text="{Binding LowStockCount, StringFormat='{}{0} أصناف'}" FontSize="22" FontWeight="Black" Foreground="White"/>
+                        </Border>
+                        
+                        <TextBlock Grid.Row="2" Text="تحتاج إلى إعادة طلب" Foreground="#8E8E93" FontSize="10" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
                     </Grid>
                 </Border>
             </Grid>
