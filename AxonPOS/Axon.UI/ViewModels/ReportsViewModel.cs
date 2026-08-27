@@ -811,11 +811,7 @@ namespace Axon.UI.ViewModels
                 {
                     Filter = "مستند PDF Document (*.pdf)|*.pdf|" +
                              "ملف إكسيل Excel (*.xlsx)|*.xlsx|" +
-                             "مستند وورد Word Document (*.docx)|*.docx|" +
-                             "ملف نصوص مفصولة CSV (*.csv)|*.csv|" +
-                             "تقرير ويب HTML (*.html)|*.html|" +
-                             "ملف نصي Text (*.txt)|*.txt|" +
-                             "كافة الملفات (*.*)|*.*",
+                             "مستند وورد Word Document (*.docx)|*.docx",
                     DefaultExt = ".pdf",
                     FileName = $"VelouraPOS_{reportTypeStr}_{StartDate:yyyyMMdd}_{EndDate:yyyyMMdd}.pdf",
                     Title = "حدد مكان وامتداد حفظ التقرير على الجهاز"
