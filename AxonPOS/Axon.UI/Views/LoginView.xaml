@@ -13,7 +13,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
 
-    <Border CornerRadius="20" Background="#0F0F0F" BorderBrush="#D90429" BorderThickness="1.5" Effect="{DynamicResource Axon3DWindowShadow}">
+    <Border CornerRadius="20" Background="#0F0F0F" BorderBrush="#262626" BorderThickness="1" Effect="{DynamicResource Axon3DWindowShadow}">
         <Border CornerRadius="18.5" ClipToBounds="True">
             <Grid>
                 <Grid.RowDefinitions>
