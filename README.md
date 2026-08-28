@@ -18,7 +18,7 @@ An Enterprise Desktop Point of Sale (POS) & ERP System built with **.NET 10.0 WP
 
 ## 🛠️ Technology Stack
 
-- **Framework**: .NET 10.0 WPF
+- **Framework**: .NET 9 WPF
 - **Language**: C# 13
 - **Architecture**: Clean Architecture (Domain, Application, Infrastructure, UI)
 - **MVVM Pattern**: CommunityToolkit.Mvvm 8.4
