@@ -156,7 +156,7 @@ namespace Axon.UI.Services
             // Phone & Social Contacts below Address
             var txtPhone = new TextBlock
             {
-                Text = "📞 01509922025   💬 01509922025",
+                Text = "📞 01509924025   💬 01509923025",
                 FontSize = 10,
                 FontWeight = FontWeights.SemiBold,
                 Foreground = Brushes.Black,
