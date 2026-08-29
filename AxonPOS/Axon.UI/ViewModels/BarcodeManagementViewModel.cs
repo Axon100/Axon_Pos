@@ -46,7 +46,7 @@ namespace Axon.UI.ViewModels
         private string _storeName = "Axon POS";
 
         [ObservableProperty]
-        private string _labelSize = "50mm × 25mm (حراري قياسي)";
+        private string _labelSize = "38mm × 25mm (ملصق قياسي)";
 
         // ===== Display Checkboxes =====
         [ObservableProperty]
@@ -90,10 +90,7 @@ namespace Axon.UI.ViewModels
         public ObservableCollection<BarcodeLabelItemModel> GeneratedLabels { get; } = new();
         public ObservableCollection<string> LabelSizes { get; } = new()
         {
-            "50mm × 25mm (حراري قياسي)",
-            "38mm × 25mm (ملصق صغير)",
-            "70mm × 35mm (ملصق عريض)",
-            "A4 Sheet (24 ملصق بالورقة)"
+            "38mm × 25mm (ملصق قياسي)"
         };
 
         private bool _isInitializing = false;
@@ -355,16 +352,29 @@ namespace Axon.UI.ViewModels
             try
             {
                 var printDialog = new System.Windows.Controls.PrintDialog();
-                if (printDialog.ShowDialog() == true)
+
+                // 1. Auto-select Barcode Label Printer (XP-233B / Label / Barcode)
+                try
                 {
-                    if (visualElement != null)
+                    var printServer = new System.Printing.LocalPrintServer();
+                    var printQueues = printServer.GetPrintQueues();
+                    var labelQueue = printQueues.FirstOrDefault(q => 
+                        q.Name.Contains("233", StringComparison.OrdinalIgnoreCase) || 
+                        q.Name.Contains("Label", StringComparison.OrdinalIgnoreCase) || 
+                        q.Name.Contains("Barcode", StringComparison.OrdinalIgnoreCase) ||
+                        (q.Name.Contains("XP-", StringComparison.OrdinalIgnoreCase) && !q.Name.Contains("80", StringComparison.OrdinalIgnoreCase)));
+
+                    if (labelQueue != null)
                     {
-                        printDialog.PrintVisual(visualElement, $"Axon_Barcode_Labels_{DateTime.Now:yyyyMMdd_HHmm}");
+                        printDialog.PrintQueue = labelQueue;
                     }
-                    else
-                    {
-                        AxonMessageBox.Show("تم إرسال أمر الطباعة إلى الطابعة المحددة بنجاح.", "تمت الطباعة", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
+                }
+                catch { }
+
+                if (visualElement != null)
+                {
+                    printDialog.PrintVisual(visualElement, $"Axon_Barcode_Labels_{DateTime.Now:yyyyMMdd_HHmm}");
+                    AxonMessageBox.Show($"تم إرسال أمر الطباعة إلى طابعة الباركود ({printDialog.PrintQueue?.Name ?? "XP-233B"}) بنجاح.", "تمت الطباعة", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             catch (Exception ex)
