@@ -543,11 +543,19 @@ namespace Axon.UI.ViewModels
             var products = await _productRepository.GetAllAsync();
             var productMap = products.ToDictionary(p => p.Id);
 
+            // Calculate discount factor for proportional refund
+            var invoiceGrossSubtotal = allLines.Sum(x => x.Quantity * x.UnitPrice);
+            var discountFactor = (invoiceGrossSubtotal > 0 && sale.DiscountAmount > 0)
+                ? Math.Max(0, (invoiceGrossSubtotal - sale.DiscountAmount) / invoiceGrossSubtotal)
+                : 1.0m;
+
             foreach (var line in allLines)
             {
                 productMap.TryGetValue(line.ProductId, out var prod);
                 var productName = prod != null ? (string.IsNullOrEmpty(prod.NameAR) ? prod.NameEN : prod.NameAR) : $"منتج #{line.ProductId}";
                 var sku = prod?.SKU ?? string.Empty;
+
+                var effectivePrice = Math.Round(line.UnitPrice * discountFactor, 2);
 
                 var returnItem = new ReturnItemDisplayModel
                 {
@@ -556,6 +564,7 @@ namespace Axon.UI.ViewModels
                     ProductName = productName,
                     Sku = sku,
                     UnitPrice = line.UnitPrice,
+                    EffectiveUnitPrice = effectivePrice,
                     MaxQuantity = line.Quantity,
                     QuantityToReturn = line.Quantity // Default to returning all
                 };
@@ -1125,12 +1134,14 @@ namespace Axon.UI.ViewModels
         public string ProductName { get; set; } = string.Empty;
         public string Sku { get; set; } = string.Empty;
         public decimal UnitPrice { get; set; }
+        public decimal EffectiveUnitPrice { get; set; }
+        public decimal DiscountPerUnit => Math.Max(0, UnitPrice - EffectiveUnitPrice);
         public decimal MaxQuantity { get; set; }
 
         [ObservableProperty]
         private decimal _quantityToReturn;
 
-        public decimal LineRefundTotal => QuantityToReturn * UnitPrice;
+        public decimal LineRefundTotal => QuantityToReturn * EffectiveUnitPrice;
 
         partial void OnQuantityToReturnChanged(decimal value)
         {

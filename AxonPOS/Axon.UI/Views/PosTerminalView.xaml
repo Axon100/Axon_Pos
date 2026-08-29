@@ -1079,8 +1079,8 @@
                                                                 </StackPanel>
 
                                                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                                    <TextBlock Text="السعر:" Foreground="#8E8E93" FontSize="9"/>
-                                                                    <TextBlock Text="{Binding UnitPrice, StringFormat='{}{0:N2} ج.م'}" Foreground="#E0E0E0" FontSize="10" FontWeight="SemiBold"/>
+                                                                    <TextBlock Text="سعر الشراء:" Foreground="#8E8E93" FontSize="9"/>
+                                                                    <TextBlock Text="{Binding EffectiveUnitPrice, StringFormat='{}{0:N2} ج.م'}" Foreground="#E0E0E0" FontSize="10" FontWeight="Bold"/>
                                                                 </StackPanel>
 
                                                                 <StackPanel Grid.Column="2" VerticalAlignment="Center">
