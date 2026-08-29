@@ -355,51 +355,16 @@ namespace Axon.UI.ViewModels
             try
             {
                 var printDialog = new System.Windows.Controls.PrintDialog();
-
-                // 1. Auto-select Barcode Label Printer (XP-233B / Label / Barcode)
-                try
+                if (printDialog.ShowDialog() == true)
                 {
-                    var printServer = new System.Printing.LocalPrintServer();
-                    var printQueues = printServer.GetPrintQueues();
-                    var labelQueue = printQueues.FirstOrDefault(q => 
-                        q.Name.Contains("233", StringComparison.OrdinalIgnoreCase) || 
-                        q.Name.Contains("Label", StringComparison.OrdinalIgnoreCase) || 
-                        q.Name.Contains("Barcode", StringComparison.OrdinalIgnoreCase) ||
-                        (q.Name.Contains("XP-", StringComparison.OrdinalIgnoreCase) && !q.Name.Contains("80", StringComparison.OrdinalIgnoreCase)));
-
-                    if (labelQueue != null)
+                    if (visualElement != null)
                     {
-                        printDialog.PrintQueue = labelQueue;
+                        printDialog.PrintVisual(visualElement, $"Axon_Barcode_Labels_{DateTime.Now:yyyyMMdd_HHmm}");
                     }
-                }
-                catch { }
-
-                // Check if thermal label printer format (38x25 or 50x25 or XP-233B / Label printer)
-                bool isThermalRoll = LabelSize.Contains("38mm") || LabelSize.Contains("50mm") || LabelSize.Contains("70mm") ||
-                                     printDialog.PrintQueue?.Name.Contains("XP-", StringComparison.OrdinalIgnoreCase) == true ||
-                                     printDialog.PrintQueue?.Name.Contains("233", StringComparison.OrdinalIgnoreCase) == true ||
-                                     printDialog.PrintQueue?.Name.Contains("Label", StringComparison.OrdinalIgnoreCase) == true ||
-                                     printDialog.PrintQueue?.Name.Contains("Barcode", StringComparison.OrdinalIgnoreCase) == true;
-
-                if (isThermalRoll)
-                {
-                    // Print each label individually to feed one-by-one according to printer's gap sensor & stock settings
-                    int currentNum = 1;
-                    foreach (var labelData in GeneratedLabels)
+                    else
                     {
-                        var singleLabelElement = CreateSingleThermalLabelVisual(labelData);
-                        singleLabelElement.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                        singleLabelElement.Arrange(new Rect(new Point(0, 0), singleLabelElement.DesiredSize));
-                        singleLabelElement.UpdateLayout();
-
-                        printDialog.PrintVisual(singleLabelElement, $"Label_{currentNum++}_{labelData.SkuOrBarcode}");
+                        AxonMessageBox.Show("تم إرسال أمر الطباعة إلى الطابعة المحددة بنجاح.", "تمت الطباعة", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
-
-                    AxonMessageBox.Show($"تم إرسال ({GeneratedLabels.Count}) ملصق بنجاح إلى طابعة الباركود ({printDialog.PrintQueue?.Name ?? "XP-233B"}).", "تمت الطباعة", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else if (visualElement != null)
-                {
-                    printDialog.PrintVisual(visualElement, $"Axon_Barcode_Labels_{DateTime.Now:yyyyMMdd_HHmm}");
                 }
             }
             catch (Exception ex)
