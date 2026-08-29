@@ -40,7 +40,7 @@ namespace Axon.UI.ViewModels
         private decimal _sellingPrice;
 
         [ObservableProperty]
-        private int _labelsCount = 12;
+        private int _labelsCount = 1;
 
         [ObservableProperty]
         private string _storeName = "Axon POS";
@@ -380,11 +380,20 @@ namespace Axon.UI.ViewModels
                 }
                 catch { }
 
-                // Get exact printable dimensions from the driver settings (38mm x 25mm = ~144 x ~95)
-                double pWidth = printDialog.PrintableAreaWidth > 0 ? printDialog.PrintableAreaWidth : 144;
-                double pHeight = printDialog.PrintableAreaHeight > 0 ? printDialog.PrintableAreaHeight : 95;
+                // Safe physical inner dimensions for 38x25mm (~136 width x ~84 height)
+                double pWidth = 136;
+                double pHeight = 86;
 
-                // Print individual stickers directly one-by-one according to the printer driver's stock configuration
+                if (printDialog.PrintableAreaWidth > 50 && printDialog.PrintableAreaWidth < 200)
+                {
+                    pWidth = printDialog.PrintableAreaWidth - 4;
+                }
+                if (printDialog.PrintableAreaHeight > 50 && printDialog.PrintableAreaHeight < 150)
+                {
+                    pHeight = printDialog.PrintableAreaHeight - 4;
+                }
+
+                // Print each sticker exactly once per label
                 int count = 0;
                 foreach (var labelData in GeneratedLabels)
                 {
@@ -407,7 +416,7 @@ namespace Axon.UI.ViewModels
                 Width = width,
                 Height = height,
                 Background = System.Windows.Media.Brushes.White,
-                Padding = new Thickness(4, 2, 4, 2),
+                Padding = new Thickness(2, 1, 2, 1),
                 SnapsToDevicePixels = true,
                 UseLayoutRounding = true
             };
