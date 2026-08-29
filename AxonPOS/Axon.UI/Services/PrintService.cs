@@ -40,22 +40,39 @@ namespace Axon.UI.Services
                 try
                 {
                     var printDialog = new PrintDialog();
-                    if (printDialog.ShowDialog() == true)
-                    {
-                        var receiptElement = CreateReceiptVisualElement(sale, saleId);
-                        
-                        // Measure and arrange element for visual rendering (Thermal paper standard ~80mm width)
-                        receiptElement.Measure(new Size(printDialog.PrintableAreaWidth > 0 ? printDialog.PrintableAreaWidth : 300, double.PositiveInfinity));
-                        receiptElement.Arrange(new Rect(new Point(0, 0), receiptElement.DesiredSize));
-                        receiptElement.UpdateLayout();
 
-                        printDialog.PrintVisual(receiptElement, $"Receipt_#{saleId}");
+                    // 1. Auto-select Receipt Printer (XP-80 / POS-80 / Receipt)
+                    try
+                    {
+                        var printServer = new System.Printing.LocalPrintServer();
+                        var printQueues = printServer.GetPrintQueues();
+                        var receiptQueue = printQueues.FirstOrDefault(q => 
+                            (q.Name.Contains("80", StringComparison.OrdinalIgnoreCase) || 
+                             q.Name.Contains("Receipt", StringComparison.OrdinalIgnoreCase) || 
+                             q.Name.Contains("POS", StringComparison.OrdinalIgnoreCase)) &&
+                            !q.Name.Contains("233", StringComparison.OrdinalIgnoreCase) &&
+                            !q.Name.Contains("Label", StringComparison.OrdinalIgnoreCase));
+
+                        if (receiptQueue != null)
+                        {
+                            printDialog.PrintQueue = receiptQueue;
+                        }
                     }
+                    catch { }
+
+                    var receiptElement = CreateReceiptVisualElement(sale, saleId);
+                    
+                    // Measure and arrange element for visual rendering (Thermal paper standard ~80mm width)
+                    receiptElement.Measure(new Size(printDialog.PrintableAreaWidth > 0 ? printDialog.PrintableAreaWidth : 260, double.PositiveInfinity));
+                    receiptElement.Arrange(new Rect(new Point(0, 0), receiptElement.DesiredSize));
+                    receiptElement.UpdateLayout();
+
+                    printDialog.PrintVisual(receiptElement, $"Receipt_#{saleId}");
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine($"Printing failed: {ex.Message}");
-                    Axon.UI.Views.AxonMessageBox.Show($"تعذر التوصيل بالطابعة أو حدث خطأ أثناء إرسال أمر الطباعة:\n{ex.Message}", "تنبيه الطباعة", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                    Axon.UI.Views.AxonMessageBox.Show($"تعذر التوصيل بطابعة الفواتير (XP-80):\n{ex.Message}", "تنبيه الطباعة", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 }
             });
         }
