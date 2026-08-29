@@ -367,15 +367,28 @@ namespace Axon.UI.ViewModels
                     if (labelQueue != null)
                     {
                         printDialog.PrintQueue = labelQueue;
+                        // Use the printer driver's configured default PrintTicket (38mm x 25mm User Stock)
+                        if (labelQueue.UserPrintTicket != null)
+                        {
+                            printDialog.PrintTicket = labelQueue.UserPrintTicket;
+                        }
+                        else if (labelQueue.DefaultPrintTicket != null)
+                        {
+                            printDialog.PrintTicket = labelQueue.DefaultPrintTicket;
+                        }
                     }
                 }
                 catch { }
 
-                // Print individual stickers directly one-by-one so thermal print head renders each label on 38x25 stock
+                // Get exact printable dimensions from the driver settings (38mm x 25mm = ~144 x ~95)
+                double pWidth = printDialog.PrintableAreaWidth > 0 ? printDialog.PrintableAreaWidth : 144;
+                double pHeight = printDialog.PrintableAreaHeight > 0 ? printDialog.PrintableAreaHeight : 95;
+
+                // Print individual stickers directly one-by-one according to the printer driver's stock configuration
                 int count = 0;
                 foreach (var labelData in GeneratedLabels)
                 {
-                    var visual = CreateDirectPrintVisual(labelData);
+                    var visual = CreateDirectPrintVisual(labelData, pWidth, pHeight);
                     printDialog.PrintVisual(visual, $"Label_{++count}_{labelData.SkuOrBarcode}");
                 }
 
@@ -387,13 +400,12 @@ namespace Axon.UI.ViewModels
             }
         }
 
-        private FrameworkElement CreateDirectPrintVisual(BarcodeLabelItemModel label)
+        private FrameworkElement CreateDirectPrintVisual(BarcodeLabelItemModel label, double width, double height)
         {
-            // Standard 38mm x 25mm in 96 DPI points: 38mm = ~144 points, 25mm = ~95 points
             var container = new System.Windows.Controls.Border
             {
-                Width = 144,
-                Height = 95,
+                Width = width,
+                Height = height,
                 Background = System.Windows.Media.Brushes.White,
                 Padding = new Thickness(4, 2, 4, 2),
                 SnapsToDevicePixels = true,
