@@ -114,12 +114,12 @@
                     <!-- Stepper [-] Qty [+] -->
                     <Border Grid.Column="1" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="2" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <Button Command="{Binding DataContext.DecreaseQtyCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
+                            <Button Command="{Binding DataContext.DecreaseQuantityCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
                                     Style="{StaticResource MaterialDesignIconButton}" Foreground="{DynamicResource TextSecondaryBrush}" Width="22" Height="22" Padding="0">
                                 <materialDesign:PackIcon Kind="Minus" Width="14" Height="14"/>
                             </Button>
                             <TextBlock Text="{Binding Quantity}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="13" FontWeight="Bold" Margin="6,0" VerticalAlignment="Center" MinWidth="16" TextAlignment="Center"/>
-                            <Button Command="{Binding DataContext.IncreaseQtyCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
+                            <Button Command="{Binding DataContext.IncreaseQuantityCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
                                     Style="{StaticResource MaterialDesignIconButton}" Foreground="{DynamicResource TextSecondaryBrush}" Width="22" Height="22" Padding="0">
                                 <materialDesign:PackIcon Kind="Plus" Width="14" Height="14"/>
                             </Button>
@@ -132,7 +132,7 @@
                     </StackPanel>
 
                     <!-- Remove Item Button -->
-                    <Button Grid.Column="3" Command="{Binding DataContext.DecreaseQtyCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
+                    <Button Grid.Column="3" Command="{Binding DataContext.RemoveFromCartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
                             Style="{StaticResource MaterialDesignIconButton}" Foreground="{DynamicResource TextSecondaryBrush}" Width="24" Height="24" Padding="0" VerticalAlignment="Center" ToolTip="حذف">
                         <materialDesign:PackIcon Kind="Close" Width="14" Height="14"/>
                     </Button>
