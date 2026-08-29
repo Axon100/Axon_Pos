@@ -227,7 +227,7 @@
                                         </StackPanel>
 
                                         <!-- Row 2: Expense Amount Box -->
-                                        <Border Grid.Row="2" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="12,10" Margin="0,0,0,12">
+                                        <Border Grid.Row="2" Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="12,10" Margin="0,0,0,10">
                                             <Grid>
                                                 <StackPanel VerticalAlignment="Center">
                                                     <TextBlock Text="المبلغ المصروف" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" FontWeight="SemiBold"/>
@@ -238,6 +238,22 @@
                                                 </Border>
                                             </Grid>
                                         </Border>
+
+                                        <!-- Row 3: Admin Quick Actions (Delete Expense) -->
+                                        <Grid Grid.Row="3">
+                                            <Button Command="{Binding DataContext.DeleteExpenseCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                    CommandParameter="{Binding}" 
+                                                    Style="{StaticResource Axon3DSecondaryButtonStyle}" 
+                                                    Height="32" 
+                                                    Padding="10,0" 
+                                                    HorizontalAlignment="Stretch"
+                                                    ToolTip="حذف قيد المصروف (للمدير Admin)">
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <materialDesign:PackIcon Kind="DeleteOutline" Width="15" Height="15" Foreground="#EF4444" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="حذف المصروف" FontSize="11" FontWeight="Bold" Foreground="#EF4444" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </Button>
+                                        </Grid>
                                     </Grid>
                                 </Border>
                             </DataTemplate>
@@ -314,6 +330,24 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Amount, StringFormat='{}{0:N0} ج.م'}" FontWeight="ExtraBold" FontSize="14" Foreground="#EF4444"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!-- إجراءات التحكم (حذف للمدير) -->
+                        <DataGridTemplateColumn Header="إجراءات" Width="90">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Command="{Binding DataContext.DeleteExpenseCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                            CommandParameter="{Binding}" 
+                                            Style="{StaticResource MaterialDesignFlatButton}" 
+                                            Foreground="#EF4444" 
+                                            Padding="4" 
+                                            Height="28" 
+                                            Width="28" 
+                                            ToolTip="حذف قيد المصروف">
+                                        <materialDesign:PackIcon Kind="DeleteOutline" Width="16" Height="16"/>
+                                    </Button>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

@@ -130,6 +130,48 @@ namespace Axon.UI.ViewModels
             }
         }
 
+        public bool IsAdmin => UserSessionService.IsAdmin;
+
+        [RelayCommand]
+        private async Task DeleteExpenseAsync(ExpenseItemViewModel item)
+        {
+            if (item == null) return;
+
+            if (!UserSessionService.IsAdmin && !UserSessionService.HasPermission("Expenses.Delete"))
+            {
+                AxonMessageBox.Show("عذراً، خاصية حذف المصروفات مخصصة لمدير النظام (Admin) فقط!", "تنبيه الصلاحيات", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                return;
+            }
+
+            var confirm = AxonMessageBox.Show(
+                $"هل أنت متأكد من حذف قيد المصروف:\n\n• المستند: {item.DocNumber}\n• البيان: {item.Description}\n• المبلغ: {item.Amount:N0} ج.م\n\nلن يمكن التراجع عن هذه الخطوة!",
+                "تأكيد حذف المصروف",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Warning);
+
+            if (confirm != System.Windows.MessageBoxResult.Yes) return;
+
+            IsBusy = true;
+            try
+            {
+                var expense = await _expenseRepository.GetByIdAsync(item.Id);
+                if (expense != null)
+                {
+                    await _expenseRepository.DeleteAsync(expense);
+                    await LoadDataAsync();
+                    AxonMessageBox.Show("تم حذف قيد المصروف بنجاح!", "نجاح العملية", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                AxonMessageBox.Show($"فشل حذف قيد المصروف: {ex.Message}", "خطأ", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
         partial void OnSearchTextChanged(string value)
         {
             OnSearch();
