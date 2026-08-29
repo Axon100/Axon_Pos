@@ -657,9 +657,19 @@
                     <!-- Red Validation Error Text -->
                     <TextBlock Text="{Binding DiscountValidationError}" Foreground="#EF4444" FontSize="11" FontWeight="Bold" Margin="0,4,0,12" Visibility="{Binding HasDiscountError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                    <Grid Margin="0,10,0,0">
-                        <Button Command="{Binding CloseDiscountDialogCommand}" Content="إلغاء" Style="{StaticResource Axon3DSecondaryButtonStyle}" HorizontalAlignment="Left" Width="90" Height="36"/>
-                        <Button Command="{Binding ApplyDiscountCommand}" Content="تطبيق الخصم" Style="{StaticResource Axon3DPrimaryButtonStyle}" HorizontalAlignment="Right" Width="120" Height="36"/>
+                    <Grid Margin="0,14,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Command="{Binding CloseDiscountDialogCommand}" Content="إلغاء" Style="{StaticResource Axon3DSecondaryButtonStyle}" Height="38" FontSize="12"/>
+                        <Button Grid.Column="2" Command="{Binding ApplyDiscountCommand}" Style="{StaticResource Axon3DPrimaryButtonStyle}" Height="38" Padding="10,0">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="CheckBold" Width="15" Height="15" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="تطبيق الخصم" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
                     </Grid>
                 </StackPanel>
             </Border>
