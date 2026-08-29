@@ -371,16 +371,135 @@ namespace Axon.UI.ViewModels
                 }
                 catch { }
 
-                if (visualElement != null)
+                // Print individual stickers directly one-by-one so thermal print head renders each label on 38x25 stock
+                int count = 0;
+                foreach (var labelData in GeneratedLabels)
                 {
-                    printDialog.PrintVisual(visualElement, $"Axon_Barcode_Labels_{DateTime.Now:yyyyMMdd_HHmm}");
-                    AxonMessageBox.Show($"تم إرسال أمر الطباعة إلى طابعة الباركود ({printDialog.PrintQueue?.Name ?? "XP-233B"}) بنجاح.", "تمت الطباعة", MessageBoxButton.OK, MessageBoxImage.Information);
+                    var visual = CreateDirectPrintVisual(labelData);
+                    printDialog.PrintVisual(visual, $"Label_{++count}_{labelData.SkuOrBarcode}");
                 }
+
+                AxonMessageBox.Show($"تمت طباعة ({GeneratedLabels.Count}) ملصق بنجاح على طابعة الباركود ({printDialog.PrintQueue?.Name ?? "XP-233B"}).", "تمت الطباعة", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
                 AxonMessageBox.Show($"تعذر إتمام عملية الطباعة: {ex.Message}", "خطأ في الطباعة", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private FrameworkElement CreateDirectPrintVisual(BarcodeLabelItemModel label)
+        {
+            // Standard 38mm x 25mm in 96 DPI points: 38mm = ~144 points, 25mm = ~95 points
+            var container = new System.Windows.Controls.Border
+            {
+                Width = 144,
+                Height = 95,
+                Background = System.Windows.Media.Brushes.White,
+                Padding = new Thickness(4, 2, 4, 2),
+                SnapsToDevicePixels = true,
+                UseLayoutRounding = true
+            };
+
+            var grid = new System.Windows.Controls.Grid();
+            grid.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = System.Windows.GridLength.Auto }); // 0: Store Name
+            grid.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = System.Windows.GridLength.Auto }); // 1: Product Name
+            grid.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) }); // 2: Barcode
+            grid.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = System.Windows.GridLength.Auto }); // 3: Digits & Price
+
+            // Store Name
+            if (label.ShowStoreName && !string.IsNullOrWhiteSpace(label.StoreName))
+            {
+                var txtStore = new System.Windows.Controls.TextBlock
+                {
+                    Text = label.StoreName,
+                    FontSize = 8,
+                    FontWeight = FontWeights.Bold,
+                    Foreground = System.Windows.Media.Brushes.Black,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                };
+                System.Windows.Controls.Grid.SetRow(txtStore, 0);
+                grid.Children.Add(txtStore);
+            }
+
+            // Product Name
+            if (label.ShowProductName && !string.IsNullOrWhiteSpace(label.ProductName))
+            {
+                var txtProd = new System.Windows.Controls.TextBlock
+                {
+                    Text = label.ProductName,
+                    FontSize = 8.5,
+                    FontWeight = FontWeights.Bold,
+                    Foreground = System.Windows.Media.Brushes.Black,
+                    TextTrimming = TextTrimming.CharacterEllipsis,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Margin = new Thickness(0, 1, 0, 1)
+                };
+                System.Windows.Controls.Grid.SetRow(txtProd, 1);
+                grid.Children.Add(txtProd);
+            }
+
+            // High Contrast Barcode Image
+            if (label.BarcodeImage != null)
+            {
+                var img = new System.Windows.Controls.Image
+                {
+                    Source = label.BarcodeImage,
+                    Stretch = System.Windows.Media.Stretch.Fill,
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    Margin = new Thickness(1, 0, 1, 1)
+                };
+                System.Windows.Media.RenderOptions.SetBitmapScalingMode(img, System.Windows.Media.BitmapScalingMode.NearestNeighbor);
+                System.Windows.Controls.Grid.SetRow(img, 2);
+                grid.Children.Add(img);
+            }
+
+            // Digits & Price Footer
+            var footer = new System.Windows.Controls.Grid();
+            footer.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+            footer.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
+
+            if (label.ShowBarcodeNumber && !string.IsNullOrWhiteSpace(label.SkuOrBarcode))
+            {
+                var txtCode = new System.Windows.Controls.TextBlock
+                {
+                    Text = label.SkuOrBarcode,
+                    FontSize = 8,
+                    FontWeight = FontWeights.Bold,
+                    Foreground = System.Windows.Media.Brushes.Black,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+                System.Windows.Controls.Grid.SetColumn(txtCode, 0);
+                footer.Children.Add(txtCode);
+            }
+
+            if (label.ShowPrice && label.Price > 0)
+            {
+                var txtPrice = new System.Windows.Controls.TextBlock
+                {
+                    Text = label.FormattedPrice,
+                    FontSize = 8.5,
+                    FontWeight = FontWeights.Bold,
+                    Foreground = System.Windows.Media.Brushes.Black,
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+                System.Windows.Controls.Grid.SetColumn(txtPrice, 1);
+                footer.Children.Add(txtPrice);
+            }
+
+            System.Windows.Controls.Grid.SetRow(footer, 3);
+            grid.Children.Add(footer);
+
+            container.Child = grid;
+
+            // Measure & arrange to force instant rendering
+            container.Measure(new Size(144, 95));
+            container.Arrange(new Rect(0, 0, 144, 95));
+            container.UpdateLayout();
+
+            return container;
         }
 
         private FrameworkElement CreateSingleThermalLabelVisual(BarcodeLabelItemModel label)
