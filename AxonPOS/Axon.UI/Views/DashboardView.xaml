@@ -112,6 +112,17 @@
                             </StackPanel>
                         </Button>
 
+                        <!-- Close Shift Button (اغلاق الشيفت) -->
+                        <Button Command="{Binding CloseShiftCommand}" 
+                                Background="#2A0B0E" BorderBrush="#D90429" BorderThickness="1" Foreground="#FF6B6B"
+                                Style="{StaticResource MaterialDesignFlatButton}" 
+                                Height="38" Padding="12,0" Margin="0,0,8,0" ToolTip="إغلاق الشيفت الحالي وتصفير تقرير الصندوق المغلق لبدء دورة جديدة">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="LockClock" Foreground="#FF6B6B" Width="18" Height="18" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="إغلاق الشيفت" FontWeight="Bold" FontSize="12" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
                         <!-- Refresh Data Button -->
                         <Button Command="{Binding RefreshDataCommand}" 
                                 Style="{StaticResource MaterialDesignOutlinedButton}" Foreground="{DynamicResource TextPrimaryBrush}" BorderBrush="{DynamicResource CardBorderBrush}" 

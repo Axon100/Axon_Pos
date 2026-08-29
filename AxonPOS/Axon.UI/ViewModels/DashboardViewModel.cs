@@ -1,6 +1,8 @@
 using Axon.Application.Interfaces.Repositories;
 using Axon.Domain.Entities;
 using Axon.UI.Helpers;
+using Axon.UI.Services;
+using Axon.UI.Views;
 using Axon.UI.ViewModels.Base;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -94,6 +96,7 @@ namespace Axon.UI.ViewModels
         private readonly IRepository<Expense> _expenseRepository;
         private readonly IRepository<Return> _returnRepository;
         private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<SystemSetting> _settingRepository;
 
         public DashboardViewModel(
             IRepository<Sale> saleRepository,
@@ -101,7 +104,8 @@ namespace Axon.UI.ViewModels
             IRepository<Product> productRepository,
             IRepository<Expense> expenseRepository,
             IRepository<Return> returnRepository,
-            IRepository<Category> categoryRepository)
+            IRepository<Category> categoryRepository,
+            IRepository<SystemSetting> settingRepository)
         {
             _saleRepository = saleRepository;
             _lineItemRepository = lineItemRepository;
@@ -109,6 +113,7 @@ namespace Axon.UI.ViewModels
             _expenseRepository = expenseRepository;
             _returnRepository = returnRepository;
             _categoryRepository = categoryRepository;
+            _settingRepository = settingRepository;
 
             Title = AppResources.GetString("Dashboard", "لوحة التحكم والقيادة");
             
@@ -191,6 +196,58 @@ namespace Axon.UI.ViewModels
                     mainVm.NavigateCommand.Execute("PosTerminal");
                 }
             });
+        }
+
+        [RelayCommand]
+        private async Task CloseShiftAsync()
+        {
+            if (!UserSessionService.IsAdmin && !UserSessionService.HasPermission("POS.CloseRegister"))
+            {
+                AxonMessageBox.Show("عذراً، إغلاق وتصفير الشيفت متاح فقط للمدير العام (Admin) أو من يملك صلاحية إغلاق الصندوق!", "تنبيه الصلاحيات", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                return;
+            }
+
+            var confirm = AxonMessageBox.Show(
+                "هل أنت متأكد من إغلاق الشيفت وتصفير تقرير الصندوق المغلق الحالي؟\n\nسيتم أرشفة مبيعات الفترة السابقة وبدء فترة شيفت جديدة ونظيفة من اللحظة الحالية.",
+                "تأكيد إغلاق الشيفت",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Question);
+
+            if (confirm != System.Windows.MessageBoxResult.Yes) return;
+
+            IsBusy = true;
+            try
+            {
+                var nowIso = DateTime.Now.ToString("O");
+                var existingSetting = (await _settingRepository.GetAsync(s => s.Key == "Shift_LastClosedTime")).FirstOrDefault();
+
+                if (existingSetting != null)
+                {
+                    existingSetting.Value = nowIso;
+                    await _settingRepository.UpdateAsync(existingSetting);
+                }
+                else
+                {
+                    await _settingRepository.AddAsync(new SystemSetting
+                    {
+                        Key = "Shift_LastClosedTime",
+                        Value = nowIso,
+                        Group = "POS",
+                        Description = "تاريخ ووقت آخر إغلاق للشيفت وتصفير الصندوق المغلق"
+                    });
+                }
+
+                AxonMessageBox.Show("تم إغلاق الشيفت وتصفير تقرير الصندوق المغلق بنجاح! يبدأ الشيفت الجديد من الآن.", "تم إغلاق الشيفت", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                await LoadDataAsync();
+            }
+            catch (Exception ex)
+            {
+                AxonMessageBox.Show($"حدث خطأ أثناء إغلاق الشيفت: {ex.Message}", "خطأ", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]

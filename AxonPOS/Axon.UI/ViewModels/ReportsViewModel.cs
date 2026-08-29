@@ -29,6 +29,7 @@ namespace Axon.UI.ViewModels
         private readonly IRepository<User> _userRepository;
         private readonly IRepository<Expense> _expenseRepository;
         private readonly IRepository<Return> _returnRepository;
+        private readonly IRepository<SystemSetting> _settingRepository;
 
         // ===== 4 Main Report Categories (Tabs) =====
         // 0: الصندوق المغلق (Closed Register)
@@ -192,7 +193,8 @@ namespace Axon.UI.ViewModels
             IRepository<Category> categoryRepository,
             IRepository<User> userRepository,
             IRepository<Expense> expenseRepository,
-            IRepository<Return> returnRepository)
+            IRepository<Return> returnRepository,
+            IRepository<SystemSetting> settingRepository)
         {
             _saleRepository = saleRepository;
             _lineItemRepository = lineItemRepository;
@@ -201,6 +203,7 @@ namespace Axon.UI.ViewModels
             _userRepository = userRepository;
             _expenseRepository = expenseRepository;
             _returnRepository = returnRepository;
+            _settingRepository = settingRepository;
 
             Title = "التقارير والتحليلات";
             _ = LoadFiltersAsync();
@@ -336,7 +339,24 @@ namespace Axon.UI.ViewModels
                 // ==================== 1. الصندوق المغلق (CLOSED REGISTER REPORT - TAB 0) ====================
                 ClosedRegisterReport.Clear();
 
-                var salesByDayAndCashier = filteredSales
+                // Retrieve last closed shift time if set by Admin
+                var shiftSetting = (await _settingRepository.GetAsync(s => s.Key == "Shift_LastClosedTime")).FirstOrDefault();
+                DateTime? lastShiftClosedTime = null;
+                if (shiftSetting != null && DateTime.TryParse(shiftSetting.Value, null, System.Globalization.DateTimeStyles.RoundtripKind, out var parsedShiftTime))
+                {
+                    lastShiftClosedTime = parsedShiftTime;
+                }
+
+                // Filter sales for the active shift in Closed Register Report
+                var shiftSales = lastShiftClosedTime.HasValue 
+                    ? filteredSales.Where(s => s.Date >= lastShiftClosedTime.Value).ToList() 
+                    : filteredSales;
+
+                var shiftReturns = lastShiftClosedTime.HasValue 
+                    ? filteredReturns.Where(r => r.ReturnDate.DateTime >= lastShiftClosedTime.Value).ToList() 
+                    : filteredReturns;
+
+                var salesByDayAndCashier = shiftSales
                     .GroupBy(s => new { Day = s.Date.Date, s.CashierId })
                     .OrderBy(g => g.Key.Day)
                     .ToList();
@@ -358,7 +378,7 @@ namespace Axon.UI.ViewModels
 
                         var groupCashSales = groupSales.Sum(s => s.Total);
                         
-                        var groupReturns = filteredReturns
+                        var groupReturns = shiftReturns
                             .Where(r => r.ReturnDate.Date == group.Key.Day && (r.UserId == group.Key.CashierId || r.UserId == 0))
                             .Sum(r => r.TotalRefundAmount);
 
@@ -383,9 +403,9 @@ namespace Axon.UI.ViewModels
                         });
                     }
                 }
-                else if (filteredReturns.Count > 0)
+                else if (shiftReturns.Count > 0)
                 {
-                    var groupReturns = filteredReturns.Sum(r => r.TotalRefundAmount);
+                    var groupReturns = shiftReturns.Sum(r => r.TotalRefundAmount);
                     totalReturns += groupReturns;
                     ClosedRegisterReport.Add(new ClosedRegisterReportItem
                     {
@@ -407,8 +427,10 @@ namespace Axon.UI.ViewModels
                 ClosedBoxReturnTotal = totalReturns;
                 ClosedBoxNetTotal = totalCash - totalReturns;
                 ClosedBoxClosuresCount = ClosedRegisterReport.Count;
-                ClosedBoxInvoicesCount = filteredSales.Count;
-                ReportPeriodTitle = $"الفترة: من {StartDate:yyyy/MM/dd} إلى {EndDate:yyyy/MM/dd}";
+                ClosedBoxInvoicesCount = shiftSales.Count;
+                ReportPeriodTitle = lastShiftClosedTime.HasValue
+                    ? $"الشيفت الحالي: من {lastShiftClosedTime.Value:yyyy/MM/dd HH:mm} إلى الآن"
+                    : $"الفترة: من {StartDate:yyyy/MM/dd} إلى {EndDate:yyyy/MM/dd}";
 
                 // ==================== 2. تصنيف المبيعات (SALES CLASSIFICATION - TAB 1) ====================
                 SalesClassificationReport.Clear();
