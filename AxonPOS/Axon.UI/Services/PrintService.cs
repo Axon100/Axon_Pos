@@ -64,9 +64,9 @@ namespace Axon.UI.Services
         {
             var container = new Border
             {
-                Width = 290,
+                Width = 260,
                 Background = Brushes.White,
-                Padding = new Thickness(12, 10, 12, 10),
+                Padding = new Thickness(6, 6, 6, 8),
                 FlowDirection = FlowDirection.LeftToRight,
                 SnapsToDevicePixels = true
             };
@@ -80,10 +80,10 @@ namespace Axon.UI.Services
                 var logoImg = new Image
                 {
                     Source = new BitmapImage(logoUri),
-                    Height = 46,
+                    Height = 44,
                     HorizontalAlignment = HorizontalAlignment.Center,
                     Stretch = Stretch.Uniform,
-                    Margin = new Thickness(0, 0, 0, 6)
+                    Margin = new Thickness(0, 0, 0, 4)
                 };
                 mainPanel.Children.Add(logoImg);
             }
@@ -93,7 +93,7 @@ namespace Axon.UI.Services
                 var txtBrand = new TextBlock
                 {
                     Text = "VELOURA",
-                    FontSize = 18,
+                    FontSize = 17,
                     FontWeight = FontWeights.Bold,
                     FontFamily = new FontFamily("Georgia, Times New Roman, Segoe UI"),
                     Foreground = Brushes.Black,
@@ -107,7 +107,7 @@ namespace Axon.UI.Services
             var txtAddress1 = new TextBlock
             {
                 Text = "العاشر من رمضان - مجاورة الخامسة",
-                FontSize = 10,
+                FontSize = 9.5,
                 FontWeight = FontWeights.Bold,
                 Foreground = Brushes.Black,
                 TextAlignment = TextAlignment.Center,
@@ -119,7 +119,7 @@ namespace Axon.UI.Services
             var txtAddress2 = new TextBlock
             {
                 Text = "مول أبو الوفا، البدروم",
-                FontSize = 10,
+                FontSize = 9.5,
                 FontWeight = FontWeights.Bold,
                 Foreground = Brushes.Black,
                 TextAlignment = TextAlignment.Center,
@@ -133,7 +133,7 @@ namespace Axon.UI.Services
             var txtPhone = new TextBlock
             {
                 Text = "📞 01509924025   💬 01509923025",
-                FontSize = 9.5,
+                FontSize = 9,
                 FontWeight = FontWeights.SemiBold,
                 Foreground = Brushes.Black,
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -144,10 +144,10 @@ namespace Axon.UI.Services
             var txtTiktok = new TextBlock
             {
                 Text = "🎵 Veloura.clothing",
-                FontSize = 9.5,
+                FontSize = 9,
                 Foreground = Brushes.Black,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                Margin = new Thickness(0, 0, 0, 6)
+                Margin = new Thickness(0, 0, 0, 4)
             };
             mainPanel.Children.Add(txtTiktok);
 
@@ -155,14 +155,14 @@ namespace Axon.UI.Services
             mainPanel.Children.Add(CreateDottedLine());
 
             // 2. BON NR BLOCK
-            var bonGrid = new Grid { Margin = new Thickness(0, 3, 0, 3) };
+            var bonGrid = new Grid { Margin = new Thickness(0, 2, 0, 2) };
             bonGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             bonGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
             var txtBonLabel = new TextBlock
             {
                 Text = "Bon Nr:",
-                FontSize = 15,
+                FontSize = 14,
                 FontWeight = FontWeights.Bold,
                 Foreground = Brushes.Black,
                 VerticalAlignment = VerticalAlignment.Center
@@ -173,7 +173,7 @@ namespace Axon.UI.Services
             var txtBonValue = new TextBlock
             {
                 Text = saleId.ToString(),
-                FontSize = 20,
+                FontSize = 18,
                 FontWeight = FontWeights.Bold,
                 Foreground = Brushes.Black,
                 HorizontalAlignment = HorizontalAlignment.Right,
@@ -195,8 +195,8 @@ namespace Axon.UI.Services
             // 4. ITEMS TABLE (Clean 3 columns: Item, Qty, Price)
             var headerGrid = new Grid { Margin = new Thickness(0, 2, 0, 2) };
             headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(38) });
-            headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(65) });
+            headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(35) });
+            headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(60) });
 
             AddTableCell(headerGrid, "Item", 0, FontWeights.Bold, TextAlignment.Left);
             AddTableCell(headerGrid, "Qty", 1, FontWeights.Bold, TextAlignment.Center);
@@ -212,13 +212,13 @@ namespace Axon.UI.Services
                 {
                     var itemGrid = new Grid { Margin = new Thickness(0, 2, 0, 2) };
                     itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                    itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(38) });
-                    itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(65) });
+                    itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(35) });
+                    itemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(60) });
 
                     var productName = item.Product?.NameAR ?? item.Product?.NameEN ?? $"منتج #{item.ProductId}";
                     var lineTotal = item.Quantity * item.UnitPrice;
 
-                    AddTableCell(itemGrid, productName, 0, FontWeights.Normal, TextAlignment.Right, isArabic: true);
+                    AddTableCell(itemGrid, productName, 0, FontWeights.Normal, TextAlignment.Left, isArabic: false);
                     AddTableCell(itemGrid, $"x{item.Quantity}", 1, FontWeights.Normal, TextAlignment.Center);
                     AddTableCell(itemGrid, lineTotal.ToString("0.00"), 2, FontWeights.SemiBold, TextAlignment.Right);
 
@@ -232,19 +232,19 @@ namespace Axon.UI.Services
             var countTxt = new TextBlock
             {
                 Text = $"Items count: {sale?.LineItems?.Sum(i => i.Quantity) ?? 0}",
-                FontSize = 10,
+                FontSize = 9.5,
                 Foreground = Brushes.Black,
-                Margin = new Thickness(0, 2, 0, 3)
+                Margin = new Thickness(0, 2, 0, 2)
             };
             mainPanel.Children.Add(countTxt);
 
-            var totalRowGrid = new Grid { Margin = new Thickness(0, 2, 0, 4) };
+            var totalRowGrid = new Grid { Margin = new Thickness(0, 2, 0, 3) };
             totalRowGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             totalRowGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
-            var txtTotalLabel = new TextBlock { Text = "Total", FontSize = 15, FontWeight = FontWeights.Bold, Foreground = Brushes.Black };
+            var txtTotalLabel = new TextBlock { Text = "Total", FontSize = 14, FontWeight = FontWeights.Bold, Foreground = Brushes.Black };
             var finalTotal = sale?.Total ?? 0m;
-            var txtTotalVal = new TextBlock { Text = $"{finalTotal:0.00} ج.م", FontSize = 15, FontWeight = FontWeights.Bold, Foreground = Brushes.Black, HorizontalAlignment = HorizontalAlignment.Right };
+            var txtTotalVal = new TextBlock { Text = $"{finalTotal:0.00} ج.م", FontSize = 14, FontWeight = FontWeights.Bold, Foreground = Brushes.Black, HorizontalAlignment = HorizontalAlignment.Right };
 
             Grid.SetColumn(txtTotalLabel, 0); totalRowGrid.Children.Add(txtTotalLabel);
             Grid.SetColumn(txtTotalVal, 1); totalRowGrid.Children.Add(txtTotalVal);
@@ -256,28 +256,6 @@ namespace Axon.UI.Services
             mainPanel.Children.Add(CreateMetaRow("Tendered:", finalTotal.ToString("0.00")));
             mainPanel.Children.Add(CreateMetaRow("Change:", "0.00"));
 
-            // 5 Small Bottom Hollow Circles
-            var circlesStack = new StackPanel
-            {
-                Orientation = Orientation.Horizontal,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Margin = new Thickness(0, 8, 0, 2)
-            };
-            for (int i = 0; i < 5; i++)
-            {
-                var circle = new Ellipse
-                {
-                    Width = 6,
-                    Height = 6,
-                    Fill = Brushes.Transparent,
-                    Stroke = Brushes.Black,
-                    StrokeThickness = 1,
-                    Margin = new Thickness(3, 0, 3, 0)
-                };
-                circlesStack.Children.Add(circle);
-            }
-            mainPanel.Children.Add(circlesStack);
-
             container.Child = mainPanel;
             return container;
         }
@@ -287,13 +265,13 @@ namespace Axon.UI.Services
             var line = new Line
             {
                 X1 = 0,
-                X2 = 280,
+                X2 = 248,
                 Y1 = 0,
                 Y2 = 0,
                 Stroke = Brushes.Black,
                 StrokeThickness = 1,
                 StrokeDashArray = new DoubleCollection { 2, 2 },
-                Margin = new Thickness(0, 4, 0, 4),
+                Margin = new Thickness(0, 3, 0, 3),
                 HorizontalAlignment = HorizontalAlignment.Center
             };
             return line;
