@@ -357,13 +357,32 @@ namespace Axon.UI.ViewModels
                 var printDialog = new System.Windows.Controls.PrintDialog();
                 if (printDialog.ShowDialog() == true)
                 {
-                    if (visualElement != null)
+                    // Check if thermal label printer format (38x25 or 50x25 or XP-233B / Label printer)
+                    bool isThermalRoll = LabelSize.Contains("38mm") || LabelSize.Contains("50mm") || LabelSize.Contains("70mm") ||
+                                         printDialog.PrintQueue.Name.Contains("XP-", StringComparison.OrdinalIgnoreCase) ||
+                                         printDialog.PrintQueue.Name.Contains("233", StringComparison.OrdinalIgnoreCase) ||
+                                         printDialog.PrintQueue.Name.Contains("Label", StringComparison.OrdinalIgnoreCase) ||
+                                         printDialog.PrintQueue.Name.Contains("Barcode", StringComparison.OrdinalIgnoreCase);
+
+                    if (isThermalRoll)
+                    {
+                        // Print each label individually to feed one-by-one according to printer's gap sensor & stock settings
+                        int currentNum = 1;
+                        foreach (var labelData in GeneratedLabels)
+                        {
+                            var singleLabelElement = CreateSingleThermalLabelVisual(labelData);
+                            singleLabelElement.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                            singleLabelElement.Arrange(new Rect(new Point(0, 0), singleLabelElement.DesiredSize));
+                            singleLabelElement.UpdateLayout();
+
+                            printDialog.PrintVisual(singleLabelElement, $"Label_{currentNum++}_{labelData.SkuOrBarcode}");
+                        }
+
+                        AxonMessageBox.Show($"تم إرسال ({GeneratedLabels.Count}) ملصق بنجاح إلى طابعة الباركود.", "تمت الطباعة", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else if (visualElement != null)
                     {
                         printDialog.PrintVisual(visualElement, $"Axon_Barcode_Labels_{DateTime.Now:yyyyMMdd_HHmm}");
-                    }
-                    else
-                    {
-                        AxonMessageBox.Show("تم إرسال أمر الطباعة إلى الطابعة المحددة بنجاح.", "تمت الطباعة", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
             }
@@ -371,6 +390,128 @@ namespace Axon.UI.ViewModels
             {
                 AxonMessageBox.Show($"تعذر إتمام عملية الطباعة: {ex.Message}", "خطأ في الطباعة", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private FrameworkElement CreateSingleThermalLabelVisual(BarcodeLabelItemModel label)
+        {
+            // Exact 38mm x 25mm in 96 DPI points (~144px width x 95px height)
+            double targetWidth = 144;
+            double targetHeight = 95;
+
+            if (LabelSize.Contains("50mm"))
+            {
+                targetWidth = 190;
+                targetHeight = 95;
+            }
+            else if (LabelSize.Contains("70mm"))
+            {
+                targetWidth = 265;
+                targetHeight = 132;
+            }
+
+            var border = new System.Windows.Controls.Border
+            {
+                Width = targetWidth,
+                Height = targetHeight,
+                Background = System.Windows.Media.Brushes.White,
+                Padding = new Thickness(4, 2, 4, 2),
+                SnapsToDevicePixels = true
+            };
+
+            var grid = new System.Windows.Controls.Grid();
+            grid.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = System.Windows.GridLength.Auto }); // Store
+            grid.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = System.Windows.GridLength.Auto }); // Name
+            grid.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) }); // Barcode Image
+            grid.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = System.Windows.GridLength.Auto }); // Code & Price
+
+            // Store Name
+            if (label.ShowStoreName && !string.IsNullOrWhiteSpace(label.StoreName))
+            {
+                var txtStore = new System.Windows.Controls.TextBlock
+                {
+                    Text = label.StoreName,
+                    FontSize = 8,
+                    FontWeight = FontWeights.Bold,
+                    Foreground = System.Windows.Media.Brushes.Black,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                };
+                System.Windows.Controls.Grid.SetRow(txtStore, 0);
+                grid.Children.Add(txtStore);
+            }
+
+            // Product Name
+            if (label.ShowProductName && !string.IsNullOrWhiteSpace(label.ProductName))
+            {
+                var txtProd = new System.Windows.Controls.TextBlock
+                {
+                    Text = label.ProductName,
+                    FontSize = 8.5,
+                    FontWeight = FontWeights.Bold,
+                    Foreground = System.Windows.Media.Brushes.Black,
+                    TextTrimming = TextTrimming.CharacterEllipsis,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Margin = new Thickness(0, 0, 0, 1)
+                };
+                System.Windows.Controls.Grid.SetRow(txtProd, 1);
+                grid.Children.Add(txtProd);
+            }
+
+            // Barcode Image
+            if (label.BarcodeImage != null)
+            {
+                var img = new System.Windows.Controls.Image
+                {
+                    Source = label.BarcodeImage,
+                    Stretch = System.Windows.Media.Stretch.Fill,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(2, 0, 2, 1)
+                };
+                System.Windows.Media.RenderOptions.SetBitmapScalingMode(img, System.Windows.Media.BitmapScalingMode.NearestNeighbor);
+                System.Windows.Controls.Grid.SetRow(img, 2);
+                grid.Children.Add(img);
+            }
+
+            // Footer (Barcode digits + Price)
+            var footerGrid = new System.Windows.Controls.Grid { Margin = new Thickness(0, 0, 0, 0) };
+            footerGrid.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+            footerGrid.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
+
+            if (label.ShowBarcodeNumber && !string.IsNullOrWhiteSpace(label.SkuOrBarcode))
+            {
+                var txtCode = new System.Windows.Controls.TextBlock
+                {
+                    Text = label.SkuOrBarcode,
+                    FontSize = 8,
+                    FontWeight = FontWeights.SemiBold,
+                    Foreground = System.Windows.Media.Brushes.Black,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+                System.Windows.Controls.Grid.SetColumn(txtCode, 0);
+                footerGrid.Children.Add(txtCode);
+            }
+
+            if (label.ShowPrice && label.Price > 0)
+            {
+                var txtPrice = new System.Windows.Controls.TextBlock
+                {
+                    Text = label.FormattedPrice,
+                    FontSize = 8.5,
+                    FontWeight = FontWeights.Bold,
+                    Foreground = System.Windows.Media.Brushes.Black,
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+                System.Windows.Controls.Grid.SetColumn(txtPrice, 1);
+                footerGrid.Children.Add(txtPrice);
+            }
+
+            System.Windows.Controls.Grid.SetRow(footerGrid, 3);
+            grid.Children.Add(footerGrid);
+
+            border.Child = grid;
+            return border;
         }
 
         [RelayCommand]
