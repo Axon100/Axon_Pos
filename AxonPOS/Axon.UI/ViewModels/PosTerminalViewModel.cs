@@ -51,6 +51,10 @@ namespace Axon.UI.ViewModels
         [ObservableProperty]
         private bool _hasDiscountError = false;
 
+        // Checkout Choice Modal (الدفع مع فاتورة / الدفع بدون فاتورة)
+        [ObservableProperty]
+        private bool _isCheckoutChoiceDialogOpen;
+
         // Receipt Modal Properties
         [ObservableProperty]
         private bool _isReceiptDialogOpen;
@@ -969,15 +973,48 @@ namespace Axon.UI.ViewModels
         }
 
         [RelayCommand]
-        private async Task CheckoutAsync()
+        private void OpenCheckoutChoiceDialog()
         {
             if (IsBusy || Cart.Count == 0) return;
 
             if (!UserSessionService.HasPermission("POS.Sell"))
             {
-                AxonMessageBox.Show("ليس لديك صلاحية لإتمام وطباعة عمليات البيع!", "تنبيه الصلاحيات (RBAC)", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                AxonMessageBox.Show("ليس لديك صلاحية لإتمام عمليات البيع!", "تنبيه الصلاحيات (RBAC)", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
                 return;
             }
+
+            IsCheckoutChoiceDialogOpen = true;
+        }
+
+        [RelayCommand]
+        private void CloseCheckoutChoiceDialog()
+        {
+            IsCheckoutChoiceDialogOpen = false;
+        }
+
+        [RelayCommand]
+        private async Task CheckoutWithReceiptAsync()
+        {
+            IsCheckoutChoiceDialogOpen = false;
+            await ProcessCheckoutAsync(shouldPrintReceipt: true);
+        }
+
+        [RelayCommand]
+        private async Task CheckoutWithoutReceiptAsync()
+        {
+            IsCheckoutChoiceDialogOpen = false;
+            await ProcessCheckoutAsync(shouldPrintReceipt: false);
+        }
+
+        [RelayCommand]
+        private void Checkout()
+        {
+            OpenCheckoutChoiceDialog();
+        }
+
+        private async Task ProcessCheckoutAsync(bool shouldPrintReceipt)
+        {
+            if (IsBusy || Cart.Count == 0) return;
 
             IsBusy = true;
             try
@@ -1012,17 +1049,17 @@ namespace Axon.UI.ViewModels
 
                 var completedSale = await _salesService.ProcessSaleAsync(sale);
 
-                // Auto-print receipt
-                try
+                // Print receipt only if explicitly requested
+                if (shouldPrintReceipt)
                 {
-                    await _printService.PrintReceiptAsync(completedSale.Id);
-                }
-                catch
-                {
-                    // If no physical printer configured, ignore print failure and continue flow
+                    try
+                    {
+                        await _printService.PrintReceiptAsync(completedSale.Id);
+                    }
+                    catch { }
                 }
 
-                // Show Receipt Modal
+                // Show Receipt Modal preview
                 ReceiptSaleId = completedSale.Id;
                 ReceiptDate = completedSale.Date;
                 ReceiptSubtotal = Subtotal;

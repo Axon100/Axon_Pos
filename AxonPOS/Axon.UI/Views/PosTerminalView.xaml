@@ -754,6 +754,72 @@
             </Border>
         </Grid>
 
+        <!-- ==================== CHECKOUT PAYMENT CHOICE MODAL ==================== -->
+        <Grid Visibility="{Binding IsCheckoutChoiceDialogOpen, Converter={StaticResource BooleanToVisibilityConverter}}" Background="#99000000" Grid.ColumnSpan="2" Panel.ZIndex="1500">
+            <Border Background="{DynamicResource CardBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="16" Width="440" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="24" Effect="{DynamicResource Axon3DDialogShadow}">
+                <StackPanel>
+                    <!-- Header -->
+                    <Grid Margin="0,0,0,16">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="CashRegister" Width="26" Height="26" Foreground="#d90429" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBlock Text="إتمام وتأكيد عملية الدفع" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Button Command="{Binding CloseCheckoutChoiceDialogCommand}" Style="{StaticResource MaterialDesignIconButton}" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Left" Width="30" Height="30" Padding="0">
+                            <materialDesign:PackIcon Kind="Close" Width="20" Height="20"/>
+                        </Button>
+                    </Grid>
+
+                    <!-- Total Amount Info Card -->
+                    <Border Background="{DynamicResource CardInnerBgBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="16,12" Margin="0,0,0,20">
+                        <Grid>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="إجمالي المطلوب تحصيله:" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                <TextBlock Text="{Binding SelectedPaymentMethod}" FontSize="11" FontWeight="SemiBold" Foreground="#d90429" Margin="0,2,0,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Total, StringFormat='{}{0:#,##0.##}'}" FontSize="28" FontWeight="Black" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                <TextBlock Text=" ج.م" FontSize="14" FontWeight="Bold" Foreground="#d90429" VerticalAlignment="Bottom" Margin="4,0,0,4"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Choice Options (2 Big Premium Buttons) -->
+                    <StackPanel Margin="0,0,0,12">
+                        <!-- Option 1: Pay & Print Receipt -->
+                        <Button Command="{Binding CheckoutWithReceiptCommand}" Style="{StaticResource Axon3DPrimaryButtonStyle}" Height="54" Margin="0,0,0,10" Cursor="Hand">
+                            <Grid Width="380">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="PrinterCheck" Width="24" Height="24" Foreground="White" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="الدفع مع طباعة الفاتورة" FontSize="15" FontWeight="Bold" Foreground="White"/>
+                                        <TextBlock Text="حفظ المبيعات وإرسال الفاتورة للطابعة الحرارية" FontSize="10" Foreground="#ffb3af"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                <materialDesign:PackIcon Kind="ChevronLeft" Width="20" Height="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+
+                        <!-- Option 2: Pay Without Receipt -->
+                        <Button Command="{Binding CheckoutWithoutReceiptCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="{DynamicResource CardBorderBrush}" Background="{DynamicResource CardInnerBgBrush}" Height="54" Cursor="Hand" Padding="12,0">
+                            <Grid Width="380">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="ReceiptOff" Width="24" Height="24" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="الدفع بدون فاتورة" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
+                                        <TextBlock Text="حفظ المبيعات وخصم المخزون دون تشغيل الطابعة" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                <materialDesign:PackIcon Kind="ChevronLeft" Width="20" Height="20" Foreground="{DynamicResource TextSecondaryBrush}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
+
+                    <!-- Cancel -->
+                    <Button Command="{Binding CloseCheckoutChoiceDialogCommand}" Content="إلغاء العملية" Style="{StaticResource Axon3DSecondaryButtonStyle}" HorizontalAlignment="Center" Width="120" Height="34" Margin="0,6,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
         <!-- ==================== THERMAL RECEIPT OVERLAY ==================== -->
         <Grid Visibility="{Binding IsReceiptDialogOpen, Converter={StaticResource BooleanToVisibilityConverter}}" Background="#99000000" Grid.ColumnSpan="2" Panel.ZIndex="2000">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,16">
@@ -838,7 +904,7 @@
                 <!-- Footer Action Buttons -->
                 <Grid Margin="0,14,0,0" Width="340">
                     <Button Command="{Binding CloseReceiptDialogCommand}" Content="إغلاق" Style="{StaticResource Axon3DSecondaryButtonStyle}" HorizontalAlignment="Left" Width="90" Height="36"/>
-                    <Button Command="{Binding PrintCurrentReceiptCommand}" Style="{StaticResource Axon3DPrimaryButtonStyle}" HorizontalAlignment="Right" Padding="16,6" Height="36">
+                    <Button Command="{Binding PrintReceiptCommand}" Style="{StaticResource Axon3DPrimaryButtonStyle}" HorizontalAlignment="Right" Padding="16,6" Height="36">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Printer" Margin="0,0,6,0" VerticalAlignment="Center" Width="16" Height="16"/>
                             <TextBlock Text="طباعة الفاتورة" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
