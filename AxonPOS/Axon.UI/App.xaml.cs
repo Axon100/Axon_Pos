@@ -59,7 +59,7 @@ namespace Axon.UI
                     services.AddTransient<Axon.UI.ViewModels.LoginViewModel>();
                     services.AddTransient<Axon.UI.ViewModels.DashboardViewModel>();
                     services.AddTransient<Axon.UI.ViewModels.ProductManagementViewModel>();
-                    services.AddSingleton<Axon.UI.ViewModels.PosTerminalViewModel>();
+                    services.AddScoped<Axon.UI.ViewModels.PosTerminalViewModel>();
                     services.AddTransient<Axon.UI.ViewModels.InventoryControlViewModel>();
                     services.AddTransient<Axon.UI.ViewModels.ExpensesViewModel>();
                     services.AddTransient<Axon.UI.ViewModels.ReportsViewModel>();
