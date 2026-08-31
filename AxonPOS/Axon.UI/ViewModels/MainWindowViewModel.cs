@@ -115,7 +115,7 @@ namespace Axon.UI.ViewModels
                 _ => string.Empty
             };
 
-            if (!string.IsNullOrEmpty(requiredPermission) && !UserSessionService.HasPermission(requiredPermission) && UserSessionService.RoleName != "Admin")
+            if (!string.IsNullOrEmpty(requiredPermission) && !UserSessionService.HasPermission(requiredPermission) && !UserSessionService.IsAdmin)
             {
                 AxonMessageBox.Show("ليس لديك صلاحية للوصول إلى هذه الصفحة!", "تنبيه الصلاحيات (RBAC)", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
