@@ -123,34 +123,41 @@ namespace Axon.UI.ViewModels
 
             ActiveViewName = viewName;
 
-            switch (viewName)
+            try
             {
-                case "Dashboard":
-                    CurrentViewModel = App.AppHost!.Services.GetRequiredService<DashboardViewModel>();
-                    break;
-                case "PosTerminal":
-                    var posVmNav = App.AppHost!.Services.GetRequiredService<PosTerminalViewModel>();
-                    _ = posVmNav.LoadDataAsync();
-                    CurrentViewModel = posVmNav;
-                    break;
-                case "Inventory":
-                    CurrentViewModel = App.AppHost!.Services.GetRequiredService<InventoryControlViewModel>();
-                    break;
-                case "Products":
-                    CurrentViewModel = App.AppHost!.Services.GetRequiredService<ProductManagementViewModel>();
-                    break;
-                case "Barcodes":
-                    CurrentViewModel = App.AppHost!.Services.GetRequiredService<BarcodeManagementViewModel>();
-                    break;
-                case "Expenses":
-                    CurrentViewModel = App.AppHost!.Services.GetRequiredService<ExpensesViewModel>();
-                    break;
-                case "Reports":
-                    CurrentViewModel = App.AppHost!.Services.GetRequiredService<ReportsViewModel>();
-                    break;
-                case "Settings":
-                    CurrentViewModel = App.AppHost!.Services.GetRequiredService<SettingsViewModel>();
-                    break;
+                switch (viewName)
+                {
+                    case "Dashboard":
+                        CurrentViewModel = App.AppHost!.Services.GetRequiredService<DashboardViewModel>();
+                        break;
+                    case "PosTerminal":
+                        var posVmNav = App.AppHost!.Services.GetRequiredService<PosTerminalViewModel>();
+                        _ = posVmNav.LoadDataAsync();
+                        CurrentViewModel = posVmNav;
+                        break;
+                    case "Inventory":
+                        CurrentViewModel = App.AppHost!.Services.GetRequiredService<InventoryControlViewModel>();
+                        break;
+                    case "Products":
+                        CurrentViewModel = App.AppHost!.Services.GetRequiredService<ProductManagementViewModel>();
+                        break;
+                    case "Barcodes":
+                        CurrentViewModel = App.AppHost!.Services.GetRequiredService<BarcodeManagementViewModel>();
+                        break;
+                    case "Expenses":
+                        CurrentViewModel = App.AppHost!.Services.GetRequiredService<ExpensesViewModel>();
+                        break;
+                    case "Reports":
+                        CurrentViewModel = App.AppHost!.Services.GetRequiredService<ReportsViewModel>();
+                        break;
+                    case "Settings":
+                        CurrentViewModel = App.AppHost!.Services.GetRequiredService<SettingsViewModel>();
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                AxonMessageBox.Show($"حدث خطأ أثناء فتح شاشة {viewName}:\n{ex.Message}\n{ex.InnerException?.Message}", "خطأ في التحميل", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         
