@@ -803,7 +803,7 @@
                         <Button Command="{Binding CheckoutWithoutReceiptCommand}" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="{DynamicResource CardBorderBrush}" Background="{DynamicResource CardInnerBgBrush}" Height="54" Cursor="Hand" Padding="12,0">
                             <Grid Width="380">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="ReceiptOff" Width="24" Height="24" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                    <materialDesign:PackIcon Kind="ReceiptText" Width="24" Height="24" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,10,0" VerticalAlignment="Center"/>
                                     <StackPanel VerticalAlignment="Center">
                                         <TextBlock Text="الدفع بدون فاتورة" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource TextPrimaryBrush}"/>
                                         <TextBlock Text="حفظ المبيعات وخصم المخزون دون تشغيل الطابعة" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"/>
