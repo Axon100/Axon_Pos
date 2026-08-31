@@ -379,17 +379,40 @@ namespace Axon.UI.ViewModels
                     return;
                 }
 
-                // Check hardware online / error status
+                // Check physical hardware connection via WMI and PrintQueue
+                bool isOffline = false;
+                string printerName = labelQueue.Name;
+                try
+                {
+                    using (var searcher = new System.Management.ManagementObjectSearcher($"SELECT WorkOffline, PrinterStatus, ExtendedPrinterStatus, PortName FROM Win32_Printer WHERE Name = '{printerName.Replace("'", "''")}'"))
+                    {
+                        foreach (System.Management.ManagementObject printer in searcher.Get())
+                        {
+                            var workOffline = printer["WorkOffline"];
+                            if (workOffline != null && (bool)workOffline)
+                            {
+                                isOffline = true;
+                            }
+                        }
+                    }
+                }
+                catch { }
+
                 try
                 {
                     labelQueue.Refresh();
                     if (labelQueue.IsOffline)
                     {
-                        AxonMessageBox.Show($"طابعة الباركود ({labelQueue.Name}) غير متصلة حالياً (Offline)!\nيرجى التأكد من تشغيل زر الطاقة وتوصيل كابل USB بالجهاز.", "الطابعة غير متصلة", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return;
+                        isOffline = true;
                     }
                 }
                 catch { }
+
+                if (isOffline)
+                {
+                    AxonMessageBox.Show($"طابعة الباركود ({printerName}) غير متصلة بالجهاز حالياً (Offline)!\nيرجى التأكد من توصيل كابل USB وتشغيل زر الطاقة الخاص بالطابعة.", "الطابعة غير متصلة", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
 
                 printDialog.PrintQueue = labelQueue;
 

@@ -68,16 +68,40 @@ namespace Axon.UI.Services
                         return;
                     }
 
+                    // Check physical hardware connection via WMI and PrintQueue
+                    bool isOffline = false;
+                    string printerName = receiptQueue.Name;
+                    try
+                    {
+                        using (var searcher = new System.Management.ManagementObjectSearcher($"SELECT WorkOffline, PrinterStatus, ExtendedPrinterStatus, PortName FROM Win32_Printer WHERE Name = '{printerName.Replace("'", "''")}'"))
+                        {
+                            foreach (System.Management.ManagementObject printer in searcher.Get())
+                            {
+                                var workOffline = printer["WorkOffline"];
+                                if (workOffline != null && (bool)workOffline)
+                                {
+                                    isOffline = true;
+                                }
+                            }
+                        }
+                    }
+                    catch { }
+
                     try
                     {
                         receiptQueue.Refresh();
                         if (receiptQueue.IsOffline)
                         {
-                            AxonMessageBox.Show($"طابعة الفواتير ({receiptQueue.Name}) غير متصلة حالياً (Offline)!\nيرجى التأكد من توصيل كابل USB وتشغيل الطابعة.", "الطابعة غير متصلة", MessageBoxButton.OK, MessageBoxImage.Warning);
-                            return;
+                            isOffline = true;
                         }
                     }
                     catch { }
+
+                    if (isOffline)
+                    {
+                        AxonMessageBox.Show($"طابعة الفواتير ({printerName}) غير متصلة حالياً (Offline)!\nيرجى التأكد من توصيل كابل USB وتشغيل الطابعة.", "الطابعة غير متصلة", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
 
                     printDialog.PrintQueue = receiptQueue;
 
