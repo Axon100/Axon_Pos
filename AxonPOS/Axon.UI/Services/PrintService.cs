@@ -1,6 +1,7 @@
 using Axon.Application.Interfaces.Repositories;
 using Axon.Application.Interfaces.Services;
 using Axon.Domain.Entities;
+using Axon.UI.Views;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -42,23 +43,43 @@ namespace Axon.UI.Services
                     var printDialog = new PrintDialog();
 
                     // 1. Auto-select Receipt Printer (XP-80 / POS-80 / Receipt)
+                    System.Printing.PrintQueue? receiptQueue = null;
                     try
                     {
                         var printServer = new System.Printing.LocalPrintServer();
                         var printQueues = printServer.GetPrintQueues();
-                        var receiptQueue = printQueues.FirstOrDefault(q => 
+                        receiptQueue = printQueues.FirstOrDefault(q => 
                             (q.Name.Contains("80", StringComparison.OrdinalIgnoreCase) || 
                              q.Name.Contains("Receipt", StringComparison.OrdinalIgnoreCase) || 
                              q.Name.Contains("POS", StringComparison.OrdinalIgnoreCase)) &&
                             !q.Name.Contains("233", StringComparison.OrdinalIgnoreCase) &&
                             !q.Name.Contains("Label", StringComparison.OrdinalIgnoreCase));
 
-                        if (receiptQueue != null)
+                        if (receiptQueue == null)
                         {
-                            printDialog.PrintQueue = receiptQueue;
+                            receiptQueue = printQueues.FirstOrDefault(q => !q.Name.Contains("PDF", StringComparison.OrdinalIgnoreCase) && !q.Name.Contains("XPS", StringComparison.OrdinalIgnoreCase) && !q.Name.Contains("233", StringComparison.OrdinalIgnoreCase) && !q.Name.Contains("Label", StringComparison.OrdinalIgnoreCase));
                         }
                     }
                     catch { }
+
+                    if (receiptQueue == null)
+                    {
+                        AxonMessageBox.Show("لم يتم العثور على طابعة فواتير متصلة بالجهاز!\nيرجى التأكد من توصيل طابعة الفواتير وتشغيلها.", "طابعة غير متصلة", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
+                    try
+                    {
+                        receiptQueue.Refresh();
+                        if (receiptQueue.IsOffline)
+                        {
+                            AxonMessageBox.Show($"طابعة الفواتير ({receiptQueue.Name}) غير متصلة حالياً (Offline)!\nيرجى التأكد من توصيل كابل USB وتشغيل الطابعة.", "الطابعة غير متصلة", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                    }
+                    catch { }
+
+                    printDialog.PrintQueue = receiptQueue;
 
                     var receiptElement = CreateReceiptVisualElement(sale, saleId);
                     

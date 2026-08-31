@@ -353,32 +353,55 @@ namespace Axon.UI.ViewModels
             {
                 var printDialog = new System.Windows.Controls.PrintDialog();
 
-                // 1. Auto-select Barcode Label Printer (XP-233B / Label / Barcode)
+                // 1. Check and Auto-select Barcode Label Printer
+                System.Printing.PrintQueue? labelQueue = null;
                 try
                 {
                     var printServer = new System.Printing.LocalPrintServer();
                     var printQueues = printServer.GetPrintQueues();
-                    var labelQueue = printQueues.FirstOrDefault(q => 
+                    labelQueue = printQueues.FirstOrDefault(q => 
                         q.Name.Contains("233", StringComparison.OrdinalIgnoreCase) || 
                         q.Name.Contains("Label", StringComparison.OrdinalIgnoreCase) || 
                         q.Name.Contains("Barcode", StringComparison.OrdinalIgnoreCase) ||
                         (q.Name.Contains("XP-", StringComparison.OrdinalIgnoreCase) && !q.Name.Contains("80", StringComparison.OrdinalIgnoreCase)));
 
-                    if (labelQueue != null)
+                    if (labelQueue == null)
                     {
-                        printDialog.PrintQueue = labelQueue;
-                        // Use the printer driver's configured default PrintTicket (38mm x 25mm User Stock)
-                        if (labelQueue.UserPrintTicket != null)
-                        {
-                            printDialog.PrintTicket = labelQueue.UserPrintTicket;
-                        }
-                        else if (labelQueue.DefaultPrintTicket != null)
-                        {
-                            printDialog.PrintTicket = labelQueue.DefaultPrintTicket;
-                        }
+                        // Fallback check if default printer is configured or any queue
+                        labelQueue = printQueues.FirstOrDefault(q => !q.Name.Contains("PDF", StringComparison.OrdinalIgnoreCase) && !q.Name.Contains("XPS", StringComparison.OrdinalIgnoreCase) && !q.Name.Contains("OneNote", StringComparison.OrdinalIgnoreCase));
                     }
                 }
                 catch { }
+
+                if (labelQueue == null)
+                {
+                    AxonMessageBox.Show("لم يتم العثور على طابعة باركود متصلة بالجهاز!\nيرجى التأكد من توصيل كابل الطابعة وتشغيلها ثم المحاولة مرة أخرى.", "طابعة غير متصلة", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Check hardware online / error status
+                try
+                {
+                    labelQueue.Refresh();
+                    if (labelQueue.IsOffline)
+                    {
+                        AxonMessageBox.Show($"طابعة الباركود ({labelQueue.Name}) غير متصلة حالياً (Offline)!\nيرجى التأكد من تشغيل زر الطاقة وتوصيل كابل USB بالجهاز.", "الطابعة غير متصلة", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                }
+                catch { }
+
+                printDialog.PrintQueue = labelQueue;
+
+                // Use the printer driver's configured default PrintTicket (38mm x 25mm User Stock)
+                if (labelQueue.UserPrintTicket != null)
+                {
+                    printDialog.PrintTicket = labelQueue.UserPrintTicket;
+                }
+                else if (labelQueue.DefaultPrintTicket != null)
+                {
+                    printDialog.PrintTicket = labelQueue.DefaultPrintTicket;
+                }
 
                 // Safe physical inner dimensions for 38x25mm (~136 width x ~84 height)
                 double pWidth = 136;
@@ -401,7 +424,7 @@ namespace Axon.UI.ViewModels
                     printDialog.PrintVisual(visual, $"Label_{++count}_{labelData.SkuOrBarcode}");
                 }
 
-                AxonMessageBox.Show($"تمت طباعة ({GeneratedLabels.Count}) ملصق بنجاح على طابعة الباركود ({printDialog.PrintQueue?.Name ?? "XP-233B"}).", "تمت الطباعة", MessageBoxButton.OK, MessageBoxImage.Information);
+                AxonMessageBox.Show($"تم إرسال أمر الطباعة بنجاح إلى طابعة الباركود ({printDialog.PrintQueue.Name}).", "تمت الطباعة", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
