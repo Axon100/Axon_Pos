@@ -416,21 +416,16 @@ namespace Axon.UI.ViewModels
 
                 printDialog.PrintQueue = labelQueue;
 
-                // Use the printer driver's configured default PrintTicket (38mm x 25mm User Stock)
-                if (labelQueue.UserPrintTicket != null)
-                {
-                    printDialog.PrintTicket = labelQueue.UserPrintTicket;
-                }
-                else if (labelQueue.DefaultPrintTicket != null)
-                {
-                    printDialog.PrintTicket = labelQueue.DefaultPrintTicket;
-                }
+                // Explicitly configure PrintTicket for 38x25 Portrait Label Stock
+                System.Printing.PrintTicket ticket = labelQueue.UserPrintTicket ?? labelQueue.DefaultPrintTicket ?? new System.Printing.PrintTicket();
+                ticket.PageOrientation = System.Printing.PageOrientation.Portrait;
+                printDialog.PrintTicket = ticket;
 
-                // Safe physical inner dimensions for 38x25mm (~136 width x ~84 height)
-                double pWidth = 136;
-                double pHeight = 86;
+                // 38mm width x 25mm height at 96 DPI: 38 * 96 / 25.4 = ~143.6px, 25 * 96 / 25.4 = ~94.5px
+                double pWidth = 140;
+                double pHeight = 90;
 
-                if (printDialog.PrintableAreaWidth > 50 && printDialog.PrintableAreaWidth < 200)
+                if (printDialog.PrintableAreaWidth > 80 && printDialog.PrintableAreaWidth < 200)
                 {
                     pWidth = printDialog.PrintableAreaWidth - 4;
                 }
@@ -561,9 +556,9 @@ namespace Axon.UI.ViewModels
 
             container.Child = grid;
 
-            // Measure & arrange to force instant rendering
-            container.Measure(new Size(144, 95));
-            container.Arrange(new Rect(0, 0, 144, 95));
+            // Measure & arrange to force instant rendering with dynamic label dimensions
+            container.Measure(new Size(width, height));
+            container.Arrange(new Rect(0, 0, width, height));
             container.UpdateLayout();
 
             return container;
