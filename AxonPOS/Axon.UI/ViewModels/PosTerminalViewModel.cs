@@ -202,8 +202,6 @@ namespace Axon.UI.ViewModels
             _saleLineItemRepository = saleLineItemRepository;
             
             Title = AppResources.GetString("PosTerminal", "نقطة البيع");
-            
-            _ = LoadDataAsync();
         }
 
         partial void OnDiscountInputChanged(decimal value)
